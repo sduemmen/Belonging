@@ -1,7 +1,7 @@
-using System;
 using UnityEngine;
 using static Settings.PlayerSettings;
 
+[RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
     public MovementSettings movementSettings;

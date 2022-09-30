@@ -1,30 +1,89 @@
+using System;
 using UnityEngine;
 
 public class Debugging : MonoBehaviour
 {
+    public enum ColliderType
+    {
+        BoxCollider,
+        SphereCollider,
+        CapsuleCollider,
+        MeshCollider,
+    }
     public bool drawLocalDirections;
     public bool drawVelocity;
+    public bool drawCollider;
+    public ColliderType[] colliderTypes;
 
     private void OnDrawGizmos()
     {
         if (drawLocalDirections) {
-            var t = transform;
-            var position = t.position;
-            DrawArrow(position, t.right, Color.red);
-            DrawArrow(position, t.up, Color.green);
-            DrawArrow(position, t.forward, Color.blue);
+            Transform t = transform;
+            if (t == null) {
+                Debug.LogError($"Couldn't find Transform component on GameObject {this.gameObject.name}");
+            } else {
+                Vector3 position = t.position;
+                DrawArrow(position, t.right, Color.red);
+                DrawArrow(position, t.forward, Color.blue);
+                DrawArrow(position, t.up, Color.green);
+            }
         }
 
         if (drawVelocity) {
             Rigidbody t = GetComponent<Rigidbody>();
             if (t == null) {
-                Debug.LogWarning("Couldn't find Rigidbody component on GameObject " + transform.name);
+                Debug.LogError($"Couldn't find Rigidbody component on GameObject {this.gameObject.name}");
             } else {
                 Vector3 velocity = t.velocity;
                 if (velocity != Vector3.zero) {
-                    DrawArrow(transform.position, velocity, Color.red);
+                    DrawArrow(transform.position, velocity, Color.magenta);
                 }
             }
+        }
+
+        if (drawCollider) {
+            Gizmos.color = Color.green;
+            foreach (ColliderType colliderType in colliderTypes) {
+                Collider c = (Collider) GetComponent(GetColliderType(colliderType));
+                if (c == null) {
+                    Debug.LogError($"Couldn't find {colliderType.ToString()} component on GameObject {this.gameObject.name}");
+                } else {
+                    var bounds = c.bounds;
+                    if (colliderType == ColliderType.BoxCollider) 
+                        Gizmos.DrawWireCube(bounds.center, bounds.size);
+                    
+                    if (colliderType == ColliderType.SphereCollider) 
+                        Gizmos.DrawWireSphere(bounds.center, bounds.extents.x);
+                    
+                    if (colliderType == ColliderType.CapsuleCollider) {
+                        CapsuleCollider capsuleCollider = (CapsuleCollider)c;
+                        float diameter = capsuleCollider.radius * 2;
+                        Gizmos.DrawWireCube(capsuleCollider.center, new Vector3(diameter, capsuleCollider.height, diameter));
+                    }
+                    
+                    if (colliderType == ColliderType.MeshCollider) {
+                        MeshCollider meshCollider = (MeshCollider)c;
+                        Transform t = transform;
+                        Gizmos.DrawWireMesh(meshCollider.sharedMesh, t.position, t.rotation, t.localScale);
+                    }
+                }
+            }
+        }
+    }
+
+    public Type GetColliderType(ColliderType c)
+    {
+        switch (c) {
+            case ColliderType.BoxCollider:
+                return typeof(BoxCollider);
+            case ColliderType.SphereCollider:
+                return typeof(SphereCollider);
+            case ColliderType.CapsuleCollider:
+                return typeof(CapsuleCollider);
+            case ColliderType.MeshCollider:
+                return typeof(MeshCollider);
+            default:
+                return null;
         }
     }
     
