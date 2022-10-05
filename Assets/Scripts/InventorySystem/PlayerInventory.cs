@@ -1,4 +1,5 @@
-﻿using UnityEngine.Events;
+﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace InventorySystem
@@ -20,12 +21,16 @@ namespace InventorySystem
         public void Interact()
         {
             isInteracting = true;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             OnDynamicInventoryDisplayContextRequested?.Invoke(_inventory);
         }
 
         public void EndInteraction()
         {
             isInteracting = false;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
             OnDynamicInventoryDisplayContextClosed?.Invoke();
         }
 

@@ -16,6 +16,8 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         _playerControls = new PlayerControls();
         _playerControls.Character.Movement.performed += inputEvent => {
             _movementInput = inputEvent.ReadValue<Vector2>();

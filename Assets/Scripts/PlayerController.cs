@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
         float angle;
         
         if (playerIsMoving) {
-            movementInput = Math.RotateVector2Deg(new Vector2(-movementInput.x, movementInput.y), cameraController.eulerAngles.y);
+            movementInput = MathUtilities.RotateVector2Deg(new Vector2(-movementInput.x, movementInput.y), cameraController.eulerAngles.y);
             angle = Mathf.Acos(Vector2.Dot(Vector2.up, movementInput));
             angle *= Mathf.Sign(movementInput.x);
             currentRotationAngle = angle;

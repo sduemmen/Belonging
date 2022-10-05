@@ -1,7 +1,5 @@
-using System;
-using SaveSystem;
-using SaveSystem.Data;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static Settings.InputSettings;
 
 public class CameraController : MonoBehaviour
@@ -27,6 +25,17 @@ public class CameraController : MonoBehaviour
 
     private void HandleCameraRotation()
     {
+        if (Keyboard.current.leftShiftKey.isPressed) {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            return;
+        }
+        
+        if (Keyboard.current.leftShiftKey.wasReleasedThisFrame) {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        
         Vector2 cameraRotationInput = inputManager.CameraRotationInput;
         float rotationAngle = cameraRotationInput.x * cameraSettings.X_Sensitivity * Time.deltaTime;
         _transform.Rotate(Vector3.up, rotationAngle, Space.World);

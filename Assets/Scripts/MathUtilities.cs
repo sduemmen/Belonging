@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public static class Math
+public static class MathUtilities
 {
     public static Vector2 RotateVector2Rad(Vector2 v, float rad)
     {

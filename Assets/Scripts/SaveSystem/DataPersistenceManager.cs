@@ -1,59 +1,82 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using SaveSystem.Data;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using WorldGeneration;
 
 namespace SaveSystem
 {
     public class DataPersistenceManager : MonoBehaviour
     {
-        [SerializeField] private string _fileName;
         private SaveLoadIO _saveLoadIO;
         
-        private GameData _gameData;
+        [SerializeField] private GameData _gameData;
         private List<IDataPersistence> _dataPersistenceObjects;
+        
         public static DataPersistenceManager instance { get; private set; }
+        public string profileID = "default";
+        public bool noProfileSelected => profileID == "default";
 
         private void Awake()
         {
             if (instance != null) {
-                Debug.LogError("Found more than one DataPersistenceManager in this scene");
+                Debug.Log("Found more than one DataPersistenceManager in this scene. Destroying latest instance");
+                Destroy(this.gameObject);
+                return;
             }
 
             instance = this;
+            DontDestroyOnLoad(this.gameObject);
+            
+            _saveLoadIO = new SaveLoadIO(Path.Combine(Application.persistentDataPath));
         }
 
-        private void Start()
+        private void OnEnable()
         {
-            _saveLoadIO = new SaveLoadIO(Application.persistentDataPath, _fileName);
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
-        private void Update()
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (Keyboard.current.enterKey.wasPressedThisFrame) SaveGame();
-            if (Keyboard.current.rKey.wasPressedThisFrame) LoadGame();
-            if (Keyboard.current.nKey.wasPressedThisFrame) NewGame();
+            Debug.Log("Scene loaded");
+            bool loadedSceneIsGameScene = scene.name == "GameScene";
+            if (loadedSceneIsGameScene) LoadGame();
+        }
+        
+        private void OnSceneUnloaded(Scene scene)
+        {
+            Debug.Log("Scene unloaded");
         }
 
-        public void NewGame()
+        private void OnDisable()
         {
-            _gameData = new GameData();
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        }
+
+        private void OnApplicationQuit()
+        {
+            SaveGame();
+        }
+
+        public void NewGame(GameData gameData)
+        {
+            _gameData = gameData;
+            SaveGame();
         }
 
         public void LoadGame()
         {
-            _gameData = _saveLoadIO.Load();
-            _dataPersistenceObjects = FindAllDataPersistenceObjects();
+            if (noProfileSelected) return;
             
-            if (_gameData == null) {
-                Debug.LogWarning("No gameData was found. Initializing to default values");
-                NewGame();
-            }
+            _gameData = _saveLoadIO.Load(profileID);
 
-            // TODO - initialize all other scripts that need it
-            
+            _dataPersistenceObjects = FindAllDataPersistenceObjects();
+
             foreach (IDataPersistence dataPersistenceObject in _dataPersistenceObjects) {
                 dataPersistenceObject.LoadData(_gameData);
             }
@@ -63,12 +86,19 @@ namespace SaveSystem
                 Instantiate(gameObjectToInstantiate, persistentGameObjectData.worldPosition, persistentGameObjectData.worldRotation);
             }
             
-            Debug.Log("Loading complete");
+            Debug.Log($"Loading complete {profileID}");
         }
 
         public void SaveGame()
         {
-            _gameData = new GameData();
+            bool mainMenuIsActive = SceneManager.GetActiveScene().name == "MainMenuScene";
+            if (noProfileSelected || mainMenuIsActive) return;
+
+            GameData storedData = _saveLoadIO.Load(profileID);
+            
+            _gameData = storedData == null ? _gameData : storedData;
+            _gameData = _gameData == null ? new GameData() : _gameData;
+            
             _dataPersistenceObjects = FindAllDataPersistenceObjects();
             
             if (_dataPersistenceObjects.Count > 0) {
@@ -77,7 +107,7 @@ namespace SaveSystem
                 }
             }
             
-            _saveLoadIO.Save(_gameData);
+            _saveLoadIO.Save(_gameData, profileID);
             
             Debug.Log("Saving complete");
         }
@@ -86,6 +116,11 @@ namespace SaveSystem
         {
             IEnumerable<IDataPersistence> queryResult = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
             return new List<IDataPersistence>(queryResult);
+        }
+
+        public Dictionary<string, GameData> GetAllProfiles()
+        {
+            return _saveLoadIO.GetAllProfiles(); 
         }
     }
 }
