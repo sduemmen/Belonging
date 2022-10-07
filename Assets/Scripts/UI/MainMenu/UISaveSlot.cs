@@ -10,6 +10,7 @@ namespace UI.MainMenu
     {
         public TextMeshProUGUI displayName;
         public TextMeshProUGUI playtime;
+        public TextMeshProUGUI lastPlayedOn;
         public TextMeshProUGUI score;
         public TextMeshProUGUI unlocked;
         public Button selectButton;
@@ -31,6 +32,11 @@ namespace UI.MainMenu
         {
             time /= 3600;
             playtime.text = time.ToString("F1") + " h";
+        }
+
+        public void SetLastPlayedOn(string lastPlayed)
+        {
+            lastPlayedOn.text = $"Last played {lastPlayed} ago";
         }
         
         public void SetScore(int score)
@@ -58,8 +64,30 @@ namespace UI.MainMenu
         {
             SetDisplayName(gameData.name);
             SetPlaytime(gameData.playtime);
+            SetLastPlayedOn(GetTimeUntilNow(DateTime.FromFileTime(gameData.lastPlayed)));
             SetScore(gameData.score);
-            SetUnlocked(gameData.unlocked, GameParameters.MAX_UNLOCKABLE_SEGMENTS);
+            SetUnlocked(gameData.unlocked, GameConstants.MAX_UNLOCKABLE_SEGMENTS);
+        }
+
+        private string GetTimeUntilNow(DateTime dateTime)
+        {
+            TimeSpan timeSpan = TimeSpan.FromSeconds((DateTime.Now - dateTime).TotalSeconds);
+            if (timeSpan.Days > 0) {
+                string days = timeSpan.Days > 1 ? "Days" : "Day";
+                return $"{timeSpan.Days} {days}";
+            }
+                
+            if (timeSpan.Hours > 0) {
+                string hours = timeSpan.Hours > 1 ? "Hours" : "Hour";
+                return $"{timeSpan.Hours} {hours}";
+            }
+            
+            if (timeSpan.Minutes > 0) {
+                string minutes = timeSpan.Minutes > 1 ? "Minutes" : "Minute";
+                return $"{timeSpan.Minutes} {minutes}";
+            }
+            
+            return $"{timeSpan:%s} Seconds";
         }
     }
 }

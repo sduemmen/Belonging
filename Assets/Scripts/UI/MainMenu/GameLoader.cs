@@ -12,18 +12,17 @@ namespace UI.MainMenu
     {
         [SerializeField] private Button _newGameButton;
         [SerializeField] private Button _loadGameButton;
+        [SerializeField] private Button _backButton;
         [SerializeField] private Button _startNewGameButton;
         [SerializeField] private Button _deleteSelectedGameButton;
         [SerializeField] private Button _loadSelectedGameButton;
+        [SerializeField] private NewGameData _newGameData;
         
         public void OnNewGame()
         {
             DisableButtons();
 
-            GameData gameData = new GameData {
-                profileID = Guid.NewGuid().ToString(),
-                
-            };
+            GameData gameData = new GameData(_newGameData);
             
             DataPersistenceManager.instance.profileID = gameData.profileID;
             DataPersistenceManager.instance.NewGame(gameData);
@@ -43,6 +42,7 @@ namespace UI.MainMenu
         {
             _newGameButton.interactable = false;
             _loadGameButton.interactable = false;
+            _backButton.interactable = false;
             _startNewGameButton.interactable = false;
             _deleteSelectedGameButton.interactable = false;
             _loadSelectedGameButton.interactable = false;

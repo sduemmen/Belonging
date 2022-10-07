@@ -1,5 +1,5 @@
 using System;
-using PersistentGameObjects.Items;
+using Items;
 using UnityEngine;
 
 namespace InventorySystem
@@ -7,12 +7,12 @@ namespace InventorySystem
     [Serializable]
     public class InventorySlot
     {
-        [SerializeField] private PersistentItem _item;
+        [SerializeField] private Item _item;
         [SerializeField] private int _stackSize;
 
         #region -- Getters, Setters --
 
-        public PersistentItem GetItem()
+        public Item GetItem()
         {
             return _item;
         }
@@ -27,7 +27,7 @@ namespace InventorySystem
             _stackSize = newStackSize;
         }
 
-        public void SetItemAndStackSize(PersistentItem item, int stackSize)
+        public void SetItemAndStackSize(Item item, int stackSize)
         {
             _item = item;
             _stackSize = stackSize;
@@ -35,7 +35,7 @@ namespace InventorySystem
 
         #endregion
         
-        public InventorySlot(PersistentItem item, int stackSize)
+        public InventorySlot(Item item, int stackSize)
         {
             _item = item;
             _stackSize = stackSize;

@@ -46,19 +46,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf304f3c5e3e4ea99ebaf8d65ef9632e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resolution: 100
+  resolution: 2
   size: 40
   seed: 347
   chunkPosition: {x: 0, y: 0}
-  treeThreshold: 1.01
-  treeDistance: 100
-  stoneThreshold: 0.4
-  stoneDistance: 100
-  persistance: 0.43
+  treeThreshold: 0.5
+  treeDistance: 90
+  stoneThreshold: 0.5
+  stoneDistance: 90
+  persistance: 0.4
   roughness: 3
   octaves: 5
   treePrefab: {fileID: 376045377974415474, guid: 68da73784904f4f4aa423d697c76e5d4, type: 3}
-  stonePrefab: {fileID: 62932226439965120, guid: 9df021ce00e3edc489de7730bc304233, type: 3}
+  stonePrefab: {fileID: 8112421562090100922, guid: c6c8066434172a94e86ff54237e156ff, type: 3}
 --- !u!33 &4418587444132082829
 MeshFilter:
   m_ObjectHideFlags: 0

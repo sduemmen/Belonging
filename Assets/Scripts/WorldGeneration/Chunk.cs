@@ -1,4 +1,5 @@
 ﻿using System;
+using Models;
 using UnityEngine;
 using Random = System.Random;
 
@@ -12,15 +13,12 @@ namespace WorldGeneration
         private MeshFilter _meshFilter;
         private MeshRenderer _meshRenderer;
 
-        public int seed;
-        public Vector2 chunkPosition;
-        public float treeThreshold = .5f;
-        public int treeDistance;
-        public float stoneThreshold = .7f;
-        public int stoneDistance;
+        public World world;
+        public Vector2Int chunkPosition;
+        
         public float persistance = .4f;
         public int roughness = 3;
-        public int octaves = 4;
+        public int octaves = 5;
 
         public GameObject treePrefab;
         public GameObject stonePrefab;
@@ -70,57 +68,81 @@ namespace WorldGeneration
             _mesh.vertices = vertices;
             _mesh.triangles = triangles;
             _mesh.RecalculateNormals();
-            Debug.Log("done");
         }
 
         public void SpawnObjects()
         {
-            for(int i = transform.childCount - 1; i >= 0; i--)
+            for (int i = transform.childCount - 1; i >= 0; i--)
             {
                 DestroyImmediate(transform.GetChild(i).gameObject);
             }
 
-            Random random = new Random(seed);
+            int chunkEncoding = chunkPosition.x << 16 | chunkPosition.y;
+            Random random = new Random(world.seed + chunkEncoding);
 
+            float seedOffset = (float)world.seed / 100;
+            
             for (int y = 0; y < size; y+=3) {
                 for (int x = 0; x < size; x+=3) {
-                    float sample = CalculateNoise(x, y);
-                    if (sample < stoneThreshold) {
-                        Vector3 parentPos = this.transform.position;
-                        Vector3 localPos = new Vector3(x, 0, y);
-                        Vector3 randomOffset = new Vector3((float)random.Next(-stoneDistance, stoneDistance) / 100, 0, (float)random.Next(-stoneDistance, stoneDistance) / 100);
-                        Quaternion randomRotation = Quaternion.Euler(new Vector3(0, random.Next(0, 360), 0));
-                        
-                        GameObject stone = Instantiate(stonePrefab, parentPos + localPos + randomOffset, randomRotation);
-                        stone.transform.SetParent(this.transform);
-                    } else if (sample > treeThreshold) {
-                        Vector3 parentPos = this.transform.position;
-                        Vector3 localPos = new Vector3(x, 0, y);
-                        Vector3 randomOffset = new Vector3((float)random.Next(-treeDistance, treeDistance) / 100, 0, (float)random.Next(-treeDistance, treeDistance) / 100);
-                        Quaternion randomRotation = Quaternion.Euler(new Vector3(0, random.Next(0, 360), 0));
-                        
-                        GameObject tree = Instantiate(treePrefab, parentPos + localPos + randomOffset, randomRotation);
-                        tree.transform.SetParent(this.transform);
+                    if (world.worldAlterations.HasAlterationAt(chunkPosition.x, chunkPosition.y, x, y)) continue;
+                    
+                    float seededX = x + seedOffset;
+                    float seededY = y + seedOffset;
+                    
+                    float treeSample = CalculateNoise(seededX, seededY);
+                    float stoneSample = CalculateNoise(seededX + 50f, seededY + 50f);
+                    
+                    if (treeSample > world.treeThreshold && stoneSample < world.stoneThreshold) {
+                        bool decider = Convert.ToBoolean(random.Next(0, 2));
+                        GameObject obj = decider ? stonePrefab : treePrefab;
+                        InstantiatePrefab(obj, new Vector3(x, 0, y), random);
+                        continue;
+                    }
+                    
+                    if (treeSample > world.treeThreshold) {
+                        InstantiatePrefab(treePrefab, new Vector3(x, 0, y), random);
+                    } else if (stoneSample < world.stoneThreshold) {
+                        InstantiatePrefab(stonePrefab, new Vector3(x, 0, y), random);
                     }
                 }
             }
         }
 
-        private float CalculateNoise(int x, int y)
+        private void InstantiatePrefab(GameObject prefab, Vector3 localPosition, Random random)
         {
-            float xCoord = seed + chunkPosition.x + (float)x / size;
-            float yCoord = seed + chunkPosition.y + (float)y / size;
+            Vector3 parentPos = this.transform.position;
+            
+            Vector3 randomOffset = new Vector3(
+                (float)random.Next(-world.objectDistance, world.objectDistance) / 100, 
+                0, 
+                (float)random.Next(-world.objectDistance, world.objectDistance) / 100);
+                        
+            Quaternion randomRotation = Quaternion.Euler(new Vector3(0, random.Next(0, 360), 0));
+                        
+            GameObject obj = Instantiate(prefab, parentPos + localPosition + randomOffset, randomRotation);
+            obj.transform.SetParent(this.transform);
+            Destroyable destroyable = obj.GetComponent<Destroyable>();
+            destroyable.world = this.world;
+            destroyable.chunkPosition = this.chunkPosition;
+            destroyable.positionInChunk = new Vector2Int((int)localPosition.x, (int)localPosition.z);
+        } 
+
+        private float CalculateNoise(float x, float y)
+        {
+            float xCoord = chunkPosition.x + x / size;
+            float yCoord = chunkPosition.y + y / size;
+            
             float noise = 0;
             float frequency = 1;
             float factor = 1;
 
             for (int i = 0; i < octaves; i++) {
-                noise += Mathf.PerlinNoise(xCoord * frequency + i * 0.72354f, yCoord * frequency + i * 0.72354f) * factor;
+                noise += Mathf.PerlinNoise(xCoord * frequency + i, yCoord * frequency + i) * factor;
                 factor *= persistance;
                 frequency *= roughness;
             }
-            
-            return noise;
+                
+            return noise - .25f;
         }
     }
 }

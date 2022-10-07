@@ -38,7 +38,7 @@ namespace InventorySystem
 
         private void Awake()
         {
-            _inventory = new Inventory(_inventorySize);
+            if (!(_inventory.GetInventorySlots().Count > 0)) _inventory = new Inventory(_inventorySize);
         }
 
         public void LoadData(GameData data)
@@ -54,6 +54,10 @@ namespace InventorySystem
 
         public void SaveData(ref GameData data)
         {
+            PersistentInventoryData existingInventoryData = data.persistentInventoryData.Find(entry => entry.identifier == this.identifier);
+            if (existingInventoryData != null) {
+                data.persistentInventoryData.Remove(existingInventoryData);
+            }
             data.persistentInventoryData.Add(new PersistentInventoryData(this));
         }
     }

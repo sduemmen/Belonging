@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using InventorySystem;
-using PersistentGameObjects.Items;
+using Items;
 using UnityEngine;
 
 namespace UI.InventorySystem
@@ -76,6 +76,16 @@ namespace UI.InventorySystem
             }
         }
 
+        public void EnableHighlightAtIndex(int index)
+        {
+            _UIInventorySlots[index].EnableHighlight();
+        }
+
+        public void DisableHighlightAtIndex(int index)
+        {
+            _UIInventorySlots[index].DisableHighlight();
+        }
+
         public void OnSlotClicked(UIInventorySlot clickedUIInventorySlot)
         {
             bool clickedSlotHasItem = clickedUIInventorySlot.GetAssignedInventorySlot().GetItem() != null;
@@ -105,7 +115,7 @@ namespace UI.InventorySystem
 
         protected void TakeSlot(UIInventorySlot source)
         {
-            PersistentItem item = source.GetAssignedInventorySlot().GetItem();
+            Item item = source.GetAssignedInventorySlot().GetItem();
             int stackSize = source.GetAssignedInventorySlot().GetStackSize();
             _mouseInventory.GetAssignedInventorySlot().SetItemAndStackSize(item, stackSize);
             source.ClearSlot();
@@ -114,7 +124,7 @@ namespace UI.InventorySystem
 
         protected void PlaceOnSlot(UIInventorySlot target)
         {
-            PersistentItem item = _mouseInventory.GetAssignedInventorySlot().GetItem();
+            Item item = _mouseInventory.GetAssignedInventorySlot().GetItem();
             int stackSize = _mouseInventory.GetAssignedInventorySlot().GetStackSize();
             target.GetAssignedInventorySlot().SetItemAndStackSize(item, stackSize);
             _mouseInventory.ClearSlot();
@@ -134,9 +144,9 @@ namespace UI.InventorySystem
 
         protected void SwapSlotWithMouseInventory(UIInventorySlot target)
         {
-            PersistentItem item = target.GetAssignedInventorySlot().GetItem();
+            Item item = target.GetAssignedInventorySlot().GetItem();
             int stackSize = target.GetAssignedInventorySlot().GetStackSize();
-            PersistentItem mouseItem = _mouseInventory.GetAssignedInventorySlot().GetItem();
+            Item mouseItem = _mouseInventory.GetAssignedInventorySlot().GetItem();
             int mouseStackSize = _mouseInventory.GetAssignedInventorySlot().GetStackSize();
             target.GetAssignedInventorySlot().SetItemAndStackSize(mouseItem, mouseStackSize);
             _mouseInventory.GetAssignedInventorySlot().SetItemAndStackSize(item, stackSize);

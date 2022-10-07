@@ -1,4 +1,7 @@
+using Flags;
 using InventorySystem;
+using Items;
+using Player.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,10 +31,9 @@ namespace UI.InventorySystem
         private void Update()
         {
             if (!_assignedInventorySlot.IsEmpty()) { 
-                Vector2 mousePosition = Mouse.current.position.ReadValue();
-                transform.position = mousePosition;
+                FollowCursor();
 
-                if (Input.GetKeyDown(KeyCode.Mouse0) && !InputManager.IsPointerOverUIObject()) {
+                if (UserInputFlags.LEFT_MOUSE_BUTTON_WAS_PRESSED && !InputManager.IsPointerOverUIObject()) {
                     for (int i = 0; i < _assignedInventorySlot.GetStackSize(); i++) {
                         GameObject item = Instantiate(_assignedInventorySlot.GetItem().GetPrefab(), playerPosition.position + Vector3.up, Quaternion.Euler(Vector3.zero));
                         item.GetComponent<Pickupable>().SetPickUpDelay(4);
@@ -39,14 +41,16 @@ namespace UI.InventorySystem
                     
                     this.ClearSlot();
                     this.Hide();
-                    
-                    // Ray ray = _camera.ScreenPointToRay(mousePosition);
-                    // if (Physics.Raycast(ray, out RaycastHit hit, 100, _layerMask)) {
-                    //     Instantiate(_assignedInventorySlot.GetItem().GetPrefab(), hit.point + Vector3.up, Quaternion.Euler(Vector3.zero));
-                    //     ClearSlot();
-                    // }
                 }
+            } else if (GameFlags.SLOT_EQUIPPED) {
+                FollowCursor();
             }
+        }
+
+        private void FollowCursor()
+        {
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            transform.position = mousePosition;
         }
 
         public void Show()

@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI.InventorySystem
 {
     public class UIInventorySlot : UIInventorySlotBase
     {
         [SerializeField] private InventoryDisplay _parentDisplay;
+        [SerializeField] private Image borderHighlight;
 
         #region -- Getters --
 
@@ -26,6 +28,16 @@ namespace UI.InventorySystem
                 _parentDisplay.OnSlotClicked(this);
             }
             Debug.Log("slot clicked");
+        }
+
+        public void EnableHighlight()
+        {
+            borderHighlight.gameObject.SetActive(true);
+        }
+
+        public void DisableHighlight()
+        {
+            borderHighlight.gameObject.SetActive(false);
         }
     }
 }

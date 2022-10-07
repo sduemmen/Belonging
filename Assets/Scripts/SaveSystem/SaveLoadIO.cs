@@ -20,6 +20,7 @@ namespace SaveSystem
         public GameData Load(string profileID)
         {
             string path = Path.Combine(_directory, profileID, _fileName);
+            if (!File.Exists(path)) return null;
 
             GameData loadedData = null;
 

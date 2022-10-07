@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using UI.MainMenu;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using WorldGeneration;
+using Random = System.Random;
 
 namespace SaveSystem.Data
 {
@@ -9,10 +11,16 @@ namespace SaveSystem.Data
     public class GameData
     {
         public string profileID;
+        public long lastPlayed;
         public Vector3 playerPosition;
         public Quaternion playerRotation;
         public Quaternion cameraRotation;
-        public List<PersistentGameObjectData> persistentGameObjects;
+        
+        public int seed;
+        public float treeThreshold;
+        public float stoneThreshold;
+        public WorldAlterations worldAlterations;
+        public List<PersistentItemData> persistentGameObjects;
         public List<PersistentInventoryData> persistentInventoryData;
 
         public string name;
@@ -20,24 +28,53 @@ namespace SaveSystem.Data
         public int score;
         public int unlocked;
 
-        public int seed;
-
         public GameData()
         {
             profileID = Guid.NewGuid().ToString();
+            lastPlayed = DateTime.Now.ToFileTime();
             
             playerPosition = Vector3.zero;
             playerRotation = Quaternion.Euler(0, 0, 0);
             cameraRotation = Quaternion.Euler(40, 0, 0);
-            persistentGameObjects = new List<PersistentGameObjectData>(); // TODO - initialize with world gen
+            
+            Random random = new Random();
+            seed = random.Next(100000, 100000000);
+            treeThreshold = 0.8f;
+            stoneThreshold = 0.2f;
+            worldAlterations = new WorldAlterations();
+            persistentGameObjects = new List<PersistentItemData>(); // TODO - initialize with world gen
             persistentInventoryData = new List<PersistentInventoryData>();
 
             name = "New World";
             playtime = 0f;
             score = 0;
             unlocked = 0;
+            achievementsEnabled = true;
+        }
 
-            seed = Random.Range(100000, 100000000);
+        public bool achievementsEnabled;
+
+        public GameData(NewGameData newGameData)
+        {
+            profileID = Guid.NewGuid().ToString();
+            lastPlayed = DateTime.Now.ToFileTime();
+            
+            playerPosition = Vector3.zero;
+            playerRotation = Quaternion.Euler(0, 0, 0);
+            cameraRotation = Quaternion.Euler(40, 0, 0);
+            
+            seed = newGameData.seed;
+            treeThreshold = 1 - newGameData.treeThreshold;
+            stoneThreshold = newGameData.stoneThreshold;
+            worldAlterations = new WorldAlterations();
+            persistentGameObjects = new List<PersistentItemData>(); // TODO - initialize with world gen
+            persistentInventoryData = new List<PersistentInventoryData>();
+
+            name = newGameData.gameName;
+            playtime = 0f;
+            score = 0;
+            unlocked = newGameData.unlockAll ? GameConstants.MAX_UNLOCKABLE_SEGMENTS : 0;
+            achievementsEnabled = !newGameData.unlockAll;
         }
     }
 }

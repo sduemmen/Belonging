@@ -11,6 +11,8 @@ Properties {
     _StencilReadMask ("Stencil Read Mask", Float) = 255
 
     _ColorMask ("Color Mask", Float) = 15
+	
+	_AnimationSpeed("Animation Speed", Float) = 1
 
     [Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
 }
@@ -42,12 +44,12 @@ Category {
 			#pragma multi_compile_fog
 
 			#include "UnityCG.cginc"
-			#include "UnityUI.cginc"
 
                 #pragma multi_compile __ UNITY_UI_ALPHACLIP
 
 			sampler2D _MainTex;
 			fixed4 _TintColor;
+			float _AnimationSpeed;
 			
 			struct appdata_t {
 				float4 vertex : POSITION;

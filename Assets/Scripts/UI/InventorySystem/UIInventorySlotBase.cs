@@ -41,12 +41,23 @@ namespace UI.InventorySystem
             _assignedInventorySlot.AssignItem(inventorySlot);
             Refresh();
         }
+
+        public void AssignIcon(Sprite icon)
+        {
+            _icon.sprite = icon;
+            _icon.color = Color.white;
+        }
+
+        public void ClearIcon()
+        {
+            _icon.sprite = null;
+            _icon.color = Color.clear;
+        }
         
         public void Refresh()
         {
             if (_assignedInventorySlot.GetItem() != null) {
-                _icon.sprite = _assignedInventorySlot.GetItem().GetIcon();
-                _icon.color = Color.white;
+                AssignIcon(_assignedInventorySlot.GetItem().GetIcon());
                 int itemStackSize = _assignedInventorySlot.GetStackSize();
                 string itemStackSizeString = itemStackSize > 1 ? itemStackSize.ToString() : "";
                 _stackSizeLabel.SetText(itemStackSizeString);
@@ -58,8 +69,7 @@ namespace UI.InventorySystem
         public void ClearSlot()
         {
             _assignedInventorySlot.ClearSlot();
-            _icon.sprite = null;
-            _icon.color = Color.clear;
+            ClearIcon();
             _stackSizeLabel.SetText("");
         }
     }

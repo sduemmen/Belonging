@@ -1,26 +1,13 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.InputSystem;
+﻿using Flags;
+using UnityEngine;
 
 namespace InventorySystem
 {
-    public class PlayerInventory : InventoryHolder, IInteractableInventory
+    public class PlayerInventory : InventoryHolder
     {
-        public UnityAction<IInteractableInventory> OnInteractionComplete { get; set; }
-        private bool isInteracting;
-
-        #region -- Getters --
-
-        public bool IsInteracting()
-        {
-            return isInteracting;
-        }
-
-        #endregion
-
         public void Interact()
         {
-            isInteracting = true;
+            GameFlags.INVENTORY_OPEN = true;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             OnDynamicInventoryDisplayContextRequested?.Invoke(_inventory);
@@ -28,22 +15,16 @@ namespace InventorySystem
 
         public void EndInteraction()
         {
-            isInteracting = false;
+            GameFlags.INVENTORY_OPEN = false;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             OnDynamicInventoryDisplayContextClosed?.Invoke();
         }
 
-        public bool InteractionTriggered()
-        {
-            return Keyboard.current.tabKey.wasPressedThisFrame;
-        }
-
         private void Update()
         {
-            bool interactionTriggered = InteractionTriggered();
-            if (interactionTriggered && !isInteracting) Interact();
-            else if (interactionTriggered && isInteracting) EndInteraction();
+            if (UserInputFlags.OPEN_INVENTORY_KEY_WAS_PRESSED && !GameFlags.INVENTORY_OPEN) Interact();
+            else if (UserInputFlags.CLOSE_INVENTORY_KEY_WAS_PRESSED && GameFlags.INVENTORY_OPEN) EndInteraction();
         }
     }
 }

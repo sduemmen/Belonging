@@ -81,8 +81,8 @@ namespace SaveSystem
                 dataPersistenceObject.LoadData(_gameData);
             }
             
-            foreach (PersistentGameObjectData persistentGameObjectData in _gameData.persistentGameObjects) {
-                GameObject gameObjectToInstantiate = PersistentGameObjectData.GetGameObjectFromType(persistentGameObjectData.type);
+            foreach (PersistentItemData persistentGameObjectData in _gameData.persistentGameObjects) {
+                GameObject gameObjectToInstantiate = PersistentItemData.GetGameObjectFromType(persistentGameObjectData.type);
                 Instantiate(gameObjectToInstantiate, persistentGameObjectData.worldPosition, persistentGameObjectData.worldRotation);
             }
             
@@ -91,13 +91,18 @@ namespace SaveSystem
 
         public void SaveGame()
         {
-            bool mainMenuIsActive = SceneManager.GetActiveScene().name == "MainMenuScene";
-            if (noProfileSelected || mainMenuIsActive) return;
+            if (noProfileSelected) return;
 
             GameData storedData = _saveLoadIO.Load(profileID);
-            
-            _gameData = storedData == null ? _gameData : storedData;
-            _gameData = _gameData == null ? new GameData() : _gameData;
+
+            if (storedData != null) {
+                _gameData = storedData;
+                _gameData.lastPlayed = DateTime.Now.ToFileTime();
+            } else if (_gameData != null) {
+                _gameData.lastPlayed = DateTime.Now.ToFileTime();
+            } else {
+                _gameData = new GameData();
+            }
             
             _dataPersistenceObjects = FindAllDataPersistenceObjects();
             
@@ -109,7 +114,7 @@ namespace SaveSystem
             
             _saveLoadIO.Save(_gameData, profileID);
             
-            Debug.Log("Saving complete");
+            Debug.Log($"Saving complete {profileID}");
         }
 
         private List<IDataPersistence> FindAllDataPersistenceObjects()

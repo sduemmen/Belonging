@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using PersistentGameObjects.Items;
+using Items;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -36,7 +36,7 @@ namespace InventorySystem
             }
         }
 
-        public bool AddToInventory(PersistentItem itemToAdd, int amountToAdd)
+        public bool AddToInventory(Item itemToAdd, int amountToAdd)
         {
             if (this.Contains(itemToAdd, out List<InventorySlot> slots)) {
                 foreach (InventorySlot slot in slots) {
@@ -57,7 +57,7 @@ namespace InventorySystem
             return false;
         }
 
-        public bool Contains(PersistentItem item, out List<InventorySlot> slots)
+        public bool Contains(Item item, out List<InventorySlot> slots)
         {
             slots = _inventorySlots.Where(inventorySlot => inventorySlot.GetItem() == item).ToList();
             return slots.Count >= 1;
