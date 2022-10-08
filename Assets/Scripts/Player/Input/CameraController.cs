@@ -1,3 +1,4 @@
+using System;
 using Flags;
 using UnityEngine;
 using static Flags.GameSettings.InputSettings;
@@ -9,10 +10,10 @@ namespace Player.Input
         public CameraSettings cameraSettings;
         public InputManager inputManager;
     
-        private Vector3 targetRotation;
 
         public Transform cameraTarget;
         private Transform _transform;
+        private Vector3 targetRotation;
 
         private void Awake()
         {
@@ -39,8 +40,14 @@ namespace Player.Input
             }
         
             Vector2 cameraRotationInput = inputManager.CameraRotationInput;
-            float rotationAngle = cameraRotationInput.x * cameraSettings.X_Sensitivity * Time.deltaTime;
-            _transform.Rotate(Vector3.up, rotationAngle, Space.World);
+            
+            float rotationAroundX = cameraRotationInput.y * cameraSettings.Y_Sensitivity * Time.deltaTime;
+            float rotationAroundY = cameraRotationInput.x * cameraSettings.X_Sensitivity * Time.deltaTime;
+            
+            targetRotation.x = Mathf.Clamp(targetRotation.x - rotationAroundX, 10, 60);
+            targetRotation.y += rotationAroundY;
+            
+            _transform.rotation = Quaternion.Euler(targetRotation);
             inputManager.SetCameraRotationInput(Vector2.zero);
         }
 

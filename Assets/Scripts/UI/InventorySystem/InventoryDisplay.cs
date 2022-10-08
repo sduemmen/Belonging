@@ -12,33 +12,13 @@ namespace UI.InventorySystem
         [SerializeField] protected UIInventorySlot[] _UIInventorySlots;
         [SerializeField] protected Dictionary<UIInventorySlot, InventorySlot> _inventorySlotDict;
         [SerializeField] protected InventoryHolder _inventoryHolder;
-        [SerializeField] protected bool interactable = true;
+        [SerializeField] protected bool _interactable = true;
 
-        #region -- Getters --
+        #region -- Getters, Setters --
 
-        public Inventory GetInventory()
-        {
-            return _inventory;
-        }
-
-        public UIInventorySlot[] GetUIInventorySlots()
-        {
-            return _UIInventorySlots;
-        }
-
-        public Dictionary<UIInventorySlot, InventorySlot> GetInventorySlotDict()
-        {
-            return _inventorySlotDict;
-        }
-
-        public InventoryHolder GetInventoryHolder()
-        {
-            return _inventoryHolder;
-        }
-
-        public bool IsInteractable()
-        {
-            return interactable;
+        public bool IsInteractable {
+            get => _interactable;
+            private set => _interactable = value;
         }
 
         #endregion
@@ -59,11 +39,11 @@ namespace UI.InventorySystem
         {
             _inventorySlotDict = new Dictionary<UIInventorySlot, InventorySlot>();
             
-            if (_UIInventorySlots.Length != _inventory.GetInventorySize()) Debug.Log($"Inventory slots out of sync on {this.gameObject}");
+            if (_UIInventorySlots.Length != _inventory.Size) Debug.Log($"Inventory slots out of sync on {this.gameObject}");
 
-            for (int i = 0; i < inventory.GetInventorySize(); i++) {
-                _inventorySlotDict.Add(_UIInventorySlots[i], _inventory.GetInventorySlots()[i]);
-                _UIInventorySlots[i].Initialize(_inventory.GetInventorySlots()[i]);
+            for (int i = 0; i < inventory.Size; i++) {
+                _inventorySlotDict.Add(_UIInventorySlots[i], _inventory.InventorySlots[i]);
+                _UIInventorySlots[i].AssignedInventorySlot = _inventory.InventorySlots[i];
             }
         }
 
@@ -76,20 +56,11 @@ namespace UI.InventorySystem
             }
         }
 
-        public void EnableHighlightAtIndex(int index)
-        {
-            _UIInventorySlots[index].EnableHighlight();
-        }
-
-        public void DisableHighlightAtIndex(int index)
-        {
-            _UIInventorySlots[index].DisableHighlight();
-        }
-
         public void OnSlotClicked(UIInventorySlot clickedUIInventorySlot)
         {
-            bool clickedSlotHasItem = clickedUIInventorySlot.GetAssignedInventorySlot().GetItem() != null;
-            bool mouseInventoryIsEmpty = _mouseInventory.GetAssignedInventorySlot().GetItem() == null;
+            if (!IsInteractable) return;
+            bool clickedSlotHasItem = !clickedUIInventorySlot.AssignedInventorySlot.IsEmpty();
+            bool mouseInventoryIsEmpty = _mouseInventory.AssignedInventorySlot.IsEmpty();
 
             if (clickedSlotHasItem && mouseInventoryIsEmpty) {
                 TakeSlot(clickedUIInventorySlot);
@@ -100,7 +71,7 @@ namespace UI.InventorySystem
             }
 
             if (clickedSlotHasItem && !mouseInventoryIsEmpty) {
-                bool itemsAreEqual = _mouseInventory.GetAssignedInventorySlot().GetItem() == clickedUIInventorySlot.GetAssignedInventorySlot().GetItem();
+                bool itemsAreEqual = _mouseInventory.AssignedInventorySlot.Item == clickedUIInventorySlot.AssignedInventorySlot.Item;
                 
                 if (itemsAreEqual) {
                     AddToSlot(clickedUIInventorySlot);
@@ -108,48 +79,42 @@ namespace UI.InventorySystem
                     SwapSlotWithMouseInventory(clickedUIInventorySlot);
                 }
             }
-            
-            _mouseInventory.Refresh();
-            clickedUIInventorySlot.Refresh();
         }
 
         protected void TakeSlot(UIInventorySlot source)
         {
-            Item item = source.GetAssignedInventorySlot().GetItem();
-            int stackSize = source.GetAssignedInventorySlot().GetStackSize();
-            _mouseInventory.GetAssignedInventorySlot().SetItemAndStackSize(item, stackSize);
-            source.ClearSlot();
-            _mouseInventory.Show();
+            Item item = source.AssignedInventorySlot.Item;
+            int stackSize = source.AssignedInventorySlot.StackSize;
+            _mouseInventory.AssignedInventorySlot = new InventorySlot(item, stackSize);
+            source.AssignedInventorySlot = null;
         }
 
         protected void PlaceOnSlot(UIInventorySlot target)
         {
-            Item item = _mouseInventory.GetAssignedInventorySlot().GetItem();
-            int stackSize = _mouseInventory.GetAssignedInventorySlot().GetStackSize();
-            target.GetAssignedInventorySlot().SetItemAndStackSize(item, stackSize);
-            _mouseInventory.ClearSlot();
-            _mouseInventory.Hide();
+            Item item = _mouseInventory.AssignedInventorySlot.Item;
+            int stackSize = _mouseInventory.AssignedInventorySlot.StackSize;
+            target.AssignedInventorySlot = new InventorySlot(item, stackSize);
+            _mouseInventory.AssignedInventorySlot = null;
         }
 
         protected void AddToSlot(UIInventorySlot target)
         {
-            target.GetAssignedInventorySlot().AddToStack(_mouseInventory.GetAssignedInventorySlot().GetStackSize(), out int remainingAmount);
+            target.AssignedInventorySlot.AddToStack(_mouseInventory.AssignedInventorySlot.StackSize, out int remainingAmount);
             if (remainingAmount > 0) {
-                _mouseInventory.GetAssignedInventorySlot().SetStackSize(remainingAmount);
+                _mouseInventory.AssignedInventorySlot = new InventorySlot(_mouseInventory.AssignedInventorySlot.Item, remainingAmount);
             } else {
-                _mouseInventory.ClearSlot();
-                _mouseInventory.Hide();
+                _mouseInventory.AssignedInventorySlot = null;
             }
         }
 
         protected void SwapSlotWithMouseInventory(UIInventorySlot target)
         {
-            Item item = target.GetAssignedInventorySlot().GetItem();
-            int stackSize = target.GetAssignedInventorySlot().GetStackSize();
-            Item mouseItem = _mouseInventory.GetAssignedInventorySlot().GetItem();
-            int mouseStackSize = _mouseInventory.GetAssignedInventorySlot().GetStackSize();
-            target.GetAssignedInventorySlot().SetItemAndStackSize(mouseItem, mouseStackSize);
-            _mouseInventory.GetAssignedInventorySlot().SetItemAndStackSize(item, stackSize);
+            Item targetItem = target.AssignedInventorySlot.Item;
+            int targetStackSize = target.AssignedInventorySlot.StackSize;
+            Item mouseItem = _mouseInventory.AssignedInventorySlot.Item;
+            int mouseStackSize = _mouseInventory.AssignedInventorySlot.StackSize;
+            target.AssignedInventorySlot = new InventorySlot(mouseItem, mouseStackSize);
+            _mouseInventory.AssignedInventorySlot = new InventorySlot(targetItem, targetStackSize);
         }
     }
 }

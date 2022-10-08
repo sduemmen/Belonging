@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SaveSystem;
 using SaveSystem.Data;
+using TMPro;
 using UnityEngine;
 
 namespace UI.MainMenu
@@ -10,7 +11,7 @@ namespace UI.MainMenu
     {
         private List<SaveSlot> _saveSlots;
         [SerializeField] private GameObject saveSlotPrefab;
-        [SerializeField] private GameObject noSaveSlotsHint;
+        [SerializeField] private TextMeshProUGUI noSaveSlotsHint;
         public SaveSlot selectedSaveSlot;
 
         private void Awake()
@@ -47,7 +48,6 @@ namespace UI.MainMenu
         public void UnloadSaveSlots()
         {
             DataPersistenceManager.instance.profileID = "default";
-            noSaveSlotsHint.SetActive(false);
             selectedSaveSlot = null;
             
             if (_saveSlots == null) return;
@@ -77,9 +77,9 @@ namespace UI.MainMenu
         public void CheckSaveSlotCount()
         {
             if (_saveSlots == null || _saveSlots.Count == 0) {
-                noSaveSlotsHint.SetActive(true);
+                noSaveSlotsHint.text = "No saved games found";
             } else {
-                noSaveSlotsHint.SetActive(false);
+                noSaveSlotsHint.text = "";
             }
         }
     }

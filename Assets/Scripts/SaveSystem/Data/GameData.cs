@@ -19,7 +19,7 @@ namespace SaveSystem.Data
         public int seed;
         public float treeThreshold;
         public float stoneThreshold;
-        public WorldAlterations worldAlterations;
+        public List<string> worldAlterations;
         public List<PersistentItemData> persistentGameObjects;
         public List<PersistentInventoryData> persistentInventoryData;
 
@@ -41,7 +41,7 @@ namespace SaveSystem.Data
             seed = random.Next(100000, 100000000);
             treeThreshold = 0.8f;
             stoneThreshold = 0.2f;
-            worldAlterations = new WorldAlterations();
+            worldAlterations = new List<string>();
             persistentGameObjects = new List<PersistentItemData>(); // TODO - initialize with world gen
             persistentInventoryData = new List<PersistentInventoryData>();
 
@@ -66,7 +66,7 @@ namespace SaveSystem.Data
             seed = newGameData.seed;
             treeThreshold = 1 - newGameData.treeThreshold;
             stoneThreshold = newGameData.stoneThreshold;
-            worldAlterations = new WorldAlterations();
+            worldAlterations = new List<string>();
             persistentGameObjects = new List<PersistentItemData>(); // TODO - initialize with world gen
             persistentInventoryData = new List<PersistentInventoryData>();
 

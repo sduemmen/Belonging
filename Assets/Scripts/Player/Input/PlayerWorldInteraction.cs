@@ -8,11 +8,23 @@ namespace Player.Input
 {
     public class PlayerWorldInteraction : MonoBehaviour
     {
-        public InventoryHolder toolbar;
-        public InventoryDisplay toolbarDisplay;
+        public Inventory toolbar;
+        public ToolbarInventoryDisplay toolbarDisplay;
         public MouseInventory mouseInventory;
-        private int selectedSlotIndex = -1;
-        
+        private int _selectedSlotIndex = -1;
+
+        #region -- Getters, Setters --
+
+        public int SelectedSlotIndex {
+            get => _selectedSlotIndex;
+            private set {
+                _selectedSlotIndex = value;
+                UpdateSelectedSlotHighlight();
+            }
+        }
+
+        #endregion
+
         private void Update()
         {
             CheckSelectedSlotChanged();
@@ -23,25 +35,22 @@ namespace Player.Input
         {
             if (UserInputFlags.SELECT_SLOT1_KEY_WAS_PRESSED) {
                 if (!GameFlags.INVENTORY_SLOT1_EQUIPPED) {
-                    selectedSlotIndex = 0;
+                    SelectedSlotIndex = 0;
                     UpdateGameFlags(true, false, false);
-                    UpdateSelectedSlotHighlight();
                 } else {
                     ClearSelectedSlot();
                 }
             } else if (UserInputFlags.SELECT_SLOT2_KEY_WAS_PRESSED) {
                 if (!GameFlags.INVENTORY_SLOT2_EQUIPPED) {
-                    selectedSlotIndex = 1;
+                    SelectedSlotIndex = 1;
                     UpdateGameFlags(false, true, false);
-                    UpdateSelectedSlotHighlight();
                 } else {
                     ClearSelectedSlot();
                 }
             } else if (UserInputFlags.SELECT_SLOT3_KEY_WAS_PRESSED) {
                 if (!GameFlags.INVENTORY_SLOT3_EQUIPPED) {
-                    selectedSlotIndex = 2;
+                    SelectedSlotIndex = 2;
                     UpdateGameFlags(false, false, true);
-                    UpdateSelectedSlotHighlight();
                 } else {
                     ClearSelectedSlot();
                 }
@@ -50,21 +59,15 @@ namespace Player.Input
 
         private void UpdateSelectedSlotHighlight()
         {
-            foreach (UIInventorySlot uiInventorySlot in toolbarDisplay.GetUIInventorySlots()) {
-                uiInventorySlot.DisableHighlight();
-            }
-            toolbarDisplay.EnableHighlightAtIndex(selectedSlotIndex);
-            mouseInventory.AssignIcon(toolbarDisplay.GetUIInventorySlots()[selectedSlotIndex].GetAssignedInventorySlot().GetItem().GetIcon());
-            mouseInventory.Show();
+            toolbarDisplay.EnableHighlightAtIndex(SelectedSlotIndex);
+            mouseInventory.AssignedInventorySlot = toolbar.InventorySlots[SelectedSlotIndex];
         }
 
         private void ClearSelectedSlot()
         {
             UpdateGameFlags(false, false, false);
-            toolbarDisplay.DisableHighlightAtIndex(selectedSlotIndex);
-            selectedSlotIndex = -1;
-            mouseInventory.ClearIcon();
-            mouseInventory.Hide();
+            toolbarDisplay.DisableHighlight();
+            mouseInventory.AssignedInventorySlot = null;
         }
 
         private void UpdateGameFlags(bool slot1, bool slot2, bool slot3)
@@ -76,12 +79,12 @@ namespace Player.Input
 
         private void CheckToolUsed()
         {
-            if (selectedSlotIndex >= 0 && UserInputFlags.LEFT_MOUSE_BUTTON_WAS_PRESSED) {
+            if (GameFlags.SLOT_EQUIPPED && UserInputFlags.LEFT_MOUSE_BUTTON_WAS_PRESSED) {
                 GameObject hitResult = InputManager.GetClickedGameObject();
                 Destroyable destroyable = hitResult.GetComponent<Destroyable>();
-                InventorySlot selectedSlot = toolbarDisplay.GetUIInventorySlots()[selectedSlotIndex].GetAssignedInventorySlot();
+                InventorySlot selectedSlot = toolbar.InventorySlots[SelectedSlotIndex];
                 
-                if (destroyable == null || selectedSlot.GetItem().GetItemType() != destroyable.requiredTool) return;
+                if (destroyable == null || selectedSlot.Item.Type != destroyable.requiredTool) return;
                 
                 destroyable.OnClick();
             }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using InventorySystem;
@@ -10,6 +9,20 @@ namespace UI.InventorySystem
     {
         [SerializeField] private UIInventorySlot _UIInventorySlotPrefab;
 
+        #region -- Getters, Setters --
+
+        public Inventory Inventory {
+            get => _inventory;
+            set {
+                _inventory = value;
+                ClearSlots();
+                if (_inventory != null) _inventory.OnInventorySlotChanged += UpdateSlot;
+                InitializeInventorySlots(value);
+            }
+        }
+
+        #endregion
+
         protected override void Start() {}
 
         private void OnDisable()
@@ -17,32 +30,21 @@ namespace UI.InventorySystem
             _inventory.OnInventorySlotChanged -= UpdateSlot;
         }
 
-        public void RefreshDynamicInventory(Inventory inventory)
-        {
-            ClearSlots();
-            _inventory = inventory;
-            if (_inventory != null) _inventory.OnInventorySlotChanged += UpdateSlot;
-            InitializeInventorySlots(inventory);
-        }
-
         public override void InitializeInventorySlots(Inventory inventory)
         {
-            // Debug.Log($"initialize {inventory.GetInventorySize()} slots");
-            _inventorySlotDict = new Dictionary<UIInventorySlot, InventorySlot>();
-            
             if (inventory == null) return;
+            
+            _inventorySlotDict = new Dictionary<UIInventorySlot, InventorySlot>();
 
-            for (int i = 0; i < inventory.GetInventorySize(); i++) {
+            for (int i = 0; i < inventory.Size; i++) {
                 var uiInventorySlot = Instantiate(_UIInventorySlotPrefab, transform);
-                _inventorySlotDict.Add(uiInventorySlot, inventory.GetInventorySlots()[i]);
-                uiInventorySlot.Initialize(inventory.GetInventorySlots()[i]);
-                uiInventorySlot.Refresh();
+                _inventorySlotDict.Add(uiInventorySlot, inventory.InventorySlots[i]);
+                uiInventorySlot.AssignedInventorySlot = inventory.InventorySlots[i];
             }
         }
 
         private void ClearSlots()
         {
-            // Debug.Log("clear slots");
             foreach (var item in transform.Cast<Transform>()) {
                 Destroy(item.gameObject);
             }

@@ -23,7 +23,7 @@ namespace UI.InventorySystem
         private void DisplayInventory(Inventory inventory)
         {
             inventoryPanel.gameObject.SetActive(true);
-            inventoryPanel.RefreshDynamicInventory(inventory);
+            inventoryPanel.Inventory = inventory;
         }
 
         private void HideInventory()

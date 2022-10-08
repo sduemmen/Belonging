@@ -11,19 +11,16 @@ namespace InventorySystem
     public class Inventory
     {
         [SerializeField] private List<InventorySlot> _inventorySlots;
-        [HideInInspector] public UnityAction<InventorySlot> OnInventorySlotChanged;
+        public UnityAction<InventorySlot> OnInventorySlotChanged;
 
-        #region -- Getters --
+        #region -- Getters, Setters --
 
-        public List<InventorySlot> GetInventorySlots()
-        {
-            return _inventorySlots;
+        public List<InventorySlot> InventorySlots {
+            get => _inventorySlots;
+            set => _inventorySlots = value;
         }
 
-        public int GetInventorySize()
-        {
-            return _inventorySlots.Count;
-        }
+        public int Size => _inventorySlots.Count;
 
         #endregion
         
@@ -49,7 +46,8 @@ namespace InventorySystem
             }
 
             if (this.HasFreeInventorySlot(out InventorySlot freeSlot)) {
-                freeSlot.SetItemAndStackSize(itemToAdd, amountToAdd);
+                freeSlot.Item = itemToAdd;
+                freeSlot.StackSize = amountToAdd;
                 OnInventorySlotChanged?.Invoke(freeSlot);
                 return true;
             }
@@ -59,13 +57,13 @@ namespace InventorySystem
 
         public bool Contains(Item item, out List<InventorySlot> slots)
         {
-            slots = _inventorySlots.Where(inventorySlot => inventorySlot.GetItem() == item).ToList();
+            slots = _inventorySlots.Where(inventorySlot => inventorySlot.Item == item).ToList();
             return slots.Count >= 1;
         }
 
         public bool HasFreeInventorySlot(out InventorySlot freeSlot)
         {
-            freeSlot = _inventorySlots.FirstOrDefault(inventorySlot => inventorySlot.GetItem() == null);
+            freeSlot = _inventorySlots.FirstOrDefault(inventorySlot => inventorySlot.Item == null);
             return freeSlot != null;
         }
     }

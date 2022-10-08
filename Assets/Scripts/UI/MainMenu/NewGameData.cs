@@ -26,7 +26,7 @@ namespace UI.MainMenu
         
         public float persistance = .4f;
         public int roughness = 3;
-        public int octaves = 5;
+        public int octaves = 3;
 
         private void OnValidate()
         {
@@ -35,9 +35,11 @@ namespace UI.MainMenu
 
         private void Awake()
         {
-            nameField.contentType = TMP_InputField.ContentType.Alphanumeric;
+            nameField.contentType = TMP_InputField.ContentType.Standard;
             nameField.onValueChanged.AddListener(value => gameName = value);
             
+            seed = new Random().Next(100000, 100000000);
+            seedField.text = seed.ToString();
             seedField.contentType = TMP_InputField.ContentType.IntegerNumber;
             seedField.onValueChanged.AddListener(value => seed = Int32.Parse(value));
             
@@ -62,7 +64,6 @@ namespace UI.MainMenu
             stoneQuantitySlider.value = .3f;
             
             unlockAllToggle.onValueChanged.AddListener(value => unlockAll = value);
-            
         }
 
         private void OnDestroy()

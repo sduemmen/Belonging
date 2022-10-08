@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SaveSystem;
 using SaveSystem.Data;
 using UnityEngine;
+using Utility;
 
 namespace WorldGeneration
 {
@@ -15,6 +16,7 @@ namespace WorldGeneration
         public int chunkSize;
         
         public int seed;
+        public float seedOffset;
         public float treeThreshold;
         public float stoneThreshold;
         public int objectDistance;
@@ -72,9 +74,12 @@ namespace WorldGeneration
         public void LoadData(GameData data)
         {
             seed = data.seed;
+            seedOffset = seedOffset = (float)seed / 100;
             treeThreshold = data.treeThreshold;
             stoneThreshold = data.stoneThreshold;
-            worldAlterations = data.worldAlterations;
+            foreach (string worldAlteration in data.worldAlterations) {
+                worldAlterations.AddAlteration(worldAlteration);
+            }
         }
 
         public void SaveData(ref GameData data)
@@ -82,7 +87,10 @@ namespace WorldGeneration
             data.seed = seed;
             data.treeThreshold = treeThreshold;
             data.stoneThreshold = stoneThreshold;
-            data.worldAlterations = worldAlterations;
+            data.worldAlterations.Clear();
+            foreach (UInt128 worldAlteration in worldAlterations.GetAlterations()) {
+                data.worldAlterations.Add(worldAlteration.ToString());
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Flags;
 using SaveSystem;
 using SaveSystem.Data;
 using Sirenix.OdinInspector;
@@ -36,13 +37,14 @@ namespace InventorySystem
 
         #endregion
 
-        private void Awake()
+        private void Start()
         {
-            if (!(_inventory.GetInventorySlots().Count > 0)) _inventory = new Inventory(_inventorySize);
+            if (!(_inventory.Size > 0)) _inventory = new Inventory(_inventorySize);
         }
 
         public void LoadData(GameData data)
         {
+            if (GameFlags.MAIN_MENU_ACTIVE) return;
             PersistentInventoryData inventoryData = data.persistentInventoryData.Find(entry => entry.identifier == this.identifier);
 
             if (inventoryData != null) {
@@ -54,6 +56,7 @@ namespace InventorySystem
 
         public void SaveData(ref GameData data)
         {
+            if (GameFlags.MAIN_MENU_ACTIVE) return;
             PersistentInventoryData existingInventoryData = data.persistentInventoryData.Find(entry => entry.identifier == this.identifier);
             if (existingInventoryData != null) {
                 data.persistentInventoryData.Remove(existingInventoryData);

@@ -31,14 +31,10 @@ namespace Models
         private void OnHealthDepleted()
         {
             for (int i = 0; i < dropQuantity; i++) {
-                Instantiate(dropItem.GetPrefab(), this.transform.position + new Vector3(Random.Range(-.2f, .2f), .2f, Random.Range(-.2f, .2f)), Quaternion.Euler(Vector3.zero));
+                Instantiate(dropItem.Prefab, this.transform.position + new Vector3(Random.Range(-.2f, .2f), .2f, Random.Range(-.2f, .2f)), Quaternion.Euler(Vector3.zero));
             }
-            Destroy(this.gameObject);
-        }
-        
-        private void OnDestroy()
-        {
             world.worldAlterations.AddAlteration(chunkPosition.x, chunkPosition.y, positionInChunk.x, positionInChunk.y);
+            Destroy(this.gameObject);
         }
     }
 }

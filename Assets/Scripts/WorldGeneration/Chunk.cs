@@ -18,7 +18,7 @@ namespace WorldGeneration
         
         public float persistance = .4f;
         public int roughness = 3;
-        public int octaves = 5;
+        public int octaves = 3;
 
         public GameObject treePrefab;
         public GameObject stonePrefab;
@@ -80,14 +80,12 @@ namespace WorldGeneration
             int chunkEncoding = chunkPosition.x << 16 | chunkPosition.y;
             Random random = new Random(world.seed + chunkEncoding);
 
-            float seedOffset = (float)world.seed / 100;
-            
             for (int y = 0; y < size; y+=3) {
                 for (int x = 0; x < size; x+=3) {
-                    if (world.worldAlterations.HasAlterationAt(chunkPosition.x, chunkPosition.y, x, y)) continue;
+                    if (world.worldAlterations.HasAlteration(chunkPosition.x, chunkPosition.y, x, y)) continue;
                     
-                    float seededX = x + seedOffset;
-                    float seededY = y + seedOffset;
+                    float seededX = x + world.seedOffset;
+                    float seededY = y + world.seedOffset;
                     
                     float treeSample = CalculateNoise(seededX, seededY);
                     float stoneSample = CalculateNoise(seededX + 50f, seededY + 50f);

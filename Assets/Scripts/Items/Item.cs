@@ -16,44 +16,40 @@ namespace Items
     public class Item : ScriptableObject
     {
         [SerializeField] private Sprite _icon;
-        [SerializeField] private string _displayName;
+        [SerializeField] private string _name;
         [TextArea, SerializeField] private string _description;
         [SerializeField] private  int _maxStackSize;
         [SerializeField] private GameObject _prefab;
         [SerializeField] private ItemType _type;
-        public static ItemType WOOD = ItemType.Wood;
-        public static ItemType STONE = ItemType.Stone;
-        public static ItemType AXE = ItemType.Axe;
-        public static ItemType PICKAXE = ItemType.Pickaxe;
 
-        public ItemType GetItemType()
-        {
-            return _type;
+        public ItemType Type {
+            get => _type;
+            private set => _type = value;
         }
         
-        public Sprite GetIcon()
-        {
-            return _icon;
+        public Sprite Icon {
+            get => _icon;
+            private set => _icon = value;
         }
 
-        public string GetDisplayName()
-        {
-            return _displayName;
+        public string Name {
+            get => _name;
+            private set => _name = value;
         }
         
-        public string GetDescription()
-        {
-            return _description;
+        public string Description {
+            get => _description;
+            private set => _description = value;
         }
 
-        public int GetMaxStackSize()
-        {
-            return _maxStackSize;
+        public int MaxStackSize {
+            get => _maxStackSize;
+            private set => _maxStackSize = value;
         }
         
-        public GameObject GetPrefab()
-        {
-            return _prefab;
+        public GameObject Prefab {
+            get => _prefab;
+            private set => _prefab = value;
         }
     }
 }

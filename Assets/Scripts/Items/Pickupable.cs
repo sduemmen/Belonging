@@ -10,29 +10,14 @@ namespace Items
     {
         [SerializeField] private Item _item;
         [SerializeField] private float _pickUpRadius = 1f;
-        [SerializeField] private float pickUpDelay;
+        [SerializeField] private float _pickUpDelay;
         [SerializeField] private SphereCollider _collider;
 
         #region -- Getters --
 
-        public Item GetItem()
-        {
-            return _item;
-        }
-
-        public float GetPickUpRadius()
-        {
-            return _pickUpRadius;
-        }
-
-        public SphereCollider GetCollider()
-        {
-            return _collider;
-        }
-
-        public void SetPickUpDelay(float delay_s)
-        {
-            pickUpDelay = delay_s;
+        public float PickupDelay {
+            get => _pickUpDelay;
+            set => _pickUpDelay = value;
         }
 
         #endregion
@@ -44,7 +29,7 @@ namespace Items
         
         private void Update()
         {
-            pickUpDelay = Mathf.Max(pickUpDelay - Time.deltaTime, 0);
+            PickupDelay = Mathf.Max(PickupDelay - Time.deltaTime, 0);
         }
 
         private void OnTriggerStay(Collider other)
@@ -64,7 +49,7 @@ namespace Items
         
         private bool CanBePickedUp()
         {
-            return pickUpDelay <= 0;
+            return PickupDelay <= 0;
         }
 
         public void LoadData(GameData data)
@@ -75,7 +60,7 @@ namespace Items
         public void SaveData(ref GameData data)
         {
             Transform t = transform;
-            PersistentItemData persistentData = new PersistentItemData(t.position, t.rotation, _item.GetItemType());
+            PersistentItemData persistentData = new PersistentItemData(t.position, t.rotation, _item.Type);
             data.persistentGameObjects.Add(persistentData);
         }
     }

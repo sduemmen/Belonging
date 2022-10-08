@@ -12,33 +12,24 @@ namespace InventorySystem
 
         #region -- Getters, Setters --
 
-        public Item GetItem()
-        {
-            return _item;
+        public Item Item {
+            get => _item;
+            set => _item = value;
         }
 
-        public int GetStackSize()
-        {
-            return _stackSize;
+        public int StackSize {
+            get => _stackSize;
+            set => _stackSize = value;
         }
 
-        public void SetStackSize(int newStackSize)
-        {
-            _stackSize = newStackSize;
-        }
-
-        public void SetItemAndStackSize(Item item, int stackSize)
-        {
-            _item = item;
-            _stackSize = stackSize;
-        }
+        public static InventorySlot EMPTY => new InventorySlot();
 
         #endregion
         
         public InventorySlot(Item item, int stackSize)
         {
-            _item = item;
-            _stackSize = stackSize;
+            Item = item;
+            StackSize = stackSize;
         }
 
         public InventorySlot()
@@ -48,54 +39,55 @@ namespace InventorySystem
 
         public void AssignItem(InventorySlot other)
         {
-            if (_item == other.GetItem()) {
-                AddToStack(other.GetStackSize());
+            if (Item == other.Item) {
+                StackSize += other.StackSize;
             } else {
-                SetItemAndStackSize(other.GetItem(), other.GetStackSize());
+                Item = other.Item;
+                StackSize = other.StackSize;
             }
         }
 
         public void ClearSlot()
         {
-            _item = null;
-            _stackSize = -1;
+            Item = null;
+            StackSize = -1;
         }
 
         public bool IsEmpty()
         {
-            return _item == null && _stackSize < 0;
+            return Item == null && _stackSize < 0;
         }
         
         public bool HasRoomFor(int amountToAdd, out int roomLeft)
         {
-            roomLeft = _item.GetMaxStackSize() - _stackSize;
-            return _stackSize + amountToAdd <= _item.GetMaxStackSize();
+            roomLeft = Item.MaxStackSize - StackSize;
+            return StackSize + amountToAdd <= Item.MaxStackSize;
         }
 
         public bool HasRoomFor(int amountToAdd)
         {
-            return _stackSize + amountToAdd <= _item.GetMaxStackSize();
+            return StackSize + amountToAdd <= Item.MaxStackSize;
         }
 
         public void AddToStack(int amount)
         {
             if (!HasRoomFor(amount)) return;
-            _stackSize += amount;
+            StackSize += amount;
         }
 
         public void AddToStack(int amountToAdd, out int remainingAmount)
         {
             bool roomLeft = HasRoomFor(amountToAdd);
             
-            remainingAmount = roomLeft ? 0 : amountToAdd + _stackSize - _item.GetMaxStackSize();
-            amountToAdd = roomLeft ? amountToAdd : _item.GetMaxStackSize() - _stackSize;
+            remainingAmount = roomLeft ? 0 : amountToAdd + StackSize - Item.MaxStackSize;
+            amountToAdd = roomLeft ? amountToAdd : Item.MaxStackSize -StackSize;
             
             AddToStack(amountToAdd);
         }
 
         public void RemoveFromStack(int amount)
         {
-            _stackSize -= amount;
+            StackSize -= amount;
         }
     }
 }
