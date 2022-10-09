@@ -1,6 +1,7 @@
 ﻿///Credit ChoMPHi
 ///Sourced from - http://forum.unity3d.com/threads/accordion-type-layout.271818/
 
+using unity_ui_extensions.Scripts.Controls.Accordion;
 using UnityEditor;
 using UnityEditor.UI;
 

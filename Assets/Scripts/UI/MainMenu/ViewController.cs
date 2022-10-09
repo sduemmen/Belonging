@@ -20,23 +20,23 @@ namespace UI.MainMenu
 
         public void LoadMainMenuView()
         {
-            LeanTween.moveLocalX(mainMenuView, 0, .4f).setEaseInOutCubic();
-            LeanTween.moveLocalX(optionsView, -Screen.currentResolution.width, .4f).setEaseInOutCubic();
-            LeanTween.moveLocalX(playView, Screen.currentResolution.width, .4f).setEaseInOutCubic();
+            LeanTween.Framework.LeanTween.moveLocalX(mainMenuView, 0, .4f).setEaseInOutCubic();
+            LeanTween.Framework.LeanTween.moveLocalX(optionsView, -Screen.currentResolution.width, .4f).setEaseInOutCubic();
+            LeanTween.Framework.LeanTween.moveLocalX(playView, Screen.currentResolution.width, .4f).setEaseInOutCubic();
         }
 
         public void LoadOptionsView()
         {
-            LeanTween.moveLocalX(mainMenuView, Screen.currentResolution.width, .4f).setEaseInOutCubic();
-            LeanTween.moveLocalX(optionsView, 0, .4f).setEaseInOutCubic();
-            LeanTween.moveLocalX(playView, Screen.currentResolution.width * 2, .4f).setEaseInOutCubic();
+            LeanTween.Framework.LeanTween.moveLocalX(mainMenuView, Screen.currentResolution.width, .4f).setEaseInOutCubic();
+            LeanTween.Framework.LeanTween.moveLocalX(optionsView, 0, .4f).setEaseInOutCubic();
+            LeanTween.Framework.LeanTween.moveLocalX(playView, Screen.currentResolution.width * 2, .4f).setEaseInOutCubic();
         }
 
         public void LoadPlayView()
         {
-            LeanTween.moveLocalX(mainMenuView, -Screen.currentResolution.width * 2, .4f).setEaseInOutCubic();
-            LeanTween.moveLocalX(optionsView, -Screen.currentResolution.width, .4f).setEaseInOutCubic();
-            LeanTween.moveLocalX(playView, 0, .4f).setEaseInOutCubic();
+            LeanTween.Framework.LeanTween.moveLocalX(mainMenuView, -Screen.currentResolution.width * 2, .4f).setEaseInOutCubic();
+            LeanTween.Framework.LeanTween.moveLocalX(optionsView, -Screen.currentResolution.width, .4f).setEaseInOutCubic();
+            LeanTween.Framework.LeanTween.moveLocalX(playView, 0, .4f).setEaseInOutCubic();
         }
 
         public void ShowQuitGamePrompt()

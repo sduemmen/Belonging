@@ -57,7 +57,7 @@ namespace Player.Input
         
         public static GameObject GetClickedGameObject()
         {
-            Ray ray = Camera.main.ScreenPointToRay(UnityEngine.Input.mousePosition);
+            Ray ray = Camera.main.GetComponent<Camera>().ViewportPointToRay(new Vector3(UnityEngine.Input.mousePosition.x / Screen.width, UnityEngine.Input.mousePosition.y / Screen.height, 0));
             Physics.Raycast(ray, out RaycastHit hit);
             return hit.transform.gameObject;
         }

@@ -1,6 +1,7 @@
-using System;
+using Cinemachine;
 using Flags;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static Flags.GameSettings.InputSettings;
 
 namespace Player.Input
@@ -9,24 +10,34 @@ namespace Player.Input
     {
         public CameraSettings cameraSettings;
         public InputManager inputManager;
-    
 
-        public Transform cameraTarget;
+        [SerializeField] private Transform _cameraTarget;
+        [SerializeField] private CinemachineVirtualCamera _camera;
+        [SerializeField] private Cinemachine3rdPersonFollow _cinemachineFramingTransposer;
         private Transform _transform;
         private Vector3 targetRotation;
+        [SerializeField] private float targetZoomLevel;
+        [SerializeField] private float currentZoomLevel;
 
         private void Awake()
         {
             _transform = GetComponent<Transform>();
+            currentZoomLevel = 1f;
+            targetZoomLevel = 1f;
+            CinemachineComponentBase componentBase = _camera.GetCinemachineComponent(CinemachineCore.Stage.Body);
+            if (componentBase is Cinemachine3rdPersonFollow cinemachineFramingTransposer) {
+                _cinemachineFramingTransposer = cinemachineFramingTransposer;
+                _cinemachineFramingTransposer.CameraDistance = cameraSettings.defaultCameraZoom;
+            }
         }
 
         private void Update()
         {
-            HandleCameraRotation();
+            HandleCameraRotationAndZoom();
             FollowCameraTarget();
         }
 
-        private void HandleCameraRotation()
+        private void HandleCameraRotationAndZoom()
         {
             if (UserInputFlags.SUPPRESS_CAMERA_ROTATION_KEY_PRESSED || GameFlags.INVENTORY_OPEN || GameFlags.SLOT_EQUIPPED) {
                 Cursor.visible = true;
@@ -39,21 +50,35 @@ namespace Player.Input
                 Cursor.lockState = CursorLockMode.Locked;
             }
         
-            Vector2 cameraRotationInput = inputManager.CameraRotationInput;
+            // rotation
+            Vector2 cameraRotationInput = Mouse.current.delta.ReadValue();
+
+            float currentZoomLevelModifier = Mathf.Sqrt(currentZoomLevel);
+            float rotationAroundX = cameraRotationInput.y * cameraSettings.Y_Sensitivity * cameraSettings.generalSensitivity;
+            float rotationAroundY = cameraRotationInput.x * cameraSettings.X_Sensitivity * cameraSettings.generalSensitivity;
             
-            float rotationAroundX = cameraRotationInput.y * cameraSettings.Y_Sensitivity * Time.deltaTime;
-            float rotationAroundY = cameraRotationInput.x * cameraSettings.X_Sensitivity * Time.deltaTime;
-            
-            targetRotation.x = Mathf.Clamp(targetRotation.x - rotationAroundX, 10, 60);
+            targetRotation.x = Mathf.Clamp(targetRotation.x - rotationAroundX, 5, 60);
             targetRotation.y += rotationAroundY;
             
             _transform.rotation = Quaternion.Euler(targetRotation);
             inputManager.SetCameraRotationInput(Vector2.zero);
+            
+            // zoom
+            float mouseScrollDelta = UnityEngine.Input.mouseScrollDelta.y;
+            
+            if (mouseScrollDelta != 0) {
+                float delta = mouseScrollDelta * cameraSettings.zoomSensitivity * currentZoomLevel;
+                targetZoomLevel = Mathf.Clamp(targetZoomLevel - delta, cameraSettings.minZoomLevel, cameraSettings.maxZoomLevel);
+            }
+
+            currentZoomLevel = Mathf.Lerp(currentZoomLevel, targetZoomLevel, cameraSettings.zoomDampen);
+            
+            _cinemachineFramingTransposer.CameraDistance = cameraSettings.defaultCameraZoom * currentZoomLevel;
         }
 
         private void FollowCameraTarget()
         {
-            _transform.position = cameraTarget.position;
+            _transform.position = _cameraTarget.position;
         }
     }
 }

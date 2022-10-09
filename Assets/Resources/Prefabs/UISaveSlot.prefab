@@ -335,8 +335,9 @@ MonoBehaviour:
     playerRotation: {x: 0, y: 0, z: 0, w: 1}
     cameraRotation: {x: 0.34202012, y: 0, z: 0, w: 0.9396926}
     seed: 48314472
-    treeQuantity: 0.8
-    stoneQuantity: 0.2
+    treeThreshold: 0.8
+    stoneThreshold: 0.2
+    worldAlterations: []
     persistentGameObjects: []
     persistentInventoryData: []
     name: New World
@@ -364,8 +365,8 @@ MonoBehaviour:
   unlocked: {fileID: 3326207417494974059}
   selectButton: {fileID: 4847795571607662592}
   background: {fileID: 4960480386240497761}
-  selectColor: {r: 0.251958, g: 0.26688927, b: 0.3584906, a: 1}
-  defaultColor: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 1}
+  selectColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultColor: {r: 0.85882354, g: 0.85882354, b: 0.85882354, a: 1}
 --- !u!222 &3326207416859960238
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -431,21 +432,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 1}
+  m_Color: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: a7ea7aacd6c427f41913f6820b9e04e1, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 1
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &3326207416907329228

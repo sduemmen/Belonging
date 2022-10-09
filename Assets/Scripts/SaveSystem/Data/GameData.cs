@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Flags;
 using UI.MainMenu;
 using UnityEngine;
-using WorldGeneration;
 using Random = System.Random;
 
 namespace SaveSystem.Data

@@ -2,7 +2,10 @@
 ///Sourced from - http://forum.unity3d.com/threads/color-picker.267043/
 
 
-namespace UnityEngine.UI.Extensions.ColorPicker
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace unity_ui_extensions.Scripts.Controls.ColorPicker
 {
 
     [RequireComponent(typeof(Text))]

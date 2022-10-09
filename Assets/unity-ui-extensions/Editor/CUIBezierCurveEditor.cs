@@ -1,6 +1,7 @@
 ﻿/// Credit Titinious (https://github.com/Titinious)
 /// Sourced from - https://github.com/Titinious/CurlyUI
 
+using unity_ui_extensions.Scripts.Effects.CurlyUI;
 using UnityEditor;
 
 namespace UnityEngine.UI.Extensions

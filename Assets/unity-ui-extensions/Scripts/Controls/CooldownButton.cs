@@ -1,10 +1,12 @@
 ﻿/// Credit SimonDarksideJ
 /// Sourced from my head
 
+using unity_ui_extensions.Scripts.Utilities;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace UnityEngine.UI.Extensions
+namespace unity_ui_extensions.Scripts.Controls
 {
     [AddComponentMenu("UI/Extensions/Cooldown Button")]
     public class CooldownButton : MonoBehaviour, IPointerDownHandler

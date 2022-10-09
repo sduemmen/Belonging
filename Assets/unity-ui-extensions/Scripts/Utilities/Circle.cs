@@ -3,7 +3,9 @@
 /// Updated and modified for UI Extensions to be more generic
 
 
-namespace UnityEngine.UI.Extensions
+using UnityEngine;
+
+namespace unity_ui_extensions.Scripts.Utilities
 {
     public class Circle
     {

@@ -19,7 +19,10 @@
 //IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
 //WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
-namespace UnityEngine.UI.Extensions
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace unity_ui_extensions.Scripts.ToolTips
 {
     [RequireComponent(typeof(RectTransform))]
     [AddComponentMenu("UI/Extensions/Tooltip")]

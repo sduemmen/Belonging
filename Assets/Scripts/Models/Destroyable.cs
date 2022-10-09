@@ -1,6 +1,6 @@
-﻿using Items;
+﻿using Environment;
+using Items;
 using UnityEngine;
-using WorldGeneration;
 
 namespace Models
 {

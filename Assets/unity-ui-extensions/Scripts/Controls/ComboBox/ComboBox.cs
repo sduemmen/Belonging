@@ -3,8 +3,10 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI.Extensions
+namespace unity_ui_extensions.Scripts.Controls.ComboBox
 {
     [RequireComponent(typeof(RectTransform))]
     [AddComponentMenu("UI/Extensions/ComboBox")]

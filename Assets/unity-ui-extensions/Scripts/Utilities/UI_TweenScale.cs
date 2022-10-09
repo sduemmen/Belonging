@@ -5,8 +5,9 @@
 
 
 using System.Collections;
+using UnityEngine;
 
-namespace UnityEngine.UI.Extensions
+namespace unity_ui_extensions.Scripts.Utilities
 {
     /// <summary>
     /// Dynamic scalling of text or image (including button) based on curves

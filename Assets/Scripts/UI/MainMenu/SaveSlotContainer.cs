@@ -27,6 +27,7 @@ namespace UI.MainMenu
                 if (entry.Value != null) {
                     GameObject saveSlotObject = Instantiate(saveSlotPrefab, Vector3.zero, Quaternion.Euler(Vector3.zero));
                     saveSlotObject.transform.SetParent(this.transform);
+                    saveSlotObject.gameObject.transform.localScale = Vector3.one;
                     
                     SaveSlot saveSlot = saveSlotObject.GetComponent<SaveSlot>();
                     saveSlot.gameData = entry.Value;

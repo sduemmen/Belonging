@@ -1,9 +1,11 @@
 ﻿/// Credit Vicente Russo  
 /// Sourced from - https://bitbucket.org/ddreaper/unity-ui-extensions/issues/23/returnkeytriggersbutton
 
+using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI.Extensions
+namespace unity_ui_extensions.Scripts.Utilities
 {
     /// <summary>
     /// Usage: Add this component to the input and add the function to execute to the EnterSubmit event of this script

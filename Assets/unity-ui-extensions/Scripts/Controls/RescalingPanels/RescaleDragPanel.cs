@@ -1,9 +1,10 @@
 ﻿/// Credit .entity
 /// Sourced from - http://forum.unity3d.com/threads/rescale-panel.309226/
 
+using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace UnityEngine.UI.Extensions
+namespace unity_ui_extensions.Scripts.Controls.RescalingPanels
 {
     [AddComponentMenu("UI/Extensions/RescalePanels/RescaleDragPanel")]
     public class RescaleDragPanel : MonoBehaviour, IPointerDownHandler, IDragHandler

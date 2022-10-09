@@ -1,6 +1,7 @@
 ﻿///Credit Jason Horsburgh
 ///Sourced from - https://bitbucket.org/UnityUIExtensions/unity-ui-extensions/issues/127/uilinerenderer-mesh-not-updating-in-editor
 
+using unity_ui_extensions.Scripts.Primitives;
 using UnityEditor;
 
 namespace UnityEngine.UI.Extensions

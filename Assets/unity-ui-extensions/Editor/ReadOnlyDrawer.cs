@@ -1,6 +1,8 @@
 ﻿/// Credit tanoshimi
 /// Sourced from - https://forum.unity3d.com/threads/read-only-fields.68976/
 /// 
+
+using unity_ui_extensions.Scripts.Utilities;
 using UnityEditor;
 
 namespace UnityEngine.UI.Extensions

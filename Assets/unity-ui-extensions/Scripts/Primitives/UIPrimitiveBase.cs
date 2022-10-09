@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using unity_ui_extensions.Scripts.Utilities;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace UnityEngine.UI.Extensions
+namespace unity_ui_extensions.Scripts.Primitives
 {
     public enum ResolutionMode
     {

@@ -1,8 +1,10 @@
 ﻿/// Credit Tomasz Schelenz 
 /// Sourced from - https://bitbucket.org/ddreaper/unity-ui-extensions/issues/46/feature-uiknob#comment-29243988
 
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 /// <summary>
 /// KNOB controller
@@ -21,7 +23,7 @@ using UnityEngine.EventSystems;
 /// - while dragging outside of control, the rotation will be cancelled
 /// </summary>
 /// 
-namespace UnityEngine.UI.Extensions
+namespace unity_ui_extensions.Scripts.Controls
 {
     [RequireComponent(typeof(Image))]
     [AddComponentMenu("UI/Extensions/UI_Knob")]

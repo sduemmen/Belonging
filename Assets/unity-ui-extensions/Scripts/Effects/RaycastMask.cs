@@ -26,7 +26,10 @@ THE SOFTWARE.
 \***************************************************************************/
 
 
-namespace UnityEngine.UI.Extensions
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace unity_ui_extensions.Scripts.Effects
 {
     [RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(Image))]

@@ -49,13 +49,13 @@ namespace UI.InventorySystem
 
         public void OnCloseInventory()
         {
-            if (!AssignedInventorySlot.IsEmpty()) {
+            if (!AssignedInventorySlot.IsEmpty() && !GameFlags.SLOT_EQUIPPED) {
                 for (int i = 0; i < AssignedInventorySlot.StackSize; i++) {
                     GameObject item = Instantiate(AssignedInventorySlot.Item.Prefab, playerPosition.position + Vector3.up, Quaternion.Euler(Vector3.zero));
                     Pickupable pickupable = item.GetComponent<Pickupable>();
                     pickupable.PickupDelay = 2;
                 }
-
+                
                 AssignedInventorySlot = null;
             }
         }

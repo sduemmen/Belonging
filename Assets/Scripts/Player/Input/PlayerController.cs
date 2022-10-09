@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utility;
 using static Flags.GameSettings.PlayerSettings;
 
 namespace Player.Input
@@ -31,7 +32,7 @@ namespace Player.Input
             Vector2 movementInput = inputManager.MovementInput;
             bool playerIsMoving = movementInput != Vector2.zero;
             float angle;
-        
+            
             if (playerIsMoving) {
                 movementInput = MathUtilities.RotateVector2Deg(new Vector2(-movementInput.x, movementInput.y), cameraController.eulerAngles.y);
                 angle = Mathf.Acos(Vector2.Dot(Vector2.up, movementInput));
@@ -40,7 +41,7 @@ namespace Player.Input
             } else {
                 angle = currentRotationAngle;
             }
-        
+            
             _transform.rotation = Quaternion.Lerp(_transform.rotation, Quaternion.Euler(0, angle * -Mathf.Rad2Deg, 0), movementSettings.rotationDamping);
         
             // update players position

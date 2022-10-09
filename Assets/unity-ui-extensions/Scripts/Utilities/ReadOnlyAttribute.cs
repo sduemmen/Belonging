@@ -1,7 +1,9 @@
 ﻿/// Credit tanoshimi
 /// Sourced from - https://forum.unity3d.com/threads/read-only-fields.68976/
 
-namespace UnityEngine.UI.Extensions
+using UnityEngine;
+
+namespace unity_ui_extensions.Scripts.Utilities
 {
     public class ReadOnlyAttribute : PropertyAttribute { }
 }

@@ -33,6 +33,11 @@ namespace Player.Input
         
         private void CheckSelectedSlotChanged()
         {
+            if (GameFlags.INVENTORY_OPEN) {
+                if (GameFlags.SLOT_EQUIPPED) ClearSelectedSlot();
+                return;
+            }
+            
             if (UserInputFlags.SELECT_SLOT1_KEY_WAS_PRESSED) {
                 if (!GameFlags.INVENTORY_SLOT1_EQUIPPED) {
                     SelectedSlotIndex = 0;
@@ -81,9 +86,10 @@ namespace Player.Input
         {
             if (GameFlags.SLOT_EQUIPPED && UserInputFlags.LEFT_MOUSE_BUTTON_WAS_PRESSED) {
                 GameObject hitResult = InputManager.GetClickedGameObject();
+                if (hitResult == null) return;
+                
                 Destroyable destroyable = hitResult.GetComponent<Destroyable>();
                 InventorySlot selectedSlot = toolbar.InventorySlots[SelectedSlotIndex];
-                
                 if (destroyable == null || selectedSlot.Item.Type != destroyable.requiredTool) return;
                 
                 destroyable.OnClick();

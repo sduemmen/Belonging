@@ -4,7 +4,10 @@
 /*USAGE:
 Simply place the script on A Text control in the scene to display the current PPI / DPI of the sceen*/
 
-namespace UnityEngine.UI.Extensions
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace unity_ui_extensions.Scripts.Utilities
 {
     [RequireComponent(typeof(Text))]
     [AddComponentMenu("UI/Extensions/PPIViewer")]

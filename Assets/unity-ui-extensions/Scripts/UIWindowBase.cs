@@ -6,9 +6,10 @@
 
 
 using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace UnityEngine.UI.Extensions
+namespace unity_ui_extensions.Scripts
 {
     /// <summary>
     /// Includes a few fixes of my own, mainly to tidy up duplicates, remove unneeded stuff and testing. (nothing major, all the crew above did the hard work!)
