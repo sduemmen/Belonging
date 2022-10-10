@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Flags;
 using SaveSystem;
 using SaveSystem.Data;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace UI.MainMenu
 {
@@ -12,11 +15,36 @@ namespace UI.MainMenu
         private List<SaveSlot> _saveSlots;
         [SerializeField] private GameObject saveSlotPrefab;
         [SerializeField] private TextMeshProUGUI noSaveSlotsHint;
-        public SaveSlot selectedSaveSlot;
+        private static SaveSlot selectedSaveSlot;
+
+        public static SaveSlot SelectedSaveSlot {
+            get => selectedSaveSlot;
+            set {
+                bool selectedSaveSlotIsNull = selectedSaveSlot == null;
+                bool newSaveSlotIsNull = value == null;
+                
+                if (newSaveSlotIsNull) {
+                    DataPersistenceManager.instance.profileID = "default";
+                    if (!selectedSaveSlotIsNull) selectedSaveSlot.uiSaveSlot.OnUnselect();
+                } else {
+                    DataPersistenceManager.instance.profileID = value.gameData.profileID;
+                    if (!selectedSaveSlotIsNull) selectedSaveSlot.uiSaveSlot.OnUnselect();
+                    value.uiSaveSlot.OnSelect();
+                }
+                selectedSaveSlot = value;
+            }
+        }
 
         private void Awake()
         {
             _saveSlots = new List<SaveSlot>();
+        }
+
+        private void Update()
+        {
+            if (selectedSaveSlot != null && UserInputFlags.LEFT_MOUSE_BUTTON_WAS_PRESSED) {
+                selectedSaveSlot.uiSaveSlot.OnUnselect();
+            }
         }
 
         public void LoadSaveSlots()
@@ -25,19 +53,23 @@ namespace UI.MainMenu
 
             foreach (KeyValuePair<string,GameData> entry in profileGameData.OrderByDescending(profile => profile.Value.lastPlayed)) {
                 if (entry.Value != null) {
-                    GameObject saveSlotObject = Instantiate(saveSlotPrefab, Vector3.zero, Quaternion.Euler(Vector3.zero));
+                    GameObject saveSlotObject = Instantiate(saveSlotPrefab, Vector3.zero, Quaternion.identity);
                     saveSlotObject.transform.SetParent(this.transform);
                     saveSlotObject.gameObject.transform.localScale = Vector3.one;
                     
                     SaveSlot saveSlot = saveSlotObject.GetComponent<SaveSlot>();
                     saveSlot.gameData = entry.Value;
                     saveSlot.uiSaveSlot.SetValues(entry.Value);
-                    saveSlot.uiSaveSlot.selectButton.onClick.AddListener(() => {
-                        if (selectedSaveSlot != null) selectedSaveSlot.uiSaveSlot.OnUnselect();
-                        selectedSaveSlot = saveSlot;
-                        selectedSaveSlot.uiSaveSlot.OnSelect();
-                        DataPersistenceManager.instance.profileID = entry.Value.profileID;
+                    
+                    EventTrigger onPointerDown = saveSlot.uiSaveSlot.gameObject.AddComponent<EventTrigger>();
+                    EventTrigger.Entry pointerDown = new EventTrigger.Entry {
+                        eventID = EventTriggerType.PointerClick
+                    };
+                    pointerDown.callback.AddListener((e) => {
+                        Debug.Log("trigger test");
+                        SelectedSaveSlot = saveSlot;
                     });
+                    onPointerDown.triggers.Add(pointerDown);
                     
                     _saveSlots.Add(saveSlot);
                 }
@@ -48,8 +80,7 @@ namespace UI.MainMenu
 
         public void UnloadSaveSlots()
         {
-            DataPersistenceManager.instance.profileID = "default";
-            selectedSaveSlot = null;
+            SelectedSaveSlot = null;
             
             if (_saveSlots == null) return;
             
@@ -62,20 +93,19 @@ namespace UI.MainMenu
 
         public void DeleteSelectedSaveSlot()
         {
-            if (selectedSaveSlot == null) return;
+            if (SelectedSaveSlot == null) return;
 
             SaveLoadIO saveLoadIO = new SaveLoadIO(Application.persistentDataPath);
             saveLoadIO.Delete(selectedSaveSlot.gameData.profileID);
             
-            DataPersistenceManager.instance.profileID = "default";
             _saveSlots.Remove(selectedSaveSlot);
             Destroy(selectedSaveSlot.uiSaveSlot.gameObject);
             
-            selectedSaveSlot = null;
+            SelectedSaveSlot = null;
             CheckSaveSlotCount();
         }
 
-        public void CheckSaveSlotCount()
+        private void CheckSaveSlotCount()
         {
             if (_saveSlots == null || _saveSlots.Count == 0) {
                 noSaveSlotsHint.text = "No saved games found";

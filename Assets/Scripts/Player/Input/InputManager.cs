@@ -54,12 +54,5 @@ namespace Player.Input
 
             return results.Where(result => result.gameObject.layer == LayerMask.NameToLayer("UI")).ToArray().Length > 0;
         }
-        
-        public static GameObject GetClickedGameObject()
-        {
-            Ray ray = Camera.main.GetComponent<Camera>().ViewportPointToRay(new Vector3(UnityEngine.Input.mousePosition.x / Screen.width, UnityEngine.Input.mousePosition.y / Screen.height, 0));
-            Physics.Raycast(ray, out RaycastHit hit);
-            return hit.transform.gameObject;
-        }
     }
 }

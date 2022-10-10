@@ -282,7 +282,6 @@ GameObject:
   - component: {fileID: 3326207416859960236}
   - component: {fileID: 3326207416859960237}
   - component: {fileID: 3326207416859960238}
-  - component: {fileID: 4847795571607662592}
   - component: {fileID: 4960480386240497761}
   m_Layer: 5
   m_Name: UISaveSlot
@@ -338,7 +337,8 @@ MonoBehaviour:
     treeThreshold: 0.8
     stoneThreshold: 0.2
     worldAlterations: []
-    persistentGameObjects: []
+    persistentItems: []
+    persistentDestroyables: []
     persistentInventoryData: []
     name: New World
     playtime: 0
@@ -363,7 +363,7 @@ MonoBehaviour:
   lastPlayedOn: {fileID: 7381587606520984146}
   score: {fileID: 3326207416228834083}
   unlocked: {fileID: 3326207417494974059}
-  selectButton: {fileID: 4847795571607662592}
+  selectButton: {fileID: 0}
   background: {fileID: 4960480386240497761}
   selectColor: {r: 1, g: 1, b: 1, a: 1}
   defaultColor: {r: 0.85882354, g: 0.85882354, b: 0.85882354, a: 1}
@@ -375,50 +375,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3326207416859960225}
   m_CullTransparentMesh: 1
---- !u!114 &4847795571607662592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3326207416859960225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 0
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 4960480386240497761}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &4960480386240497761
 MonoBehaviour:
   m_ObjectHideFlags: 0

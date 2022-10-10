@@ -61,7 +61,7 @@ namespace Items
         {
             Transform t = transform;
             PersistentItemData persistentData = new PersistentItemData(t.position, t.rotation, _item.Type);
-            data.persistentGameObjects.Add(persistentData);
+            data.persistentItems.Add(persistentData);
         }
     }
 }

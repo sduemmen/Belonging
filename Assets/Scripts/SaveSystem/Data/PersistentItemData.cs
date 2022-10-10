@@ -20,7 +20,7 @@ namespace SaveSystem.Data
 
         public static GameObject GetGameObjectFromType(ItemType type)
         {
-            return Resources.Load<GameObject>("Prefabs/" + type.ToString());
+            return Resources.Load<GameObject>("Prefabs/Models/Items/" + type.ToString());
         }
     }
 }

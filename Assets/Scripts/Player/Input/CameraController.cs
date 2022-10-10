@@ -33,11 +33,12 @@ namespace Player.Input
 
         private void Update()
         {
-            HandleCameraRotationAndZoom();
+            HandleCameraRotation();
+            HandleCameraZoom();
             FollowCameraTarget();
         }
 
-        private void HandleCameraRotationAndZoom()
+        private void HandleCameraRotation()
         {
             if (UserInputFlags.SUPPRESS_CAMERA_ROTATION_KEY_PRESSED || GameFlags.INVENTORY_OPEN || GameFlags.SLOT_EQUIPPED) {
                 Cursor.visible = true;
@@ -50,7 +51,6 @@ namespace Player.Input
                 Cursor.lockState = CursorLockMode.Locked;
             }
         
-            // rotation
             Vector2 cameraRotationInput = Mouse.current.delta.ReadValue();
 
             float currentZoomLevelModifier = Mathf.Sqrt(currentZoomLevel);
@@ -62,8 +62,12 @@ namespace Player.Input
             
             _transform.rotation = Quaternion.Euler(targetRotation);
             inputManager.SetCameraRotationInput(Vector2.zero);
+        }
+
+        private void HandleCameraZoom()
+        {
+            if (GameFlags.INVENTORY_OPEN || GameFlags.GAME_PAUSED) return;
             
-            // zoom
             float mouseScrollDelta = UnityEngine.Input.mouseScrollDelta.y;
             
             if (mouseScrollDelta != 0) {

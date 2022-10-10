@@ -20,13 +20,16 @@ namespace SaveSystem.Data
         public float treeThreshold;
         public float stoneThreshold;
         public List<string> worldAlterations;
-        public List<PersistentItemData> persistentGameObjects;
+        public List<PersistentItemData> persistentItems;
+        public List<PersistentDestroyableData> persistentDestroyables;
         public List<PersistentInventoryData> persistentInventoryData;
 
         public string name;
         public float playtime;
         public int score;
         public int unlocked;
+        
+        public bool achievementsEnabled;
 
         public GameData()
         {
@@ -34,7 +37,7 @@ namespace SaveSystem.Data
             lastPlayed = DateTime.Now.ToFileTime();
             
             playerPosition = Vector3.zero;
-            playerRotation = Quaternion.Euler(0, 0, 0);
+            playerRotation = Quaternion.identity;
             cameraRotation = Quaternion.Euler(40, 0, 0);
             
             Random random = new Random();
@@ -42,7 +45,8 @@ namespace SaveSystem.Data
             treeThreshold = 0.8f;
             stoneThreshold = 0.2f;
             worldAlterations = new List<string>();
-            persistentGameObjects = new List<PersistentItemData>(); // TODO - initialize with world gen
+            persistentItems = new List<PersistentItemData>();
+            persistentDestroyables = new List<PersistentDestroyableData>();
             persistentInventoryData = new List<PersistentInventoryData>();
 
             name = "New World";
@@ -52,22 +56,21 @@ namespace SaveSystem.Data
             achievementsEnabled = true;
         }
 
-        public bool achievementsEnabled;
-
         public GameData(NewGameData newGameData)
         {
             profileID = Guid.NewGuid().ToString();
             lastPlayed = DateTime.Now.ToFileTime();
             
             playerPosition = Vector3.zero;
-            playerRotation = Quaternion.Euler(0, 0, 0);
+            playerRotation = Quaternion.identity;
             cameraRotation = Quaternion.Euler(40, 0, 0);
             
             seed = newGameData.seed;
             treeThreshold = 1 - newGameData.treeThreshold;
             stoneThreshold = newGameData.stoneThreshold;
             worldAlterations = new List<string>();
-            persistentGameObjects = new List<PersistentItemData>(); // TODO - initialize with world gen
+            persistentItems = new List<PersistentItemData>();
+            persistentDestroyables = new List<PersistentDestroyableData>();
             persistentInventoryData = new List<PersistentInventoryData>();
 
             name = newGameData.gameName;

@@ -51,7 +51,7 @@ namespace Environment
             foreach (Vector2Int chunkPos in chunksToBeLoaded) {
                 if (!activeChunks.Exists(chunk => chunk.GetComponent<Chunk>().chunkPosition == chunkPos)) {
                     Vector3 chunkPositionInWorldSpace = new Vector3(chunkPos.x * chunkSize, 0, chunkPos.y * chunkSize);
-                    GameObject chunkObj = Instantiate(chunkPrefab, chunkPositionInWorldSpace, Quaternion.Euler(Vector3.zero));
+                    GameObject chunkObj = Instantiate(chunkPrefab, chunkPositionInWorldSpace, Quaternion.identity);
                     chunkObj.transform.SetParent(this.transform);
                     Chunk chunk = chunkObj.GetComponent<Chunk>();
                     chunk.world = this;
