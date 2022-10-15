@@ -87,13 +87,13 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "MouseLeftClick",
-                    "type": "Button",
-                    "id": "8fe31020-0d8b-4862-b769-fd37d1eff7fb",
-                    "expectedControlType": "Button",
+                    "name": "MouseScrollDelta",
+                    "type": "Value",
+                    "id": "607ba084-d62b-49f3-9e1b-5fc7dae2b395",
+                    "expectedControlType": "Delta",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -110,12 +110,12 @@
                 },
                 {
                     "name": "",
-                    "id": "b3232942-5da1-4ca3-914c-f0ac47ee1b3c",
-                    "path": "<Mouse>/leftButton",
+                    "id": "4d9b9d61-3691-4192-b09b-f848e409b3f6",
+                    "path": "<Mouse>/scroll",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MouseLeftClick",
+                    "action": "MouseScrollDelta",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

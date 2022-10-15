@@ -2,7 +2,6 @@
 using Environment;
 using Flags;
 using InventorySystem;
-using Models;
 using UI.InventorySystem;
 using UnityEngine;
 

@@ -1,6 +1,6 @@
+using Environment;
 using Flags;
 using InventorySystem;
-using Items;
 using Player.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;

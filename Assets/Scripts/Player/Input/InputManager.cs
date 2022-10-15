@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using GameEventSystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -8,11 +10,13 @@ namespace Player.Input
 {
     public class InputManager : MonoBehaviour
     {
-        private Vector2 _movementInput;
-        private Vector2 _cameraRotationInput;
-    
-        public Vector2 CameraRotationInput => _cameraRotationInput;
-        public Vector2 MovementInput => _movementInput;
+        [SerializeField] private GameEvent movementInputEvent;
+        [SerializeField] private GameEvent mouseMoveEvent;
+        [SerializeField] private GameEvent mouseScrollEvent;
+        
+        private static Vector2 _movementInput;
+            
+        public static Vector2 MovementInput => _movementInput;
     
         private PlayerControls _playerControls;
 
@@ -23,9 +27,13 @@ namespace Player.Input
             _playerControls = new PlayerControls();
             _playerControls.Character.Movement.performed += inputEvent => {
                 _movementInput = inputEvent.ReadValue<Vector2>();
+                movementInputEvent.Raise();
             };
             _playerControls.Camera.MouseDelta.performed += inputEvent => {
-                _cameraRotationInput = inputEvent.ReadValue<Vector2>();
+                mouseMoveEvent.Raise();
+            };
+            _playerControls.Camera.MouseScrollDelta.performed += inputEvent => {
+                mouseScrollEvent.Raise();
             };
         }
     
@@ -37,11 +45,6 @@ namespace Player.Input
         private void OnDisable()
         {
             _playerControls.Disable();
-        }
-
-        public void SetCameraRotationInput(Vector2 value)
-        {
-            _cameraRotationInput = value;
         }
 
         public static bool IsPointerOverUIObject()

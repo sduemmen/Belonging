@@ -1,5 +1,5 @@
 using System;
-using Items;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace InventorySystem

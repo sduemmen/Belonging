@@ -8,9 +8,8 @@ namespace Player.Input
     public class PlayerController : MonoBehaviour
     {
         public MovementSettings movementSettings;
-        public InputManager inputManager;
 
-        public Transform cameraController;
+        public Transform cameraTarget;
         private Transform _transform;
         private CharacterController _characterController;
         private float currentRotationAngle;
@@ -29,12 +28,12 @@ namespace Player.Input
         private void HandleMovement()
         {
             // align players rotation by taking into account current camera rotation and movement input
-            Vector2 movementInput = inputManager.MovementInput;
+            Vector2 movementInput = InputManager.MovementInput;
             bool playerIsMoving = movementInput != Vector2.zero;
             float angle;
             
             if (playerIsMoving) {
-                movementInput = MathUtilities.RotateVector2Deg(new Vector2(-movementInput.x, movementInput.y), cameraController.eulerAngles.y);
+                movementInput = MathUtilities.RotateVector2Deg(new Vector2(-movementInput.x, movementInput.y), cameraTarget.eulerAngles.y);
                 angle = Mathf.Acos(Vector2.Dot(Vector2.up, movementInput));
                 angle *= Mathf.Sign(movementInput.x);
                 currentRotationAngle = angle;
