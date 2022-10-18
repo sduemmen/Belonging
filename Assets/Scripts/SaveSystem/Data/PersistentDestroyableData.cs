@@ -1,5 +1,4 @@
 ﻿using System;
-using Environment;
 using UnityEngine;
 
 namespace SaveSystem.Data
@@ -9,18 +8,18 @@ namespace SaveSystem.Data
     {
         public Vector3 worldPosition;
         public Quaternion worldRotation;
-        public DestroyableType type;
+        public string prefabName;
 
-        public PersistentDestroyableData(Vector3 position, Quaternion rotation, DestroyableType type)
+        public PersistentDestroyableData(Vector3 position, Quaternion rotation, string prefabName)
         {
-            this.worldPosition = position;
-            this.worldRotation = rotation;
-            this.type = type;
+            worldPosition = position;
+            worldRotation = rotation;
+            this.prefabName = prefabName;
         }
 
-        public static GameObject GetGameObjectFromType(DestroyableType type)
+        public static GameObject GetGameObjectFromType(string prefabName)
         {
-            return Resources.Load<GameObject>("Prefabs/Models/World/" + type.ToString());
+            return Resources.Load<GameObject>($"Prefabs/Models/World/{prefabName}");
         }
     }
 }

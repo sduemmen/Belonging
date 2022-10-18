@@ -1,25 +1,17 @@
-﻿using SaveSystem;
+﻿using InventorySystem.Items;
+using SaveSystem;
 using SaveSystem.Data;
-using ScriptableObjects;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Environment
 {
-    public enum DestroyableType
-    {
-        TreeModel,
-        StoneModel,
-        FloorModel,
-        WallModel,
-        RoofModel,
-    }
-    
     public class Destroyable : MonoBehaviour, IDataPersistence
     {
-        public ItemType requiredTool;
-        public DestroyableType modeltype;
+        public ToolItemObject requiredTool;
+        public string prefabName;
         public bool wasBuiltByPlayer;
-        public Item dropItem;
+        public MaterialItemObject dropItem;
         public int dropQuantity;
         public int health;
         public World world;
@@ -31,6 +23,12 @@ namespace Environment
         {
             hitParticles = GetComponent<ParticleSystem>();
             hitParticles.Pause();
+        }
+
+        [Button("Set Prefab Name")]
+        private void SetPrefabName()
+        {
+            prefabName = this.gameObject.name;
         }
 
         public void OnClick(Transform player)
@@ -56,7 +54,7 @@ namespace Environment
             // p.AddComponent<DestroyAfterTime>();
             
             for (int i = 0; i < dropQuantity; i++) {
-                Instantiate(dropItem.Prefab, this.transform.position + new Vector3(Random.Range(-.2f, .2f), .2f, Random.Range(-.2f, .2f)), Quaternion.identity);
+                Instantiate(dropItem.prefab, this.transform.position + new Vector3(Random.Range(-.2f, .2f), .2f, Random.Range(-.2f, .2f)), Quaternion.identity);
             }
             if (!wasBuiltByPlayer) world.worldAlterations.AddAlteration(chunkPosition.x, chunkPosition.y, positionInChunk.x, positionInChunk.y);
             Destroy(this.gameObject);
@@ -71,7 +69,7 @@ namespace Environment
         {
             if (!wasBuiltByPlayer) return;
             Transform t = GetComponent<Transform>();
-            PersistentDestroyableData persistentData = new PersistentDestroyableData(t.position, t.rotation, modeltype);
+            PersistentDestroyableData persistentData = new PersistentDestroyableData(t.position, t.rotation, prefabName);
             data.persistentDestroyables.Add(persistentData);
         }
     }

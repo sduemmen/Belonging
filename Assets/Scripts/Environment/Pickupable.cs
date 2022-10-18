@@ -1,7 +1,7 @@
 using InventorySystem;
+using InventorySystem.Items;
 using SaveSystem;
 using SaveSystem.Data;
-using ScriptableObjects;
 using UnityEngine;
 
 namespace Environment
@@ -9,7 +9,7 @@ namespace Environment
     [RequireComponent(typeof(SphereCollider))]
     public class Pickupable : MonoBehaviour, IDataPersistence
     {
-        [SerializeField] private Item _item;
+        [SerializeField] private MaterialItemObject _item;
         [SerializeField] private float _pickUpRadius = 1f;
         [SerializeField] private float _pickUpDelay;
         [SerializeField] private SphereCollider _collider;
@@ -37,15 +37,11 @@ namespace Environment
         {
             if (!CanBePickedUp()) return;
             
-            InventoryHolders inventoryHolders = other.transform.GetComponent<InventoryHolders>();
-            if (!inventoryHolders) return;
-            
-            foreach (InventoryHolder inventoryHolder in inventoryHolders.GetHolders()) {
-                if (inventoryHolder.GetInventory().AddToInventory(_item, 1)) {
-                    Destroy(this.gameObject);
-                    return;
-                }
-            }
+            InventoryController inventoryController = other.transform.GetComponent<InventoryController>();
+            if (!inventoryController) return;
+
+            inventoryController.Inventory.AddToInventory(_item, 1); 
+            Destroy(this.gameObject);
         }
         
         private bool CanBePickedUp()
@@ -61,7 +57,7 @@ namespace Environment
         public void SaveData(ref GameData data)
         {
             Transform t = transform;
-            PersistentItemData persistentData = new PersistentItemData(t.position, t.rotation, _item.Type);
+            PersistentItemData persistentData = new PersistentItemData(t.position, t.rotation, _item.prefab.name);
             data.persistentItems.Add(persistentData);
         }
     }

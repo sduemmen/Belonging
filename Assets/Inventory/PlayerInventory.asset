@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfad16b210ef405cba67e1d7f4457e66, type: 3}
+  m_Name: PlayerInventory
+  m_EditorClassIdentifier: 
+  identifier: e46b3098-6766-4359-a0a8-dea0bfa134c2
+  _inventorySlots:
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 0
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 1
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 2
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 3
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 4
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 5
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 6
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 7
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 8
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 9
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 10
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 11
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 12
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 13
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 14
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 15
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 16
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 17
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 18
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 19
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 20
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 21
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 22
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 23
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 24
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 25
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 26

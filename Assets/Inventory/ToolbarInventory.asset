@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfad16b210ef405cba67e1d7f4457e66, type: 3}
+  m_Name: ToolbarInventory
+  m_EditorClassIdentifier: 
+  identifier: 44ff7a69-9e4b-43a5-8ffb-fb6a4244f3df
+  _inventorySlots:
+  - _item: {fileID: 11400000, guid: e7a26b620bfdb6e4bbf49560639a65f6, type: 2}
+    _stackSize: 1
+    _index: 0
+  - _item: {fileID: 11400000, guid: fb4697c83476b4b4c9aa9a7d2d7e5281, type: 2}
+    _stackSize: 1
+    _index: 1
+  - _item: {fileID: 0}
+    _stackSize: -1
+    _index: 2

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using InventorySystem;
 
 namespace SaveSystem.Data
@@ -7,18 +8,18 @@ namespace SaveSystem.Data
     public class PersistentInventoryData
     {
         public string identifier;
-        public Inventory inventory;
+        public List<InventorySlot> inventorySlots;
 
-        public PersistentInventoryData(string id, Inventory inventory)
+        public PersistentInventoryData(string id, List<InventorySlot> inventorySlots)
         {
             identifier = id;
-            this.inventory = inventory;
+            this.inventorySlots = inventorySlots;
         }
 
-        public PersistentInventoryData(InventoryHolder inventoryHolder)
+        public PersistentInventoryData(Inventory inventory)
         {
-            this.identifier = inventoryHolder.identifier.ToString();
-            this.inventory = inventoryHolder.GetInventory();
+            this.identifier = inventory.identifier;
+            this.inventorySlots = inventory.InventorySlots;
         }
     }
 }

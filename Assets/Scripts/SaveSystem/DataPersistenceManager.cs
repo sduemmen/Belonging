@@ -82,12 +82,12 @@ namespace SaveSystem
             }
             
             foreach (PersistentItemData persistentItemData in _gameData.persistentItems) {
-                GameObject gameObjectToInstantiate = PersistentItemData.GetGameObjectFromType(persistentItemData.type);
+                GameObject gameObjectToInstantiate = PersistentItemData.GetGameObjectFromType(persistentItemData.prefabName);
                 Instantiate(gameObjectToInstantiate, persistentItemData.worldPosition, persistentItemData.worldRotation);
             }
 
             foreach (PersistentDestroyableData persistentDestroyableData in _gameData.persistentDestroyables) {
-                GameObject gameObjectToInstantiate = PersistentDestroyableData.GetGameObjectFromType(persistentDestroyableData.type);
+                GameObject gameObjectToInstantiate = PersistentDestroyableData.GetGameObjectFromType(persistentDestroyableData.prefabName);
                 Instantiate(gameObjectToInstantiate, persistentDestroyableData.worldPosition, persistentDestroyableData.worldRotation);
             }
             

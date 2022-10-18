@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using GameEventSystem;
+using Events.Events;
+using Flags;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -10,9 +10,17 @@ namespace Player.Input
 {
     public class InputManager : MonoBehaviour
     {
-        [SerializeField] private GameEvent movementInputEvent;
-        [SerializeField] private GameEvent mouseMoveEvent;
-        [SerializeField] private GameEvent mouseScrollEvent;
+        [SerializeField] private SimpleEvent movementInputEvent;
+        [SerializeField] private SimpleEvent mouseMoveEvent;
+        [SerializeField] private SimpleEvent mouseScrollEvent;
+        
+        [SerializeField] private SimpleEvent openInventoryEvent;
+        [SerializeField] private SimpleEvent closeInventoryEvent;
+        
+        [SerializeField] private SimpleEvent equipSlot1Event;
+        [SerializeField] private SimpleEvent equipSlot2Event;
+        [SerializeField] private SimpleEvent equipSlot3Event;
+        [SerializeField] private SimpleEvent toolUsedEvent;
         
         private static Vector2 _movementInput;
             
@@ -22,8 +30,6 @@ namespace Player.Input
 
         private void Awake()
         {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
             _playerControls = new PlayerControls();
             _playerControls.Character.Movement.performed += inputEvent => {
                 _movementInput = inputEvent.ReadValue<Vector2>();
@@ -35,8 +41,42 @@ namespace Player.Input
             _playerControls.Camera.MouseScrollDelta.performed += inputEvent => {
                 mouseScrollEvent.Raise();
             };
+            _playerControls.Character.InventoryDisplayContext.performed += inputEvent => {
+                if (GameFlags.INVENTORY_CLOSED) {
+                    GameFlags.INVENTORY_OPEN = true;
+                    EnableCursor();
+                    openInventoryEvent.Raise();
+                }
+                else if (GameFlags.INVENTORY_OPEN) {
+                    GameFlags.INVENTORY_OPEN = false;
+                    DisableCursor();
+                    closeInventoryEvent.Raise();
+                }
+            };
+            _playerControls.Character.EquipSlot1.performed += inputEvent => {
+                if (GameFlags.INVENTORY_OPEN) return;
+                SetCursorState(false, CursorLockMode.None);
+                equipSlot1Event.Raise();
+            };
+            _playerControls.Character.EquipSlot2.performed += inputEvent => {
+                if (GameFlags.INVENTORY_OPEN) return;
+                SetCursorState(false, CursorLockMode.None);
+                equipSlot2Event.Raise();
+            };
+            _playerControls.Character.EquipSlot3.performed += inputEvent => {
+                if (GameFlags.INVENTORY_OPEN) return;
+                SetCursorState(true, CursorLockMode.None);
+                equipSlot3Event.Raise();
+            };
+            _playerControls.Character.UseTool.performed += inputEvent => {
+                if (GameFlags.INVENTORY_OPEN || !GameFlags.SLOT_EQUIPPED) return;
+                toolUsedEvent.Raise();
+            };
+            
+            DisableCursor();
+            closeInventoryEvent.Raise();
         }
-    
+
         private void OnEnable()
         {
             _playerControls.Enable();
@@ -56,6 +96,24 @@ namespace Player.Input
             EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
 
             return results.Where(result => result.gameObject.layer == LayerMask.NameToLayer("UI")).ToArray().Length > 0;
+        }
+
+        public static void SetCursorState(bool visible, CursorLockMode lockMode)
+        {
+            Cursor.visible = visible;
+            Cursor.lockState = lockMode;
+        }
+        
+        public static void EnableCursor()
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        
+        public static void DisableCursor()
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 }

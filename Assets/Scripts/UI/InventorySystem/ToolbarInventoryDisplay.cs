@@ -1,4 +1,5 @@
-﻿using UnityEngine.UI;
+﻿using InventorySystem.UI;
+using UnityEngine.UI;
 
 namespace UI.InventorySystem
 {
@@ -6,16 +7,24 @@ namespace UI.InventorySystem
     {
         public Image highlightImage;
         
-        protected override void Start()
+        private void Start()
         {
-            InitializeInventorySlots(_inventory);
             highlightImage.gameObject.SetActive(false);
+        }
+
+        public override UIInventorySlot AddSlot()
+        {
+            UIInventorySlot uiSlot = Instantiate(_uiSlotPrefab, transform);
+            uiSlot.Index = _inventorySlots.Count;
+            uiSlot.clickable = false;
+            _inventorySlots.Add(uiSlot);
+            return uiSlot;
         }
 
         public void EnableHighlightAtIndex(int index)
         {
             highlightImage.gameObject.SetActive(true);
-            highlightImage.transform.SetParent(_UIInventorySlots[index].transform, false);
+            highlightImage.transform.position = transform.GetChild(index).position;
         }
         
         public void DisableHighlight()

@@ -1,7 +1,8 @@
-﻿using System;
-using Environment;
+﻿using Environment;
 using Flags;
 using InventorySystem;
+using InventorySystem.Items;
+using InventorySystem.UI;
 using UI.InventorySystem;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace Player.Input
     {
         public Inventory toolbar;
         public ToolbarInventoryDisplay toolbarDisplay;
-        public MouseInventory mouseInventory;
+        public MouseUIInventorySlot mouseInventory;
         public Transform player;
         public World World;
         private PlayerWorldBuilding _playerWorldBuilding;
@@ -38,12 +39,6 @@ namespace Player.Input
             _playerWorldBuilding = GetComponent<PlayerWorldBuilding>();
             player = transform;
         }
-
-        private void Update()
-        {
-            CheckSelectedSlotChanged();
-            CheckToolUsed();
-        }
         
         private void CheckSelectedSlotChanged()
         {
@@ -51,48 +46,65 @@ namespace Player.Input
                 if (GameFlags.SLOT_EQUIPPED) ClearSelectedSlot();
                 return;
             }
+        }
+
+        public void OnSelectSlot1()
+        {
+            if (!GameFlags.AXE_EQUIPPED) {
+                SelectedSlotIndex = 0;
+                UpdateGameFlags(true, false, false);
+                ClearPreviewGameObject();
+            } else {
+                ClearSelectedSlot();
+            }
+        }
+        
+        public void OnSelectSlot2()
+        {
+            if (!GameFlags.PICKAXE_EQUIPPED) {
+                SelectedSlotIndex = 1;
+                UpdateGameFlags(false, true, false);
+                ClearPreviewGameObject();
+            } else {
+                ClearSelectedSlot();
+            }
+        }
+        
+        public void OnSelectSlot3()
+        {
+            if (!GameFlags.HAMMER_EQUIPPED) {
+                SelectedSlotIndex = 2;
+                UpdateGameFlags(false, false, true);
+                if (_playerWorldBuilding.previewGameObject == null) {
+                    _playerWorldBuilding.previewGameObject = Instantiate(_playerWorldBuilding.selectedSegment, Vector3.down, Quaternion.identity);
+                }
+            } else {
+                ClearSelectedSlot();
+            }
+        }
+
+        public void OnToolUsed()
+        {
+            if (GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) {
+                OnDestroyableClicked();
+            }
             
-            // replace with strategy pattern
-            if (UserInputFlags.SELECT_SLOT1_KEY_WAS_PRESSED) {
-                if (!GameFlags.AXE_EQUIPPED) {
-                    SelectedSlotIndex = 0;
-                    UpdateGameFlags(true, false, false);
-                    ClearPreviewGameObject();
-                } else {
-                    ClearSelectedSlot();
-                }
-            } else if (UserInputFlags.SELECT_SLOT2_KEY_WAS_PRESSED) {
-                if (!GameFlags.PICKAXE_EQUIPPED) {
-                    SelectedSlotIndex = 1;
-                    UpdateGameFlags(false, true, false);
-                    ClearPreviewGameObject();
-                } else {
-                    ClearSelectedSlot();
-                }
-            } else if (UserInputFlags.SELECT_SLOT3_KEY_WAS_PRESSED) {
-                if (!GameFlags.HAMMER_EQUIPPED) {
-                    SelectedSlotIndex = 2;
-                    UpdateGameFlags(false, false, true);
-                    if (_playerWorldBuilding.previewGameObject == null) {
-                        _playerWorldBuilding.previewGameObject = Instantiate(_playerWorldBuilding.testingObjectPrefab, Vector3.down, Quaternion.identity);
-                    }
-                } else {
-                    ClearSelectedSlot();
-                }
+            if (GameFlags.HAMMER_EQUIPPED && GetMouseRayHit(_playerWorldBuilding.BuildModeLayerMask, out RaycastHit raycastHit, _playerWorldBuilding.MaxInteractionDistance)) {
+                _playerWorldBuilding.TryPlaceSegment(new Vector3(raycastHit.point.x, 0, raycastHit.point.z));
             }
         }
 
         private void UpdateSelectedSlotHighlight()
         {
             toolbarDisplay.EnableHighlightAtIndex(SelectedSlotIndex);
-            mouseInventory.AssignedInventorySlot = toolbar.InventorySlots[SelectedSlotIndex];
+            mouseInventory.Initialize(toolbar.InventorySlots[SelectedSlotIndex]);
         }
 
-        private void ClearSelectedSlot()
+        public void ClearSelectedSlot()
         {
             UpdateGameFlags(false, false, false);
             toolbarDisplay.DisableHighlight();
-            mouseInventory.AssignedInventorySlot = null;
+            mouseInventory.Initialize(null);
             ClearPreviewGameObject();
         }
 
@@ -109,20 +121,6 @@ namespace Player.Input
             GameFlags.HAMMER_EQUIPPED = slot3;
         }
 
-        private void CheckToolUsed()
-        {
-            if ((GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) && UserInputFlags.LEFT_MOUSE_BUTTON_WAS_PRESSED) {
-                OnDestroyableClicked();
-            }
-
-            if (GameFlags.HAMMER_EQUIPPED && GetMouseRayHit(_playerWorldBuilding.BuildModeLayerMask, out RaycastHit raycastHit, _playerWorldBuilding.MaxInteractionDistance) && _playerWorldBuilding.previewGameObject != null) {
-                _playerWorldBuilding.previewGameObject.transform.position = raycastHit.point;
-                if (UserInputFlags.LEFT_MOUSE_BUTTON_WAS_PRESSED) {
-                    Instantiate(_playerWorldBuilding.testingObjectPrefab, new Vector3(raycastHit.point.x, 0, raycastHit.point.z), Quaternion.identity); 
-                }
-            }
-        }
-
         private void OnDestroyableClicked()
         {
             bool objectHit = GetMouseRayHit(destroyablesLayerMask, out RaycastHit hitResult, maxInteractionDistance);
@@ -132,9 +130,10 @@ namespace Player.Input
             if ((player.position - hitResult.point).magnitude > maxInteractionDistance) return;
             
             Destroyable destroyable = hitGameObject.GetComponent<Destroyable>();
-            InventorySlot selectedSlot = toolbar.InventorySlots[SelectedSlotIndex];
+            ToolItemObject selectedTool = (ToolItemObject)toolbar.InventorySlots[SelectedSlotIndex].Item;
+            if (selectedTool == null) return;
             
-            if (destroyable == null || selectedSlot.Item.Type != destroyable.requiredTool) return;
+            if (destroyable == null || selectedTool != destroyable.requiredTool) return;
             destroyable.OnClick(player);
         }
         

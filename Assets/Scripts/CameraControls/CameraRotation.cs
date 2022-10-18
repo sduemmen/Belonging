@@ -1,6 +1,5 @@
 ﻿using Cinemachine;
 using Flags;
-using Player.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Values.References;
@@ -22,11 +21,13 @@ namespace CameraControls
         
         public void HandleCameraRotation()
         {
-            if (UserInputFlags.SUPPRESS_CAMERA_ROTATION_KEY_PRESSED || GameFlags.INVENTORY_OPEN || GameFlags.SLOT_EQUIPPED) {
+            if (UserInputFlags.SUPPRESS_CAMERA_ROTATION_KEY_PRESSED) {
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 return;
             }
+            
+            if (GameFlags.INVENTORY_OPEN || GameFlags.SLOT_EQUIPPED) return;
         
             if (UserInputFlags.SUPPRESS_CAMERA_ROTATION_KEY_RELEASED || GameFlags.INVENTORY_CLOSED) {
                 Cursor.visible = false;

@@ -45,7 +45,7 @@ namespace Player.Input
         
             // update players position
             if (playerIsMoving) {
-                _characterController.Move(_transform.forward * (movementSettings.movementSpeed * Time.fixedDeltaTime));
+                _characterController.SimpleMove(_transform.forward * (movementSettings.movementSpeed * Time.fixedDeltaTime));
             }
         }
     }
