@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using InventorySystem;
+using UnityEngine;
 
 namespace SaveSystem.Data
 {
@@ -18,8 +19,8 @@ namespace SaveSystem.Data
 
         public PersistentInventoryData(Inventory inventory)
         {
-            this.identifier = inventory.identifier;
-            this.inventorySlots = inventory.InventorySlots;
+            identifier = inventory.identifier;
+            inventorySlots = inventory.InventorySlots;
         }
     }
 }

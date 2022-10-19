@@ -20,7 +20,7 @@ namespace Player.Input
             _characterController = GetComponent<CharacterController>();
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             HandleMovement();
         }
@@ -28,7 +28,7 @@ namespace Player.Input
         private void HandleMovement()
         {
             // align players rotation by taking into account current camera rotation and movement input
-            Vector2 movementInput = InputManager.MovementInput;
+            Vector2 movementInput = EventManager.MovementInput;
             bool playerIsMoving = movementInput != Vector2.zero;
             float angle;
             

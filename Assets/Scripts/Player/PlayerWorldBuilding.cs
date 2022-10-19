@@ -22,6 +22,7 @@ namespace Player
         private void Awake()
         {
             _camera = Camera.main;
+            selectedSegment = null;
         }
 
         private void Update()

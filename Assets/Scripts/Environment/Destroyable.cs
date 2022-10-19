@@ -3,6 +3,7 @@ using SaveSystem;
 using SaveSystem.Data;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Utility;
 
 namespace Environment
 {
@@ -31,16 +32,23 @@ namespace Environment
             prefabName = this.gameObject.name;
         }
 
-        public void OnClick(Transform player)
+        public void OnClick(Transform player, RaycastHit hitResult)
         {
             // adjust hitParticles to be ejected in the players general direction
-            Vector3 diff = (player.position - transform.position).normalized;
+            var position = transform.position;
+            Vector3 diff = (player.position - position).normalized;
             float randomOffset1 = Random.Range(1f, 2f);
             float randomOffset2 = Random.Range(1f, 2f);
             
             var hitParticlesVelocityOverLifetime = hitParticles.velocityOverLifetime;
             hitParticlesVelocityOverLifetime.x = new ParticleSystem.MinMaxCurve(diff.x - randomOffset1, diff.x + randomOffset2);
             hitParticlesVelocityOverLifetime.z = new ParticleSystem.MinMaxCurve(diff.z - randomOffset2, diff.z + randomOffset1);
+
+            if (this.wasBuiltByPlayer) {
+                Vector3 hitPosition = hitResult.point - position;
+                ParticleSystem.ShapeModule shape = hitParticles.shape;
+                shape.position = hitPosition;
+            }
             
             hitParticles.Emit(20);
             health--;
@@ -54,7 +62,7 @@ namespace Environment
             // p.AddComponent<DestroyAfterTime>();
             
             for (int i = 0; i < dropQuantity; i++) {
-                Instantiate(dropItem.prefab, this.transform.position + new Vector3(Random.Range(-.2f, .2f), .2f, Random.Range(-.2f, .2f)), Quaternion.identity);
+                Instantiate(dropItem.prefab, this.transform.position + new Vector3(Random.Range(-.5f, .5f), Random.Range(.2f, .5f), Random.Range(-.5f, .5f)), Quaternion.identity);
             }
             if (!wasBuiltByPlayer) world.worldAlterations.AddAlteration(chunkPosition.x, chunkPosition.y, positionInChunk.x, positionInChunk.y);
             Destroy(this.gameObject);

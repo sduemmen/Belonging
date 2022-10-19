@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c244e7d1063c4e9390f0d518c03d1e5a, type: 3}
-  m_Name: EquipSlot2Event
+  m_Name: OpenBuildMenuEvent
   m_EditorClassIdentifier: 
   _listeners: []
-  logging: 1
+  logging: 0

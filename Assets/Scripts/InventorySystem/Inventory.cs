@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Flags;
 using InventorySystem.Items;
-using SaveSystem;
-using SaveSystem.Data;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,9 +9,12 @@ using UnityEngine.Events;
 namespace InventorySystem
 {
     [CreateAssetMenu(menuName = "Inventory/Inventory"), Serializable]
-    public class Inventory : ScriptableObject, IDataPersistence
+    public class Inventory : ScriptableObject
     {
         [ReadOnly] public string identifier = Guid.NewGuid().ToString();
+        [SerializeField] private int _inventorySize;
+        [SerializeField] private bool _isStatic;
+        [SerializeField] private List<InventorySlot> _inventorySlots;
         public UnityAction<InventorySlot> OnSlotChanged;
         
         [Button("Clear Inventory")]
@@ -32,11 +32,26 @@ namespace InventorySystem
                 _inventorySlots[i].Index = i;
             }
         }
-        
-        [SerializeField] private List<InventorySlot> _inventorySlots;
 
-        public List<InventorySlot> InventorySlots => _inventorySlots;
-        public int Size => _inventorySlots.Count;
+        [Button("Initialize Slots")]
+        public void Awake()
+        {
+            if (_isStatic) return;
+            
+            _inventorySlots = new List<InventorySlot>();
+            for (int i = 0; i < _inventorySize; i++) {
+                _inventorySlots.Add(new InventorySlot());
+            }
+        }
+
+        public List<InventorySlot> InventorySlots {
+            get => _inventorySlots;
+            set => _inventorySlots = value;
+        }
+
+        public bool IsStatic => _isStatic;
+
+        public int Size => _inventorySize;
 
         public InventorySlot GetSlotAtIndex(int index)
         {
@@ -78,28 +93,6 @@ namespace InventorySystem
         {
             freeSlot = _inventorySlots.FirstOrDefault(inventorySlot => inventorySlot.Item == null);
             return freeSlot != null;
-        }
-        
-        public void LoadData(GameData data)
-        {
-            if (GameFlags.MAIN_MENU_ACTIVE) return;
-            PersistentInventoryData inventoryData = data.persistentInventoryData.Find(entry => entry.identifier == this.identifier);
-
-            if (inventoryData != null) {
-                _inventorySlots = inventoryData.inventorySlots;
-            } else {
-                _inventorySlots = new List<InventorySlot>();
-            }
-        }
-
-        public void SaveData(ref GameData data)
-        {
-            if (GameFlags.MAIN_MENU_ACTIVE) return;
-            PersistentInventoryData existingInventoryData = data.persistentInventoryData.Find(entry => entry.identifier == this.identifier);
-            if (existingInventoryData != null) {
-                data.persistentInventoryData.Remove(existingInventoryData);
-            }
-            data.persistentInventoryData.Add(new PersistentInventoryData(this));
         }
     }
 }

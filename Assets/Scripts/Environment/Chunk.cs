@@ -68,7 +68,7 @@ namespace Environment
                         
             GameObject obj = Instantiate(prefab, parentPos + localPosition + randomOffset, randomRotation);
             obj.transform.SetParent(this.transform);
-            Destroyable destroyable = obj.GetComponent<Destroyable>();
+            Destroyable destroyable = obj.GetComponentInChildren<Destroyable>();
             destroyable.world = this.world;
             destroyable.chunkPosition = this.chunkPosition;
             destroyable.positionInChunk = new Vector2Int((int)localPosition.x, (int)localPosition.z);

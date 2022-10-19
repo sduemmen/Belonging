@@ -73,9 +73,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""UseTool"",
+                    ""name"": ""Action"",
                     ""type"": ""Button"",
                     ""id"": ""efc313ed-af05-4ecc-8800-f1a12dfcccef"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CancelAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""994812ce-b516-441d-b3a3-10f84bbb6c07"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -189,7 +198,18 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""UseTool"",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cb8d717d-3929-4626-b283-6843a2ed36d2"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CancelAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -253,7 +273,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Character_EquipSlot1 = m_Character.FindAction("EquipSlot1", throwIfNotFound: true);
         m_Character_EquipSlot2 = m_Character.FindAction("EquipSlot2", throwIfNotFound: true);
         m_Character_EquipSlot3 = m_Character.FindAction("EquipSlot3", throwIfNotFound: true);
-        m_Character_UseTool = m_Character.FindAction("UseTool", throwIfNotFound: true);
+        m_Character_Action = m_Character.FindAction("Action", throwIfNotFound: true);
+        m_Character_CancelAction = m_Character.FindAction("CancelAction", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_MouseDelta = m_Camera.FindAction("MouseDelta", throwIfNotFound: true);
@@ -322,7 +343,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Character_EquipSlot1;
     private readonly InputAction m_Character_EquipSlot2;
     private readonly InputAction m_Character_EquipSlot3;
-    private readonly InputAction m_Character_UseTool;
+    private readonly InputAction m_Character_Action;
+    private readonly InputAction m_Character_CancelAction;
     public struct CharacterActions
     {
         private @PlayerControls m_Wrapper;
@@ -332,7 +354,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @EquipSlot1 => m_Wrapper.m_Character_EquipSlot1;
         public InputAction @EquipSlot2 => m_Wrapper.m_Character_EquipSlot2;
         public InputAction @EquipSlot3 => m_Wrapper.m_Character_EquipSlot3;
-        public InputAction @UseTool => m_Wrapper.m_Character_UseTool;
+        public InputAction @Action => m_Wrapper.m_Character_Action;
+        public InputAction @CancelAction => m_Wrapper.m_Character_CancelAction;
         public InputActionMap Get() { return m_Wrapper.m_Character; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -357,9 +380,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @EquipSlot3.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnEquipSlot3;
                 @EquipSlot3.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnEquipSlot3;
                 @EquipSlot3.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnEquipSlot3;
-                @UseTool.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnUseTool;
-                @UseTool.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnUseTool;
-                @UseTool.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnUseTool;
+                @Action.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnAction;
+                @Action.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnAction;
+                @Action.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnAction;
+                @CancelAction.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnCancelAction;
+                @CancelAction.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnCancelAction;
+                @CancelAction.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnCancelAction;
             }
             m_Wrapper.m_CharacterActionsCallbackInterface = instance;
             if (instance != null)
@@ -379,9 +405,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @EquipSlot3.started += instance.OnEquipSlot3;
                 @EquipSlot3.performed += instance.OnEquipSlot3;
                 @EquipSlot3.canceled += instance.OnEquipSlot3;
-                @UseTool.started += instance.OnUseTool;
-                @UseTool.performed += instance.OnUseTool;
-                @UseTool.canceled += instance.OnUseTool;
+                @Action.started += instance.OnAction;
+                @Action.performed += instance.OnAction;
+                @Action.canceled += instance.OnAction;
+                @CancelAction.started += instance.OnCancelAction;
+                @CancelAction.performed += instance.OnCancelAction;
+                @CancelAction.canceled += instance.OnCancelAction;
             }
         }
     }
@@ -434,7 +463,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnEquipSlot1(InputAction.CallbackContext context);
         void OnEquipSlot2(InputAction.CallbackContext context);
         void OnEquipSlot3(InputAction.CallbackContext context);
-        void OnUseTool(InputAction.CallbackContext context);
+        void OnAction(InputAction.CallbackContext context);
+        void OnCancelAction(InputAction.CallbackContext context);
     }
     public interface ICameraActions
     {

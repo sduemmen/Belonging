@@ -12,7 +12,7 @@ namespace Events
         [Button("Raise Event")]
         public void Raise(T t)
         {
-            if (logging) Debug.Log("Event raised on " + this.name);
+            if (logging) Debug.Log($"Event raised on {this.name} with parameter {t}");
             for (int i = _listeners.Count - 1; i >= 0; i--) {
                 _listeners[i].OnNotify(t);
             }

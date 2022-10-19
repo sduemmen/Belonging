@@ -21,19 +21,6 @@ namespace CameraControls
         
         public void HandleCameraRotation()
         {
-            if (UserInputFlags.SUPPRESS_CAMERA_ROTATION_KEY_PRESSED) {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-                return;
-            }
-            
-            if (GameFlags.INVENTORY_OPEN || GameFlags.SLOT_EQUIPPED) return;
-        
-            if (UserInputFlags.SUPPRESS_CAMERA_ROTATION_KEY_RELEASED || GameFlags.INVENTORY_CLOSED) {
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-        
             Vector2 cameraRotationInput = Mouse.current.delta.ReadValue();
             
             float rotationAroundX = cameraRotationInput.y * ySensitivity.value * generalSensitivity.value;

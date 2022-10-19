@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: ToolbarInventory
   m_EditorClassIdentifier: 
   identifier: 44ff7a69-9e4b-43a5-8ffb-fb6a4244f3df
+  _inventorySize: 3
+  _isStatic: 1
   _inventorySlots:
   - _item: {fileID: 11400000, guid: e7a26b620bfdb6e4bbf49560639a65f6, type: 2}
     _stackSize: 1

@@ -1,19 +1,29 @@
-﻿using InventorySystem.Items;
+﻿using System;
+using System.Collections.Generic;
+using Flags;
+using InventorySystem.Items;
 using InventorySystem.UI;
+using SaveSystem;
+using SaveSystem.Data;
 using UnityEngine;
 
 namespace InventorySystem
 {
-    public class InventoryController : MonoBehaviour
+    public class InventoryController : MonoBehaviour, IDataPersistence
     {
         [SerializeField] private Inventory _inventory;
-        [SerializeField] private InventoryDisplay _inventoryDisplay;
+        [SerializeField] protected InventoryDisplay _inventoryDisplay;
         [SerializeField] private MouseUIInventorySlot _mouseUISlot;
 
         public Inventory Inventory => _inventory;
         public InventoryDisplay InventoryDisplay => _inventoryDisplay;
 
         private void Awake()
+        {
+            if (_inventory != null) _inventory.Awake();
+        }
+
+        protected virtual void Start()
         {
             if (_inventory == null) Debug.LogError("No inventory set in InventoryController");
             if (_inventoryDisplay == null) Debug.LogError("No inventoryDisplay set in InventoryController");
@@ -27,7 +37,7 @@ namespace InventorySystem
             _inventoryDisplay.OnSlotClicked += InteractWithSlot;
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             _inventory.OnSlotChanged -= UpdateUISlot;
             _inventoryDisplay.OnSlotClicked -= InteractWithSlot;
@@ -46,7 +56,7 @@ namespace InventorySystem
             uiSlot.Initialize(newSlot);
         }
 
-        private void InteractWithSlot(UIInventorySlot clickedUISlot)
+        protected virtual void InteractWithSlot(UIInventorySlot clickedUISlot)
         {
             // get clicked slot index and corresponding inventory slot
             int clickedSlotIndex = clickedUISlot.Index;
@@ -103,6 +113,33 @@ namespace InventorySystem
                     _mouseUISlot.Initialize(_mouseUISlot.assignedInventorySlot);
                 }
             }
+        }
+
+        public void LoadData(GameData data)
+        {
+            if (GameFlags.MAIN_MENU_ACTIVE) return;
+            if (_inventory == null || _inventory.IsStatic) return;
+            
+            PersistentInventoryData inventoryData = data.persistentInventoryData.Find(entry => entry.identifier == this._inventory.identifier);
+            
+            if (inventoryData != null && inventoryData.inventorySlots.Count == _inventory.Size) {
+                _inventory.InventorySlots = inventoryData.inventorySlots;
+            } else {
+                _inventory.Awake();
+                _inventory.SetupSlotIndices();
+            }
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            if (GameFlags.MAIN_MENU_ACTIVE) return;
+            if (_inventory == null || _inventory.IsStatic) return;
+            
+            PersistentInventoryData existingInventoryData = data.persistentInventoryData.Find(entry => entry.identifier == this._inventory.identifier);
+            if (existingInventoryData != null) {
+                data.persistentInventoryData.Remove(existingInventoryData);
+            }
+            data.persistentInventoryData.Add(new PersistentInventoryData(_inventory));
         }
     }
 }

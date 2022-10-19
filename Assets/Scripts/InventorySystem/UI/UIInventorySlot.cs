@@ -17,9 +17,9 @@ namespace InventorySystem.UI
             set => _index = value;
         }
 
-        public void OnInventorySlotClicked()
+        public virtual void OnInventorySlotClicked()
         {
-            parentDisplay.OnSlotClicked?.Invoke(this);
+            if (clickable) parentDisplay.OnSlotClicked?.Invoke(this);
             Debug.Log("slot clicked");
         }
         
@@ -27,13 +27,13 @@ namespace InventorySystem.UI
         {
             if (inventorySlot == null) {
                 ClearSlot();
-                Debug.LogWarning($"initialized UI slot with null on {this.gameObject.name}");
+                // Debug.LogWarning($"initialized UI slot with null on {this.gameObject.name}");
                 return;
             }
             
             if (inventorySlot.IsEmpty()) {
                 ClearSlot();
-                Debug.LogWarning($"inventory slot is empty on {this.gameObject.name}");
+                // Debug.LogWarning($"inventory slot is empty on {this.gameObject.name}");
                 return;
             }
             

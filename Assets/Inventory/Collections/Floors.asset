@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3814d8db464d49a1b9f52cc86b32f1a9, type: 3}
+  m_Name: Floors
+  m_EditorClassIdentifier: 
+  collectionTitle: Floors
+  entries:
+  - prefabName: Floor_Stone_01
+    prefab: {fileID: 4802461045082670542, guid: 011e477d310d59f41af06491b486d74b, type: 3}
+    previewImage: {fileID: 21300000, guid: 6b39e2bd8b6ac1043a91169a398b45f7, type: 3}
+  - prefabName: Floor_Wood_01
+    prefab: {fileID: 4583083937241896800, guid: 2bba2b9a02896c845b96da470ac34994, type: 3}
+    previewImage: {fileID: 21300000, guid: 59676eaf2c8dc384580dd8199cc03f88, type: 3}
+  - prefabName: Floor_Wood_02
+    prefab: {fileID: 1456276382569540848, guid: 3e5dc8f386f2a194192319e958c2fa3d, type: 3}
+    previewImage: {fileID: 21300000, guid: 069d725114fae8a4f84aef94c1d53c29, type: 3}

@@ -127,8 +127,8 @@ namespace SaveSystem
 
         private List<IDataPersistence> FindAllDataPersistenceObjects()
         {
-            IEnumerable<IDataPersistence> queryResult = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
-            return new List<IDataPersistence>(queryResult);
+            IEnumerable<IDataPersistence> behaviours = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
+            return new List<IDataPersistence>(behaviours);
         }
 
         public Dictionary<string, GameData> GetAllProfiles()

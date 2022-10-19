@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Environment;
 using Flags;
 using InventorySystem.Items;
 using Player.Input;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace InventorySystem.UI
@@ -25,7 +28,7 @@ namespace InventorySystem.UI
             if (assignedInventorySlot != null && !assignedInventorySlot.IsEmpty() && !GameFlags.SLOT_EQUIPPED) { 
                 FollowCursor();
 
-                if (UserInputFlags.LEFT_MOUSE_BUTTON_WAS_PRESSED && !InputManager.IsPointerOverUIObject()) {
+                if (UserInputFlags.LEFT_MOUSE_BUTTON_WAS_PRESSED && !IsPointerOverUIObject()) {
                     for (int i = 0; i < assignedInventorySlot.StackSize; i++) {
                         MaterialItemObject materialItem = (MaterialItemObject)assignedInventorySlot.Item;
                         GameObject item = Instantiate(materialItem.prefab, playerPosition.position + Vector3.up, Quaternion.identity);
@@ -64,6 +67,17 @@ namespace InventorySystem.UI
                 
                 ClearSlot();
             }
+        }
+        
+        public static bool IsPointerOverUIObject()
+        {
+            PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current) {
+                position = Mouse.current.position.ReadValue()
+            };
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+            return results.Where(result => result.gameObject.layer == LayerMask.NameToLayer("UI")).ToArray().Length > 0;
         }
     }
 }

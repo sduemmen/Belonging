@@ -43,8 +43,6 @@ namespace CameraControls
 
         public void HandleCameraZoom()
         {
-            if (GameFlags.INVENTORY_OPEN || GameFlags.GAME_PAUSED) return;
-
             float mouseScrollDelta = Mouse.current.scroll.ReadValue().y;
             
             if (mouseScrollDelta != 0) {

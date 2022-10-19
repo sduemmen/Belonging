@@ -1,7 +1,6 @@
-﻿using InventorySystem.UI;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
-namespace UI.InventorySystem
+namespace InventorySystem.UI
 {
     public class ToolbarInventoryDisplay : InventoryDisplay
     {

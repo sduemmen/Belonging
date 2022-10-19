@@ -66,7 +66,6 @@ namespace UI.MainMenu
                         eventID = EventTriggerType.PointerClick
                     };
                     pointerDown.callback.AddListener((e) => {
-                        Debug.Log("trigger test");
                         SelectedSaveSlot = saveSlot;
                     });
                     onPointerDown.triggers.Add(pointerDown);
