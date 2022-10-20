@@ -37,7 +37,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _MaxTessDistance: 20
+    - _MaxTessDistance: 50
     - _NoiseScale: 0.025
     - _NoiseWeight: 2.55
     - _PathBlending: 0

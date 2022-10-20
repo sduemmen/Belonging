@@ -501,10 +501,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 30
   field of view: 60
   orthographic: 1
-  orthographic size: 20
+  orthographic size: 60
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -5833,6 +5833,7 @@ RectTransform:
   - {fileID: 2026025238}
   - {fileID: 1047416653}
   - {fileID: 185911509375639811}
+  - {fileID: 1174581236}
   - {fileID: 1686154593}
   m_Father: {fileID: 0}
   m_RootOrder: 11
@@ -11444,7 +11445,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playtime: 0
-  score: 0
   unlocked: 0
 --- !u!4 &1023885463
 Transform:
@@ -11807,6 +11807,113 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1174581235
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1174581236}
+  - component: {fileID: 1174581237}
+  - component: {fileID: 1174581238}
+  - component: {fileID: 1174581239}
+  m_Layer: 5
+  m_Name: MouseTooltip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1174581236
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174581235}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 523047982}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1174581237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174581235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05cd8beb761d456a904d710d537396af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _event: {fileID: 11400000, guid: fe68413e251db2e4bbb3d773ea0fd172, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1174581239}
+        m_TargetAssemblyTypeName: UI.MouseTooltip, Assembly-CSharp
+        m_MethodName: Show
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1174581238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174581235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5943a77c80f488ca0fa35f595a2c5d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _event: {fileID: 11400000, guid: b99b146a560d3fc4b9a19735a8225867, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1174581239}
+        m_TargetAssemblyTypeName: UI.MouseTooltip, Assembly-CSharp
+        m_MethodName: Hide
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1174581239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174581235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21abe7beeebf49028e90657fea86ce96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1376653187
 GameObject:
   m_ObjectHideFlags: 0
@@ -11861,6 +11968,8 @@ MonoBehaviour:
   closeBuildMenuEvent: {fileID: 11400000, guid: 91bf340d56203834b9c34889f79f8133, type: 2}
   equipSlotEvent: {fileID: 11400000, guid: 320dd4b7dc2a5704ab89a6ed6d062325, type: 2}
   toolUsedEvent: {fileID: 11400000, guid: fd1bb06b03b21894f989f2208905aae9, type: 2}
+  rotateSegmentEvent: {fileID: 11400000, guid: 2f9234b6edbc64e43bd25f1f189cce0a, type: 2}
+  tooltipHideEvent: {fileID: 11400000, guid: b99b146a560d3fc4b9a19735a8225867, type: 2}
 --- !u!1 &1382468567
 GameObject:
   m_ObjectHideFlags: 0
@@ -12015,6 +12124,7 @@ MonoBehaviour:
   objectDistance: 90
   worldAlterations:
     alterations: []
+  placedSegments: 0
 --- !u!1 &1686154592
 GameObject:
   m_ObjectHideFlags: 0
@@ -12556,8 +12666,8 @@ MonoBehaviour:
   toolbarDisplay: {fileID: 2026025243}
   mouseInventory: {fileID: 6147019574053797296}
   player: {fileID: 0}
-  World: {fileID: 0}
-  maxInteractionDistance: 12
+  _world: {fileID: 1668396391}
+  maxInteractionDistance: 5
   destroyablesLayerMask:
     serializedVersion: 2
     m_Bits: 512
@@ -12573,13 +12683,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21a64533e84444aaad9efa7d64ce6879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxInteractionDistance: 12
+  _maxBuildingDistance: 15
+  _cancelSnappingDistance: 1.5
   _buildModeLayerMask:
     serializedVersion: 2
     m_Bits: 8
   _deleteModeLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  _world: {fileID: 1668396391}
   _defaultLayerInt: 0
   selectedSegment: {fileID: 4583083937241896800, guid: 2bba2b9a02896c845b96da470ac34994, type: 3}
   previewGameObject: {fileID: 0}

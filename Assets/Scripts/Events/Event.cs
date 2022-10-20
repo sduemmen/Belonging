@@ -22,4 +22,23 @@ namespace Events
         
         public void UnregisterListener(EventListener<T> listener) { if (_listeners.Contains(listener)) _listeners.Remove(listener); }
     }
+    
+    public abstract class AdvancedEvent<S, T> : ScriptableObject
+    {
+        [SerializeField] private List<AdvancedEventListener<S, T>> _listeners = new List<AdvancedEventListener<S, T>>();
+        [SerializeField] private bool logging;
+
+        [Button("Raise Event")]
+        public void Raise(S s, T t)
+        {
+            if (logging) Debug.Log($"Event raised on {this.name} with parameter {t}");
+            for (int i = _listeners.Count - 1; i >= 0; i--) {
+                _listeners[i].OnNotify(s, t);
+            }
+        }
+        
+        public void RegisterListener(AdvancedEventListener<S, T> listener) { if (!_listeners.Contains(listener)) _listeners.Add(listener); }
+        
+        public void UnregisterListener(AdvancedEventListener<S, T> listener) { if (_listeners.Contains(listener)) _listeners.Remove(listener); }
+    }
 }

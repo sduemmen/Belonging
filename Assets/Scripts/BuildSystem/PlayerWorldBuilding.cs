@@ -1,16 +1,19 @@
-﻿using Flags;
+﻿using Environment;
+using Flags;
 using UnityEngine;
 
-namespace Player
+namespace BuildSystem
 {
     public class PlayerWorldBuilding : MonoBehaviour
     {
-        [SerializeField] private float _maxInteractionDistance;
+        [SerializeField] private float _maxBuildingDistance;
+        [SerializeField] private float _cancelSnappingDistance;
         [SerializeField] private LayerMask _buildModeLayerMask;
         [SerializeField] private LayerMask _deleteModeLayerMask;
+        [SerializeField] private World _world;
         [SerializeField] private int _defaultLayerInt;
         
-        public float MaxInteractionDistance => _maxInteractionDistance;
+        public float MaxBuildingDistance => _maxBuildingDistance;
         public LayerMask BuildModeLayerMask => _buildModeLayerMask;
         public LayerMask DeleteModeLayerMask => _deleteModeLayerMask;
 
@@ -27,8 +30,17 @@ namespace Player
 
         private void Update()
         {
-            if (GameFlags.HAMMER_EQUIPPED && GetMouseRayHit(_buildModeLayerMask, out RaycastHit raycastHit, _maxInteractionDistance) && previewGameObject != null) {
-                previewGameObject.transform.position = raycastHit.point;
+            if (GameFlags.HAMMER_EQUIPPED && GetMouseRayHit(_buildModeLayerMask, out RaycastHit raycastHit, 40) && previewGameObject != null) {
+                if ((transform.position - raycastHit.point).magnitude > _maxBuildingDistance) return;
+                
+                if (!previewGameObject.GetComponent<Destroyable>().isSnapped) {
+                    previewGameObject.transform.position = raycastHit.point;
+                } else {
+                    if ((previewGameObject.transform.position - raycastHit.point).magnitude > _cancelSnappingDistance) {
+                        previewGameObject.GetComponent<Destroyable>().isSnapped = false;
+                        previewGameObject.transform.position = raycastHit.point;
+                    }
+                }
             }
         }
 
@@ -36,9 +48,12 @@ namespace Player
         {
             SegmentPreview previewSegment = previewGameObject.GetComponent<SegmentPreview>();
             if (previewSegment.canBePlaced) {
-                GameObject segmentObj = Instantiate(selectedSegment, position, Quaternion.identity);
+                Vector3 actualPosition = previewGameObject.GetComponent<Destroyable>().isSnapped ? previewGameObject.transform.position : position;
+                GameObject segmentObj = Instantiate(selectedSegment, actualPosition, Quaternion.identity);
                 segmentObj.GetComponent<SegmentPreview>().ResetMaterial();
                 Destroy(segmentObj.GetComponent<SegmentPreview>());
+                _world.placedSegments += 1;
+                segmentObj.GetComponent<Destroyable>().world = _world;
             }
         }
         

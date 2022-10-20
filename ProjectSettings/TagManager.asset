@@ -3,7 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - EastCollider
+  - WestCollider
+  - NorthCollider
+  - SouthCollider
+  - UpCollider
+  - DownCollider
+  - Floor
+  - Ground
+  - Environment
+  - Wall
+  - Roof
   layers:
   - Default
   - TransparentFX

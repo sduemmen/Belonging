@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using BuildSystem.UI;
+using InventorySystem.UI;
+using UnityEngine;
 
-namespace InventorySystem.UI
+namespace BuildSystem
 {
     public class BuildMenuDisplay : InventoryDisplay
     {

@@ -342,7 +342,7 @@ MonoBehaviour:
     persistentInventoryData: []
     name: New World
     playtime: 0
-    score: 0
+    placedSegments: 0
     unlocked: 0
     achievementsEnabled: 1
   uiSaveSlot: {fileID: 3326207416859960237}
@@ -365,8 +365,8 @@ MonoBehaviour:
   unlocked: {fileID: 3326207417494974059}
   selectButton: {fileID: 0}
   background: {fileID: 4960480386240497761}
-  selectColor: {r: 1, g: 1, b: 1, a: 1}
-  defaultColor: {r: 0.85882354, g: 0.85882354, b: 0.85882354, a: 1}
+  selectColor: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!222 &3326207416859960238
 CanvasRenderer:
   m_ObjectHideFlags: 0

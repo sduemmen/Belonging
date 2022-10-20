@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace InventorySystem.Collections
+namespace Collections
 {
     public class UICollectionRow : MonoBehaviour
     {

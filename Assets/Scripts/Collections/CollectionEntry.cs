@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace InventorySystem.Collections
+namespace Collections
 {
     [Serializable]
     public abstract class CollectionEntry

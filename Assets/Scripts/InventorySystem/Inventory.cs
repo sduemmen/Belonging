@@ -59,7 +59,7 @@ namespace InventorySystem
             return _inventorySlots[index];
         }
 
-        public bool AddToInventory(ItemObject itemToAdd, int amountToAdd)
+        public bool AddItem(ItemObject itemToAdd, int amountToAdd)
         {
             if (this.Contains(itemToAdd, out List<InventorySlot> slots)) {
                 foreach (InventorySlot slot in slots) {
@@ -83,10 +83,37 @@ namespace InventorySystem
             return false;
         }
 
+        public void RemoveItem(ItemObject item, int amount)
+        {
+            for (int i = _inventorySize - 1; i > 0; i--) {
+                if (_inventorySlots[i].Item == item) {
+                    if (_inventorySlots[i].StackSize <= amount) {
+                        amount -= _inventorySlots[i].StackSize;
+                        _inventorySlots[i] = new InventorySlot();
+                    } else {
+                        _inventorySlots[i].StackSize -= amount;
+                    }
+                    OnSlotChanged?.Invoke(_inventorySlots[i]);
+                }
+            }
+        }
+
         public bool Contains(ItemObject item, out List<InventorySlot> slots)
         {
             slots = _inventorySlots.Where(inventorySlot => inventorySlot.Item == item).ToList();
             return slots.Count >= 1;
+        }
+
+        public bool Contains(ItemObject item, int amount, out int totalAmount)
+        {
+            totalAmount = 0;
+            foreach (InventorySlot inventorySlot in _inventorySlots) {
+                if (inventorySlot.Item == item) {
+                    totalAmount += inventorySlot.StackSize;
+                }
+            }
+
+            return totalAmount >= amount;
         }
 
         public bool HasFreeInventorySlot(out InventorySlot freeSlot)

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Player
+namespace BuildSystem
 {
     [Serializable]
     public class SegmentPreview : MonoBehaviour
@@ -13,12 +13,25 @@ namespace Player
         [SerializeField] private Material _placementOkMaterial;
         public bool canBePlaced = true;
 
+        private float rotationDampen = .3f;
+        public Quaternion targetRotation = Quaternion.identity;
+
         private void Awake()
         {
             _collider = GetComponent<MeshCollider>();
             _renderer = GetComponentInChildren<MeshRenderer>();
             _defaultMaterial = _renderer.material;
             _renderer.material = _placementOkMaterial;
+        }
+
+        private void Update()
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationDampen);
+        }
+
+        public void RotatePreview(int deg)
+        {
+            targetRotation *= Quaternion.Euler(0, deg, 0);
         }
 
         public void SetMaterial(Material material)
@@ -32,13 +45,17 @@ namespace Player
         }
 
         private void OnTriggerStay(Collider other)
-        {
+        { 
+            if (!other.CompareTag("Environment")) return;
+            
             _renderer.material = _placementBlockedMaterial;
             canBePlaced = false;
         }
 
         private void OnTriggerExit(Collider other)
         {
+            if (!other.CompareTag("Environment")) return;
+            
             _renderer.material = _placementOkMaterial;
             canBePlaced = true;
         }

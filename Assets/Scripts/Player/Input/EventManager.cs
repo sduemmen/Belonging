@@ -23,6 +23,9 @@ namespace Player.Input
 
         [SerializeField] private IntEvent equipSlotEvent;
         [SerializeField] private SimpleEvent toolUsedEvent;
+        [SerializeField] private IntEvent rotateSegmentEvent;
+
+        [SerializeField] private SimpleEvent tooltipHideEvent;
         
         private static Vector2 _movementInput;
             
@@ -118,9 +121,18 @@ namespace Player.Input
                     HideBuildMenu();
                 }
             };
+            // rotate segment
+            _playerControls.Character.RotateSegment.performed += inputEvent => {
+                if (GameFlags.GAME_PAUSED || GameFlags.UI_ELEMENT_OPEN || !GameFlags.HAMMER_EQUIPPED) return;
+                
+                if (_playerControls.Character.Modifier1.inProgress)
+                    rotateSegmentEvent.Raise(-90);
+                else 
+                    rotateSegmentEvent.Raise(90);
+            };
             // Action (left click)
             _playerControls.Character.Action.performed += inputEvent => {
-                if (GameFlags.GAME_PAUSED || GameFlags.INVENTORY_OPEN || !GameFlags.SLOT_EQUIPPED) return;
+                if (GameFlags.GAME_PAUSED || GameFlags.UI_ELEMENT_OPEN || !GameFlags.SLOT_EQUIPPED) return;
                 
                 toolUsedEvent.Raise();  // use equipped tool
             };
@@ -129,6 +141,7 @@ namespace Player.Input
                 if (GameFlags.GAME_PAUSED) return;
                 
                 if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED) {
+                    SetEquippedSlot(2);
                     OpenBuildMenu();
                 }
             };
@@ -203,6 +216,7 @@ namespace Player.Input
         {
             if (GameFlags.BUILD_MENU_CLOSED) return;
             
+            tooltipHideEvent.Raise();
             closeBuildMenuEvent.Raise();
             GameFlags.BUILD_MENU_OPEN = false;
             SetCursorState(false, CursorLockMode.Locked);

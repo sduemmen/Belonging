@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 376045377974415469}
   - component: {fileID: 6665455916582447915}
+  - component: {fileID: 4765314282146099587}
   m_Layer: 0
   m_Name: TreeModel
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,6 +57,30 @@ CapsuleCollider:
   m_Height: 2.08
   m_Direction: 1
   m_Center: {x: 0, y: 0.57, z: 0}
+--- !u!114 &4765314282146099587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376045377974415474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5882b8587d1d43f19b5f2a4e0b0cd13c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requiredTool: {fileID: 11400000, guid: e7a26b620bfdb6e4bbf49560639a65f6, type: 2}
+  prefabName: TreeModel
+  wasBuiltByPlayer: 0
+  isPlaced: 1
+  isSnapped: 0
+  dropItem: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
+  dropQuantity: 3
+  health: 6
+  world: {fileID: 0}
+  chunkPosition: {x: 0, y: 0}
+  positionInChunk: {x: 0, y: 0}
+  hitParticles: {fileID: 0}
 --- !u!1001 &3158044567915748825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64,13 +89,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 376045377974415469}
     m_Modifications:
+    - target: {fileID: 2763292936565903423, guid: ceda9be89f930ac42b32ff5ae10598cd, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 3710385182699093885, guid: ceda9be89f930ac42b32ff5ae10598cd, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4072566644512676616, guid: ceda9be89f930ac42b32ff5ae10598cd, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     - target: {fileID: 6474837661480019989, guid: ceda9be89f930ac42b32ff5ae10598cd, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6789796510890545617, guid: ceda9be89f930ac42b32ff5ae10598cd, type: 3}
+      propertyPath: m_TagString
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 8139306236123809429, guid: ceda9be89f930ac42b32ff5ae10598cd, type: 3}
       propertyPath: m_RootOrder
@@ -128,13 +165,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 8916932963258096687, guid: ceda9be89f930ac42b32ff5ae10598cd, type: 3}
+      propertyPath: m_TagString
+      value: Environment
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8916932963258096687, guid: ceda9be89f930ac42b32ff5ae10598cd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 960140805380222079}
     - targetCorrespondingSourceObject: {fileID: 8916932963258096687, guid: ceda9be89f930ac42b32ff5ae10598cd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4352091269182470845}
@@ -153,28 +191,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8916932963258096687, guid: ceda9be89f930ac42b32ff5ae10598cd, type: 3}
   m_PrefabInstance: {fileID: 3158044567915748825}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &960140805380222079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5795270171530625526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5882b8587d1d43f19b5f2a4e0b0cd13c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  requiredTool: {fileID: 11400000, guid: e7a26b620bfdb6e4bbf49560639a65f6, type: 2}
-  prefabName: TreeModel
-  wasBuiltByPlayer: 0
-  dropItem: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
-  dropQuantity: 3
-  health: 6
-  world: {fileID: 0}
-  chunkPosition: {x: 0, y: 0}
-  positionInChunk: {x: 0, y: 0}
-  hitParticles: {fileID: 0}
 --- !u!199 &4352091269182470845
 ParticleSystemRenderer:
   serializedVersion: 6

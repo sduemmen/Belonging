@@ -21,6 +21,7 @@ namespace Environment
         public float stoneThreshold;
         public int objectDistance;
         public WorldAlterations worldAlterations;
+        public int placedSegments;
 
         private void Awake()
         {
@@ -77,6 +78,7 @@ namespace Environment
             seedOffset = seedOffset = (float)seed / 100;
             treeThreshold = data.treeThreshold;
             stoneThreshold = data.stoneThreshold;
+            placedSegments = data.placedSegments;
             foreach (string worldAlteration in data.worldAlterations) {
                 worldAlterations.AddAlteration(worldAlteration);
             }
@@ -87,6 +89,7 @@ namespace Environment
             data.seed = seed;
             data.treeThreshold = treeThreshold;
             data.stoneThreshold = stoneThreshold;
+            data.placedSegments = placedSegments;
             data.worldAlterations.Clear();
             foreach (UInt128 worldAlteration in worldAlterations.GetAlterations()) {
                 data.worldAlterations.Add(worldAlteration.ToString());

@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using BuildSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace InventorySystem.Collections
+namespace Collections
 {
     [Serializable]
     public class SegmentCollectionEntry : CollectionEntry
     {
+        [SerializeField] public string displayName;
         [SerializeField] public string prefabName;
         [SerializeField] public GameObject prefab;
         [SerializeField] public Sprite previewImage;
+        [SerializeField] public List<BuildCost> buildCosts;
 
         [Button("Set Prefab Name")]
         public void SetPrefabName()

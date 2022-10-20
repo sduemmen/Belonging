@@ -40,10 +40,10 @@ namespace UI.MainMenu
             lastPlayedOn.text = $"Last played {lastPlayed} ago";
         }
         
-        public void SetScore(int score)
+        public void SetPlacedSegmentCount(int count)
         {
-            string s = score == 1 ? " Segment" : " Segments";
-            this.score.text = $"{score} {s}";
+            string s = count == 1 ? " Segment" : " Segments";
+            this.score.text = $"{count} {s}";
         }
         
         public void SetUnlocked(int unlocked, int total)
@@ -66,7 +66,7 @@ namespace UI.MainMenu
             SetDisplayName(gameData.name);
             SetPlaytime(gameData.playtime);
             SetLastPlayedOn(GetTimeUntilNow(DateTime.FromFileTime(gameData.lastPlayed)));
-            SetScore(gameData.score);
+            SetPlacedSegmentCount(gameData.placedSegments);
             SetUnlocked(gameData.unlocked, GameConstants.MAX_UNLOCKABLE_SEGMENTS);
         }
 

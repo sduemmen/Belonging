@@ -1,4 +1,5 @@
-﻿using Environment;
+﻿using BuildSystem;
+using Environment;
 using Flags;
 using InventorySystem;
 using InventorySystem.Items;
@@ -13,7 +14,7 @@ namespace Player.Input
         public ToolbarInventoryDisplay toolbarDisplay;
         public MouseUIInventorySlot mouseInventory;
         public Transform player;
-        public World World;
+        public World _world;
         private PlayerWorldBuilding _playerWorldBuilding;
         public float maxInteractionDistance;
         private int _selectedSlotIndex = -1;
@@ -55,23 +56,25 @@ namespace Player.Input
                 OnDestroyableClicked();
             }
             
-            if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED && GetMouseRayHit(_playerWorldBuilding.BuildModeLayerMask, out RaycastHit raycastHit, _playerWorldBuilding.MaxInteractionDistance)) {
+            if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED && GetMouseRayHit(_playerWorldBuilding.BuildModeLayerMask, out RaycastHit raycastHit, 40)) {
+                if ((raycastHit.point - transform.position).magnitude > _playerWorldBuilding.MaxBuildingDistance) return;
                 _playerWorldBuilding.TryPlaceSegment(new Vector3(raycastHit.point.x, 0, raycastHit.point.z));
             }
         }
 
         private void OnDestroyableClicked()
         {
-            bool objectHit = GetMouseRayHit(destroyablesLayerMask, out RaycastHit hitResult, maxInteractionDistance);
+            bool objectHit = GetMouseRayHit(destroyablesLayerMask, out RaycastHit hitResult, 40);
             if (!objectHit || hitResult.transform.gameObject == null) return;
             
             GameObject hitGameObject = hitResult.transform.gameObject;
             if ((player.position - hitResult.point).magnitude > maxInteractionDistance) return;
             
-            Destroyable destroyable = hitGameObject.GetComponent<Destroyable>();
             ToolItemObject selectedTool = (ToolItemObject)toolbar.InventorySlots[_selectedSlotIndex].Item;
             if (selectedTool == null) return;
             
+            Destroyable destroyable = hitGameObject.GetComponent<Destroyable>();
+            if (destroyable == null) destroyable = hitGameObject.transform.parent.GetComponent<Destroyable>();
             if (destroyable == null || selectedTool != destroyable.requiredTool) return;
             destroyable.OnClick(player, hitResult);
         }

@@ -3,7 +3,6 @@ using SaveSystem;
 using SaveSystem.Data;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using Utility;
 
 namespace Environment
 {
@@ -12,6 +11,8 @@ namespace Environment
         public ToolItemObject requiredTool;
         public string prefabName;
         public bool wasBuiltByPlayer;
+        public bool isPlaced = true;
+        public bool isSnapped;
         public MaterialItemObject dropItem;
         public int dropQuantity;
         public int health;
@@ -22,7 +23,7 @@ namespace Environment
 
         private void Awake()
         {
-            hitParticles = GetComponent<ParticleSystem>();
+            hitParticles = GetComponentInChildren<ParticleSystem>();
             hitParticles.Pause();
         }
 
@@ -47,7 +48,7 @@ namespace Environment
             if (this.wasBuiltByPlayer) {
                 Vector3 hitPosition = hitResult.point - position;
                 ParticleSystem.ShapeModule shape = hitParticles.shape;
-                shape.position = hitPosition;
+                shape.position = transform.rotation * hitPosition;
             }
             
             hitParticles.Emit(20);
@@ -64,7 +65,11 @@ namespace Environment
             for (int i = 0; i < dropQuantity; i++) {
                 Instantiate(dropItem.prefab, this.transform.position + new Vector3(Random.Range(-.5f, .5f), Random.Range(.2f, .5f), Random.Range(-.5f, .5f)), Quaternion.identity);
             }
-            if (!wasBuiltByPlayer) world.worldAlterations.AddAlteration(chunkPosition.x, chunkPosition.y, positionInChunk.x, positionInChunk.y);
+
+            if (!wasBuiltByPlayer)
+                world.worldAlterations.AddAlteration(chunkPosition.x, chunkPosition.y, positionInChunk.x, positionInChunk.y);
+            else 
+                world.placedSegments -= 1;
             Destroy(this.gameObject);
         }
 

@@ -59,8 +59,13 @@ MonoBehaviour:
   parentDisplay: {fileID: 0}
   _index: 0
   clickable: 1
+  displayName: 
   prefabName: 
   prefab: {fileID: 0}
+  buildCosts: []
+  buildCostTooltipPrefab: {fileID: 1556651541655952, guid: 42208f52636579f428206150555d8634, type: 3}
+  tooltipShowEvent: {fileID: 11400000, guid: fe68413e251db2e4bbb3d773ea0fd172, type: 2}
+  tooltipHideEvent: {fileID: 11400000, guid: b99b146a560d3fc4b9a19735a8225867, type: 2}
 --- !u!114 &2460774519470960357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +86,50 @@ MonoBehaviour:
         - m_Target: {fileID: 4076245566841929723}
           m_TargetAssemblyTypeName: InventorySystem.UI.UIBuildMenuSlot, Assembly-CSharp
           m_MethodName: OnInventorySlotClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 4076245566841929723}
+          m_TargetAssemblyTypeName: BuildSystem.UI.UIBuildMenuSlot, Assembly-CSharp
+          m_MethodName: RaiseTooltipHideEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4076245566841929723}
+          m_TargetAssemblyTypeName: BuildSystem.UIBuildMenuSlot, Assembly-CSharp
+          m_MethodName: RaiseTooltipShowEvent
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4076245566841929723}
+          m_TargetAssemblyTypeName: BuildSystem.UIBuildMenuSlot, Assembly-CSharp
+          m_MethodName: RaiseTooltipHideEvent
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BuildSystem;
+using Environment;
 using Flags;
 using SaveSystem.Data;
 using UnityEngine;
@@ -88,7 +90,12 @@ namespace SaveSystem
 
             foreach (PersistentDestroyableData persistentDestroyableData in _gameData.persistentDestroyables) {
                 GameObject gameObjectToInstantiate = PersistentDestroyableData.GetGameObjectFromType(persistentDestroyableData.prefabName);
-                Instantiate(gameObjectToInstantiate, persistentDestroyableData.worldPosition, persistentDestroyableData.worldRotation);
+                GameObject obj = Instantiate(gameObjectToInstantiate, persistentDestroyableData.worldPosition, persistentDestroyableData.worldRotation);
+                SegmentPreview preview = obj.GetComponent<SegmentPreview>();
+                if (preview != null) {
+                    preview.ResetMaterial();
+                    Destroy(preview);
+                }
             }
             
             Debug.Log($"Loading complete {profileID}");

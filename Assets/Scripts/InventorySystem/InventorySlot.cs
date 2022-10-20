@@ -36,6 +36,12 @@ namespace InventorySystem
             StackSize = stackSize;
             Index = index;
         }
+        
+        public InventorySlot(ItemObject item, int stackSize)
+        {
+            Item = item;
+            StackSize = stackSize;
+        }
 
         public InventorySlot()
         {

@@ -89,6 +89,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Modifier1"",
+                    ""type"": ""Button"",
+                    ""id"": ""0dc57dde-961b-4ff7-85dc-1ba68b1ae4e4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateSegment"",
+                    ""type"": ""Button"",
+                    ""id"": ""49f1bd15-755d-4cdd-b4fe-7e0b15fe7cb5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -212,6 +230,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""CancelAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad00bef4-dc15-4015-9b5c-9725e14eaba3"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateSegment"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ae48e92d-062a-4a37-8a84-b90abf853d5c"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Modifier1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -275,6 +315,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Character_EquipSlot3 = m_Character.FindAction("EquipSlot3", throwIfNotFound: true);
         m_Character_Action = m_Character.FindAction("Action", throwIfNotFound: true);
         m_Character_CancelAction = m_Character.FindAction("CancelAction", throwIfNotFound: true);
+        m_Character_Modifier1 = m_Character.FindAction("Modifier1", throwIfNotFound: true);
+        m_Character_RotateSegment = m_Character.FindAction("RotateSegment", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_MouseDelta = m_Camera.FindAction("MouseDelta", throwIfNotFound: true);
@@ -345,6 +387,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Character_EquipSlot3;
     private readonly InputAction m_Character_Action;
     private readonly InputAction m_Character_CancelAction;
+    private readonly InputAction m_Character_Modifier1;
+    private readonly InputAction m_Character_RotateSegment;
     public struct CharacterActions
     {
         private @PlayerControls m_Wrapper;
@@ -356,6 +400,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @EquipSlot3 => m_Wrapper.m_Character_EquipSlot3;
         public InputAction @Action => m_Wrapper.m_Character_Action;
         public InputAction @CancelAction => m_Wrapper.m_Character_CancelAction;
+        public InputAction @Modifier1 => m_Wrapper.m_Character_Modifier1;
+        public InputAction @RotateSegment => m_Wrapper.m_Character_RotateSegment;
         public InputActionMap Get() { return m_Wrapper.m_Character; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -386,6 +432,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @CancelAction.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnCancelAction;
                 @CancelAction.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnCancelAction;
                 @CancelAction.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnCancelAction;
+                @Modifier1.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnModifier1;
+                @Modifier1.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnModifier1;
+                @Modifier1.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnModifier1;
+                @RotateSegment.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnRotateSegment;
+                @RotateSegment.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnRotateSegment;
+                @RotateSegment.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnRotateSegment;
             }
             m_Wrapper.m_CharacterActionsCallbackInterface = instance;
             if (instance != null)
@@ -411,6 +463,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @CancelAction.started += instance.OnCancelAction;
                 @CancelAction.performed += instance.OnCancelAction;
                 @CancelAction.canceled += instance.OnCancelAction;
+                @Modifier1.started += instance.OnModifier1;
+                @Modifier1.performed += instance.OnModifier1;
+                @Modifier1.canceled += instance.OnModifier1;
+                @RotateSegment.started += instance.OnRotateSegment;
+                @RotateSegment.performed += instance.OnRotateSegment;
+                @RotateSegment.canceled += instance.OnRotateSegment;
             }
         }
     }
@@ -465,6 +523,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnEquipSlot3(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
         void OnCancelAction(InputAction.CallbackContext context);
+        void OnModifier1(InputAction.CallbackContext context);
+        void OnRotateSegment(InputAction.CallbackContext context);
     }
     public interface ICameraActions
     {

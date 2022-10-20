@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
+using BuildSystem.UI;
+using Collections;
+using Environment;
 using Events.Events;
 using Flags;
-using InventorySystem.Collections;
+using InventorySystem;
 using InventorySystem.UI;
-using Player;
 using Player.Input;
 using UnityEngine;
 
-namespace InventorySystem
+namespace BuildSystem
 {
     public class BuildMenuController : InventoryController
     {
@@ -51,6 +53,7 @@ namespace InventorySystem
             GameObject newSelectedSegment = Resources.Load<GameObject>($"Prefabs/Models/World/{uiBuildMenuSlot.prefabName}");
             _playerWorldBuilding.selectedSegment = newSelectedSegment;
             _playerWorldBuilding.previewGameObject = Instantiate(newSelectedSegment);
+            _playerWorldBuilding.previewGameObject.GetComponent<Destroyable>().isPlaced = false;
             if (GameFlags.BUILD_MENU_OPEN) {
                 GameFlags.BUILD_MENU_OPEN = false;
                 EventManager.SetCursorState(true, CursorLockMode.None);

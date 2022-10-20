@@ -13,4 +13,11 @@ MonoBehaviour:
   m_Name: Walls
   m_EditorClassIdentifier: 
   collectionTitle: Walls
-  entries: []
+  entries:
+  - displayName: Stone Wall 1
+    prefabName: Wall_Stone_01
+    prefab: {fileID: 5169362283801362072, guid: 261054539f09bab47adce7c87d39e049, type: 3}
+    previewImage: {fileID: 21300000, guid: 6b39e2bd8b6ac1043a91169a398b45f7, type: 3}
+    buildCosts:
+    - item: {fileID: 11400000, guid: 12105098fa1a4cc48bce492e45e197b9, type: 2}
+      amount: 4

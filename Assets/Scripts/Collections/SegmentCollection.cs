@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace InventorySystem.Collections
+namespace Collections
 {
     [CreateAssetMenu(menuName = "Collections/Segment Collection")]
     public class SegmentCollection : Collection<SegmentCollectionEntry>
@@ -30,6 +30,14 @@ namespace InventorySystem.Collections
                 
                 if (entries[i].previewImage == null) {
                     Debug.LogWarning($"previewImage not assigned at index {i}");
+                }
+
+                if (entries[i].buildCosts.Count <= 0) {
+                    Debug.LogWarning($"no build costs assigned at index {i}");
+                }
+
+                if (string.IsNullOrEmpty(entries[i].displayName)) {
+                    Debug.LogWarning($"no display name assigned at index {i}");
                 }
             }
         }

@@ -26,7 +26,7 @@ namespace SaveSystem.Data
 
         public string name;
         public float playtime;
-        public int score;
+        public int placedSegments;
         public int unlocked;
         
         public bool achievementsEnabled;
@@ -51,7 +51,7 @@ namespace SaveSystem.Data
 
             name = "New World";
             playtime = 0f;
-            score = 0;
+            placedSegments = 0;
             unlocked = 0;
             achievementsEnabled = true;
         }
@@ -75,7 +75,7 @@ namespace SaveSystem.Data
 
             name = newGameData.gameName;
             playtime = 0f;
-            score = 0;
+            placedSegments = 0;
             unlocked = newGameData.unlockAll ? GameConstants.MAX_UNLOCKABLE_SEGMENTS : 0;
             achievementsEnabled = !newGameData.unlockAll;
         }

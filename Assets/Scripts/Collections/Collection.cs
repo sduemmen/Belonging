@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace InventorySystem.Collections
+namespace Collections
 {
     [Serializable]
     public abstract class Collection<T> : ScriptableObject where T : CollectionEntry
