@@ -18,10 +18,9 @@ namespace BuildSystem
 
         private void Awake()
         {
-            _collider = GetComponent<MeshCollider>();
-            _renderer = GetComponentInChildren<MeshRenderer>();
             _defaultMaterial = _renderer.material;
             _renderer.material = _placementOkMaterial;
+            _collider.enabled = false;
         }
 
         private void Update()
@@ -42,6 +41,7 @@ namespace BuildSystem
         public void ResetMaterial()
         {
             _renderer.material = _defaultMaterial;
+            _collider.enabled = true;
         }
 
         private void OnTriggerStay(Collider other)

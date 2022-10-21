@@ -12116,11 +12116,9 @@ MonoBehaviour:
   player: {fileID: 1713485463}
   activeChunks: []
   chunkPrefab: {fileID: 742958772297745622, guid: 9a6f3448cea6a1243a032b174acb0610, type: 3}
-  chunkSize: 30
   seed: 175
-  seedOffset: 23.5
-  treeThreshold: 0.5
-  stoneThreshold: 0.5
+  treeDensityThreshold: 0
+  stoneDensityThreshold: 0
   objectDistance: 90
   worldAlterations:
     alterations: []
@@ -12650,6 +12648,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _transform: {fileID: 0}
+  playerSpawnPosition: {x: 0, y: 0, z: 0}
+  firstLoad: 1
 --- !u!114 &1713485473
 MonoBehaviour:
   m_ObjectHideFlags: 0

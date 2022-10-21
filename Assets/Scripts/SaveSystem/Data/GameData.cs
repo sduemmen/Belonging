@@ -12,13 +12,15 @@ namespace SaveSystem.Data
     {
         public string profileID;
         public long lastPlayed;
+
+        public Vector3 playerSpawnPosition;
         public Vector3 playerPosition;
         public Quaternion playerRotation;
         public Quaternion cameraRotation;
         
         public int seed;
-        public float treeThreshold;
-        public float stoneThreshold;
+        public float treeDensityThreshold;
+        public float stoneDensityThreshold;
         public List<string> worldAlterations;
         public List<PersistentItemData> persistentItems;
         public List<PersistentDestroyableData> persistentDestroyables;
@@ -30,20 +32,22 @@ namespace SaveSystem.Data
         public int unlocked;
         
         public bool achievementsEnabled;
+        public bool firstLoad;
 
         public GameData()
         {
             profileID = Guid.NewGuid().ToString();
             lastPlayed = DateTime.Now.ToFileTime();
-            
+
+            playerSpawnPosition = Vector3.zero;
             playerPosition = Vector3.zero;
             playerRotation = Quaternion.identity;
             cameraRotation = Quaternion.Euler(40, 0, 0);
             
             Random random = new Random();
             seed = random.Next(100000, 100000000);
-            treeThreshold = 0.8f;
-            stoneThreshold = 0.2f;
+            treeDensityThreshold = 0.8f;
+            stoneDensityThreshold = 0.2f;
             worldAlterations = new List<string>();
             persistentItems = new List<PersistentItemData>();
             persistentDestroyables = new List<PersistentDestroyableData>();
@@ -53,21 +57,24 @@ namespace SaveSystem.Data
             playtime = 0f;
             placedSegments = 0;
             unlocked = 0;
+            
             achievementsEnabled = true;
+            firstLoad = true;
         }
 
         public GameData(NewGameData newGameData)
         {
             profileID = Guid.NewGuid().ToString();
             lastPlayed = DateTime.Now.ToFileTime();
-            
+
+            playerSpawnPosition = newGameData.playerSpawnPosition;
             playerPosition = Vector3.zero;
             playerRotation = Quaternion.identity;
             cameraRotation = Quaternion.Euler(40, 0, 0);
             
             seed = newGameData.seed;
-            treeThreshold = 1 - newGameData.treeThreshold;
-            stoneThreshold = newGameData.stoneThreshold;
+            treeDensityThreshold = newGameData.treeDensityThreshold;
+            stoneDensityThreshold = newGameData.stoneDensityThreshold;
             worldAlterations = new List<string>();
             persistentItems = new List<PersistentItemData>();
             persistentDestroyables = new List<PersistentDestroyableData>();
@@ -77,7 +84,9 @@ namespace SaveSystem.Data
             playtime = 0f;
             placedSegments = 0;
             unlocked = newGameData.unlockAll ? GameConstants.MAX_UNLOCKABLE_SEGMENTS : 0;
+            
             achievementsEnabled = !newGameData.unlockAll;
+            firstLoad = true;
         }
     }
 }

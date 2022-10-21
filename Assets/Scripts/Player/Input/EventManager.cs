@@ -46,8 +46,10 @@ namespace Player.Input
             };
             // Mouse Move
             _playerControls.Camera.MouseDelta.performed += inputEvent => {
-                if (GameFlags.GAME_PAUSED || GameFlags.INVENTORY_OPEN || GameFlags.SLOT_EQUIPPED) return;
+                bool middleMouseButtonHeldDown = _playerControls.Character.MiddleMouseButton.inProgress;
                 
+                if ((GameFlags.GAME_PAUSED || GameFlags.INVENTORY_OPEN || GameFlags.SLOT_EQUIPPED) && !middleMouseButtonHeldDown) return;
+
                 mouseMoveEvent.Raise();     // Camera Rotation
             };
             // Mouse Scroll

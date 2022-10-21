@@ -49,7 +49,7 @@ namespace BuildSystem
             SegmentPreview previewSegment = previewGameObject.GetComponent<SegmentPreview>();
             if (previewSegment.canBePlaced) {
                 Vector3 actualPosition = previewGameObject.GetComponent<Destroyable>().isSnapped ? previewGameObject.transform.position : position;
-                GameObject segmentObj = Instantiate(selectedSegment, actualPosition, Quaternion.identity);
+                GameObject segmentObj = Instantiate(selectedSegment, actualPosition, previewGameObject.transform.rotation);
                 segmentObj.GetComponent<SegmentPreview>().ResetMaterial();
                 Destroy(segmentObj.GetComponent<SegmentPreview>());
                 _world.placedSegments += 1;

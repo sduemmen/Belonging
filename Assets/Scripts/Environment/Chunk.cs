@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using UnityEngine;
 using Random = System.Random;
 
@@ -7,15 +6,9 @@ namespace Environment
 {
     public class Chunk : MonoBehaviour
     {
-        [Range(10, 40)] public int size;
-
         public World world;
         public Vector2Int chunkPosition;
         
-        public float persistance = .4f;
-        public int roughness = 3;
-        public int octaves = 3;
-
         public GameObject treePrefab;
         public GameObject stonePrefab;
 
@@ -27,29 +20,29 @@ namespace Environment
             // }
 
             int chunkEncoding = chunkPosition.x << 16 | chunkPosition.y;
-            Random random = new Random(world.seed + chunkEncoding);
+            Random randomPositioner = new Random(world.seed + chunkEncoding);
+            Random random = new Random(world.seed);
+            float xOffset = random.Next(-10000, 10000);
+            float yOffset = random.Next(-10000, 10000);
 
-            for (int y = 0; y < size; y+=3) {
-                for (int x = 0; x < size; x+=3) {
+            for (int y = 0; y < World.CHUNK_SIZE; y+=3) {
+                for (int x = 0; x < World.CHUNK_SIZE; x+=3) {
                     if (world.worldAlterations.HasAlteration(chunkPosition.x, chunkPosition.y, x, y)) continue;
                 
-                    float seededX = x + world.seedOffset;
-                    float seededY = y + world.seedOffset;
+                    float treeSample = World.SamplePerlin2d(x, y, chunkPosition, xOffset, yOffset);
+                    float stoneSample = World.SamplePerlin2d(x + 1000, y + 1000, chunkPosition, xOffset, yOffset);
                 
-                    float treeSample = CalculateNoise(seededX, seededY);
-                    float stoneSample = CalculateNoise(seededX + 50f, seededY + 50f);
-                
-                    if (treeSample > world.treeThreshold && stoneSample < world.stoneThreshold) {
+                    if (treeSample < world.treeDensityThreshold && stoneSample < world.stoneDensityThreshold) {
                         bool decider = Convert.ToBoolean(random.Next(0, 2));
                         GameObject obj = decider ? stonePrefab : treePrefab;
-                        InstantiatePrefabRandomized(obj, new Vector3(x, 0, y), random);
+                        InstantiatePrefabRandomized(obj, new Vector3(x, 0, y), randomPositioner);
                         continue;
                     }
                 
-                    if (treeSample > world.treeThreshold) {
-                        InstantiatePrefabRandomized(treePrefab, new Vector3(x, 0, y), random);
-                    } else if (stoneSample < world.stoneThreshold) {
-                        InstantiatePrefabRandomized(stonePrefab, new Vector3(x, 0, y), random);
+                    if (treeSample < world.treeDensityThreshold) {
+                        InstantiatePrefabRandomized(treePrefab, new Vector3(x, 0, y), randomPositioner);
+                    } else if (stoneSample < world.stoneDensityThreshold) {
+                        InstantiatePrefabRandomized(stonePrefab, new Vector3(x, 0, y), randomPositioner);
                     }
                 }
             }
@@ -73,23 +66,5 @@ namespace Environment
             destroyable.chunkPosition = this.chunkPosition;
             destroyable.positionInChunk = new Vector2Int((int)localPosition.x, (int)localPosition.z);
         } 
-
-        private float CalculateNoise(float x, float y)
-        {
-            float xCoord = chunkPosition.x + x / size;
-            float yCoord = chunkPosition.y + y / size;
-            
-            float noise = 0;
-            float frequency = 1;
-            float factor = 1;
-
-            for (int i = 0; i < octaves; i++) {
-                noise += Mathf.PerlinNoise(xCoord * frequency + i, yCoord * frequency + i) * factor;
-                factor *= persistance;
-                frequency *= roughness;
-            }
-                
-            return noise - .25f;
-        }
     }
 }

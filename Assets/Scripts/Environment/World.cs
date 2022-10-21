@@ -13,27 +13,108 @@ namespace Environment
         
         public List<GameObject> activeChunks;
         public GameObject chunkPrefab;
-        public int chunkSize;
+        public const int CHUNK_SIZE = 30;
         
         public int seed;
-        public float seedOffset;
-        public float treeThreshold;
-        public float stoneThreshold;
+        public float treeDensityThreshold;
+        public float stoneDensityThreshold;
         public int objectDistance;
         public WorldAlterations worldAlterations;
         public int placedSegments;
 
+        /// <summary>
+        /// Sample 2-Dimensional Perlin-Noise from world coordinates
+        /// </summary>
+        /// <param name="x">x coordinate in world space</param>
+        /// <param name="y">y coordinate in world space</param>
+        /// <param name="xOffset">offset on x-axis</param>
+        /// <param name="yOffset">offset on y-axis</param>
+        /// <returns></returns>
+        public static float SamplePerlin2d(float x, float y, float xOffset, float yOffset)
+        {
+            // apply seed (offset) to x and y world coordinates
+            float seededX = x + xOffset;
+            float seededY = y + yOffset;
+
+            // combine chunk and seed
+            float xSampleCoord = seededX / World.CHUNK_SIZE;
+            float ySampleCoord = seededY / World.CHUNK_SIZE;
+
+            return CalculateNoise(xSampleCoord, ySampleCoord);
+        }
+        
+        /// <summary>
+        /// Sample 2-Dimensional Perlin-Noise from local coordinates
+        /// </summary>
+        /// <param name="x">local x coordinate in chunk</param>
+        /// <param name="y">local y coordinate in chunk</param>
+        /// <param name="chunkCoordinates">coordinates of the chunk containing x, y</param>
+        /// <param name="xOffset"></param>
+        /// <param name="yOffset"></param>
+        /// <returns></returns>
+        public static float SamplePerlin2d(float x, float y, Vector2Int chunkCoordinates, float xOffset, float yOffset)
+        {
+            // Get coordinates in world space
+            Vector2 worldCoords = GetWorldCoordinates(chunkCoordinates, x, y);
+            
+            // apply seed to x and y world coordinates
+            float seededX = worldCoords.x + xOffset;
+            float seededY = worldCoords.y + yOffset;
+            
+            // combine chunk and seed
+            float xSampleCoord = seededX / World.CHUNK_SIZE;
+            float ySampleCoord = seededY / World.CHUNK_SIZE;
+
+            return CalculateNoise(xSampleCoord, ySampleCoord);
+        }
+        
+        public static Vector2Int GetChunkCoordinates(float worldX, float worldY)
+        {
+            int chunkX = (int)Math.Floor(worldX / World.CHUNK_SIZE);
+            int chunkY = (int)Math.Floor(worldY / World.CHUNK_SIZE);
+            return new Vector2Int(chunkX, chunkY);
+        }
+
+        public static Vector2 GetWorldCoordinates(Vector2Int chunkCoordinates, float x, float y)
+        {
+            int halfChunkSize = World.CHUNK_SIZE / 2;
+            float worldX = chunkCoordinates.x * World.CHUNK_SIZE + x - halfChunkSize;
+            float worldY = chunkCoordinates.y * World.CHUNK_SIZE + y - halfChunkSize;
+            return new Vector2(worldX, worldY);
+        }
+        
+        public static float CalculateNoise(float x, float y)
+        {
+            float persistance = .4f;
+            int roughness = 3;
+            int octaves = 3;
+            
+            float noise = 0;
+            float frequency = 1;
+            float factor = 1;
+
+            for (int i = 0; i < octaves; i++) {
+                noise += Mathf.PerlinNoise(x * frequency + i, y * frequency + i) * factor;
+                factor *= persistance;
+                frequency *= roughness;
+            }
+
+            return noise / .45f - 1;
+        }
+
         private void Awake()
         {
             activeChunks = new List<GameObject>();
-            InvokeRepeating(nameof(UpdateChunks), 0f, 0.2f);
+            InvokeRepeating(nameof(UpdateChunks), 0f, 0.2f); // update chunks every .2 seconds
         }
 
         private void UpdateChunks()
         {
-            Vector2Int playerChunkPosition = GetPlayerChunkPosition(player.transform.position);
+            var playerPosition = player.transform.position;
+            Vector2Int playerChunkPosition = GetChunkCoordinates(playerPosition.x, playerPosition.z);
             List<Vector2Int> chunksToBeLoaded = new List<Vector2Int>();
 
+            // get chunks around player
             for (int y = -3; y <= 3; y++) {
                 for (int x = -3; x <= 3; x++) {
                     chunksToBeLoaded.Add(new Vector2Int(playerChunkPosition.x + x, playerChunkPosition.y + y));
@@ -51,33 +132,26 @@ namespace Environment
             // load new chunks
             foreach (Vector2Int chunkPos in chunksToBeLoaded) {
                 if (!activeChunks.Exists(chunk => chunk.GetComponent<Chunk>().chunkPosition == chunkPos)) {
-                    Vector3 chunkPositionInWorldSpace = new Vector3(chunkPos.x * chunkSize, 0, chunkPos.y * chunkSize);
-                    GameObject chunkObj = Instantiate(chunkPrefab, chunkPositionInWorldSpace, Quaternion.identity);
+                    Vector2 chunkWorldPos = GetWorldCoordinates(chunkPos, 0, 0);
+                    
+                    GameObject chunkObj = Instantiate(chunkPrefab, new Vector3(chunkWorldPos.x, 0, chunkWorldPos.y), Quaternion.identity);
                     chunkObj.transform.SetParent(this.transform);
+                    
                     Chunk chunk = chunkObj.GetComponent<Chunk>();
                     chunk.world = this;
                     chunk.chunkPosition = chunkPos;
-                    chunk.size = chunkSize;
-                    // chunk.InitializeMesh();
                     chunk.SpawnObjects();
+                    
                     activeChunks.Add(chunkObj);
                 }
             }
         }
 
-        public Vector2Int GetPlayerChunkPosition(Vector3 playerPosition)
-        {
-            int x = (int)Math.Floor(playerPosition.x / chunkSize);
-            int z = (int)Math.Floor(playerPosition.z / chunkSize);
-            return new Vector2Int(x, z);
-        }
-
         public void LoadData(GameData data)
         {
             seed = data.seed;
-            seedOffset = seedOffset = (float)seed / 100;
-            treeThreshold = data.treeThreshold;
-            stoneThreshold = data.stoneThreshold;
+            treeDensityThreshold = data.treeDensityThreshold;
+            stoneDensityThreshold = data.stoneDensityThreshold;
             placedSegments = data.placedSegments;
             foreach (string worldAlteration in data.worldAlterations) {
                 worldAlterations.AddAlteration(worldAlteration);
@@ -87,8 +161,8 @@ namespace Environment
         public void SaveData(ref GameData data)
         {
             data.seed = seed;
-            data.treeThreshold = treeThreshold;
-            data.stoneThreshold = stoneThreshold;
+            data.treeDensityThreshold = treeDensityThreshold;
+            data.stoneDensityThreshold = stoneDensityThreshold;
             data.placedSegments = placedSegments;
             data.worldAlterations.Clear();
             foreach (UInt128 worldAlteration in worldAlterations.GetAlterations()) {

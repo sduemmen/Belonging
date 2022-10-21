@@ -22,6 +22,6 @@ MonoBehaviour:
   - _item: {fileID: 11400000, guid: fb4697c83476b4b4c9aa9a7d2d7e5281, type: 2}
     _stackSize: 1
     _index: 1
-  - _item: {fileID: 0}
-    _stackSize: -1
+  - _item: {fileID: 11400000, guid: e2d2f9cf8b4071849b85b7841933ae7f, type: 2}
+    _stackSize: 1
     _index: 2

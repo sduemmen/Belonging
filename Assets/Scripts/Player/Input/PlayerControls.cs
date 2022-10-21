@@ -107,6 +107,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MiddleMouseButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""cac3311e-8d02-48c4-a0d8-83378aacdd4e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -252,6 +261,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Modifier1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4a980377-2fad-4df0-9c84-e964dbb6771f"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MiddleMouseButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -317,6 +337,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Character_CancelAction = m_Character.FindAction("CancelAction", throwIfNotFound: true);
         m_Character_Modifier1 = m_Character.FindAction("Modifier1", throwIfNotFound: true);
         m_Character_RotateSegment = m_Character.FindAction("RotateSegment", throwIfNotFound: true);
+        m_Character_MiddleMouseButton = m_Character.FindAction("MiddleMouseButton", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_MouseDelta = m_Camera.FindAction("MouseDelta", throwIfNotFound: true);
@@ -389,6 +410,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Character_CancelAction;
     private readonly InputAction m_Character_Modifier1;
     private readonly InputAction m_Character_RotateSegment;
+    private readonly InputAction m_Character_MiddleMouseButton;
     public struct CharacterActions
     {
         private @PlayerControls m_Wrapper;
@@ -402,6 +424,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @CancelAction => m_Wrapper.m_Character_CancelAction;
         public InputAction @Modifier1 => m_Wrapper.m_Character_Modifier1;
         public InputAction @RotateSegment => m_Wrapper.m_Character_RotateSegment;
+        public InputAction @MiddleMouseButton => m_Wrapper.m_Character_MiddleMouseButton;
         public InputActionMap Get() { return m_Wrapper.m_Character; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -438,6 +461,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @RotateSegment.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnRotateSegment;
                 @RotateSegment.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnRotateSegment;
                 @RotateSegment.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnRotateSegment;
+                @MiddleMouseButton.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnMiddleMouseButton;
+                @MiddleMouseButton.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnMiddleMouseButton;
+                @MiddleMouseButton.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnMiddleMouseButton;
             }
             m_Wrapper.m_CharacterActionsCallbackInterface = instance;
             if (instance != null)
@@ -469,6 +495,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @RotateSegment.started += instance.OnRotateSegment;
                 @RotateSegment.performed += instance.OnRotateSegment;
                 @RotateSegment.canceled += instance.OnRotateSegment;
+                @MiddleMouseButton.started += instance.OnMiddleMouseButton;
+                @MiddleMouseButton.performed += instance.OnMiddleMouseButton;
+                @MiddleMouseButton.canceled += instance.OnMiddleMouseButton;
             }
         }
     }
@@ -525,6 +554,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnCancelAction(InputAction.CallbackContext context);
         void OnModifier1(InputAction.CallbackContext context);
         void OnRotateSegment(InputAction.CallbackContext context);
+        void OnMiddleMouseButton(InputAction.CallbackContext context);
     }
     public interface ICameraActions
     {

@@ -47,7 +47,7 @@ namespace Player.Input
         private void UpdateSelectedSlotHighlight()
         {
             toolbarDisplay.EnableHighlightAtIndex(_selectedSlotIndex);
-            mouseInventory.Initialize(toolbar.InventorySlots[_selectedSlotIndex]);
+            if (_selectedSlotIndex != 2) mouseInventory.Initialize(toolbar.InventorySlots[_selectedSlotIndex]);
         }
 
         public void OnToolUsed()
