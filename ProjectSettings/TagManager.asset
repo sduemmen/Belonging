@@ -4,17 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - EastCollider
-  - WestCollider
-  - NorthCollider
-  - SouthCollider
-  - UpCollider
-  - DownCollider
   - Floor
   - Ground
   - Environment
   - Wall
   - Roof
+  - Pole
   layers:
   - Default
   - TransparentFX
@@ -27,11 +22,11 @@ TagManager:
   - Player
   - Destroyable
   - InteractiveSnow
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Building
+  - Floor
+  - Wall
+  - Roof
+  - Pole
   - 
   - 
   - 

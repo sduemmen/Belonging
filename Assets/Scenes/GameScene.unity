@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &11884030
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5736,6 +5736,71 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &512315393
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1018250429421814, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
+      propertyPath: m_Name
+      value: SM_Bld_House_Roof_Tile_Angled_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1018250429421814, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983543164737018, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
+      propertyPath: m_RootOrder
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983543164737018, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983543164737018, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983543164737018, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983543164737018, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983543164737018, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983543164737018, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983543164737018, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983543164737018, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983543164737018, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983543164737018, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
 --- !u!1 &523047978
 GameObject:
   m_ObjectHideFlags: 0
@@ -10973,8 +11038,9 @@ MonoBehaviour:
   _mouseUISlot: {fileID: 0}
   _segmentCollections:
   - {fileID: 11400000, guid: cee007af72ecb0742b831dda00b65dc5, type: 2}
-  - {fileID: 11400000, guid: bfce6d15255db294092798b83f884dd3, type: 2}
   - {fileID: 11400000, guid: 01e9544134c6f5349bdd04d8bb5e4bab, type: 2}
+  - {fileID: 11400000, guid: b98237ee9b46e584f8f438ad5eeeefe6, type: 2}
+  - {fileID: 11400000, guid: bfce6d15255db294092798b83f884dd3, type: 2}
   _playerWorldBuilding: {fileID: 1713485474}
   closeBuildMenuEvent: {fileID: 11400000, guid: 91bf340d56203834b9c34889f79f8133, type: 2}
 --- !u!1 &843264908
@@ -11309,9 +11375,9 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1023
+    m_Bits: 3071
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: a3a10e4f132f21f46a8cc98ad6bc57ad, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -12114,7 +12180,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1713485463}
-  activeChunks: []
   chunkPrefab: {fileID: 742958772297745622, guid: 9a6f3448cea6a1243a032b174acb0610, type: 3}
   seed: 175
   treeDensityThreshold: 0
@@ -12123,6 +12188,71 @@ MonoBehaviour:
   worldAlterations:
     alterations: []
   placedSegments: 0
+--- !u!1001 &1683328021
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1944094263911416, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
+      propertyPath: m_Name
+      value: SM_Bld_House_Roof_Thatch_Angled_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1944094263911416, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765765115777736, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
+      propertyPath: m_RootOrder
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765765115777736, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765765115777736, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765765115777736, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765765115777736, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765765115777736, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765765115777736, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765765115777736, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765765115777736, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765765115777736, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765765115777736, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
 --- !u!1 &1686154592
 GameObject:
   m_ObjectHideFlags: 0
@@ -12668,6 +12798,11 @@ MonoBehaviour:
   player: {fileID: 0}
   _world: {fileID: 1668396391}
   maxInteractionDistance: 5
+  segmentCollections:
+  - {fileID: 11400000, guid: bfce6d15255db294092798b83f884dd3, type: 2}
+  - {fileID: 11400000, guid: cee007af72ecb0742b831dda00b65dc5, type: 2}
+  - {fileID: 11400000, guid: 01e9544134c6f5349bdd04d8bb5e4bab, type: 2}
+  - {fileID: 11400000, guid: b98237ee9b46e584f8f438ad5eeeefe6, type: 2}
   destroyablesLayerMask:
     serializedVersion: 2
     m_Bits: 512
@@ -12684,15 +12819,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxBuildingDistance: 15
-  _cancelSnappingDistance: 1.5
+  _cancelSnappingDistance: 1.1
   _buildModeLayerMask:
     serializedVersion: 2
-    m_Bits: 8
-  _deleteModeLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   _world: {fileID: 1668396391}
-  _defaultLayerInt: 0
   selectedSegment: {fileID: 4583083937241896800, guid: 2bba2b9a02896c845b96da470ac34994, type: 3}
   previewGameObject: {fileID: 0}
 --- !u!114 &1713485475

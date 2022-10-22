@@ -1,4 +1,5 @@
-﻿using Environment;
+﻿using System;
+using Environment;
 using Flags;
 using UnityEngine;
 
@@ -9,16 +10,14 @@ namespace BuildSystem
         [SerializeField] private float _maxBuildingDistance;
         [SerializeField] private float _cancelSnappingDistance;
         [SerializeField] private LayerMask _buildModeLayerMask;
-        [SerializeField] private LayerMask _deleteModeLayerMask;
         [SerializeField] private World _world;
-        [SerializeField] private int _defaultLayerInt;
         
         public float MaxBuildingDistance => _maxBuildingDistance;
         public LayerMask BuildModeLayerMask => _buildModeLayerMask;
-        public LayerMask DeleteModeLayerMask => _deleteModeLayerMask;
 
         public GameObject selectedSegment;
         public GameObject previewGameObject;
+        private Vector3 currentSnappingPoint;
 
         private Camera _camera;
 
@@ -28,18 +27,39 @@ namespace BuildSystem
             selectedSegment = null;
         }
 
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(currentSnappingPoint, 1f);
+        }
+
         private void Update()
         {
-            if (GameFlags.HAMMER_EQUIPPED && GetMouseRayHit(_buildModeLayerMask, out RaycastHit raycastHit, 40) && previewGameObject != null) {
-                if ((transform.position - raycastHit.point).magnitude > _maxBuildingDistance) return;
+            if (!GameFlags.HAMMER_EQUIPPED || previewGameObject == null) return;
+
+            Destroyable previewSegment = previewGameObject.GetComponent<Destroyable>();
+            
+            int previewSegmentLayer = LayerMask.NameToLayer(previewGameObject.tag);
+            int layerMask = 0;
+            layerMask |= _buildModeLayerMask;
+            layerMask |= 1 << previewSegmentLayer;  // we can neglect all layers except the current segment layer/type
+            
+            if (GetMouseRayHit(layerMask, out RaycastHit raycastHit, 40)) {
+                bool mouseHitOutOfRange = (transform.position - raycastHit.point).magnitude > _maxBuildingDistance;
                 
-                if (!previewGameObject.GetComponent<Destroyable>().isSnapped) {
+                if (mouseHitOutOfRange) return;
+                
+                bool cancelSnapping = (currentSnappingPoint - raycastHit.point).magnitude > _cancelSnappingDistance;
+                bool colliderLayerEqualToPreviewSegment = raycastHit.transform.gameObject.layer.Equals(previewSegmentLayer);
+                bool snappingPointChanged = previewSegment.isSnapped && currentSnappingPoint != raycastHit.collider.bounds.center && colliderLayerEqualToPreviewSegment;
+                
+                if ((!previewSegment.isSnapped || snappingPointChanged) && colliderLayerEqualToPreviewSegment) {
+                    previewSegment.isSnapped = true;
+                    currentSnappingPoint = raycastHit.collider.bounds.center;
+                    previewGameObject.transform.position = raycastHit.transform.position;
+                } else if (cancelSnapping || !colliderLayerEqualToPreviewSegment) {
+                    previewSegment.isSnapped = false;
                     previewGameObject.transform.position = raycastHit.point;
-                } else {
-                    if ((previewGameObject.transform.position - raycastHit.point).magnitude > _cancelSnappingDistance) {
-                        previewGameObject.GetComponent<Destroyable>().isSnapped = false;
-                        previewGameObject.transform.position = raycastHit.point;
-                    }
                 }
             }
         }

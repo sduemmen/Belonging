@@ -42,3 +42,6 @@ MonoBehaviour:
     buildCosts:
     - item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
       amount: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4096

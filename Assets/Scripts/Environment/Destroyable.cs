@@ -1,4 +1,6 @@
-﻿using InventorySystem.Items;
+﻿using System.Collections;
+using System.Collections.Generic;
+using InventorySystem.Items;
 using SaveSystem;
 using SaveSystem.Data;
 using Sirenix.OdinInspector;
@@ -8,18 +10,22 @@ namespace Environment
 {
     public class Destroyable : MonoBehaviour, IDataPersistence
     {
+        [SerializeField] private string prefabName;
+        [SerializeField] private MaterialItemObject dropItem;
+        [SerializeField] private int dropQuantity;
+        [SerializeField] private int health;
+        [SerializeField] private bool wasBuiltByPlayer;
+        [SerializeField] private List<GameObject> objectsToBeDeactivatedOnDestroy;
+
         public ToolItemObject requiredTool;
-        public string prefabName;
-        public bool wasBuiltByPlayer;
-        public bool isPlaced = true;
-        public bool isSnapped;
-        public MaterialItemObject dropItem;
-        public int dropQuantity;
-        public int health;
+        public GameObject colliders;
         public World world;
         public Vector2Int chunkPosition;
         public Vector2Int positionInChunk;
-        public ParticleSystem hitParticles;
+        public bool isPlaced = true;
+        public bool isSnapped;
+
+        private ParticleSystem hitParticles;
 
         private void Awake()
         {
@@ -50,7 +56,7 @@ namespace Environment
                 ParticleSystem.ShapeModule shape = hitParticles.shape;
                 shape.position = transform.rotation * hitPosition;
             }
-            
+
             hitParticles.Emit(20);
             health--;
             if (health <= 0) OnHealthDepleted();
@@ -58,10 +64,6 @@ namespace Environment
 
         private void OnHealthDepleted()
         {
-            // ParticleSystem p = Instantiate(new ParticleSystem(), this.transform.position, Quaternion.identity);
-            // p = hitParticles;
-            // p.AddComponent<DestroyAfterTime>();
-            
             for (int i = 0; i < dropQuantity; i++) {
                 Instantiate(dropItem.prefab, this.transform.position + new Vector3(Random.Range(-.5f, .5f), Random.Range(.2f, .5f), Random.Range(-.5f, .5f)), Quaternion.identity);
             }
@@ -70,6 +72,19 @@ namespace Environment
                 world.worldAlterations.AddAlteration(chunkPosition.x, chunkPosition.y, positionInChunk.x, positionInChunk.y);
             else 
                 world.placedSegments -= 1;
+
+            StartCoroutine(DestroyAfterTime());
+        }
+
+        private IEnumerator DestroyAfterTime()
+        {
+            foreach (GameObject obj in objectsToBeDeactivatedOnDestroy) {
+                obj.SetActive(false);
+            }
+
+            this.transform.GetComponent<Collider>().enabled = false;
+            
+            yield return new WaitForSeconds(2);
             Destroy(this.gameObject);
         }
 

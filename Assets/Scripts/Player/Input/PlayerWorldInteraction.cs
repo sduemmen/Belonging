@@ -1,4 +1,6 @@
-﻿using BuildSystem;
+﻿using System.Collections.Generic;
+using BuildSystem;
+using Collections;
 using Environment;
 using Flags;
 using InventorySystem;
@@ -19,6 +21,7 @@ namespace Player.Input
         public float maxInteractionDistance;
         private int _selectedSlotIndex = -1;
         private Camera _camera;
+        public List<SegmentCollection> segmentCollections;
         public LayerMask destroyablesLayerMask;
 
         private void Awake()
@@ -64,7 +67,11 @@ namespace Player.Input
 
         private void OnDestroyableClicked()
         {
-            bool objectHit = GetMouseRayHit(destroyablesLayerMask, out RaycastHit hitResult, 40);
+            int layerMask = 0;
+
+            layerMask |= destroyablesLayerMask;
+            
+            bool objectHit = GetMouseRayHit(layerMask, out RaycastHit hitResult, 40);
             if (!objectHit || hitResult.transform.gameObject == null) return;
             
             GameObject hitGameObject = hitResult.transform.gameObject;

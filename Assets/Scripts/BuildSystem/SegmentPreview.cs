@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Environment;
 using UnityEngine;
 
 namespace BuildSystem
@@ -7,8 +9,8 @@ namespace BuildSystem
     public class SegmentPreview : MonoBehaviour
     {
         [SerializeField] private MeshCollider _collider;
-        [SerializeField] private MeshRenderer _renderer;
-        [SerializeField] private Material _defaultMaterial;
+        [SerializeField] private List<MeshRenderer> _renderers;
+        [SerializeField] private List<Material> _defaultMaterials;
         [SerializeField] private Material _placementBlockedMaterial;
         [SerializeField] private Material _placementOkMaterial;
         public bool canBePlaced = true;
@@ -18,14 +20,23 @@ namespace BuildSystem
 
         private void Awake()
         {
-            _defaultMaterial = _renderer.material;
-            _renderer.material = _placementOkMaterial;
+            foreach (MeshRenderer meshRenderer in _renderers) {
+                _defaultMaterials.Add(meshRenderer.material);
+                meshRenderer.material = _placementOkMaterial;
+            }
+
             _collider.enabled = false;
+            transform.GetComponent<Destroyable>().colliders.SetActive(false);
         }
 
         private void Update()
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationDampen);
+        }
+
+        private void OnDestroy()
+        {
+            transform.GetComponent<Destroyable>().colliders.SetActive(true);
         }
 
         public void RotatePreview(int deg)
@@ -35,12 +46,16 @@ namespace BuildSystem
 
         public void SetMaterial(Material material)
         {
-            _renderer.material = material;
+            foreach (MeshRenderer meshRenderer in _renderers) {
+                meshRenderer.material = material;
+            }
         }
 
         public void ResetMaterial()
         {
-            _renderer.material = _defaultMaterial;
+            for (int i = 0; i < _renderers.Count; i++) {
+                _renderers[i].material = _defaultMaterials[i];
+            }
             _collider.enabled = true;
         }
 
@@ -48,7 +63,10 @@ namespace BuildSystem
         { 
             if (!other.CompareTag("Environment")) return;
             
-            _renderer.material = _placementBlockedMaterial;
+            foreach (MeshRenderer meshRenderer in _renderers) {
+                meshRenderer.material = _placementBlockedMaterial;
+            }
+            
             canBePlaced = false;
         }
 
@@ -56,7 +74,10 @@ namespace BuildSystem
         {
             if (!other.CompareTag("Environment")) return;
             
-            _renderer.material = _placementOkMaterial;
+            foreach (MeshRenderer meshRenderer in _renderers) {
+                meshRenderer.material = _placementOkMaterial;
+            }
+            
             canBePlaced = true;
         }
     }
