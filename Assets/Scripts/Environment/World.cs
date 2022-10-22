@@ -11,7 +11,8 @@ namespace Environment
     {
         public GameObject player;
         
-        public List<GameObject> activeChunks;
+        private List<GameObject> loadedChunks;
+        private List<GameObject> halfLoadedChunks;
         public GameObject chunkPrefab;
         public const int CHUNK_SIZE = 30;
         
@@ -104,7 +105,8 @@ namespace Environment
 
         private void Awake()
         {
-            activeChunks = new List<GameObject>();
+            loadedChunks = new List<GameObject>();
+            halfLoadedChunks = new List<GameObject>();
             InvokeRepeating(nameof(UpdateChunks), 0f, 0.2f); // update chunks every .2 seconds
         }
 
@@ -113,6 +115,7 @@ namespace Environment
             var playerPosition = player.transform.position;
             Vector2Int playerChunkPosition = GetChunkCoordinates(playerPosition.x, playerPosition.z);
             List<Vector2Int> chunksToBeLoaded = new List<Vector2Int>();
+            List<Vector2Int> chunksToBeHalfLoaded = new List<Vector2Int>();
 
             // get chunks around player
             for (int y = -3; y <= 3; y++) {
@@ -122,16 +125,16 @@ namespace Environment
             }
 
             // unload old chunks
-            for (int i = activeChunks.Count - 1; i >= 0; i--) {
-                if (!chunksToBeLoaded.Contains(activeChunks[i].GetComponent<Chunk>().chunkPosition)) {
-                    Destroy(activeChunks[i]);
-                    activeChunks.Remove(activeChunks[i]);
+            for (int i = loadedChunks.Count - 1; i >= 0; i--) {
+                if (!chunksToBeLoaded.Contains(loadedChunks[i].GetComponent<Chunk>().chunkPosition)) {
+                    Destroy(loadedChunks[i]);
+                    loadedChunks.Remove(loadedChunks[i]);
                 }
             }
 
             // load new chunks
             foreach (Vector2Int chunkPos in chunksToBeLoaded) {
-                if (!activeChunks.Exists(chunk => chunk.GetComponent<Chunk>().chunkPosition == chunkPos)) {
+                if (!loadedChunks.Exists(chunk => chunk.GetComponent<Chunk>().chunkPosition == chunkPos)) {
                     Vector2 chunkWorldPos = GetWorldCoordinates(chunkPos, 0, 0);
                     
                     GameObject chunkObj = Instantiate(chunkPrefab, new Vector3(chunkWorldPos.x, 0, chunkWorldPos.y), Quaternion.identity);
@@ -142,7 +145,38 @@ namespace Environment
                     chunk.chunkPosition = chunkPos;
                     chunk.SpawnObjects();
                     
-                    activeChunks.Add(chunkObj);
+                    loadedChunks.Add(chunkObj);
+                }
+            }
+            
+            // load bigger radius of chunks without instantiating objects
+            for (int y = -5; y <= 5; y++) {
+                for (int x = -5; x <= 5; x++) {
+                    chunksToBeHalfLoaded.Add(new Vector2Int(playerChunkPosition.x + x, playerChunkPosition.y + y));
+                }
+            }
+            
+            for (int i = halfLoadedChunks.Count - 1; i >= 0; i--) {
+                if (!chunksToBeHalfLoaded.Contains(halfLoadedChunks[i].GetComponent<Chunk>().chunkPosition)) {
+                    Destroy(halfLoadedChunks[i]);
+                    halfLoadedChunks.Remove(halfLoadedChunks[i]);
+                }
+            }
+
+            foreach (Vector2Int chunkPos in chunksToBeHalfLoaded) {
+                bool alreadyLoaded = loadedChunks.Exists(chunk => chunk.GetComponent<Chunk>().chunkPosition == chunkPos);
+                bool alreadyHalfLoaded = halfLoadedChunks.Exists(chunk => chunk.GetComponent<Chunk>().chunkPosition == chunkPos);
+                if (!alreadyLoaded && !alreadyHalfLoaded) {
+                    Vector2 chunkWorldPos = GetWorldCoordinates(chunkPos, 0, 0);
+                    
+                    GameObject chunkObj = Instantiate(chunkPrefab, new Vector3(chunkWorldPos.x, 0, chunkWorldPos.y), Quaternion.identity);
+                    chunkObj.transform.SetParent(this.transform);
+                    
+                    Chunk chunk = chunkObj.GetComponent<Chunk>();
+                    chunk.world = this;
+                    chunk.chunkPosition = chunkPos;
+                    
+                    halfLoadedChunks.Add(chunkObj);
                 }
             }
         }
