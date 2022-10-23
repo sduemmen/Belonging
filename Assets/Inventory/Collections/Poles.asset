@@ -16,11 +16,8 @@ MonoBehaviour:
   entries:
   - displayName: Wooden Pole
     prefabName: Pole_Wood_01
-    prefab: {fileID: 5276083791298934496, guid: 27f49ecaee27d0a448a4744115dc1250, type: 3}
+    prefab: {fileID: 5276083791298934500, guid: 27f49ecaee27d0a448a4744115dc1250, type: 3}
     previewImage: {fileID: 21300000, guid: 402252ab6e9eea44b97aa93ae457c396, type: 3}
     buildCosts:
     - item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
       amount: 2
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 32768

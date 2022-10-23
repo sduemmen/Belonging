@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: GreenFresnel
-  m_Shader: {fileID: 4800000, guid: 06c02398a05f67a4faf14a09ab17c37b, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: fb93dc30a85be554797ad8520e995269, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -35,13 +35,17 @@ Material:
     - _FresnelExp: 3
     - _FresnelStrength: 2
     - _Glow: 3
-    - _Opacity: 0.8
+    - _Opacity: 0.6
     - _OpacityClip: 0.5391304
     - _Power: 2
+    - _Radius: 4
+    - _Strength: 1
     m_Colors:
     - _Color: {r: 0.1462264, g: 1, b: 0.3448483, a: 0}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
+    - _InnerColor: {r: 0, g: 0.8, b: 0, a: 1}
     - _MainColor: {r: 0.10856026, g: 0.6886792, b: 0, a: 1}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &7815832917043662695
 MonoBehaviour:

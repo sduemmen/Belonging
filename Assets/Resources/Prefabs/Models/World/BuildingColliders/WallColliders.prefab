@@ -38,8 +38,10 @@ Transform:
   - {fileID: 1944991212340314885}
   - {fileID: 5325162978805562403}
   - {fileID: 8794540701281968119}
+  - {fileID: 103691702849868099}
   - {fileID: 275713304595007008}
   - {fileID: 262660492264467036}
+  - {fileID: 6088876193872766667}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -54,7 +56,7 @@ GameObject:
   - component: {fileID: 8794540701281968119}
   - component: {fileID: 7771572239011821472}
   - component: {fileID: 424135519922908590}
-  - component: {fileID: 2531006803087059379}
+  - component: {fileID: 1625359522236175989}
   m_Layer: 13
   m_Name: Wall - West (2)
   m_TagString: Untagged
@@ -97,7 +99,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.3, y: 2, z: 0.3}
-  m_Center: {x: 0, y: 1.25, z: 1.1}
+  m_Center: {x: 0.15, y: 1.25, z: 1}
 --- !u!54 &424135519922908590
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -125,7 +127,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2531006803087059379
+--- !u!114 &1625359522236175989
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,10 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 0
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &2080477467242981807
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +151,7 @@ GameObject:
   - component: {fileID: 8207341827589397211}
   - component: {fileID: 84230950981454721}
   - component: {fileID: 5430644571104731332}
-  - component: {fileID: 3032830142237576178}
+  - component: {fileID: 4993912354274241605}
   m_Layer: 13
   m_Name: Wall - East (1)
   m_TagString: Untagged
@@ -195,7 +194,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.3, y: 2, z: 0.3}
-  m_Center: {x: 0, y: 1.25, z: -1.1}
+  m_Center: {x: -0.15, y: 1.25, z: -1}
 --- !u!54 &5430644571104731332
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -223,7 +222,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3032830142237576178
+--- !u!114 &4993912354274241605
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -235,10 +234,102 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 0
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
+--- !u!1 &3201922017453867623
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 103691702849868099}
+  - component: {fileID: 4225106991168516453}
+  - component: {fileID: 4680394708457723108}
+  - component: {fileID: 2950453380269888661}
+  m_Layer: 13
+  m_Name: Wall - Up
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &103691702849868099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3201922017453867623}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8818042897773296720}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!65 &4225106991168516453
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3201922017453867623}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3, y: 0.3, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &4680394708457723108
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3201922017453867623}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &2950453380269888661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3201922017453867623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &4279070793213708383
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +341,7 @@ GameObject:
   - component: {fileID: 1944991212340314885}
   - component: {fileID: 8576844923067137996}
   - component: {fileID: 33216487700687896}
-  - component: {fileID: 8738530093320800041}
+  - component: {fileID: 3596848526446069532}
   m_Layer: 13
   m_Name: Wall - West (1)
   m_TagString: Untagged
@@ -293,7 +384,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.3, y: 2, z: 0.3}
-  m_Center: {x: 0, y: 1.25, z: -1.1}
+  m_Center: {x: 0.15, y: 1.25, z: -1}
 --- !u!54 &33216487700687896
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -321,7 +412,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8738530093320800041
+--- !u!114 &3596848526446069532
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -333,10 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 0
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &4304979480549746925
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,7 +436,7 @@ GameObject:
   - component: {fileID: 4861689233804825870}
   - component: {fileID: 2116884391078529710}
   - component: {fileID: 828826367913393383}
-  - component: {fileID: 7605537444233145027}
+  - component: {fileID: 7116553905613909481}
   m_Layer: 13
   m_Name: Wall - West
   m_TagString: Untagged
@@ -419,7 +507,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7605537444233145027
+--- !u!114 &7116553905613909481
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -431,10 +519,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 0
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &4465264661586165194
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,7 +531,7 @@ GameObject:
   - component: {fileID: 461088065968570990}
   - component: {fileID: 8361552166339522062}
   - component: {fileID: 3882168741789593926}
-  - component: {fileID: 3179415273606586510}
+  - component: {fileID: 5035306964392299692}
   m_Layer: 12
   m_Name: Floor - South
   m_TagString: Untagged
@@ -517,7 +602,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3179415273606586510
+--- !u!114 &5035306964392299692
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -529,10 +614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 0
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &4714572299565234589
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,7 +626,7 @@ GameObject:
   - component: {fileID: 5966854167536137193}
   - component: {fileID: 2218172793575825278}
   - component: {fileID: 4354765536050012477}
-  - component: {fileID: 6856400924564446954}
+  - component: {fileID: 8928917568275639307}
   m_Layer: 13
   m_Name: Wall - East
   m_TagString: Untagged
@@ -615,7 +697,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6856400924564446954
+--- !u!114 &8928917568275639307
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -627,10 +709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 0
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &4716746746285445461
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +721,7 @@ GameObject:
   - component: {fileID: 275713304595007008}
   - component: {fileID: 2167293883502859887}
   - component: {fileID: 2653220337260252326}
-  - component: {fileID: 1161706505545059470}
+  - component: {fileID: 2409650636094109399}
   m_Layer: 15
   m_Name: Pole - East
   m_TagString: Untagged
@@ -658,7 +737,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4716746746285445461}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -685,7 +764,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.3, y: 2, z: 0.3}
-  m_Center: {x: 1.25, y: 1.25, z: 0}
+  m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!54 &2653220337260252326
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -713,7 +792,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1161706505545059470
+--- !u!114 &2409650636094109399
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -725,10 +804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 0
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
 --- !u!1 &4853703064604097725
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,7 +816,7 @@ GameObject:
   - component: {fileID: 5748860215916090330}
   - component: {fileID: 2157939130291829167}
   - component: {fileID: 1404343180432618339}
-  - component: {fileID: 5893596592468127157}
+  - component: {fileID: 1848026697065893155}
   m_Layer: 12
   m_Name: Floor - South (1)
   m_TagString: Untagged
@@ -811,7 +887,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5893596592468127157
+--- !u!114 &1848026697065893155
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -823,10 +899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 0
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &5952936186948816843
 GameObject:
   m_ObjectHideFlags: 0
@@ -838,7 +911,7 @@ GameObject:
   - component: {fileID: 4799201909217101314}
   - component: {fileID: 8055804985139332698}
   - component: {fileID: 7605617061747888666}
-  - component: {fileID: 2610833950894906899}
+  - component: {fileID: 6101788185672443348}
   m_Layer: 12
   m_Name: Floor - North
   m_TagString: Untagged
@@ -909,7 +982,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2610833950894906899
+--- !u!114 &6101788185672443348
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -921,10 +994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 0
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &6568683950660073482
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,7 +1006,7 @@ GameObject:
   - component: {fileID: 2219355133264337812}
   - component: {fileID: 7716137310040169164}
   - component: {fileID: 4559616684463869861}
-  - component: {fileID: 2899261809934549726}
+  - component: {fileID: 6948877083379968777}
   m_Layer: 12
   m_Name: Floor - North (1)
   m_TagString: Untagged
@@ -1007,7 +1077,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2899261809934549726
+--- !u!114 &6948877083379968777
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1019,10 +1089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 0
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &7306725430788754771
 GameObject:
   m_ObjectHideFlags: 0
@@ -1034,7 +1101,7 @@ GameObject:
   - component: {fileID: 262660492264467036}
   - component: {fileID: 8130561561542944697}
   - component: {fileID: 6290320566207538761}
-  - component: {fileID: 7467444650977749917}
+  - component: {fileID: 4340054925555934700}
   m_Layer: 15
   m_Name: Pole - West
   m_TagString: Untagged
@@ -1050,7 +1117,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7306725430788754771}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1077,7 +1144,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.3, y: 2, z: 0.3}
-  m_Center: {x: -1.25, y: 1.25, z: 0}
+  m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!54 &6290320566207538761
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1105,7 +1172,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7467444650977749917
+--- !u!114 &4340054925555934700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1117,10 +1184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 0
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
 --- !u!1 &7668951187281135639
 GameObject:
   m_ObjectHideFlags: 0
@@ -1132,7 +1196,7 @@ GameObject:
   - component: {fileID: 5325162978805562403}
   - component: {fileID: 7826307672862633896}
   - component: {fileID: 1783766338946151447}
-  - component: {fileID: 6498968520056833262}
+  - component: {fileID: 2582028860184126698}
   m_Layer: 13
   m_Name: Wall - East (2)
   m_TagString: Untagged
@@ -1175,7 +1239,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.3, y: 2, z: 0.3}
-  m_Center: {x: 0, y: 1.25, z: 1.1}
+  m_Center: {x: -0.15, y: 1.25, z: 1}
 --- !u!54 &1783766338946151447
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1203,7 +1267,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6498968520056833262
+--- !u!114 &2582028860184126698
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1215,7 +1279,99 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 0
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
+--- !u!1 &7689599153677400463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6088876193872766667}
+  - component: {fileID: 322050433883996072}
+  - component: {fileID: 2016403128151815804}
+  - component: {fileID: 1073237850849308406}
+  m_Layer: 14
+  m_Name: Roof - Up
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6088876193872766667
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7689599153677400463}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8818042897773296720}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!65 &322050433883996072
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7689599153677400463}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3, y: 0.3, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &2016403128151815804
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7689599153677400463}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1073237850849308406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7689599153677400463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: f87d8ef29bf2d094db56d2ce180f2687, type: 2}

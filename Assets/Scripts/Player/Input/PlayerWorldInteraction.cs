@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using BuildSystem;
-using Collections;
 using Environment;
 using Flags;
 using InventorySystem;
@@ -21,7 +20,6 @@ namespace Player.Input
         public float maxInteractionDistance;
         private int _selectedSlotIndex = -1;
         private Camera _camera;
-        public List<SegmentCollection> segmentCollections;
         public LayerMask destroyablesLayerMask;
 
         private void Awake()
@@ -60,8 +58,9 @@ namespace Player.Input
             }
             
             if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED && GetMouseRayHit(_playerWorldBuilding.BuildModeLayerMask, out RaycastHit raycastHit, 40)) {
-                if ((raycastHit.point - transform.position).magnitude > _playerWorldBuilding.MaxBuildingDistance) return;
-                _playerWorldBuilding.TryPlaceSegment(new Vector3(raycastHit.point.x, 0, raycastHit.point.z));
+                if (_playerWorldBuilding.previewGameObject.GetComponent<SegmentPreview>().canBePlaced) {
+                    _playerWorldBuilding.TryPlaceSegment(new Vector3(raycastHit.point.x, 0, raycastHit.point.z));
+                }
             }
         }
 

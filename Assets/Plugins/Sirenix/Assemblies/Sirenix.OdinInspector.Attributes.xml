@@ -5321,6 +5321,11 @@
             Whether values selected by the value dropdown should be copies of the original or references (in the case of reference types). Defaults to true.
             </summary>
         </member>
+        <member name="F:Sirenix.OdinInspector.ValueDropdownAttribute.OnlyChangeValueOnConfirm">
+            <summary>
+            If this is set to true, the actual property value will *only* be changed *once*, when the selection in the dropdown is fully confirmed.
+            </summary>
+        </member>
         <member name="M:Sirenix.OdinInspector.ValueDropdownAttribute.#ctor(System.String)">
             <summary>
             Creates a dropdown menu for a property.

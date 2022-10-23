@@ -26,7 +26,7 @@ namespace BuildSystem.UI
             SegmentCollectionEntry segmentCollectionEntry = (SegmentCollectionEntry) entry;
             displayName = segmentCollectionEntry.displayName;
             prefabName = segmentCollectionEntry.prefabName;
-            prefab = segmentCollectionEntry.prefab;
+            prefab = segmentCollectionEntry.prefab.gameObject;
             buildCosts = segmentCollectionEntry.buildCosts;
             
             _image.sprite = segmentCollectionEntry.previewImage;

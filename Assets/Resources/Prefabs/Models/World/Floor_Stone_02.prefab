@@ -54,14 +54,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabName: Floor_Stone_02
-  dropItem: {fileID: 11400000, guid: 12105098fa1a4cc48bce492e45e197b9, type: 2}
-  dropQuantity: 2
   health: 2
   wasBuiltByPlayer: 1
   objectsToBeDeactivatedOnDestroy:
   - {fileID: 6946315740850682310}
   - {fileID: 7691824706553327428}
   - {fileID: 6775257227479647172}
+  itemDrops: []
   requiredTool: {fileID: 11400000, guid: fb4697c83476b4b4c9aa9a7d2d7e5281, type: 2}
   colliders: {fileID: 6775257227479647172}
   world: {fileID: 0}
@@ -5204,6 +5203,14 @@ PrefabInstance:
     - target: {fileID: 4687036833684834, guid: 32ea7ec0924eccb4688c22639285aed1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23436701836980464, guid: 32ea7ec0924eccb4688c22639285aed1, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 23436701836980464, guid: 32ea7ec0924eccb4688c22639285aed1, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

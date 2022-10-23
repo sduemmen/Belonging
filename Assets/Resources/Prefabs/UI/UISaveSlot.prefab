@@ -330,12 +330,13 @@ MonoBehaviour:
   gameData:
     profileID: 45d6dc24-93e9-4d99-82e1-eeb6c1c25420
     lastPlayed: 133094679528624991
+    playerSpawnPosition: {x: 0, y: 0, z: 0}
     playerPosition: {x: 0, y: 0, z: 0}
     playerRotation: {x: 0, y: 0, z: 0, w: 1}
     cameraRotation: {x: 0.34202012, y: 0, z: 0, w: 0.9396926}
     seed: 48314472
-    treeThreshold: 0.8
-    stoneThreshold: 0.2
+    treeDensityThreshold: 0.8
+    stoneDensityThreshold: 0.2
     worldAlterations: []
     persistentItems: []
     persistentDestroyables: []
@@ -345,6 +346,7 @@ MonoBehaviour:
     placedSegments: 0
     unlocked: 0
     achievementsEnabled: 1
+    firstLoad: 1
   uiSaveSlot: {fileID: 3326207416859960237}
 --- !u!114 &3326207416859960237
 MonoBehaviour:
@@ -365,7 +367,7 @@ MonoBehaviour:
   unlocked: {fileID: 3326207417494974059}
   selectButton: {fileID: 0}
   background: {fileID: 4960480386240497761}
-  selectColor: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
+  selectColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!222 &3326207416859960238
 CanvasRenderer:
@@ -388,15 +390,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a7ea7aacd6c427f41913f6820b9e04e1, type: 3}
-  m_Type: 3
+  m_Sprite: {fileID: 21300000, guid: 9c390c655bbcf9d46a0a4d757a1b48be, type: 3}
+  m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 1
@@ -404,7 +406,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 1
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 2.11
 --- !u!1 &3326207416907329228
 GameObject:
   m_ObjectHideFlags: 0

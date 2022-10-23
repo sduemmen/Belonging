@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8617716257318347238}
   - component: {fileID: 8617716257318347243}
   - component: {fileID: 8617716257318347236}
-  - component: {fileID: 6287325411578461330}
+  - component: {fileID: 2613771146491373055}
   m_Layer: 13
   m_Name: Wall - North
   m_TagString: Untagged
@@ -82,7 +82,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6287325411578461330
+--- !u!114 &2613771146491373055
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,10 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 1
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &8617716257473165477
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,7 +106,7 @@ GameObject:
   - component: {fileID: 8617716257473165476}
   - component: {fileID: 8617716257473165481}
   - component: {fileID: 8617716257473165482}
-  - component: {fileID: 1836264868892510822}
+  - component: {fileID: 2323315618644002160}
   m_Layer: 13
   m_Name: Wall - East
   m_TagString: Untagged
@@ -180,7 +177,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1836264868892510822
+--- !u!114 &2323315618644002160
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -192,10 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 1
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &8617716257581582425
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,7 +201,7 @@ GameObject:
   - component: {fileID: 8617716257581582424}
   - component: {fileID: 8617716257581582429}
   - component: {fileID: 8617716257581582431}
-  - component: {fileID: 2491370266911093881}
+  - component: {fileID: 925154610134340706}
   m_Layer: 12
   m_Name: Floor - NW
   m_TagString: Untagged
@@ -278,7 +272,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2491370266911093881
+--- !u!114 &925154610134340706
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -290,10 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 1
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &8617716257680543630
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,7 +296,7 @@ GameObject:
   - component: {fileID: 8617716257680543629}
   - component: {fileID: 8617716257680543666}
   - component: {fileID: 8617716257680543628}
-  - component: {fileID: 2129418670604396006}
+  - component: {fileID: 7854488589252687958}
   m_Layer: 12
   m_Name: Floor - SE
   m_TagString: Untagged
@@ -376,7 +367,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2129418670604396006
+--- !u!114 &7854488589252687958
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -388,10 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 1
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &8617716257908780833
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,7 +391,7 @@ GameObject:
   - component: {fileID: 8617716257908780832}
   - component: {fileID: 8617716257908780837}
   - component: {fileID: 8617716257908780839}
-  - component: {fileID: 6195186626033745213}
+  - component: {fileID: 7841608224380221949}
   m_Layer: 12
   m_Name: Floor - NW
   m_TagString: Untagged
@@ -474,7 +462,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6195186626033745213
+--- !u!114 &7841608224380221949
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -486,10 +474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 1
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &8617716257943742914
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,7 +486,7 @@ GameObject:
   - component: {fileID: 8617716257943742913}
   - component: {fileID: 8617716257943742918}
   - component: {fileID: 8617716257943742912}
-  - component: {fileID: 5448913026119132636}
+  - component: {fileID: 2350749015051121977}
   m_Layer: 12
   m_Name: Floor - NE
   m_TagString: Untagged
@@ -572,7 +557,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5448913026119132636
+--- !u!114 &2350749015051121977
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -584,10 +569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 1
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &8617716257954541141
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,7 +581,7 @@ GameObject:
   - component: {fileID: 8617716257954541140}
   - component: {fileID: 8617716257954541145}
   - component: {fileID: 8617716257954541147}
-  - component: {fileID: 6942270460924761440}
+  - component: {fileID: 8790374241084591543}
   m_Layer: 12
   m_Name: Floor - SE
   m_TagString: Untagged
@@ -670,7 +652,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6942270460924761440
+--- !u!114 &8790374241084591543
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -682,10 +664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 1
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &8617716258190468259
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,7 +676,7 @@ GameObject:
   - component: {fileID: 8617716258190468258}
   - component: {fileID: 8617716258190468263}
   - component: {fileID: 8617716258190468256}
-  - component: {fileID: 1940407690701787290}
+  - component: {fileID: 5407729868357149001}
   m_Layer: 13
   m_Name: Wall - West
   m_TagString: Untagged
@@ -768,7 +747,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1940407690701787290
+--- !u!114 &5407729868357149001
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -780,10 +759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 1
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &8617716258341850379
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,7 +771,7 @@ GameObject:
   - component: {fileID: 8617716258341850378}
   - component: {fileID: 8617716258341850383}
   - component: {fileID: 8617716258341850377}
-  - component: {fileID: 3385761583926696674}
+  - component: {fileID: 301014115008168477}
   m_Layer: 12
   m_Name: Floor - NE
   m_TagString: Untagged
@@ -866,7 +842,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3385761583926696674
+--- !u!114 &301014115008168477
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -878,10 +854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 1
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &8617716258386145556
 GameObject:
   m_ObjectHideFlags: 0
@@ -893,7 +866,7 @@ GameObject:
   - component: {fileID: 8617716258386145563}
   - component: {fileID: 8617716258386145560}
   - component: {fileID: 8617716258386145561}
-  - component: {fileID: 8191768313635996770}
+  - component: {fileID: 7239896931047989493}
   m_Layer: 15
   m_Name: Pole - Down
   m_TagString: Untagged
@@ -964,7 +937,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8191768313635996770
+--- !u!114 &7239896931047989493
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -976,10 +949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 1
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
 --- !u!1 &8617716258512811462
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,7 +1006,7 @@ GameObject:
   - component: {fileID: 8617716258632705188}
   - component: {fileID: 8617716258632705193}
   - component: {fileID: 8617716258632705195}
-  - component: {fileID: 1060730575127619186}
+  - component: {fileID: 759109016249478639}
   m_Layer: 12
   m_Name: Floor - SW
   m_TagString: Untagged
@@ -1107,7 +1077,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1060730575127619186
+--- !u!114 &759109016249478639
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1119,10 +1089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 1
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &8617716258893935724
 GameObject:
   m_ObjectHideFlags: 0
@@ -1134,7 +1101,7 @@ GameObject:
   - component: {fileID: 8617716258893935635}
   - component: {fileID: 8617716258893935632}
   - component: {fileID: 8617716258893935634}
-  - component: {fileID: 8128056443857699753}
+  - component: {fileID: 6547288881138409621}
   m_Layer: 12
   m_Name: Floor - SW
   m_TagString: Untagged
@@ -1205,7 +1172,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8128056443857699753
+--- !u!114 &6547288881138409621
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1217,10 +1184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 1
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &8617716259001499860
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,7 +1196,7 @@ GameObject:
   - component: {fileID: 8617716259001499867}
   - component: {fileID: 8617716259001499864}
   - component: {fileID: 8617716259001499865}
-  - component: {fileID: 523901563243066944}
+  - component: {fileID: 5585059312924579274}
   m_Layer: 13
   m_Name: Wall - South
   m_TagString: Untagged
@@ -1303,7 +1267,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &523901563243066944
+--- !u!114 &5585059312924579274
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1315,10 +1279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 1
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &8617716259081716771
 GameObject:
   m_ObjectHideFlags: 0
@@ -1330,7 +1291,7 @@ GameObject:
   - component: {fileID: 8617716259081716770}
   - component: {fileID: 8617716259081716775}
   - component: {fileID: 8617716259081716768}
-  - component: {fileID: 8162803516913133339}
+  - component: {fileID: 8821105943257377404}
   m_Layer: 15
   m_Name: Pole - Up
   m_TagString: Untagged
@@ -1401,7 +1362,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8162803516913133339
+--- !u!114 &8821105943257377404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1413,7 +1374,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 1
-  colliderTypes: 00000000
+  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}

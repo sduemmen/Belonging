@@ -54,14 +54,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabName: Floor_Stone_01
-  dropItem: {fileID: 11400000, guid: 12105098fa1a4cc48bce492e45e197b9, type: 2}
-  dropQuantity: 2
   health: 2
   wasBuiltByPlayer: 1
   objectsToBeDeactivatedOnDestroy:
   - {fileID: 4802661907344370776}
   - {fileID: 9091596920777129026}
   - {fileID: 8216974074100482650}
+  itemDrops: []
   requiredTool: {fileID: 11400000, guid: fb4697c83476b4b4c9aa9a7d2d7e5281, type: 2}
   colliders: {fileID: 8216974074100482650}
   world: {fileID: 0}
@@ -5192,6 +5191,14 @@ PrefabInstance:
     - target: {fileID: 4594988575657260, guid: 453939d3b95bcc548a2f9dcadf22126f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23308517913717362, guid: 453939d3b95bcc548a2f9dcadf22126f, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 23308517913717362, guid: 453939d3b95bcc548a2f9dcadf22126f, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 64147971645663530, guid: 453939d3b95bcc548a2f9dcadf22126f, type: 3}
       propertyPath: m_IsTrigger

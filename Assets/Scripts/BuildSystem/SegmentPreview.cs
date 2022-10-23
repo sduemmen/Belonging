@@ -44,10 +44,11 @@ namespace BuildSystem
             targetRotation *= Quaternion.Euler(0, deg, 0);
         }
 
-        public void SetMaterial(Material material)
+        public void UpdateMaterial()
         {
-            foreach (MeshRenderer meshRenderer in _renderers) {
-                meshRenderer.material = material;
+            Material previewMaterial = canBePlaced ? _placementOkMaterial : _placementBlockedMaterial;
+            foreach (var meshRenderer in _renderers) {
+                meshRenderer.material = previewMaterial;
             }
         }
 
@@ -62,23 +63,17 @@ namespace BuildSystem
         private void OnTriggerStay(Collider other)
         { 
             if (!other.CompareTag("Environment")) return;
-            
-            foreach (MeshRenderer meshRenderer in _renderers) {
-                meshRenderer.material = _placementBlockedMaterial;
-            }
-            
+
             canBePlaced = false;
+            UpdateMaterial();
         }
 
         private void OnTriggerExit(Collider other)
         {
             if (!other.CompareTag("Environment")) return;
             
-            foreach (MeshRenderer meshRenderer in _renderers) {
-                meshRenderer.material = _placementOkMaterial;
-            }
-            
             canBePlaced = true;
+            UpdateMaterial();
         }
     }
 }

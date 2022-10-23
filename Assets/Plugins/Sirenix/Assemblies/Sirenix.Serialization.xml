@@ -7226,6 +7226,46 @@
             <param name="value">The value to write from.</param>
             <param name="writer">The writer to use.</param>
         </member>
+        <member name="T:Sirenix.Serialization.Vector2IntFormatter">
+            <summary>
+            Custom formatter for the <see cref="T:UnityEngine.Vector2Int"/> type.
+            </summary>
+            <seealso cref="!:Sirenix.Serialization.MinimalBaseFormatter&lt;UnityEngine.Vector2Int&gt;" />
+        </member>
+        <member name="M:Sirenix.Serialization.Vector2IntFormatter.Read(UnityEngine.Vector2Int@,Sirenix.Serialization.IDataReader)">
+            <summary>
+            Reads into the specified value using the specified reader.
+            </summary>
+            <param name="value">The value to read into.</param>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:Sirenix.Serialization.Vector2IntFormatter.Write(UnityEngine.Vector2Int@,Sirenix.Serialization.IDataWriter)">
+            <summary>
+            Writes from the specified value using the specified writer.
+            </summary>
+            <param name="value">The value to write from.</param>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="T:Sirenix.Serialization.Vector3IntFormatter">
+            <summary>
+            Custom formatter for the <see cref="T:UnityEngine.Vector3Int"/> type.
+            </summary>
+            <seealso cref="!:Sirenix.Serialization.MinimalBaseFormatter&lt;UnityEngine.Vector3Int&gt;" />
+        </member>
+        <member name="M:Sirenix.Serialization.Vector3IntFormatter.Read(UnityEngine.Vector3Int@,Sirenix.Serialization.IDataReader)">
+            <summary>
+            Reads into the specified value using the specified reader.
+            </summary>
+            <param name="value">The value to read into.</param>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:Sirenix.Serialization.Vector3IntFormatter.Write(UnityEngine.Vector3Int@,Sirenix.Serialization.IDataWriter)">
+            <summary>
+            Writes from the specified value using the specified writer.
+            </summary>
+            <param name="value">The value to write from.</param>
+            <param name="writer">The writer to use.</param>
+        </member>
         <member name="T:Sirenix.Serialization.IOverridesSerializationFormat">
             <summary>
             Indicates that an Odin-serialized Unity object controls its own serialization format. Every time it is serialized, it will be asked which format to use.

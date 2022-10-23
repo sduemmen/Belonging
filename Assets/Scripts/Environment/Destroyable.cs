@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using BuildSystem;
 using InventorySystem.Items;
 using SaveSystem;
 using SaveSystem.Data;
@@ -11,12 +12,11 @@ namespace Environment
     public class Destroyable : MonoBehaviour, IDataPersistence
     {
         [SerializeField] private string prefabName;
-        [SerializeField] private MaterialItemObject dropItem;
-        [SerializeField] private int dropQuantity;
         [SerializeField] private int health;
         [SerializeField] private bool wasBuiltByPlayer;
-        [SerializeField] private List<GameObject> objectsToBeDeactivatedOnDestroy;
-
+        [SerializeField] public List<GameObject> objectsToBeDeactivatedOnDestroy;
+        
+        public List<BuildCost> itemDrops;
         public ToolItemObject requiredTool;
         public GameObject colliders;
         public World world;
@@ -54,7 +54,8 @@ namespace Environment
             if (this.wasBuiltByPlayer) {
                 Vector3 hitPosition = hitResult.point - position;
                 ParticleSystem.ShapeModule shape = hitParticles.shape;
-                shape.position = transform.rotation * hitPosition;
+                // shape.position = transform.rotation * hitPosition;
+                shape.position = hitPosition;
             }
 
             hitParticles.Emit(20);
@@ -64,8 +65,11 @@ namespace Environment
 
         private void OnHealthDepleted()
         {
-            for (int i = 0; i < dropQuantity; i++) {
-                Instantiate(dropItem.prefab, this.transform.position + new Vector3(Random.Range(-.5f, .5f), Random.Range(.2f, .5f), Random.Range(-.5f, .5f)), Quaternion.identity);
+            foreach (BuildCost itemDrop in itemDrops) {
+                for (int i = 0; i < itemDrop.amount; i++) {
+                    MaterialItemObject materialItem = (MaterialItemObject)itemDrop.item;
+                    Instantiate(materialItem.prefab, this.transform.position + new Vector3(Random.Range(-.5f, .5f), Random.Range(.2f, .5f), Random.Range(-.5f, .5f)), Quaternion.identity);
+                }
             }
 
             if (!wasBuiltByPlayer)

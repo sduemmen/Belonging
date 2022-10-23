@@ -1,7 +1,7 @@
-﻿using System;
-using Environment;
+﻿using Environment;
 using Flags;
 using UnityEngine;
+using Utility;
 
 namespace BuildSystem
 {
@@ -18,6 +18,7 @@ namespace BuildSystem
         public GameObject selectedSegment;
         public GameObject previewGameObject;
         private Vector3 currentSnappingPoint;
+        private bool previewOutOfRange;
 
         private Camera _camera;
 
@@ -29,36 +30,49 @@ namespace BuildSystem
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(currentSnappingPoint, 1f);
+            if (DebugInformation.Instance == null || !DebugInformation.Instance.drawCurrentSnapPoint) return;
+            
+            DebugExtension.DebugWireSphere(currentSnappingPoint, Color.red, .1f, depthTest:false);
         }
 
         private void Update()
         {
             if (!GameFlags.HAMMER_EQUIPPED || previewGameObject == null) return;
+            
+            Destroyable segment = previewGameObject.GetComponent<Destroyable>();
+            SegmentPreview preview = previewGameObject.GetComponent<SegmentPreview>();
+            
+            bool mouseOutOfRange = (transform.position - segment.transform.position).magnitude > _maxBuildingDistance;
 
-            Destroyable previewSegment = previewGameObject.GetComponent<Destroyable>();
+            if (preview.canBePlaced && mouseOutOfRange) {
+                preview.canBePlaced = false;
+                preview.UpdateMaterial();
+                previewOutOfRange = true;
+                return;
+            } 
+            if (!preview.canBePlaced && !mouseOutOfRange && previewOutOfRange) {
+                preview.canBePlaced = true;
+                preview.UpdateMaterial();
+                previewOutOfRange = false;
+                return;
+            }
             
             int previewSegmentLayer = LayerMask.NameToLayer(previewGameObject.tag);
             int layerMask = 0;
             layerMask |= _buildModeLayerMask;
             layerMask |= 1 << previewSegmentLayer;  // we can neglect all layers except the current segment layer/type
             
-            if (GetMouseRayHit(layerMask, out RaycastHit raycastHit, 40)) {
-                bool mouseHitOutOfRange = (transform.position - raycastHit.point).magnitude > _maxBuildingDistance;
-                
-                if (mouseHitOutOfRange) return;
-                
-                bool cancelSnapping = (currentSnappingPoint - raycastHit.point).magnitude > _cancelSnappingDistance;
+            if (GetMouseRayHit(layerMask, out RaycastHit raycastHit, 60)) {
                 bool colliderLayerEqualToPreviewSegment = raycastHit.transform.gameObject.layer.Equals(previewSegmentLayer);
-                bool snappingPointChanged = previewSegment.isSnapped && currentSnappingPoint != raycastHit.collider.bounds.center && colliderLayerEqualToPreviewSegment;
-                
-                if ((!previewSegment.isSnapped || snappingPointChanged) && colliderLayerEqualToPreviewSegment) {
-                    previewSegment.isSnapped = true;
+                bool snappingPointChanged = segment.isSnapped && currentSnappingPoint != raycastHit.collider.bounds.center && colliderLayerEqualToPreviewSegment;
+                bool cancelSnapping = (currentSnappingPoint - raycastHit.point).magnitude > _cancelSnappingDistance;
+
+                if ((!segment.isSnapped || snappingPointChanged) && colliderLayerEqualToPreviewSegment) {
+                    segment.isSnapped = true;
                     currentSnappingPoint = raycastHit.collider.bounds.center;
                     previewGameObject.transform.position = raycastHit.transform.position;
                 } else if (cancelSnapping || !colliderLayerEqualToPreviewSegment) {
-                    previewSegment.isSnapped = false;
+                    segment.isSnapped = false;
                     previewGameObject.transform.position = raycastHit.point;
                 }
             }

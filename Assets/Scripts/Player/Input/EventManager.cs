@@ -1,16 +1,11 @@
-using System;
 using Events.Events;
 using Flags;
-using SaveSystem.Data;
-using TMPro;
 using UnityEngine;
 
 namespace Player.Input
 {
     public class EventManager : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI gameFlagsLabel;
-        
         [SerializeField] private SimpleEvent movementInputEvent;
         [SerializeField] private SimpleEvent mouseMoveEvent;
         [SerializeField] private SimpleEvent mouseScrollEvent;
@@ -54,7 +49,7 @@ namespace Player.Input
             };
             // Mouse Scroll
             _playerControls.Camera.MouseScrollDelta.performed += inputEvent => {
-                if (GameFlags.GAME_PAUSED) return;
+                if (GameFlags.GAME_PAUSED || GameFlags.BUILD_MENU_OPEN) return;
                 
                 mouseScrollEvent.Raise();   // Camera Zoom
             };
@@ -156,30 +151,6 @@ namespace Player.Input
         private void OnEnable()
         {
             _playerControls.Enable();
-        }
-
-        private void Update()
-        {
-            string result = "";
-            result += nameof(GameFlags.GAME_PAUSED) + "=" + GetColorString(GameFlags.GAME_PAUSED) + "\n";
-            result += nameof(GameFlags.MAIN_MENU_ACTIVE) + "=" + GetColorString(GameFlags.MAIN_MENU_ACTIVE) + "\n";
-            
-            result += nameof(GameFlags.INVENTORY_OPEN) + "=" + GetColorString(GameFlags.INVENTORY_OPEN) + "\n";
-            result += nameof(GameFlags.INVENTORY_CLOSED) + "=" + GetColorString(GameFlags.INVENTORY_CLOSED) + "\n";
-            result += nameof(GameFlags.BUILD_MENU_OPEN) + "=" + GetColorString(GameFlags.BUILD_MENU_OPEN) + "\n";
-            result += nameof(GameFlags.BUILD_MENU_CLOSED) + "=" + GetColorString(GameFlags.BUILD_MENU_CLOSED) + "\n";
-            result += nameof(GameFlags.UI_ELEMENT_OPEN) + "=" + GetColorString(GameFlags.UI_ELEMENT_OPEN) + "\n";
-            
-            result += nameof(GameFlags.AXE_EQUIPPED) + "=" + GetColorString(GameFlags.AXE_EQUIPPED) + "\n";
-            result += nameof(GameFlags.PICKAXE_EQUIPPED) + "=" + GetColorString(GameFlags.PICKAXE_EQUIPPED) + "\n";
-            result += nameof(GameFlags.HAMMER_EQUIPPED) + "=" + GetColorString(GameFlags.HAMMER_EQUIPPED) + "\n";
-            result += nameof(GameFlags.SLOT_EQUIPPED) + "=" + GetColorString(GameFlags.SLOT_EQUIPPED) + "\n";
-            gameFlagsLabel.text = result;
-        }
-
-        public static string GetColorString(bool b)
-        {
-            return b ? "<color=#00ff00>True<color=#4fc0f1>" : "<color=#ff0000>False<color=#4fc0f1>";
         }
 
         private void OnDisable()

@@ -50,10 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 0
-  colliderTypes: 01000000
+  colliderInformation: {fileID: 11400000, guid: dd4847dd0b44e1944897772547e3836f, type: 2}
 --- !u!114 &19730090880048037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,10 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawLocalDirections: 0
-  drawVelocity: 0
-  drawCollider: 0
-  colliderTypes: 03000000
+  colliderInformation: {fileID: 11400000, guid: 71b3d92280852034e83895e41a9b5cde, type: 2}
 --- !u!33 &260435293079956581
 MeshFilter:
   m_ObjectHideFlags: 0
