@@ -78,12 +78,13 @@ namespace BuildSystem
             }
         }
 
-        public void TryPlaceSegment(Vector3 position)
+        public void TryPlaceSegment()
         {
             SegmentPreview previewSegment = previewGameObject.GetComponent<SegmentPreview>();
             if (previewSegment.canBePlaced) {
-                Vector3 actualPosition = previewGameObject.GetComponent<Destroyable>().isSnapped ? previewGameObject.transform.position : position;
-                GameObject segmentObj = Instantiate(selectedSegment, actualPosition, previewGameObject.transform.rotation);
+                Vector3 position = previewGameObject.transform.position;
+                Quaternion rotation = previewGameObject.transform.rotation;
+                GameObject segmentObj = Instantiate(selectedSegment, position, rotation);
                 segmentObj.GetComponent<SegmentPreview>().ResetMaterial();
                 Destroy(segmentObj.GetComponent<SegmentPreview>());
                 _world.placedSegments += 1;

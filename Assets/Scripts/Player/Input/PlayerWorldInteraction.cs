@@ -57,10 +57,8 @@ namespace Player.Input
                 OnDestroyableClicked();
             }
             
-            if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED && GetMouseRayHit(_playerWorldBuilding.BuildModeLayerMask, out RaycastHit raycastHit, 40)) {
-                if (_playerWorldBuilding.previewGameObject.GetComponent<SegmentPreview>().canBePlaced) {
-                    _playerWorldBuilding.TryPlaceSegment(new Vector3(raycastHit.point.x, 0, raycastHit.point.z));
-                }
+            if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED) {
+                _playerWorldBuilding.TryPlaceSegment();
             }
         }
 
