@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Collections;
 using Events.Events;
+using InventorySystem;
 using InventorySystem.UI;
 using UnityEngine;
 
@@ -10,7 +11,6 @@ namespace BuildSystem.UI
     {
         public string displayName;
         public string prefabName;
-        public GameObject prefab;
         public List<BuildCost> buildCosts;
         public BuildCostTooltip buildCostTooltipPrefab;
         public TooltipEvent tooltipShowEvent;
@@ -18,7 +18,8 @@ namespace BuildSystem.UI
 
         public override void OnInventorySlotClicked()
         {
-            base.OnInventorySlotClicked();
+            // invokes build menu display OnSlotClicked event
+            base.OnInventorySlotClicked(); 
         }
 
         public void Initialize(CollectionEntry entry)
@@ -26,7 +27,6 @@ namespace BuildSystem.UI
             SegmentCollectionEntry segmentCollectionEntry = (SegmentCollectionEntry) entry;
             displayName = segmentCollectionEntry.displayName;
             prefabName = segmentCollectionEntry.prefabName;
-            prefab = segmentCollectionEntry.prefab.gameObject;
             buildCosts = segmentCollectionEntry.buildCosts;
             
             _image.sprite = segmentCollectionEntry.previewImage;

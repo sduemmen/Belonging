@@ -58,7 +58,9 @@ MonoBehaviour:
   objectsToBeDeactivatedOnDestroy:
   - {fileID: 7023659197661168251}
   - {fileID: 8605809395879784514}
-  itemDrops: []
+  itemDrops:
+  - item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
+    amount: 4
   requiredTool: {fileID: 11400000, guid: e7a26b620bfdb6e4bbf49560639a65f6, type: 2}
   colliders: {fileID: 8605809395879784514}
   world: {fileID: 0}

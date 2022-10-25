@@ -13480,11 +13480,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxBuildingDistance: 30
-  _cancelSnappingDistance: 1.1
   _buildModeLayerMask:
     serializedVersion: 2
     m_Bits: 2048
   _world: {fileID: 1668396391}
+  playerInventory: {fileID: 11400000, guid: 9c632aa05bd60044ea9bb8f3612b92db, type: 2}
   selectedSegment: {fileID: 4583083937241896800, guid: 2bba2b9a02896c845b96da470ac34994, type: 3}
   previewGameObject: {fileID: 0}
 --- !u!114 &1713485475
@@ -14143,7 +14143,6 @@ MonoBehaviour:
   assignedInventorySlot:
     _item: {fileID: 0}
     _stackSize: -1
-    _index: 0
 --- !u!1 &6733898608676416716
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 ﻿using Environment;
 using Flags;
+using InventorySystem;
 using UnityEngine;
 using Utility;
 
@@ -8,16 +9,13 @@ namespace BuildSystem
     public class PlayerWorldBuilding : MonoBehaviour
     {
         [SerializeField] private float _maxBuildingDistance;
-        [SerializeField] private float _cancelSnappingDistance;
         [SerializeField] private LayerMask _buildModeLayerMask;
         [SerializeField] private World _world;
-        
-        public float MaxBuildingDistance => _maxBuildingDistance;
-        public LayerMask BuildModeLayerMask => _buildModeLayerMask;
+        [SerializeField] private Inventory playerInventory;
 
         public GameObject selectedSegment;
         public GameObject previewGameObject;
-        private Vector3 currentSnappingPoint;
+        private Vector3 currentSnappingPoint = Vector3.positiveInfinity;
         private bool previewOutOfRange;
 
         private Camera _camera;
@@ -43,14 +41,22 @@ namespace BuildSystem
             SegmentPreview preview = previewGameObject.GetComponent<SegmentPreview>();
             
             bool mouseOutOfRange = (transform.position - segment.transform.position).magnitude > _maxBuildingDistance;
+            bool costIsAffordable = true;
 
-            if (preview.canBePlaced && mouseOutOfRange) {
+            foreach (BuildCost buildCost in segment.itemDrops) {
+                if (!playerInventory.Contains(buildCost.item, buildCost.amount)) {
+                    costIsAffordable = false;
+                    break;
+                }
+            }
+            
+            if ((preview.canBePlaced && mouseOutOfRange) || !costIsAffordable) {
                 preview.canBePlaced = false;
                 preview.UpdateMaterial();
                 previewOutOfRange = true;
-                return;
+                if (preview.canBePlaced && mouseOutOfRange) return;
             } 
-            if (!preview.canBePlaced && !mouseOutOfRange && previewOutOfRange) {
+            if (!preview.canBePlaced && !mouseOutOfRange && previewOutOfRange && costIsAffordable) {
                 preview.canBePlaced = true;
                 preview.UpdateMaterial();
                 previewOutOfRange = false;
@@ -63,15 +69,14 @@ namespace BuildSystem
             layerMask |= 1 << previewSegmentLayer;  // we can neglect all layers except the current segment layer/type
             
             if (GetMouseRayHit(layerMask, out RaycastHit raycastHit, 60)) {
-                bool colliderLayerEqualToPreviewSegment = raycastHit.transform.gameObject.layer.Equals(previewSegmentLayer);
-                bool snappingPointChanged = segment.isSnapped && currentSnappingPoint != raycastHit.collider.bounds.center && colliderLayerEqualToPreviewSegment;
-                bool cancelSnapping = (currentSnappingPoint - raycastHit.point).magnitude > _cancelSnappingDistance;
-
-                if ((!segment.isSnapped || snappingPointChanged) && colliderLayerEqualToPreviewSegment) {
+                bool snapTypeEqualToSegmentType = raycastHit.transform.gameObject.layer.Equals(previewSegmentLayer);
+                bool snappingPointChanged = segment.isSnapped && currentSnappingPoint != raycastHit.collider.bounds.center && snapTypeEqualToSegmentType;
+                
+                if ((!segment.isSnapped || snappingPointChanged) && snapTypeEqualToSegmentType) {
                     segment.isSnapped = true;
                     currentSnappingPoint = raycastHit.collider.bounds.center;
                     previewGameObject.transform.position = raycastHit.transform.position;
-                } else if (cancelSnapping || !colliderLayerEqualToPreviewSegment) {
+                } else if (!snapTypeEqualToSegmentType) {
                     segment.isSnapped = false;
                     previewGameObject.transform.position = raycastHit.point;
                 }
@@ -81,6 +86,7 @@ namespace BuildSystem
         public void TryPlaceSegment()
         {
             SegmentPreview previewSegment = previewGameObject.GetComponent<SegmentPreview>();
+            
             if (previewSegment.canBePlaced) {
                 Vector3 position = previewGameObject.transform.position;
                 Quaternion rotation = previewGameObject.transform.rotation;
@@ -88,7 +94,14 @@ namespace BuildSystem
                 segmentObj.GetComponent<SegmentPreview>().ResetMaterial();
                 Destroy(segmentObj.GetComponent<SegmentPreview>());
                 _world.placedSegments += 1;
-                segmentObj.GetComponent<Destroyable>().world = _world;
+                Destroyable segment = segmentObj.GetComponent<Destroyable>();
+                segment.world = _world;
+                
+                foreach (BuildCost buildCost in segment.itemDrops) {
+                    if (playerInventory.Contains(buildCost.item, buildCost.amount)) {
+                        playerInventory.RemoveItem(buildCost.item, buildCost.amount);
+                    }
+                }
             }
         }
         

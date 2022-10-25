@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using BuildSystem;
 using InventorySystem.Items;
@@ -6,9 +7,11 @@ using SaveSystem;
 using SaveSystem.Data;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Environment
 {
+    [Serializable]
     public class Destroyable : MonoBehaviour, IDataPersistence
     {
         [SerializeField] private string prefabName;
@@ -99,7 +102,7 @@ namespace Environment
 
         public void SaveData(ref GameData data)
         {
-            if (!wasBuiltByPlayer) return;
+            if (!wasBuiltByPlayer || GetComponent<SegmentPreview>() != null) return;
             Transform t = GetComponent<Transform>();
             PersistentDestroyableData persistentData = new PersistentDestroyableData(t.position, t.rotation, prefabName);
             data.persistentDestroyables.Add(persistentData);

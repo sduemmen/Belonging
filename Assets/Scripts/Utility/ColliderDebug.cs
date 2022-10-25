@@ -17,6 +17,7 @@ namespace Utility
 
         private void OnDrawGizmos()
         {
+            if (DebugInformation.Instance == null) return;
             if (!DebugInformation.Instance.drawSnapPoints && colliderInformation.usage == ColliderUsage.SnappingPoint) return;
             if (!DebugInformation.Instance.drawCollisionColliders && colliderInformation.usage == ColliderUsage.Collision) return;
             if (!DebugInformation.Instance.drawItemPickupCollider && colliderInformation.usage == ColliderUsage.ItemPickup) return;

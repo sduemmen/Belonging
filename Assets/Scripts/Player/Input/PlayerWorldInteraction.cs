@@ -78,7 +78,7 @@ namespace Player.Input
             if (selectedTool == null) return;
             
             Destroyable destroyable = hitGameObject.GetComponent<Destroyable>();
-            if (destroyable == null) destroyable = hitGameObject.transform.parent.GetComponent<Destroyable>();
+            if (destroyable == null && hitGameObject.transform.parent != null) destroyable = hitGameObject.transform.parent.GetComponent<Destroyable>();
             if (destroyable == null || selectedTool != destroyable.requiredTool) return;
             destroyable.OnClick(player, hitResult);
         }

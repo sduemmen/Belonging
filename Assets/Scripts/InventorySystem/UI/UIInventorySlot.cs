@@ -7,7 +7,7 @@ namespace InventorySystem.UI
     public class UIInventorySlot : MonoBehaviour
     {
         [SerializeField] protected Image _image;
-        [SerializeField] protected TextMeshProUGUI _stackSizeLabel;
+        [SerializeField] public TextMeshProUGUI _stackSizeLabel;
         [SerializeField] public InventoryDisplay parentDisplay;
         [SerializeField] private int _index;
         public bool clickable = true;
@@ -20,7 +20,6 @@ namespace InventorySystem.UI
         public virtual void OnInventorySlotClicked()
         {
             if (clickable) parentDisplay.OnSlotClicked?.Invoke(this);
-            Debug.Log("slot clicked");
         }
         
         public virtual void Initialize(InventorySlot inventorySlot)

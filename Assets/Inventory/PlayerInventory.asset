@@ -17,83 +17,56 @@ MonoBehaviour:
   _isStatic: 0
   _inventorySlots:
   - _item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
-    _stackSize: 2
-    _index: 0
-  - _item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
     _stackSize: 1
-    _index: 1
-  - _item: {fileID: 11400000, guid: 12105098fa1a4cc48bce492e45e197b9, type: 2}
-    _stackSize: 3
-    _index: 2
   - _item: {fileID: 11400000, guid: 12105098fa1a4cc48bce492e45e197b9, type: 2}
     _stackSize: 2
-    _index: 3
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 4
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 5
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 6
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 7
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 8
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 9
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 10
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 11
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 12
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 13
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 14
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 15
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 16
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 17
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 18
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 19
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 20
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 21
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 22
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 23
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 24
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 25
   - _item: {fileID: 0}
     _stackSize: -1
-    _index: 26
+  - _item: {fileID: 0}
+    _stackSize: -1
+  - _item: {fileID: 0}
+    _stackSize: -1

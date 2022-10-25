@@ -1,5 +1,6 @@
 ﻿using Environment;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 namespace Collections
@@ -13,27 +14,31 @@ namespace Collections
             
             for (int i = 0; i < entries.Count; i++) {
                 if (entries[i].prefab == null) {
-                    Debug.LogWarning($"prefab not assigned at index {i}");
+                    Debug.LogWarning($"prefab not assigned in {entries[i].prefabName}");
                 }
                 
                 if (string.IsNullOrEmpty(entries[i].prefabName)) {
-                    Debug.LogWarning($"prefabName not assigned at index {i}");
+                    Debug.LogWarning($"prefabName not assigned in {entries[i].prefabName}");
                 }
 
                 if (entries[i].previewImage == null) {
-                    Debug.LogWarning($"previewImage not assigned at index {i}");
+                    Debug.LogWarning($"previewImage not assigned in {entries[i].prefabName}");
                 }
 
                 if (entries[i].buildCosts.Count <= 0) {
-                    Debug.LogWarning($"no build costs assigned at index {i}");
+                    Debug.LogWarning($"no build costs assigned in {entries[i].prefabName}");
                 }
 
                 if (string.IsNullOrEmpty(entries[i].displayName)) {
-                    Debug.LogWarning($"no display name assigned at index {i}");
+                    Debug.LogWarning($"no display name assigned in {entries[i].prefabName}");
                 }
 
-                if (entries[i].prefab.GetComponent<Destroyable>().itemDrops != entries[i].buildCosts) {
-                    Debug.Log($"build cost out of sync with item drops at index {i}");
+                for (int j = 0; j < entries[i].buildCosts.Count; j++) {
+                    if (j < entries[i].prefab.GetComponent<Destroyable>().itemDrops.Count && !Equals(entries[i].prefab.GetComponent<Destroyable>().itemDrops[j], entries[i].buildCosts[j])) {
+                        Debug.Log($"build cost {entries[i].buildCosts[j].item.displayName} out of sync with item drops in {entries[i].prefabName}");
+                    } else if (entries[i].prefab.GetComponent<Destroyable>().itemDrops.Count != entries[i].buildCosts.Count) {
+                        Debug.Log($"build cost list out of sync with item drops in {entries[i].prefabName}");
+                    }
                 }
             }
         }
@@ -45,18 +50,19 @@ namespace Collections
                 if (string.IsNullOrEmpty(entries[i].prefabName)) {
                     if (entries[i].prefab != null) {
                         entries[i].prefabName = entries[i].prefab.name;
-                        Debug.Log($"set prefabName at index {i}");
+                        Debug.Log($"set prefabName in {entries[i].prefabName}");
                     }
                 } else {
                     if (entries[i].prefab != null && entries[i].prefabName != entries[i].prefab.name) {
                         entries[i].prefabName = entries[i].prefab.name;
-                        Debug.Log($"fixed prefabName at index {i}");
+                        Debug.Log($"fixed prefabName in {entries[i].prefabName}");
                     }
                 }
 
                 if (entries[i].prefab.GetComponent<Destroyable>().itemDrops != entries[i].buildCosts) {
                     entries[i].prefab.GetComponent<Destroyable>().itemDrops = entries[i].buildCosts;
-                    Debug.Log($"fixed build cost out of sync with item drops at index {i}");
+                    EditorUtility.SetDirty(entries[i].prefab);
+                    Debug.Log($"fixed build cost out of sync with item drops in {entries[i].prefabName}");
                 }
             }
         }

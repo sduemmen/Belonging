@@ -292,3 +292,6 @@ MonoBehaviour:
   segmentNameLabel: {fileID: 2443484094209708226}
   slotPrefab: {fileID: 207946271932221301, guid: 27f756766f7f3244292e319fffcca526, type: 3}
   uiCostHolder: {fileID: 2242526073155920695}
+  playerInventory: {fileID: 11400000, guid: 9c632aa05bd60044ea9bb8f3612b92db, type: 2}
+  costAffordableColor: {r: 1, g: 1, b: 1, a: 1}
+  costUnaffordableColor: {r: 0.745283, g: 0, b: 0, a: 1}

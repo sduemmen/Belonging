@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using BuildSystem;
-using Environment;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ namespace Collections
     {
         [SerializeField] public string displayName;
         [SerializeField] public string prefabName;
-        [SerializeField] public Destroyable prefab;
+        [SerializeField] public GameObject prefab;
         [SerializeField] public Sprite previewImage;
         [SerializeField] public List<BuildCost> buildCosts;
 

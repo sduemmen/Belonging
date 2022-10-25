@@ -9,7 +9,7 @@ namespace InventorySystem
     {
         [SerializeField] private ItemObject _item;
         [SerializeField] private int _stackSize;
-        [SerializeField] private int _index;
+        private int _index;
 
         #region -- Getters, Setters --
 
@@ -45,7 +45,8 @@ namespace InventorySystem
 
         public InventorySlot()
         {
-            ClearSlot();
+            Item = null;
+            StackSize = -1;
         }
 
         public void AssignItem(InventorySlot other)

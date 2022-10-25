@@ -44,14 +44,14 @@ namespace SaveSystem
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            Debug.Log("Scene loaded");
+            // Debug.Log("Scene loaded");
             bool loadedSceneIsGameScene = scene.name == "GameScene";
             if (loadedSceneIsGameScene) LoadGame();
         }
         
         private void OnSceneUnloaded(Scene scene)
         {
-            Debug.Log("Scene unloaded");
+            // Debug.Log("Scene unloaded");
         }
 
         private void OnDisable()
@@ -98,7 +98,7 @@ namespace SaveSystem
                 }
             }
             
-            Debug.Log($"Loading complete {profileID}");
+            Debug.Log($"Loading complete (profile={profileID})");
         }
 
         public void SaveGame(bool forceSave = false)
@@ -129,7 +129,7 @@ namespace SaveSystem
             
             _saveLoadIO.Save(_gameData, profileID);
             
-            Debug.Log($"Saving complete {profileID}");
+            Debug.Log($"Saving complete (profile={profileID})");
         }
 
         private List<IDataPersistence> FindAllDataPersistenceObjects()

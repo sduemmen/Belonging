@@ -60,7 +60,9 @@ MonoBehaviour:
   - {fileID: 4802661907344370776}
   - {fileID: 9091596920777129026}
   - {fileID: 8216974074100482650}
-  itemDrops: []
+  itemDrops:
+  - item: {fileID: 11400000, guid: 12105098fa1a4cc48bce492e45e197b9, type: 2}
+    amount: 2
   requiredTool: {fileID: 11400000, guid: fb4697c83476b4b4c9aa9a7d2d7e5281, type: 2}
   colliders: {fileID: 8216974074100482650}
   world: {fileID: 0}

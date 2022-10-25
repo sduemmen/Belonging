@@ -16,7 +16,7 @@ MonoBehaviour:
   entries:
   - displayName: Roof 1
     prefabName: Roof_Wood_01
-    prefab: {fileID: 1234979627052812695, guid: 466867a4301f45341b905ef457216a36, type: 3}
+    prefab: {fileID: 2538738716655177059, guid: 466867a4301f45341b905ef457216a36, type: 3}
     previewImage: {fileID: 21300000, guid: 00161d09799950648a64bec45d40a541, type: 3}
     buildCosts:
     - item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
