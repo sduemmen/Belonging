@@ -18,6 +18,9 @@ namespace BuildSystem.UI
         public void Initialize(string displayName, List<BuildCost> buildCosts)
         {
             segmentNameLabel.text = displayName;
+            segmentNameLabel.fontStyle = UnlockSystem.Instance.SegmentUnlocked(displayName)
+                ? FontStyles.Normal
+                : FontStyles.Strikethrough;
             
             foreach (BuildCost buildCost in buildCosts) {
                 UIInventorySlot slot = Instantiate(slotPrefab, uiCostHolder.transform);

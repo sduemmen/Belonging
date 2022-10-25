@@ -14,10 +14,22 @@ namespace BuildSystem
     public class BuildMenuController : InventoryController
     {
         [SerializeField] private List<Collection<SegmentCollectionEntry>> _segmentCollections;
+        [SerializeField] private List<UIBuildMenuSlot> _buildMenuSlots;
         [SerializeField] private PlayerWorldBuilding _playerWorldBuilding;
         [SerializeField] private SimpleEvent closeBuildMenuEvent;
 
         protected override void Start()
+        {
+            Initialize();
+            _inventoryDisplay.OnSlotClicked += InteractWithSlot;
+        }
+        
+        protected override void OnDestroy()
+        {
+            _inventoryDisplay.OnSlotClicked -= InteractWithSlot;
+        }
+
+        public void Initialize()
         {
             if (_inventoryDisplay == null) Debug.LogError("No inventoryDisplay set in InventoryController");
 
@@ -34,15 +46,15 @@ namespace BuildSystem
                     uiSlot.Initialize(segmentCollection.entries[i]);
                     uiSlot.parentDisplay = buildMenuDisplay;
                     uiSlot.transform.SetParent(uiCollectionRow.content.transform);
+                    _buildMenuSlots.Add(uiSlot);
                 }
             }
-
-            _inventoryDisplay.OnSlotClicked += InteractWithSlot;
         }
         
-        protected override void OnDestroy()
+        public void OnUnlockSegment(string segmentName)
         {
-            _inventoryDisplay.OnSlotClicked -= InteractWithSlot;
+            UIBuildMenuSlot uiSlot = _buildMenuSlots.Find(slot => slot.displayName == segmentName);
+            uiSlot.OnUnlockSegment();
         }
 
         protected override void InteractWithSlot(UIInventorySlot clickedUISlot)

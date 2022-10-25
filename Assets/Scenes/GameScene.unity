@@ -404,6 +404,167 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 110302288}
   m_CullTransparentMesh: 1
+--- !u!1 &110760487
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 110760489}
+  - component: {fileID: 110760488}
+  - component: {fileID: 110760493}
+  - component: {fileID: 110760492}
+  - component: {fileID: 110760491}
+  - component: {fileID: 110760490}
+  m_Layer: 0
+  m_Name: QuestManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &110760488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110760487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5fc4b7f08e54fd2a515413407c89265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questCollection: {fileID: 11400000, guid: 709b700288653bb4cb87baefe65f9eca, type: 2}
+--- !u!4 &110760489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110760487}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &110760490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110760487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5943a77c80f488ca0fa35f595a2c5d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _event: {fileID: 11400000, guid: fa7423197d348124999283c6bf2068f5, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 110760488}
+        m_TargetAssemblyTypeName: QuestSystem.QuestManager, Assembly-CSharp
+        m_MethodName: IncrementBuildingQuests
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &110760491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110760487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5943a77c80f488ca0fa35f595a2c5d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _event: {fileID: 11400000, guid: 6550404284bd7b34d93f208ce85c85c3, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 110760488}
+        m_TargetAssemblyTypeName: QuestSystem.QuestManager, Assembly-CSharp
+        m_MethodName: IncrementAnyCollectionQuests
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &110760492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110760487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5943a77c80f488ca0fa35f595a2c5d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _event: {fileID: 11400000, guid: 38a671d353363b04a989f1187add4185, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 110760488}
+        m_TargetAssemblyTypeName: QuestSystem.QuestManager, Assembly-CSharp
+        m_MethodName: IncrementStoneCollectionQuests
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &110760493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110760487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5943a77c80f488ca0fa35f595a2c5d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _event: {fileID: 11400000, guid: 9d7cd9d5dda480b449b8367b7c5b179e, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 110760488}
+        m_TargetAssemblyTypeName: QuestSystem.QuestManager, Assembly-CSharp
+        m_MethodName: IncrementWoodCollectionQuests
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &206570212
 GameObject:
   m_ObjectHideFlags: 0
@@ -1064,6 +1225,7 @@ GameObject:
   - component: {fileID: 456859461}
   - component: {fileID: 456859463}
   - component: {fileID: 456859462}
+  - component: {fileID: 456859464}
   m_Layer: 10
   m_Name: InteractiveSnowParticles
   m_TagString: Untagged
@@ -5881,6 +6043,19 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &456859464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456859460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8dd9890aaeb4258b2ea39fb534dd550, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particleSystem: {fileID: 456859463}
 --- !u!1 &489895737
 GameObject:
   m_ObjectHideFlags: 0
@@ -5911,7 +6086,7 @@ Transform:
   m_Children:
   - {fileID: 235188284}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &512315393
 PrefabInstance:
@@ -5931,7 +6106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4983543164737018, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
       propertyPath: m_RootOrder
-      value: 22
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 4983543164737018, guid: 96de408d5d71bc64693c80702b6aad12, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11402,6 +11577,7 @@ GameObject:
   m_Component:
   - component: {fileID: 763711775}
   - component: {fileID: 763711776}
+  - component: {fileID: 763711777}
   m_Layer: 8
   m_Name: BuildMenu
   m_TagString: Untagged
@@ -11444,8 +11620,37 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 01e9544134c6f5349bdd04d8bb5e4bab, type: 2}
   - {fileID: 11400000, guid: b98237ee9b46e584f8f438ad5eeeefe6, type: 2}
   - {fileID: 11400000, guid: bfce6d15255db294092798b83f884dd3, type: 2}
+  _buildMenuSlots: []
   _playerWorldBuilding: {fileID: 1713485474}
   closeBuildMenuEvent: {fileID: 11400000, guid: 91bf340d56203834b9c34889f79f8133, type: 2}
+--- !u!114 &763711777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763711774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b58627d6e88347b0b10364e91c3b91d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _event: {fileID: 11400000, guid: 5d85d66df8f962a46bd74d6cb3c1f8b3, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 763711776}
+        m_TargetAssemblyTypeName: BuildSystem.BuildMenuController, Assembly-CSharp
+        m_MethodName: OnUnlockSegment
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &782060556
 GameObject:
   m_ObjectHideFlags: 0
@@ -12531,6 +12736,103 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21abe7beeebf49028e90657fea86ce96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1318306484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1318306486}
+  - component: {fileID: 1318306485}
+  - component: {fileID: 1318306487}
+  m_Layer: 0
+  m_Name: UnlockSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1318306485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318306484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 544ab02dd4734037950014062bc82af6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _segmentUnlockData:
+  - segmentName: Stone Floor 1
+    unlocked: 1
+  - segmentName: Stone Floor 2
+    unlocked: 0
+  - segmentName: Wood Floor 1
+    unlocked: 1
+  - segmentName: Wood Floor 2
+    unlocked: 0
+  - segmentName: Wooden Pole
+    unlocked: 1
+  - segmentName: Roof 1
+    unlocked: 1
+  - segmentName: Stone Wall 1
+    unlocked: 1
+  - segmentName: Wooden Wall 1
+    unlocked: 1
+  - segmentName: Wooden Wall 2
+    unlocked: 0
+  _segmentCollections:
+  - {fileID: 11400000, guid: cee007af72ecb0742b831dda00b65dc5, type: 2}
+  - {fileID: 11400000, guid: b98237ee9b46e584f8f438ad5eeeefe6, type: 2}
+  - {fileID: 11400000, guid: bfce6d15255db294092798b83f884dd3, type: 2}
+  - {fileID: 11400000, guid: 01e9544134c6f5349bdd04d8bb5e4bab, type: 2}
+--- !u!4 &1318306486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318306484}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1318306487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318306484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b58627d6e88347b0b10364e91c3b91d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _event: {fileID: 11400000, guid: 5d85d66df8f962a46bd74d6cb3c1f8b3, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1318306485}
+        m_TargetAssemblyTypeName: BuildSystem.UnlockSystem, Assembly-CSharp
+        m_MethodName: OnUnlockSegment
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1376653187
 GameObject:
   m_ObjectHideFlags: 0
@@ -12561,7 +12863,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1376653189
 MonoBehaviour:
@@ -12829,7 +13131,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4765765115777736, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
       propertyPath: m_RootOrder
-      value: 21
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 4765765115777736, guid: 331bb3535197fd94289ab28f98c000f6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12946,8 +13248,8 @@ MonoBehaviour:
   drawSnapPoints: 0
   drawCurrentSnapPoint: 1
   drawCollisionColliders: 0
-  drawItemPickupCollider: 1
-  drawTransformPositions: 1
+  drawItemPickupCollider: 0
+  drawTransformPositions: 0
   showFps: 1
   showGameFlags: 1
   fpsLabel: {fileID: 206570214}

@@ -40,7 +40,9 @@ namespace Environment
             InventoryController inventoryController = other.transform.GetComponent<InventoryController>();
             if (!inventoryController) return;
 
-            inventoryController.Inventory.AddItem(_item, 1); 
+            bool itemCanBeCollected = inventoryController.Inventory.AddItem(_item, 1);
+            if (!itemCanBeCollected) return;
+            
             Destroy(this.gameObject);
         }
         

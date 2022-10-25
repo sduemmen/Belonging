@@ -18,8 +18,10 @@ namespace BuildSystem.UI
 
         public override void OnInventorySlotClicked()
         {
+            if (!UnlockSystem.Instance.SegmentUnlocked(displayName)) return;
             // invokes build menu display OnSlotClicked event
             base.OnInventorySlotClicked(); 
+            RaiseTooltipHideEvent();
         }
 
         public void Initialize(CollectionEntry entry)
@@ -30,7 +32,13 @@ namespace BuildSystem.UI
             buildCosts = segmentCollectionEntry.buildCosts;
             
             _image.sprite = segmentCollectionEntry.previewImage;
+            _image.color = UnlockSystem.Instance.SegmentUnlocked(displayName) ? Color.white : Color.gray;
             this._stackSizeLabel.text = "";
+        }
+
+        public void OnUnlockSegment()
+        {
+            _image.color = UnlockSystem.Instance.SegmentUnlocked(displayName) ? Color.white : Color.gray;
         }
 
         public void RaiseTooltipShowEvent()

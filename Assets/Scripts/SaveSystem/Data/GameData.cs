@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using BuildSystem;
 using Flags;
+using QuestSystem;
 using UI.MainMenu;
 using UnityEngine;
 using Random = System.Random;
@@ -25,6 +27,8 @@ namespace SaveSystem.Data
         public List<PersistentItemData> persistentItems;
         public List<PersistentDestroyableData> persistentDestroyables;
         public List<PersistentInventoryData> persistentInventoryData;
+        public List<SegmentUnlockData> segmentUnlockData;
+        public List<Quest> quests;
 
         public string name;
         public float playtime;
@@ -52,6 +56,8 @@ namespace SaveSystem.Data
             persistentItems = new List<PersistentItemData>();
             persistentDestroyables = new List<PersistentDestroyableData>();
             persistentInventoryData = new List<PersistentInventoryData>();
+            segmentUnlockData = new List<SegmentUnlockData>();
+            quests = new List<Quest>();
 
             name = "New World";
             playtime = 0f;
@@ -79,6 +85,8 @@ namespace SaveSystem.Data
             persistentItems = new List<PersistentItemData>();
             persistentDestroyables = new List<PersistentDestroyableData>();
             persistentInventoryData = new List<PersistentInventoryData>();
+            segmentUnlockData = new List<SegmentUnlockData>();
+            quests = new List<Quest>();
 
             name = newGameData.gameName;
             playtime = 0f;

@@ -4,12 +4,10 @@ namespace Environment
 {
     public class InteractiveSnow : MonoBehaviour
     {
-        [SerializeField]
-        RenderTexture rt;
-        [SerializeField]
-        Transform target;
-        // Start is called before the first frame update
-        void Awake()
+        [SerializeField] private RenderTexture rt;
+        [SerializeField] private Transform target;
+        
+        private void Awake()
         {
             Shader.SetGlobalTexture("_GlobalEffectRT", rt);
             Shader.SetGlobalFloat("_OrthographicCamSize", GetComponent<Camera>().orthographicSize);
@@ -17,10 +15,12 @@ namespace Environment
  
         private void Update()
         {
-            transform.position = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-            Shader.SetGlobalVector("_Position", transform.position);
+            var t = transform;
+            var position = t.position;
+            var targetPosition = target.transform.position;
+            position = new Vector3(targetPosition.x, position.y, targetPosition.z);
+            t.position = position;
+            Shader.SetGlobalVector("_Position", position);
         }
- 
- 
     }
 }

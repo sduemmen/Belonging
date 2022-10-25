@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Events.Events;
 using InventorySystem.Items;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -15,6 +16,19 @@ namespace InventorySystem
         [SerializeField] private int _inventorySize;
         [SerializeField] private bool _isStatic;
         [SerializeField] private List<InventorySlot> _inventorySlots;
+        
+        [ShowIf("@_isStatic == false")]
+        [SerializeField] 
+        private SimpleEvent woodCollectedEvent;
+        
+        [ShowIf("@_isStatic == false")]
+        [SerializeField] 
+        private SimpleEvent stoneCollectedEvent;
+        
+        [ShowIf("@_isStatic == false")]
+        [SerializeField] 
+        private SimpleEvent anyCollectedEvent;
+        
         public UnityAction<InventorySlot> OnSlotChanged;
         
         [Button("Clear Inventory")]
@@ -65,7 +79,14 @@ namespace InventorySystem
                 foreach (InventorySlot slot in slots) {
                     if (slot.HasRoomFor(amountToAdd)) {
                         slot.AddToStack(amountToAdd);
-                        Debug.Log("picked up item");
+                        
+                        anyCollectedEvent.Raise();
+                        if (itemToAdd.displayName == "Wood") {
+                            woodCollectedEvent.Raise();
+                        } else if (itemToAdd.displayName == "Stone") {
+                            stoneCollectedEvent.Raise();
+                        }
+                        
                         OnSlotChanged?.Invoke(slot);
                         return true;
                     }
@@ -75,7 +96,14 @@ namespace InventorySystem
             if (this.HasFreeInventorySlot(out InventorySlot freeSlot)) {
                 freeSlot.Item = itemToAdd;
                 freeSlot.StackSize = amountToAdd;
-                Debug.Log("picked up item");
+                
+                anyCollectedEvent.Raise();
+                if (itemToAdd.displayName == "Wood") {
+                    woodCollectedEvent.Raise();
+                } else if (itemToAdd.displayName == "Stone") {
+                    stoneCollectedEvent.Raise();
+                }
+                
                 OnSlotChanged?.Invoke(freeSlot);
                 return true;
             }

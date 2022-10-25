@@ -18,13 +18,12 @@ namespace SaveSystem.Data
             if (data.firstLoad) {
                 _playerSpawnPosition = data.playerSpawnPosition;
                 _transform.position = data.playerSpawnPosition;
-                _firstLoad = false;
             } else {
                 _playerSpawnPosition = data.playerSpawnPosition;
                 _transform.position = data.playerPosition;
                 _transform.rotation = data.playerRotation;
-                _firstLoad = false;
             }
+            _firstLoad = false;
         }
 
         public void SaveData(ref GameData data)

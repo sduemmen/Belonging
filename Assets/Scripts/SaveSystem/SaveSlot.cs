@@ -1,4 +1,3 @@
-using System;
 using SaveSystem.Data;
 using UI.MainMenu;
 using UnityEngine;
@@ -9,5 +8,10 @@ namespace SaveSystem
     {
         public GameData gameData;
         public UISaveSlot uiSaveSlot;
+
+        public void SetProfileID()
+        {
+            DataPersistenceManager.instance.profileID = gameData.profileID;
+        }
     }
 }

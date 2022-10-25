@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using Flags;
+using SaveSystem;
 using SaveSystem.Data;
 using TMPro;
 using UnityEngine;
@@ -14,15 +16,10 @@ namespace UI.MainMenu
         public TextMeshProUGUI lastPlayedOn;
         public TextMeshProUGUI score;
         public TextMeshProUGUI unlocked;
-        public Button selectButton;
+        public Button selectSaveSlotButton;
         public Image background;
         public Color selectColor = new Color(46, 46, 46);
         public Color defaultColor = new Color(30, 30, 30);
-        
-        private void Awake()
-        {
-            selectButton = GetComponent<Button>();
-        }
 
         public void SetDisplayName(string text)
         {
@@ -46,17 +43,17 @@ namespace UI.MainMenu
             this.score.text = $"{count} {s}";
         }
         
-        public void SetUnlocked(int unlocked, int total)
+        public void SetUnlockedSegments(int unlockedSegments, int total)
         {
-            this.unlocked.text = $"{unlocked}/{total} Segments";
+            this.unlocked.text = $"{unlockedSegments}/{total} Segments";
         }
 
-        public void OnSelect()
+        public void OnMouseHoverEnter()
         {
             background.color = selectColor;
         }
 
-        public void OnUnselect()
+        public void OnMouseHoverLeave()
         {
             background.color = defaultColor;
         }
@@ -67,7 +64,7 @@ namespace UI.MainMenu
             SetPlaytime(gameData.playtime);
             SetLastPlayedOn(GetTimeUntilNow(DateTime.FromFileTime(gameData.lastPlayed)));
             SetPlacedSegmentCount(gameData.placedSegments);
-            SetUnlocked(gameData.unlocked, GameConstants.MAX_UNLOCKABLE_SEGMENTS);
+            SetUnlockedSegments(gameData.segmentUnlockData.Where(data => data.unlocked).ToList().Count, gameData.segmentUnlockData.Count);
         }
 
         private string GetTimeUntilNow(DateTime dateTime)

@@ -8,6 +8,7 @@ namespace Collections
     [CreateAssetMenu(menuName = "Collections/Segment Collection")]
     public class SegmentCollection : Collection<SegmentCollectionEntry>
     {
+#if UNITY_EDITOR
         protected override void VerifyEntries()
         {
             base.VerifyEntries();
@@ -66,5 +67,6 @@ namespace Collections
                 }
             }
         }
+#endif
     }
 }

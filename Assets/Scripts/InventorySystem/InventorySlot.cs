@@ -67,7 +67,7 @@ namespace InventorySystem
 
         public bool IsEmpty()
         {
-            return Item == null && _stackSize < 0;
+            return Item == null || _stackSize < 0;
         }
         
         public bool HasRoomFor(int amountToAdd, out int roomLeft)

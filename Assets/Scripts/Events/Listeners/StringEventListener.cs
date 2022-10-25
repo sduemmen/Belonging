@@ -1,10 +1,9 @@
 ﻿using System;
-using UnityEngine;
 
 namespace Events.Listeners
 {
     [Serializable]
-    public class TooltipEventListener : EventListener<GameObject>
+    public class StringEventListener : EventListener<string>
     {
         
     }

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a841fc587f7a4f19b39b16e90f4eb402, type: 3}
+  m_Name: Quests
+  m_EditorClassIdentifier: 
+  collectionTitle: Quests
+  entries:
+  - segmentReward: Wood Floor 2
+    questType: 0
+    collectionQuestType: 1
+    description: Collect 4x Wood
+    fulfilled: 0
+    target: 4
+    progress: 0
+    questFulfilledEvent: {fileID: 11400000, guid: 5d85d66df8f962a46bd74d6cb3c1f8b3, type: 2}
+  - segmentReward: Stone Floor 2
+    questType: 1
+    collectionQuestType: 0
+    description: Build 10x Segment
+    fulfilled: 0
+    target: 10
+    progress: 0
+    questFulfilledEvent: {fileID: 11400000, guid: 5d85d66df8f962a46bd74d6cb3c1f8b3, type: 2}

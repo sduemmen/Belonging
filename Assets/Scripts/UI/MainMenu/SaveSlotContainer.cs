@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Flags;
@@ -6,7 +5,6 @@ using SaveSystem;
 using SaveSystem.Data;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace UI.MainMenu
 {
@@ -15,36 +13,10 @@ namespace UI.MainMenu
         private List<SaveSlot> _saveSlots;
         [SerializeField] private GameObject saveSlotPrefab;
         [SerializeField] private TextMeshProUGUI noSaveSlotsHint;
-        private static SaveSlot selectedSaveSlot;
-
-        public static SaveSlot SelectedSaveSlot {
-            get => selectedSaveSlot;
-            set {
-                bool selectedSaveSlotIsNull = selectedSaveSlot == null;
-                bool newSaveSlotIsNull = value == null;
-                
-                if (newSaveSlotIsNull) {
-                    DataPersistenceManager.instance.profileID = "default";
-                    if (!selectedSaveSlotIsNull) selectedSaveSlot.uiSaveSlot.OnUnselect();
-                } else {
-                    DataPersistenceManager.instance.profileID = value.gameData.profileID;
-                    if (!selectedSaveSlotIsNull) selectedSaveSlot.uiSaveSlot.OnUnselect();
-                    value.uiSaveSlot.OnSelect();
-                }
-                selectedSaveSlot = value;
-            }
-        }
 
         private void Awake()
         {
             _saveSlots = new List<SaveSlot>();
-        }
-
-        private void Update()
-        {
-            if (selectedSaveSlot != null && UserInputFlags.LEFT_MOUSE_BUTTON_WAS_PRESSED) {
-                selectedSaveSlot.uiSaveSlot.OnUnselect();
-            }
         }
 
         public void LoadSaveSlots()
@@ -61,15 +33,6 @@ namespace UI.MainMenu
                     saveSlot.gameData = entry.Value;
                     saveSlot.uiSaveSlot.SetValues(entry.Value);
                     
-                    EventTrigger onPointerDown = saveSlot.uiSaveSlot.gameObject.AddComponent<EventTrigger>();
-                    EventTrigger.Entry pointerDown = new EventTrigger.Entry {
-                        eventID = EventTriggerType.PointerClick
-                    };
-                    pointerDown.callback.AddListener((e) => {
-                        SelectedSaveSlot = saveSlot;
-                    });
-                    onPointerDown.triggers.Add(pointerDown);
-                    
                     _saveSlots.Add(saveSlot);
                 }
             }
@@ -79,28 +42,23 @@ namespace UI.MainMenu
 
         public void UnloadSaveSlots()
         {
-            SelectedSaveSlot = null;
-            
             if (_saveSlots == null) return;
             
             foreach (SaveSlot saveSlot in _saveSlots.ToArray()) {
                 _saveSlots.Remove(saveSlot);
-                saveSlot.uiSaveSlot.selectButton.onClick.RemoveAllListeners();
                 Destroy(saveSlot.uiSaveSlot.gameObject);
             }
         }
 
         public void DeleteSelectedSaveSlot()
         {
-            if (SelectedSaveSlot == null) return;
-
+            if (DataPersistenceManager.instance.noProfileSelected) return;
+            
             SaveLoadIO saveLoadIO = new SaveLoadIO(Application.persistentDataPath);
-            saveLoadIO.Delete(selectedSaveSlot.gameData.profileID);
+            saveLoadIO.Delete(DataPersistenceManager.instance.profileID);
             
-            _saveSlots.Remove(selectedSaveSlot);
-            Destroy(selectedSaveSlot.uiSaveSlot.gameObject);
-            
-            SelectedSaveSlot = null;
+            UnloadSaveSlots();
+            LoadSaveSlots();
             CheckSaveSlotCount();
         }
 
