@@ -58,7 +58,6 @@ namespace Player.Input
                 if (GameFlags.GAME_PAUSED) return;
 
                 HideBuildMenu();
-                SetEquippedSlot(-1);
                 
                 if (GameFlags.INVENTORY_CLOSED) {
                     OpenInventory();
@@ -162,6 +161,7 @@ namespace Player.Input
         {
             if (GameFlags.INVENTORY_OPEN) return;
             
+            SetEquippedSlot(-1);
             openInventoryEvent.Raise();
             GameFlags.INVENTORY_OPEN = true;
             SetCursorState(true, CursorLockMode.None);
@@ -174,6 +174,7 @@ namespace Player.Input
             closeInventoryEvent.Raise();
             GameFlags.INVENTORY_OPEN = false;
             SetCursorState(false, CursorLockMode.Locked);
+            SetEquippedSlot(-1);
         }
         
         private void OpenBuildMenu()

@@ -13347,9 +13347,6 @@ PrefabInstance:
       addedObject: {fileID: 1713485475}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0aa1b4f0bb7518c4ba68ed4086f18028, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1713485479}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0aa1b4f0bb7518c4ba68ed4086f18028, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1713485481}
   m_SourcePrefab: {fileID: 100100000, guid: 0aa1b4f0bb7518c4ba68ed4086f18028, type: 3}
 --- !u!1 &1713485463 stripped
@@ -13444,8 +13441,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _transform: {fileID: 0}
-  playerSpawnPosition: {x: 0, y: 0, z: 0}
-  firstLoad: 1
+  _playerSpawnPosition: {x: 0, y: 0, z: 0}
+  _firstLoad: 1
 --- !u!114 &1713485473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13506,34 +13503,6 @@ MonoBehaviour:
       - m_Target: {fileID: 1713485473}
         m_TargetAssemblyTypeName: Player.Input.PlayerWorldInteraction, Assembly-CSharp
         m_MethodName: OnToolUsed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1713485479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1713485463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5943a77c80f488ca0fa35f595a2c5d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _event: {fileID: 11400000, guid: 2db03018ac7eec34289075dcd0f19688, type: 2}
-  _response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1713485473}
-        m_TargetAssemblyTypeName: Player.Input.PlayerWorldInteraction, Assembly-CSharp
-        m_MethodName: ClearSelectedSlot
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14115,6 +14084,7 @@ GameObject:
   m_Component:
   - component: {fileID: 185911509375639811}
   - component: {fileID: 6147019574053797296}
+  - component: {fileID: 6147019574053797297}
   m_Layer: 6
   m_Name: MouseInventory
   m_TagString: Untagged
@@ -14143,6 +14113,34 @@ MonoBehaviour:
   assignedInventorySlot:
     _item: {fileID: 0}
     _stackSize: -1
+--- !u!114 &6147019574053797297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6147019574053797295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5943a77c80f488ca0fa35f595a2c5d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _event: {fileID: 11400000, guid: bc9c9d34ccda604418a6c0f9df6d5224, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6147019574053797296}
+        m_TargetAssemblyTypeName: InventorySystem.UI.MouseUIInventorySlot, Assembly-CSharp
+        m_MethodName: OnCloseInventory
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6733898608676416716
 GameObject:
   m_ObjectHideFlags: 0

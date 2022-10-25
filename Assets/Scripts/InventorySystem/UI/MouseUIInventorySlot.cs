@@ -1,13 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Environment;
 using Flags;
 using InventorySystem.Items;
-using Player.Input;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 namespace InventorySystem.UI
 {
@@ -31,7 +30,7 @@ namespace InventorySystem.UI
                 if (UserInputFlags.LEFT_MOUSE_BUTTON_WAS_PRESSED && !IsPointerOverUIObject()) {
                     for (int i = 0; i < assignedInventorySlot.StackSize; i++) {
                         MaterialItemObject materialItem = (MaterialItemObject)assignedInventorySlot.Item;
-                        GameObject item = Instantiate(materialItem.prefab, playerPosition.position + Vector3.up, Quaternion.identity);
+                        GameObject item = Instantiate(materialItem.prefab, playerPosition.position + new Vector3(Random.Range(-.5f, .5f), Random.Range(.2f, .5f), Random.Range(-.5f, .5f)), Quaternion.identity);
                         Pickupable pickupable = item.GetComponent<Pickupable>();
                         pickupable.PickupDelay = 4;
                     }
@@ -57,10 +56,10 @@ namespace InventorySystem.UI
 
         public void OnCloseInventory()
         {
-            if (!assignedInventorySlot.IsEmpty() && !GameFlags.SLOT_EQUIPPED) {
+            if (assignedInventorySlot != null && !assignedInventorySlot.IsEmpty()) {
                 for (int i = 0; i < assignedInventorySlot.StackSize; i++) {
                     MaterialItemObject materialItem = (MaterialItemObject)assignedInventorySlot.Item;
-                    GameObject item = Instantiate(materialItem.prefab, playerPosition.position + Vector3.up, Quaternion.identity);
+                    GameObject item = Instantiate(materialItem.prefab, playerPosition.position + new Vector3(Random.Range(-.5f, .5f), Random.Range(.2f, .5f), Random.Range(-.5f, .5f)), Quaternion.identity);
                     Pickupable pickupable = item.GetComponent<Pickupable>();
                     pickupable.PickupDelay = 2;
                 }
