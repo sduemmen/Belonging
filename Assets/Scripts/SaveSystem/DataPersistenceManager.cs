@@ -85,7 +85,10 @@ namespace SaveSystem
             
             foreach (PersistentItemData persistentItemData in _gameData.persistentItems) {
                 GameObject gameObjectToInstantiate = PersistentItemData.GetGameObjectFromType(persistentItemData.prefabName);
-                Instantiate(gameObjectToInstantiate, persistentItemData.worldPosition, persistentItemData.worldRotation);
+                GameObject objInstance = Instantiate(gameObjectToInstantiate, persistentItemData.worldPosition, persistentItemData.worldRotation);
+                Pickupable pickupable = objInstance.GetComponent<Pickupable>();
+                pickupable.pickUpDelay = persistentItemData.pickUpDelay;
+                pickupable.droppedByPlayer = persistentItemData.droppedByPlayer;
             }
 
             foreach (PersistentDestroyableData persistentDestroyableData in _gameData.persistentDestroyables) {

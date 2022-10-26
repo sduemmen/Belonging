@@ -28,7 +28,7 @@ namespace SaveSystem.Data
         public List<PersistentDestroyableData> persistentDestroyables;
         public List<PersistentInventoryData> persistentInventoryData;
         public List<SegmentUnlockData> segmentUnlockData;
-        public List<Quest> quests;
+        public List<PersistentQuestData> quests;
 
         public string name;
         public float playtime;
@@ -57,7 +57,7 @@ namespace SaveSystem.Data
             persistentDestroyables = new List<PersistentDestroyableData>();
             persistentInventoryData = new List<PersistentInventoryData>();
             segmentUnlockData = new List<SegmentUnlockData>();
-            quests = new List<Quest>();
+            quests = new List<PersistentQuestData>();
 
             name = "New World";
             playtime = 0f;
@@ -86,7 +86,7 @@ namespace SaveSystem.Data
             persistentDestroyables = new List<PersistentDestroyableData>();
             persistentInventoryData = new List<PersistentInventoryData>();
             segmentUnlockData = new List<SegmentUnlockData>();
-            quests = new List<Quest>();
+            quests = new List<PersistentQuestData>();
 
             name = newGameData.gameName;
             playtime = 0f;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Events.Listeners;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Events.Events
 {
@@ -11,6 +12,7 @@ namespace Events.Events
     {
         [SerializeField] private List<SimpleEventListener> _listeners = new List<SimpleEventListener>();
         [SerializeField] private bool logging;
+        public UnityAction callback;
 
         [Button("Raise Event")]
         public void Raise()
@@ -19,6 +21,7 @@ namespace Events.Events
             for (int i = _listeners.Count - 1; i >= 0; i--) {
                 _listeners[i].OnNotify();
             }
+            callback?.Invoke();
         }
         
         public void RegisterListener(SimpleEventListener listener) { if (!_listeners.Contains(listener)) _listeners.Add(listener); }

@@ -10,18 +10,10 @@ namespace Environment
     public class Pickupable : MonoBehaviour, IDataPersistence
     {
         [SerializeField] private MaterialItemObject _item;
+        [SerializeField] public bool droppedByPlayer;
         [SerializeField] private float _pickUpRadius = 1f;
-        [SerializeField] private float _pickUpDelay;
+        [SerializeField] public float pickUpDelay;
         [SerializeField] private SphereCollider _collider;
-
-        #region -- Getters --
-
-        public float PickupDelay {
-            get => _pickUpDelay;
-            set => _pickUpDelay = value;
-        }
-
-        #endregion
 
         private void OnValidate()
         {
@@ -30,7 +22,7 @@ namespace Environment
         
         private void Update()
         {
-            PickupDelay = Mathf.Max(PickupDelay - Time.deltaTime, 0);
+            pickUpDelay = Mathf.Max(pickUpDelay - Time.deltaTime, 0);
         }
 
         private void OnTriggerStay(Collider other)
@@ -40,7 +32,7 @@ namespace Environment
             InventoryController inventoryController = other.transform.GetComponent<InventoryController>();
             if (!inventoryController) return;
 
-            bool itemCanBeCollected = inventoryController.Inventory.AddItem(_item, 1);
+            bool itemCanBeCollected = inventoryController.Inventory.AddItem(_item, 1, droppedByPlayer);
             if (!itemCanBeCollected) return;
             
             Destroy(this.gameObject);
@@ -48,7 +40,7 @@ namespace Environment
         
         private bool CanBePickedUp()
         {
-            return PickupDelay <= 0;
+            return pickUpDelay <= 0;
         }
 
         public void LoadData(GameData data)
@@ -59,7 +51,7 @@ namespace Environment
         public void SaveData(ref GameData data)
         {
             Transform t = transform;
-            PersistentItemData persistentData = new PersistentItemData(t.position, t.rotation, _item.prefab.name);
+            PersistentItemData persistentData = new PersistentItemData(t.position, t.rotation, _item.prefab.name, droppedByPlayer, pickUpDelay);
             data.persistentItems.Add(persistentData);
         }
     }

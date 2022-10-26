@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using SaveSystem;
 using SaveSystem.Data;
 using Sirenix.OdinInspector;
@@ -11,55 +10,49 @@ namespace QuestSystem
     [Serializable]
     public class QuestManager : MonoBehaviour, IDataPersistence
     {
-        public QuestCollection questCollection;
-        [InlineEditor] private List<Quest> quests = new List<Quest>();
-        private bool _firstLoad = true;
-        
-        public void IncrementWoodCollectionQuests()
-        {
-            List<Quest> woodCollectionQuests = quests.Where(quest => quest.questType == QuestType.Collection && quest.collectionQuestType == CollectionQuestType.Wood).ToList();
-            foreach (Quest quest in woodCollectionQuests) {
-                quest.Increment();
-            }
-        }
-        
-        public void IncrementStoneCollectionQuests()
-        {
-            List<Quest> stoneCollectionQuests = quests.Where(quest => quest.questType == QuestType.Collection && quest.collectionQuestType == CollectionQuestType.Stone).ToList();
-            foreach (Quest quest in stoneCollectionQuests) {
-                quest.Increment();
-            }
-        }
-        
-        public void IncrementAnyCollectionQuests()
-        {
-            List<Quest> anyCollectionQuests = quests.Where(quest => quest.questType == QuestType.Collection && quest.collectionQuestType == CollectionQuestType.Any).ToList();
-            foreach (Quest quest in anyCollectionQuests) {
-                quest.Increment();
-            }
-        }
-        
-        public void IncrementBuildingQuests()
-        {
-            List<Quest> buildingQuests = quests.Where(quest => quest.questType == QuestType.Building).ToList();
-            foreach (Quest quest in buildingQuests) {
-                quest.Increment();
-            }
-        }
-        
+        [SerializeField, InlineEditor] public List<Quest> questCollection;
+        [SerializeField, InlineEditor] private List<Quest> quests = new List<Quest>();
+        [SerializeField] private bool _firstLoad = true;
+
         public void LoadData(GameData data)
         {
+            quests.Clear();
+            
             if (data.firstLoad) {
-                quests = questCollection.entries;
+                foreach (Quest q in questCollection) {
+                    Quest quest = (Quest)ScriptableObject.CreateInstance(typeof(Quest));
+                    quest.title = q.title;
+                    quest.description = q.description;
+                    quest.completed = q.completed;
+                    quest.questBehaviour = q.questBehaviour;
+                    quest.completionBehaviours = q.completionBehaviours;
+                    quest.OnCompleteQuestCallback = q.OnCompleteQuestCallback;
+                    quest.Initialize();
+                    quests.Add(quest);
+                }
             } else {
-                quests = data.quests;
+                foreach (var questData in data.quests) {
+                    Quest quest = (Quest)ScriptableObject.CreateInstance(typeof(Quest));
+                    quest.title = questData.title;
+                    quest.description = questData.description;
+                    quest.completed = questData.completed;
+                    quest.questBehaviour = questData.questBehaviour;
+                    quest.completionBehaviours = questData.questCompletionBehaviours;
+                    quest.OnCompleteQuestCallback = questData.OnCompleteQuestCallback;
+                    quest.Initialize();
+                    quests.Add(quest);
+                }
             }
+            
             _firstLoad = false;
         }
 
         public void SaveData(ref GameData data)
         {
-            data.quests = quests;
+            data.quests.Clear();
+            foreach (Quest quest in quests) {
+                data.quests.Add(new PersistentQuestData(quest));
+            }
             data.firstLoad = _firstLoad;
         }
     }

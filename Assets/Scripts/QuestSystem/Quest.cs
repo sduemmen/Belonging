@@ -1,55 +1,85 @@
 ﻿using System;
-using Collections;
-using Events.Events;
+using System.Collections.Generic;
+using QuestSystem.QuestBehaviours;
+using QuestSystem.QuestCompletionBehaviours;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace QuestSystem
 {
-    [Serializable]
-    public enum QuestType
+    [CreateAssetMenu(menuName = "Quests/Quest"), Serializable]
+    public class Quest : ScriptableObject
     {
-        Collection,
-        Building,
-    }
+        [PropertyOrder(1), TitleGroup("General Information")]
+        [SerializeField] 
+        public string title;
 
-    [Serializable]
-    public enum CollectionQuestType
-    {
-        Any,
-        Wood,
-        Stone,
-    }
-    
-    [Serializable]
-    public class Quest : CollectionEntry
-    {
-        public string segmentReward;
-        public QuestType questType;
-
-        [ShowIf("@questType == QuestType.Collection")] 
-        [SerializeField]
-        public CollectionQuestType collectionQuestType; 
-        
+        [PropertyOrder(2), TitleGroup("General Information")]
+        [TextArea] 
+        [SerializeField] 
         public string description;
-        public bool fulfilled;
-        public int target;
-        public int progress;
+        
+        [PropertyOrder(3), TitleGroup("General Information")]
+        [SerializeField] 
+        public bool completed;
 
-        [SerializeField] private StringEvent questFulfilledEvent;
+        [PropertyOrder(11), TitleGroup("Behaviour")]
+        [SerializeReference] 
+        public QuestBehaviour questBehaviour;
 
-        public void Fulfill()
+        [PropertyOrder(21), TitleGroup("Completion")]
+        [SerializeReference]
+        public List<QuestCompletionBehaviour> completionBehaviours;
+
+        [PropertyOrder(22), TitleGroup("Completion")]
+        [SerializeField]
+        public UnityEvent OnCompleteQuestCallback;
+        
+        [PropertyOrder(4)]
+        [Button("Complete Quest")]
+        public void OnComplete()
         {
-            fulfilled = true;
-            questFulfilledEvent.Raise(segmentReward);
+            completed = true;
+            
+            OnCompleteQuestCallback?.Invoke();
+            
+            foreach (var completionBehaviour in completionBehaviours) {
+                completionBehaviour.OnComplete();
+            }
+        }
+        
+        [PropertyOrder(5)]
+        [Button("Reset Quest")]
+        public void ResetQuest()
+        {
+            completed = false;
+            
+            if (questBehaviour != null)
+                questBehaviour.Reset();
         }
 
-        public void Increment()
+        public void Initialize()
         {
-            progress += 1;
-            if (progress >= target) {
-                Fulfill();
+            if (questBehaviour == null) return;
+            
+            questBehaviour.OnComplete += OnComplete;
+            
+            foreach (var completionBehaviour in completionBehaviours) {
+                questBehaviour.OnComplete += completionBehaviour.OnComplete;
             }
+
+            if (questBehaviour.GetType() == typeof(GatheringBehaviour)) {
+                GatheringBehaviour gatheringBehaviour = (GatheringBehaviour)questBehaviour;
+                if (gatheringBehaviour.useDynamicIncrement) {
+                    gatheringBehaviour.dynamicProgressEvent.callback += gatheringBehaviour.Progress;
+                } else {
+                    gatheringBehaviour.staticProgressEvent.callback += gatheringBehaviour.Progress;
+                }
+            }
+            
+            questBehaviour.OnUpdate();
+            Debug.Log("Quest Awake: " + title);
         }
     }
 }

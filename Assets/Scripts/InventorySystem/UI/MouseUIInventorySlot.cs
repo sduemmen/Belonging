@@ -32,9 +32,11 @@ namespace InventorySystem.UI
                         MaterialItemObject materialItem = (MaterialItemObject)assignedInventorySlot.Item;
                         GameObject item = Instantiate(materialItem.prefab, playerPosition.position + new Vector3(Random.Range(-.5f, .5f), Random.Range(.2f, .5f), Random.Range(-.5f, .5f)), Quaternion.identity);
                         Pickupable pickupable = item.GetComponent<Pickupable>();
-                        pickupable.PickupDelay = 4;
+                        pickupable.pickUpDelay = 4;
+                        pickupable.droppedByPlayer = true;
                     }
 
+                    assignedInventorySlot.ClearSlot();
                     ClearSlot();
                 }
             } else if (GameFlags.SLOT_EQUIPPED) {
@@ -61,9 +63,11 @@ namespace InventorySystem.UI
                     MaterialItemObject materialItem = (MaterialItemObject)assignedInventorySlot.Item;
                     GameObject item = Instantiate(materialItem.prefab, playerPosition.position + new Vector3(Random.Range(-.5f, .5f), Random.Range(.2f, .5f), Random.Range(-.5f, .5f)), Quaternion.identity);
                     Pickupable pickupable = item.GetComponent<Pickupable>();
-                    pickupable.PickupDelay = 2;
+                    pickupable.pickUpDelay = 2;
+                    pickupable.droppedByPlayer = true;
                 }
                 
+                assignedInventorySlot.ClearSlot();
                 ClearSlot();
             }
         }
