@@ -433,10 +433,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5fc4b7f08e54fd2a515413407c89265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questCollection:
-  - {fileID: 11400000, guid: 01ffa2859f7977f4aa771698df09bace, type: 2}
-  - {fileID: 11400000, guid: 56ff5ee9df17c4c4f9a653121d21966d, type: 2}
-  quests: []
+  quests:
+  - {fileID: 1407305532}
+  - {fileID: 1564490363}
   _firstLoad: 1
 --- !u!4 &110760489
 Transform:
@@ -11698,17 +11697,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 763711774}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b58627d6e88347b0b10364e91c3b91d7, type: 3}
+  m_Script: {fileID: 11500000, guid: a5943a77c80f488ca0fa35f595a2c5d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _event: {fileID: 11400000, guid: 5d85d66df8f962a46bd74d6cb3c1f8b3, type: 2}
+  _event: {fileID: 11400000, guid: fd810758447e6cd43b146bf7f32f9b46, type: 2}
   _response:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 763711776}
         m_TargetAssemblyTypeName: BuildSystem.BuildMenuController, Assembly-CSharp
-        m_MethodName: OnUnlockSegment
-        m_Mode: 0
+        m_MethodName: Initialize
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -12985,6 +12984,104 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1407305532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aaaa580527d4f2fa42fe41e3445783e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Unlock Stone Floor 2
+  description: Collect 10x Stone
+  completed: 0
+  questBehaviour:
+    rid: 1652054197535244386
+  completionBehaviours:
+  - rid: 1652054197535244387
+  OnCompleteQuestCallback:
+    m_PersistentCalls:
+      m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1652054197535244386
+      type: {class: GatheringBehaviour, ns: QuestSystem.QuestBehaviours, asm: Assembly-CSharp}
+      data:
+        broadcastCurrentState: 0
+        target: 10
+        current: 0
+        defaultTarget: 10
+        defaultCurrent: 0
+        useDynamicIncrement: 0
+        dynamicProgressEvent: {fileID: 0}
+        staticProgressEvent: {fileID: 11400000, guid: 38a671d353363b04a989f1187add4185, type: 2}
+        progressAmount: 1
+        completeCondition: 3
+        progressBehaviour: {fileID: 11400000, guid: 3f433f02b5ec5fc41aae8815bfd33367, type: 2}
+        broadcastEvent: {fileID: 11400000, guid: 653bd6650ea6ea242b339123a863c9bb, type: 2}
+        broadcastEventCallback:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 1652054197535244387
+      type: {class: StringCompletionBehaviour, ns: QuestSystem.QuestCompletionBehaviours, asm: Assembly-CSharp}
+      data:
+        completionEvent: {fileID: 11400000, guid: 5d85d66df8f962a46bd74d6cb3c1f8b3, type: 2}
+        callEventWithValues:
+        - Stone Floor 2
+--- !u!114 &1564490363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aaaa580527d4f2fa42fe41e3445783e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Unlock Wood Floor 2
+  description: Collect 4x Wood
+  completed: 0
+  questBehaviour:
+    rid: 1652054197535244388
+  completionBehaviours:
+  - rid: 1652054197535244389
+  OnCompleteQuestCallback:
+    m_PersistentCalls:
+      m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1652054197535244388
+      type: {class: GatheringBehaviour, ns: QuestSystem.QuestBehaviours, asm: Assembly-CSharp}
+      data:
+        broadcastCurrentState: 0
+        target: 4
+        current: 0
+        defaultTarget: 4
+        defaultCurrent: 0
+        useDynamicIncrement: 0
+        dynamicProgressEvent: {fileID: 0}
+        staticProgressEvent: {fileID: 11400000, guid: 9d7cd9d5dda480b449b8367b7c5b179e, type: 2}
+        progressAmount: 1
+        completeCondition: 3
+        progressBehaviour: {fileID: 11400000, guid: 3f433f02b5ec5fc41aae8815bfd33367, type: 2}
+        broadcastEvent: {fileID: 11400000, guid: f5074acc66bb61f41a86008b3c605510, type: 2}
+        broadcastEventCallback:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 1652054197535244389
+      type: {class: StringCompletionBehaviour, ns: QuestSystem.QuestCompletionBehaviours, asm: Assembly-CSharp}
+      data:
+        completionEvent: {fileID: 11400000, guid: 5d85d66df8f962a46bd74d6cb3c1f8b3, type: 2}
+        callEventWithValues:
+        - Wood Floor 2
 --- !u!1 &1577159488
 GameObject:
   m_ObjectHideFlags: 0

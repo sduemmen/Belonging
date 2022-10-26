@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Collections;
 using SaveSystem;
 using SaveSystem.Data;
@@ -13,7 +14,6 @@ namespace BuildSystem
     {
         [SerializeField] private List<SegmentUnlockData> _segmentUnlockData;
         [SerializeField] private List<SegmentCollection> _segmentCollections;
-        private Dictionary<string, bool> _segmentUnlockDict;
 
         private static UnlockSystem _instance;
 
@@ -22,14 +22,6 @@ namespace BuildSystem
                 if (_instance == null)
                     _instance = (UnlockSystem)FindObjectOfType(typeof(UnlockSystem));
                 return _instance;
-            }
-        }
-
-        private void Awake()
-        {
-            _segmentUnlockDict = new Dictionary<string, bool>();
-            foreach (SegmentUnlockData unlockData in _segmentUnlockData) {
-                _segmentUnlockDict.Add(unlockData.segmentName, unlockData.unlocked);
             }
         }
 
@@ -46,30 +38,26 @@ namespace BuildSystem
 
         public void OnUnlockSegment(string segmentName)
         {
-            _segmentUnlockDict[segmentName] = true;
+            for (int i = 0; i < _segmentUnlockData.Count; i++) {
+                if (segmentName == _segmentUnlockData[i].segmentName) {
+                    _segmentUnlockData[i].unlocked = true;
+                    Debug.Log("Unlocked " + segmentName);
+                }
+            }
         }
 
         public bool SegmentUnlocked(string segmentName)
         {
-            return _segmentUnlockDict[segmentName];
+            return _segmentUnlockData.Find(data => data.segmentName == segmentName).unlocked;
         }
         
         public void LoadData(GameData data)
         {
             _segmentUnlockData = data.segmentUnlockData;
-            foreach (SegmentUnlockData unlockData in _segmentUnlockData) {
-                _segmentUnlockDict.TryAdd(unlockData.segmentName, unlockData.unlocked);
-            }
         }
 
         public void SaveData(ref GameData data)
         {
-            _segmentUnlockData.Clear();
-
-            foreach (var entry in _segmentUnlockDict) {
-                _segmentUnlockData.Add(new SegmentUnlockData(entry.Key, entry.Value));
-            }
-            
             data.segmentUnlockData = _segmentUnlockData;
         }
     }

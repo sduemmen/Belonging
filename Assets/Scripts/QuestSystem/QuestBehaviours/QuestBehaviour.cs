@@ -15,7 +15,15 @@ namespace QuestSystem.QuestBehaviours
 
         public UnityAction OnComplete;
 
+        public abstract void Initialize(QuestBehaviour questBehaviour);
         public abstract void OnUpdate();
         public abstract void Reset();
+
+        public static QuestBehaviour Create(Type t)
+        {
+            if (t == typeof(GatheringBehaviour)) return new GatheringBehaviour();
+            
+            return null;
+        }
     }
 }

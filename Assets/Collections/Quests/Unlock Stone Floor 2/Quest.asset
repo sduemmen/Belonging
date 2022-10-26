@@ -28,13 +28,13 @@ MonoBehaviour:
     - rid: 1652054191290712140
       type: {class: StringCompletionBehaviour, ns: QuestSystem.QuestCompletionBehaviours, asm: Assembly-CSharp}
       data:
-        completionEvent: {fileID: 11400000, guid: 584f8dc30674dc24b858978f202a79d9, type: 2}
+        completionEvent: {fileID: 11400000, guid: 5d85d66df8f962a46bd74d6cb3c1f8b3, type: 2}
         callEventWithValues:
         - Stone Floor 2
     - rid: 1652054197535244297
       type: {class: GatheringBehaviour, ns: QuestSystem.QuestBehaviours, asm: Assembly-CSharp}
       data:
-        broadcastCurrentState: 0
+        broadcastCurrentState: 1
         target: 10
         current: 0
         defaultTarget: 10
@@ -45,7 +45,7 @@ MonoBehaviour:
         progressAmount: 1
         completeCondition: 3
         progressBehaviour: {fileID: 11400000, guid: 3f433f02b5ec5fc41aae8815bfd33367, type: 2}
-        broadcastEvent: {fileID: 0}
+        broadcastEvent: {fileID: 11400000, guid: 653bd6650ea6ea242b339123a863c9bb, type: 2}
         broadcastEventCallback:
           m_PersistentCalls:
             m_Calls: []

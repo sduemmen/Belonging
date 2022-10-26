@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using Utility;
+using Comparison = Utility.Comparison;
 
 namespace QuestSystem.QuestBehaviours
 {
@@ -113,6 +114,28 @@ namespace QuestSystem.QuestBehaviours
             if (MathUtilities.Evaluate(completeCondition, current, target)) {
                 OnComplete?.Invoke();
             }
+        }
+
+        public override void Initialize(QuestBehaviour questBehaviour)
+        {
+            if (questBehaviour.GetType() != typeof(GatheringBehaviour)) {
+                throw new ArgumentException("Parameter questbehaviour is of different type");
+            }
+
+            GatheringBehaviour other = (GatheringBehaviour)questBehaviour;
+            
+            this.current = other.current;
+            this.target = other.target;
+            this.defaultCurrent = other.defaultCurrent;
+            this.defaultTarget = other.defaultTarget;
+            this.broadcastEvent = other.broadcastEvent;
+            this.completeCondition = other.completeCondition;
+            this.progressAmount = other.progressAmount;
+            this.progressBehaviour = other.progressBehaviour;
+            this.broadcastEventCallback = other.broadcastEventCallback;
+            this.dynamicProgressEvent = other.dynamicProgressEvent;
+            this.staticProgressEvent = other.staticProgressEvent;
+            this.useDynamicIncrement = other.useDynamicIncrement;
         }
 
         public override void OnUpdate()

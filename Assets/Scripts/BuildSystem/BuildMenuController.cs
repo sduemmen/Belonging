@@ -20,13 +20,7 @@ namespace BuildSystem
 
         protected override void Start()
         {
-            Initialize();
             _inventoryDisplay.OnSlotClicked += InteractWithSlot;
-        }
-        
-        protected override void OnDestroy()
-        {
-            _inventoryDisplay.OnSlotClicked -= InteractWithSlot;
         }
 
         public void Initialize()
@@ -34,6 +28,10 @@ namespace BuildSystem
             if (_inventoryDisplay == null) Debug.LogError("No inventoryDisplay set in InventoryController");
 
             BuildMenuDisplay buildMenuDisplay = (BuildMenuDisplay)_inventoryDisplay;
+
+            for (int i = buildMenuDisplay.transform.childCount - 1; i >= 0 ; i--) {
+                Destroy(buildMenuDisplay.transform.GetChild(i).gameObject);
+            }
             
             foreach (Collection<SegmentCollectionEntry> segmentCollection in _segmentCollections) {
                 
@@ -49,12 +47,6 @@ namespace BuildSystem
                     _buildMenuSlots.Add(uiSlot);
                 }
             }
-        }
-        
-        public void OnUnlockSegment(string segmentName)
-        {
-            UIBuildMenuSlot uiSlot = _buildMenuSlots.Find(slot => slot.displayName == segmentName);
-            uiSlot.OnUnlockSegment();
         }
 
         protected override void InteractWithSlot(UIInventorySlot clickedUISlot)

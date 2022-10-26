@@ -36,12 +36,6 @@ namespace InventorySystem
             _inventoryDisplay.OnSlotClicked += InteractWithSlot;
         }
 
-        protected virtual void OnDestroy()
-        {
-            _inventory.OnSlotChanged -= UpdateUISlot;
-            _inventoryDisplay.OnSlotClicked -= InteractWithSlot;
-        }
-
         public void InitializeUISlots()
         {
             for (int i = 0; i < _inventory.Size; i++) {
