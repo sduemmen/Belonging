@@ -54,6 +54,7 @@ MonoBehaviour:
   wasBuiltByPlayer: 0
   objectsToBeDeactivatedOnDestroy:
   - {fileID: 8496484068784409608}
+  outline: {fileID: 3058985078696729147}
   itemDrops:
   - item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
     amount: 4
@@ -4908,6 +4909,7 @@ GameObject:
   - component: {fileID: 7750136470621755217}
   - component: {fileID: 1361680330761861283}
   - component: {fileID: 8471103755478292906}
+  - component: {fileID: 3058985078696729147}
   m_Layer: 9
   m_Name: PT_Pine_Tree_03_green_LOD1
   m_TagString: Environment
@@ -5031,3 +5033,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3058985078696729147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8496484068784409608}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 7
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

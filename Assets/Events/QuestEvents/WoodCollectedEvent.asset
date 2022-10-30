@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: WoodCollectedEvent
   m_EditorClassIdentifier: 
   _listeners: []
-  logging: 0
+  logging: 1

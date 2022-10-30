@@ -64,6 +64,8 @@ namespace Utility
                 t += nameof(GameFlags.INVENTORY_CLOSED) + "=" + GetColorString(GameFlags.INVENTORY_CLOSED) + "\n";
                 t += nameof(GameFlags.BUILD_MENU_OPEN) + "=" + GetColorString(GameFlags.BUILD_MENU_OPEN) + "\n";
                 t += nameof(GameFlags.BUILD_MENU_CLOSED) + "=" + GetColorString(GameFlags.BUILD_MENU_CLOSED) + "\n";
+                t += nameof(GameFlags.QUEST_DISPLAY_OPEN) + "=" + GetColorString(GameFlags.QUEST_DISPLAY_OPEN) + "\n";
+                t += nameof(GameFlags.QUEST_DISPLAY_CLOSED) + "=" + GetColorString(GameFlags.QUEST_DISPLAY_CLOSED) + "\n";
                 t += nameof(GameFlags.UI_ELEMENT_OPEN) + "=" + GetColorString(GameFlags.UI_ELEMENT_OPEN) + "\n";
             
                 t += nameof(GameFlags.AXE_EQUIPPED) + "=" + GetColorString(GameFlags.AXE_EQUIPPED) + "\n";

@@ -71,6 +71,7 @@ namespace QuestSystem
 
             if (questBehaviour.GetType() == typeof(GatheringBehaviour)) {
                 GatheringBehaviour gatheringBehaviour = (GatheringBehaviour)questBehaviour;
+                
                 if (gatheringBehaviour.useDynamicIncrement) {
                     gatheringBehaviour.dynamicProgressEvent.callback += gatheringBehaviour.Progress;
                 } else {

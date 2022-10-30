@@ -331,6 +331,55 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &84426735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aaaa580527d4f2fa42fe41e3445783e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Unlock Wood Floor 2
+  description: Collect 4x Wood
+  completed: 0
+  questBehaviour:
+    rid: 1652054289054433374
+  completionBehaviours:
+  - rid: 1652054289054433375
+  OnCompleteQuestCallback:
+    m_PersistentCalls:
+      m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1652054289054433374
+      type: {class: GatheringBehaviour, ns: QuestSystem.QuestBehaviours, asm: Assembly-CSharp}
+      data:
+        broadcastCurrentState: 1
+        target: 4
+        current: 0
+        defaultTarget: 4
+        defaultCurrent: 0
+        useDynamicIncrement: 0
+        dynamicProgressEvent: {fileID: 0}
+        staticProgressEvent: {fileID: 11400000, guid: 9d7cd9d5dda480b449b8367b7c5b179e, type: 2}
+        progressAmount: 1
+        completeCondition: 3
+        progressBehaviour: {fileID: 11400000, guid: 3f433f02b5ec5fc41aae8815bfd33367, type: 2}
+        broadcastEvent: {fileID: 11400000, guid: f5074acc66bb61f41a86008b3c605510, type: 2}
+        broadcastEventCallback:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 1652054289054433375
+      type: {class: StringCompletionBehaviour, ns: QuestSystem.QuestCompletionBehaviours, asm: Assembly-CSharp}
+      data:
+        completionEvent: {fileID: 11400000, guid: 5d85d66df8f962a46bd74d6cb3c1f8b3, type: 2}
+        callEventWithValues:
+        - Wood Floor 2
 --- !u!1 &110302288
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,6 +463,9 @@ GameObject:
   m_Component:
   - component: {fileID: 110760489}
   - component: {fileID: 110760488}
+  - component: {fileID: 110760492}
+  - component: {fileID: 110760491}
+  - component: {fileID: 110760490}
   m_Layer: 0
   m_Name: QuestManager
   m_TagString: Untagged
@@ -433,10 +485,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5fc4b7f08e54fd2a515413407c89265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questDatabase:
+  - {fileID: 1622704653}
+  - {fileID: 1414839167}
   quests:
-  - {fileID: 1407305532}
-  - {fileID: 1564490363}
+  - {fileID: 605654056}
+  - {fileID: 84426735}
   _firstLoad: 1
+  _questDisplayController: {fileID: 110760492}
 --- !u!4 &110760489
 Transform:
   m_ObjectHideFlags: 0
@@ -452,6 +508,77 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &110760490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110760487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5943a77c80f488ca0fa35f595a2c5d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _event: {fileID: 11400000, guid: 06285315df62baa46ab741820ec793f1, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 110760492}
+        m_TargetAssemblyTypeName: QuestSystem.QuestDisplayController, Assembly-CSharp
+        m_MethodName: Hide
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &110760491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110760487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5943a77c80f488ca0fa35f595a2c5d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _event: {fileID: 11400000, guid: a20ac38d83870734b829708d7f978bb0, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 110760492}
+        m_TargetAssemblyTypeName: QuestSystem.QuestDisplayController, Assembly-CSharp
+        m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &110760492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110760487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d338c11290ea4a3bb279447a2372fbb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questDisplay: {fileID: 1672946950}
+  questContentHolder: {fileID: 668137924}
+  uiQuestPrefab: {fileID: 3739677837136188558, guid: 7074482ea6d02404bb78744bab50dd03, type: 3}
 --- !u!1 &206570212
 GameObject:
   m_ObjectHideFlags: 0
@@ -6238,7 +6365,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 4
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -6373,6 +6500,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inventorySlots: []
   _uiSlotPrefab: {fileID: 207946271932221301, guid: bd1b91410c480334b923482bf547a1a1, type: 3}
+--- !u!114 &605654056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aaaa580527d4f2fa42fe41e3445783e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Unlock Stone Floor 2
+  description: Collect 10x Stone
+  completed: 0
+  questBehaviour:
+    rid: 1652054289054433372
+  completionBehaviours:
+  - rid: 1652054289054433373
+  OnCompleteQuestCallback:
+    m_PersistentCalls:
+      m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1652054289054433372
+      type: {class: GatheringBehaviour, ns: QuestSystem.QuestBehaviours, asm: Assembly-CSharp}
+      data:
+        broadcastCurrentState: 1
+        target: 10
+        current: 0
+        defaultTarget: 10
+        defaultCurrent: 0
+        useDynamicIncrement: 0
+        dynamicProgressEvent: {fileID: 0}
+        staticProgressEvent: {fileID: 11400000, guid: 38a671d353363b04a989f1187add4185, type: 2}
+        progressAmount: 1
+        completeCondition: 3
+        progressBehaviour: {fileID: 11400000, guid: 3f433f02b5ec5fc41aae8815bfd33367, type: 2}
+        broadcastEvent: {fileID: 11400000, guid: 653bd6650ea6ea242b339123a863c9bb, type: 2}
+        broadcastEventCallback:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 1652054289054433373
+      type: {class: StringCompletionBehaviour, ns: QuestSystem.QuestCompletionBehaviours, asm: Assembly-CSharp}
+      data:
+        completionEvent: {fileID: 11400000, guid: 5d85d66df8f962a46bd74d6cb3c1f8b3, type: 2}
+        callEventWithValues:
+        - Stone Floor 2
 --- !u!1 &628559540
 GameObject:
   m_ObjectHideFlags: 0
@@ -6582,6 +6758,85 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   label: {fileID: 661134500}
+--- !u!1 &668137924
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 668137925}
+  - component: {fileID: 668137927}
+  - component: {fileID: 668137926}
+  m_Layer: 5
+  m_Name: Content
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &668137925
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668137924}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 877975225}
+  m_Father: {fileID: 1672946951}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 500, y: 0}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &668137926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668137924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 20
+    m_Right: 20
+    m_Top: 20
+    m_Bottom: 20
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
+--- !u!114 &668137927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668137924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &672301737
 GameObject:
   m_ObjectHideFlags: 0
@@ -11904,6 +12159,141 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843264908}
   m_CullTransparentMesh: 1
+--- !u!1 &877975224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 877975225}
+  - component: {fileID: 877975227}
+  - component: {fileID: 877975226}
+  m_Layer: 5
+  m_Name: Title
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &877975225
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877975224}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 668137925}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 460, y: 50}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &877975226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877975224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Quests
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: a44ae5ad6b59b914db737dafd1984373, type: 2}
+  m_sharedMaterial: {fileID: 4604618623657612335, guid: a44ae5ad6b59b914db737dafd1984373, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 50
+  m_fontSizeBase: 50
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 4
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &877975227
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877975224}
+  m_CullTransparentMesh: 1
 --- !u!1 &915937312
 GameObject:
   m_ObjectHideFlags: 0
@@ -11957,7 +12347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.63529414, g: 0.63529414, b: 0.63529414, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -12295,6 +12685,7 @@ RectTransform:
   - {fileID: 1855704204}
   - {fileID: 915937313}
   - {fileID: 1845457104}
+  - {fileID: 1672946951}
   m_Father: {fileID: 523047982}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12427,6 +12818,79 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!1 &1049926842
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1049926843}
+  - component: {fileID: 1049926845}
+  - component: {fileID: 1049926844}
+  m_Layer: 5
+  m_Name: Gradient Top
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1049926843
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049926842}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1672946951}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -50}
+  m_SizeDelta: {x: 0, y: 100}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1049926844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049926842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: 44f234dfb599b9d4da828baaae9bd628, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &1049926845
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049926842}
+  m_CullTransparentMesh: 1
 --- !u!1 &1101746622
 GameObject:
   m_ObjectHideFlags: 0
@@ -12650,7 +13114,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 4
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -12949,6 +13413,8 @@ MonoBehaviour:
   closeInventoryEvent: {fileID: 11400000, guid: bc9c9d34ccda604418a6c0f9df6d5224, type: 2}
   openBuildMenuEvent: {fileID: 11400000, guid: fd810758447e6cd43b146bf7f32f9b46, type: 2}
   closeBuildMenuEvent: {fileID: 11400000, guid: 91bf340d56203834b9c34889f79f8133, type: 2}
+  openQuestDisplayEvent: {fileID: 11400000, guid: a20ac38d83870734b829708d7f978bb0, type: 2}
+  closeQuestDisplayEvent: {fileID: 11400000, guid: 06285315df62baa46ab741820ec793f1, type: 2}
   equipSlotEvent: {fileID: 11400000, guid: 320dd4b7dc2a5704ab89a6ed6d062325, type: 2}
   toolUsedEvent: {fileID: 11400000, guid: fd1bb06b03b21894f989f2208905aae9, type: 2}
   rotateSegmentEvent: {fileID: 11400000, guid: 2f9234b6edbc64e43bd25f1f189cce0a, type: 2}
@@ -12984,56 +13450,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1407305532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aaaa580527d4f2fa42fe41e3445783e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  title: Unlock Stone Floor 2
-  description: Collect 10x Stone
-  completed: 0
-  questBehaviour:
-    rid: 1652054197535244386
-  completionBehaviours:
-  - rid: 1652054197535244387
-  OnCompleteQuestCallback:
-    m_PersistentCalls:
-      m_Calls: []
-  references:
-    version: 2
-    RefIds:
-    - rid: 1652054197535244386
-      type: {class: GatheringBehaviour, ns: QuestSystem.QuestBehaviours, asm: Assembly-CSharp}
-      data:
-        broadcastCurrentState: 0
-        target: 10
-        current: 0
-        defaultTarget: 10
-        defaultCurrent: 0
-        useDynamicIncrement: 0
-        dynamicProgressEvent: {fileID: 0}
-        staticProgressEvent: {fileID: 11400000, guid: 38a671d353363b04a989f1187add4185, type: 2}
-        progressAmount: 1
-        completeCondition: 3
-        progressBehaviour: {fileID: 11400000, guid: 3f433f02b5ec5fc41aae8815bfd33367, type: 2}
-        broadcastEvent: {fileID: 11400000, guid: 653bd6650ea6ea242b339123a863c9bb, type: 2}
-        broadcastEventCallback:
-          m_PersistentCalls:
-            m_Calls: []
-    - rid: 1652054197535244387
-      type: {class: StringCompletionBehaviour, ns: QuestSystem.QuestCompletionBehaviours, asm: Assembly-CSharp}
-      data:
-        completionEvent: {fileID: 11400000, guid: 5d85d66df8f962a46bd74d6cb3c1f8b3, type: 2}
-        callEventWithValues:
-        - Stone Floor 2
---- !u!114 &1564490363
+--- !u!114 &1414839167
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13049,19 +13466,19 @@ MonoBehaviour:
   description: Collect 4x Wood
   completed: 0
   questBehaviour:
-    rid: 1652054197535244388
+    rid: 1652054289054433376
   completionBehaviours:
-  - rid: 1652054197535244389
+  - rid: 1652054289054433377
   OnCompleteQuestCallback:
     m_PersistentCalls:
       m_Calls: []
   references:
     version: 2
     RefIds:
-    - rid: 1652054197535244388
+    - rid: 1652054289054433376
       type: {class: GatheringBehaviour, ns: QuestSystem.QuestBehaviours, asm: Assembly-CSharp}
       data:
-        broadcastCurrentState: 0
+        broadcastCurrentState: 1
         target: 4
         current: 0
         defaultTarget: 4
@@ -13076,12 +13493,85 @@ MonoBehaviour:
         broadcastEventCallback:
           m_PersistentCalls:
             m_Calls: []
-    - rid: 1652054197535244389
+    - rid: 1652054289054433377
       type: {class: StringCompletionBehaviour, ns: QuestSystem.QuestCompletionBehaviours, asm: Assembly-CSharp}
       data:
         completionEvent: {fileID: 11400000, guid: 5d85d66df8f962a46bd74d6cb3c1f8b3, type: 2}
         callEventWithValues:
         - Wood Floor 2
+--- !u!1 &1520064765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1520064766}
+  - component: {fileID: 1520064768}
+  - component: {fileID: 1520064767}
+  m_Layer: 5
+  m_Name: Gradient Bottom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1520064766
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520064765}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1672946951}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: -50}
+  m_SizeDelta: {x: 0, y: 100}
+  m_Pivot: {x: 0.5, y: 0}
+--- !u!114 &1520064767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520064765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: 44f234dfb599b9d4da828baaae9bd628, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &1520064768
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520064765}
+  m_CullTransparentMesh: 1
 --- !u!1 &1577159488
 GameObject:
   m_ObjectHideFlags: 0
@@ -13223,6 +13713,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1614994769}
   m_CullTransparentMesh: 1
+--- !u!114 &1622704653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aaaa580527d4f2fa42fe41e3445783e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Unlock Stone Floor 2
+  description: Collect 10x Stone
+  completed: 0
+  questBehaviour:
+    rid: 1652054289054433378
+  completionBehaviours:
+  - rid: 1652054289054433379
+  OnCompleteQuestCallback:
+    m_PersistentCalls:
+      m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1652054289054433378
+      type: {class: GatheringBehaviour, ns: QuestSystem.QuestBehaviours, asm: Assembly-CSharp}
+      data:
+        broadcastCurrentState: 1
+        target: 10
+        current: 0
+        defaultTarget: 10
+        defaultCurrent: 0
+        useDynamicIncrement: 0
+        dynamicProgressEvent: {fileID: 0}
+        staticProgressEvent: {fileID: 11400000, guid: 38a671d353363b04a989f1187add4185, type: 2}
+        progressAmount: 1
+        completeCondition: 3
+        progressBehaviour: {fileID: 11400000, guid: 3f433f02b5ec5fc41aae8815bfd33367, type: 2}
+        broadcastEvent: {fileID: 11400000, guid: 653bd6650ea6ea242b339123a863c9bb, type: 2}
+        broadcastEventCallback:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 1652054289054433379
+      type: {class: StringCompletionBehaviour, ns: QuestSystem.QuestCompletionBehaviours, asm: Assembly-CSharp}
+      data:
+        completionEvent: {fileID: 11400000, guid: 5d85d66df8f962a46bd74d6cb3c1f8b3, type: 2}
+        callEventWithValues:
+        - Stone Floor 2
 --- !u!1 &1668396389
 GameObject:
   m_ObjectHideFlags: 0
@@ -13276,6 +13815,131 @@ MonoBehaviour:
   worldAlterations:
     alterations: []
   placedSegments: 0
+--- !u!1 &1672946950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1672946951}
+  - component: {fileID: 1672946953}
+  - component: {fileID: 1672946952}
+  - component: {fileID: 1672946955}
+  - component: {fileID: 1672946954}
+  m_Layer: 5
+  m_Name: QuestDisplay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1672946951
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672946950}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2141498403}
+  - {fileID: 1049926843}
+  - {fileID: 668137925}
+  - {fileID: 1520064766}
+  m_Father: {fileID: 1047416653}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: -800, y: 0}
+  m_SizeDelta: {x: 500, y: 800}
+  m_Pivot: {x: 0, y: 0.5}
+--- !u!114 &1672946952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672946950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 9c390c655bbcf9d46a0a4d757a1b48be, type: 3}
+  m_Type: 2
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1.69
+--- !u!222 &1672946953
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672946950}
+  m_CullTransparentMesh: 1
+--- !u!114 &1672946954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672946950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 1
+--- !u!114 &1672946955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672946950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Content: {fileID: 668137925}
+  m_Horizontal: 0
+  m_Vertical: 1
+  m_MovementType: 1
+  m_Elasticity: 0.1
+  m_Inertia: 1
+  m_DecelerationRate: 0.1
+  m_ScrollSensitivity: 40
+  m_Viewport: {fileID: 1672946951}
+  m_HorizontalScrollbar: {fileID: 0}
+  m_VerticalScrollbar: {fileID: 0}
+  m_HorizontalScrollbarVisibility: 0
+  m_VerticalScrollbarVisibility: 0
+  m_HorizontalScrollbarSpacing: 0
+  m_VerticalScrollbarSpacing: 0
+  m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1683328021
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14075,7 +14739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.63529414, g: 0.63529414, b: 0.63529414, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -14389,7 +15053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.63529414, g: 0.63529414, b: 0.63529414, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -14429,6 +15093,53 @@ MonoBehaviour:
   _inventorySlots: []
   _uiSlotPrefab: {fileID: 207946271932221301, guid: bd1b91410c480334b923482bf547a1a1, type: 3}
   highlightImage: {fileID: 1855704202}
+--- !u!1 &2141498402
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2141498403}
+  - component: {fileID: 2141498404}
+  m_Layer: 0
+  m_Name: NameContainer(EditorOnly)
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2141498403
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141498402}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1672946951}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2141498404
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141498402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 190d9e9918d0aaf48a103a2bb6995059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: Background
+  tooltipOverride: 
+  target: {fileID: 1672946952}
 --- !u!224 &185911509375639811
 RectTransform:
   m_ObjectHideFlags: 0

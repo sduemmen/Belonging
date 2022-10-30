@@ -21,7 +21,9 @@ namespace QuestSystem.QuestBehaviours
 
         public static QuestBehaviour Create(Type t)
         {
-            if (t == typeof(GatheringBehaviour)) return new GatheringBehaviour();
+            if (t == typeof(GatheringBehaviour)) {
+                return new GatheringBehaviour();
+            }
             
             return null;
         }

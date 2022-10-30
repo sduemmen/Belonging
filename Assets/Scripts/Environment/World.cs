@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using SaveSystem;
 using SaveSystem.Data;
 using UnityEngine;
 using Utility;
+using Debug = UnityEngine.Debug;
 
 namespace Environment
 {

@@ -116,6 +116,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""QuestDisplayContext"",
+                    ""type"": ""Button"",
+                    ""id"": ""4955c407-48f5-4c76-b48a-91c5cea5ff1e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -272,6 +281,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""MiddleMouseButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""80249559-bf32-4fb2-ba12-a307c75a33f6"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuestDisplayContext"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -338,6 +358,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Character_Modifier1 = m_Character.FindAction("Modifier1", throwIfNotFound: true);
         m_Character_RotateSegment = m_Character.FindAction("RotateSegment", throwIfNotFound: true);
         m_Character_MiddleMouseButton = m_Character.FindAction("MiddleMouseButton", throwIfNotFound: true);
+        m_Character_QuestDisplayContext = m_Character.FindAction("QuestDisplayContext", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_MouseDelta = m_Camera.FindAction("MouseDelta", throwIfNotFound: true);
@@ -411,6 +432,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Character_Modifier1;
     private readonly InputAction m_Character_RotateSegment;
     private readonly InputAction m_Character_MiddleMouseButton;
+    private readonly InputAction m_Character_QuestDisplayContext;
     public struct CharacterActions
     {
         private @PlayerControls m_Wrapper;
@@ -425,6 +447,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Modifier1 => m_Wrapper.m_Character_Modifier1;
         public InputAction @RotateSegment => m_Wrapper.m_Character_RotateSegment;
         public InputAction @MiddleMouseButton => m_Wrapper.m_Character_MiddleMouseButton;
+        public InputAction @QuestDisplayContext => m_Wrapper.m_Character_QuestDisplayContext;
         public InputActionMap Get() { return m_Wrapper.m_Character; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -464,6 +487,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @MiddleMouseButton.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnMiddleMouseButton;
                 @MiddleMouseButton.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnMiddleMouseButton;
                 @MiddleMouseButton.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnMiddleMouseButton;
+                @QuestDisplayContext.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnQuestDisplayContext;
+                @QuestDisplayContext.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnQuestDisplayContext;
+                @QuestDisplayContext.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnQuestDisplayContext;
             }
             m_Wrapper.m_CharacterActionsCallbackInterface = instance;
             if (instance != null)
@@ -498,6 +524,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @MiddleMouseButton.started += instance.OnMiddleMouseButton;
                 @MiddleMouseButton.performed += instance.OnMiddleMouseButton;
                 @MiddleMouseButton.canceled += instance.OnMiddleMouseButton;
+                @QuestDisplayContext.started += instance.OnQuestDisplayContext;
+                @QuestDisplayContext.performed += instance.OnQuestDisplayContext;
+                @QuestDisplayContext.canceled += instance.OnQuestDisplayContext;
             }
         }
     }
@@ -555,6 +584,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnModifier1(InputAction.CallbackContext context);
         void OnRotateSegment(InputAction.CallbackContext context);
         void OnMiddleMouseButton(InputAction.CallbackContext context);
+        void OnQuestDisplayContext(InputAction.CallbackContext context);
     }
     public interface ICameraActions
     {

@@ -18,6 +18,7 @@ namespace Environment
         [SerializeField] private int health;
         [SerializeField] private bool wasBuiltByPlayer;
         [SerializeField] public List<GameObject> objectsToBeDeactivatedOnDestroy;
+        public Outline outline;
         
         public List<BuildCost> itemDrops;
         public ToolItemObject requiredTool;

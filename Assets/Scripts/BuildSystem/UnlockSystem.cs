@@ -53,6 +53,7 @@ namespace BuildSystem
         
         public void LoadData(GameData data)
         {
+            if (data.segmentUnlockData.Count <= 0) return;
             _segmentUnlockData = data.segmentUnlockData;
         }
 

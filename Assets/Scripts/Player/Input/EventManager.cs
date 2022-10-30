@@ -15,6 +15,9 @@ namespace Player.Input
         
         [SerializeField] private SimpleEvent openBuildMenuEvent;
         [SerializeField] private SimpleEvent closeBuildMenuEvent;
+        
+        [SerializeField] private SimpleEvent openQuestDisplayEvent;
+        [SerializeField] private SimpleEvent closeQuestDisplayEvent;
 
         [SerializeField] private IntEvent equipSlotEvent;
         [SerializeField] private SimpleEvent toolUsedEvent;
@@ -58,11 +61,29 @@ namespace Player.Input
                 if (GameFlags.GAME_PAUSED) return;
 
                 HideBuildMenu();
+                HideQuestDisplay();
                 
                 if (GameFlags.INVENTORY_CLOSED) {
                     OpenInventory();
                 } else {
                     HideInventory();
+                }
+            };
+            // Open/Close Quest Menu
+            _playerControls.Character.QuestDisplayContext.performed += inputEvent => {
+                if (GameFlags.GAME_PAUSED) return;
+                
+                HideInventory();
+                HideBuildMenu();
+
+                if (GameFlags.HAMMER_EQUIPPED) {
+                    SetEquippedSlot(-1);
+                }
+
+                if (GameFlags.QUEST_DISPLAY_CLOSED) {
+                    OpenQuestDisplay();
+                } else {
+                    HideQuestDisplay();
                 }
             };
             // Equip Slot 1
@@ -98,6 +119,7 @@ namespace Player.Input
                 if (GameFlags.GAME_PAUSED) return;
 
                 HideInventory();
+                HideQuestDisplay();
                 
                 if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED) {
                     OpenBuildMenu();
@@ -128,7 +150,7 @@ namespace Player.Input
             };
             // Action (left click)
             _playerControls.Character.Action.performed += inputEvent => {
-                if (GameFlags.GAME_PAUSED || GameFlags.UI_ELEMENT_OPEN || !GameFlags.SLOT_EQUIPPED) return;
+                if (GameFlags.GAME_PAUSED || GameFlags.INVENTORY_OPEN || GameFlags.BUILD_MENU_OPEN || !GameFlags.SLOT_EQUIPPED) return;
                 
                 toolUsedEvent.Raise();  // use equipped tool
             };
@@ -145,6 +167,7 @@ namespace Player.Input
             DisableCursor();
             closeInventoryEvent.Raise();
             closeBuildMenuEvent.Raise();
+            closeQuestDisplayEvent.Raise();
         }
 
         private void OnEnable()
@@ -194,6 +217,22 @@ namespace Player.Input
             closeBuildMenuEvent.Raise();
             GameFlags.BUILD_MENU_OPEN = false;
             SetCursorState(false, CursorLockMode.Locked);
+        }
+
+        public void OpenQuestDisplay()
+        {
+            if (GameFlags.QUEST_DISPLAY_OPEN) return;
+
+            GameFlags.QUEST_DISPLAY_OPEN = true;
+            openQuestDisplayEvent.Raise();
+        }
+
+        public void HideQuestDisplay()
+        {
+            if (GameFlags.QUEST_DISPLAY_CLOSED) return;
+
+            GameFlags.QUEST_DISPLAY_OPEN = false;
+            closeQuestDisplayEvent.Raise();
         }
 
         private void SetEquippedSlot(int index)

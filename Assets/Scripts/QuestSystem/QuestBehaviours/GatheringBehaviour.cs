@@ -22,7 +22,7 @@ namespace QuestSystem.QuestBehaviours
         [PropertyOrder(2)]
         [HorizontalGroup("values"), VerticalGroup("values/left")]
         [SerializeField] 
-        private float current;
+        public float current;
         
         [Title("Default Values")]
         
@@ -34,7 +34,7 @@ namespace QuestSystem.QuestBehaviours
         [PropertyOrder(4)]
         [HorizontalGroup("values"), VerticalGroup("values/right")]
         [SerializeField] 
-        private float defaultCurrent;
+        public float defaultCurrent;
 
         [PropertyOrder(5)]
         [Button("Apply values to default values")]
@@ -132,10 +132,12 @@ namespace QuestSystem.QuestBehaviours
             this.completeCondition = other.completeCondition;
             this.progressAmount = other.progressAmount;
             this.progressBehaviour = other.progressBehaviour;
+            this.broadcastCurrentState = other.broadcastCurrentState;
             this.broadcastEventCallback = other.broadcastEventCallback;
             this.dynamicProgressEvent = other.dynamicProgressEvent;
             this.staticProgressEvent = other.staticProgressEvent;
             this.useDynamicIncrement = other.useDynamicIncrement;
+            this.OnComplete = other.OnComplete;
         }
 
         public override void OnUpdate()

@@ -21,12 +21,45 @@ namespace Player.Input
         private int _selectedSlotIndex = -1;
         private Camera _camera;
         public LayerMask destroyablesLayerMask;
+        private Destroyable currentHoverSelection;
 
         private void Awake()
         {
             _camera = Camera.main;
             _playerWorldBuilding = GetComponent<PlayerWorldBuilding>();
             player = transform;
+        }
+
+        private void Update()
+        {
+            if (GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) {
+                if (GetMouseRayHit(destroyablesLayerMask, out RaycastHit hit, 40)) {
+                    Destroyable d = hit.transform.GetComponentInParent<Destroyable>();
+
+                    if (d == null || (d.requiredTool.displayName == "Axe" && !GameFlags.AXE_EQUIPPED) || (d.requiredTool.displayName == "Pickaxe" && !GameFlags.PICKAXE_EQUIPPED)) {
+                        if (currentHoverSelection != null) {
+                            currentHoverSelection.outline.enabled = false;
+                            currentHoverSelection = null;
+                        }
+                        return;
+                    }
+                    
+                    if (d != currentHoverSelection) {
+                        if (currentHoverSelection != null) {
+                            currentHoverSelection.outline.enabled = false;
+                        }
+                        d.outline.enabled = true;
+                        currentHoverSelection = d;
+                    }
+                    
+                    return;
+                }
+            }
+            
+            if (currentHoverSelection != null) {
+                currentHoverSelection.outline.enabled = false;
+                currentHoverSelection = null;
+            }
         }
 
         public void EquipSlot(int index)
