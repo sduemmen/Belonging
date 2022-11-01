@@ -8,8 +8,9 @@ namespace SaveSystem
 {
     public class SaveLoadIO
     {
-        private string _directory;
-        private string _fileName = "save.game";
+        private readonly string _directory;
+
+        private readonly string _fileName = "save.game";
         // TODO - add encryption
 
         public SaveLoadIO(string directory)
@@ -24,21 +25,25 @@ namespace SaveSystem
 
             GameData loadedData = null;
 
-            try {
+            try
+            {
                 string dataToLoad = "";
 
-                using (FileStream stream = new FileStream(path, FileMode.Open)) {
-                    using (StreamReader reader = new StreamReader(stream)) {
+                using (FileStream stream = new FileStream(path, FileMode.Open))
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
                         dataToLoad = reader.ReadToEnd();
                     }
                 }
 
                 loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
-
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Debug.LogError($"Exception when loading from file: \n {path} \n {e}");
             }
-            
+
             return loadedData;
         }
 
@@ -46,17 +51,22 @@ namespace SaveSystem
         {
             string path = Path.Combine(_directory, profileID, _fileName);
 
-            try {
+            try
+            {
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
 
                 string dataToStore = JsonUtility.ToJson(data, true);
 
-                using (FileStream stream = new FileStream(path, FileMode.Create)) {
-                    using (StreamWriter writer = new StreamWriter(stream)) {
+                using (FileStream stream = new FileStream(path, FileMode.Create))
+                {
+                    using (StreamWriter writer = new StreamWriter(stream))
+                    {
                         writer.Write(dataToStore);
                     }
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Debug.LogError($"Exception when saving to file: \n {path} \n {e}");
             }
         }
@@ -66,36 +76,41 @@ namespace SaveSystem
             string fullPath = Path.Combine(_directory, profileID, _fileName);
             string path = Path.Combine(_directory, profileID);
 
-            try {
+            try
+            {
                 File.Delete(fullPath);
                 Directory.Delete(path, true);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Debug.LogError($"Exception when deleting file at: \n {fullPath} \n {e}");
             }
         }
 
         public Dictionary<string, GameData> GetAllProfiles()
         {
-            Dictionary<string, GameData> profileDict = new Dictionary<string, GameData>();
+            var profileDict = new Dictionary<string, GameData>();
 
-            IEnumerable<DirectoryInfo> directoryInfos = new DirectoryInfo(_directory).EnumerateDirectories();
-            foreach (DirectoryInfo directoryInfo in directoryInfos) {
+            var directoryInfos = new DirectoryInfo(_directory).EnumerateDirectories();
+            foreach (DirectoryInfo directoryInfo in directoryInfos)
+            {
                 string profileID = directoryInfo.Name;
 
                 string fullPath = Path.Combine(_directory, profileID, _fileName);
-                if (!File.Exists(fullPath)) {
-
+                if (!File.Exists(fullPath))
+                {
                     Debug.LogWarning($"No Savefile found in folder with profileID {profileID}");
                     continue;
                 }
 
                 GameData profileData = Load(profileID);
 
-                if (profileData == null) {
+                if (profileData == null)
+                {
                     Debug.LogError($"Tried loading Savefile with profileID {profileID} but something went wrong");
                     continue;
                 }
-                
+
                 profileDict.Add(profileID, profileData);
             }
 

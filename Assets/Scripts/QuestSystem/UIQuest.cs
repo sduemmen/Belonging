@@ -16,7 +16,7 @@ namespace QuestSystem
 
         public void OnComplete()
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }

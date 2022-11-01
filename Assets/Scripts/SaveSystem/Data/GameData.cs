@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using BuildSystem;
 using Flags;
-using QuestSystem;
 using UI.MainMenu;
 using UnityEngine;
 using Random = System.Random;
@@ -19,7 +18,7 @@ namespace SaveSystem.Data
         public Vector3 playerPosition;
         public Quaternion playerRotation;
         public Quaternion cameraRotation;
-        
+
         public int seed;
         public float treeDensityThreshold;
         public float stoneDensityThreshold;
@@ -34,7 +33,7 @@ namespace SaveSystem.Data
         public float playtime;
         public int placedSegments;
         public int unlocked;
-        
+
         public bool achievementsEnabled;
         public bool firstLoad;
 
@@ -47,7 +46,7 @@ namespace SaveSystem.Data
             playerPosition = Vector3.zero;
             playerRotation = Quaternion.identity;
             cameraRotation = Quaternion.Euler(40, 0, 0);
-            
+
             Random random = new Random();
             seed = random.Next(100000, 100000000);
             treeDensityThreshold = 0.8f;
@@ -63,7 +62,7 @@ namespace SaveSystem.Data
             playtime = 0f;
             placedSegments = 0;
             unlocked = 0;
-            
+
             achievementsEnabled = true;
             firstLoad = true;
         }
@@ -77,7 +76,7 @@ namespace SaveSystem.Data
             playerPosition = Vector3.zero;
             playerRotation = Quaternion.identity;
             cameraRotation = Quaternion.Euler(40, 0, 0);
-            
+
             seed = newGameData.seed;
             treeDensityThreshold = newGameData.treeDensityThreshold;
             stoneDensityThreshold = newGameData.stoneDensityThreshold;
@@ -92,7 +91,7 @@ namespace SaveSystem.Data
             playtime = 0f;
             placedSegments = 0;
             unlocked = newGameData.unlockAll ? GameConstants.MAX_UNLOCKABLE_SEGMENTS : 0;
-            
+
             achievementsEnabled = !newGameData.unlockAll;
             firstLoad = true;
         }

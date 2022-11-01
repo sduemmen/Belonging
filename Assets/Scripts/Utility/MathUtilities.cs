@@ -9,9 +9,9 @@ namespace Utility
         LessOrEqualTarget,
         EqualTarget,
         GreaterOrEqualTarget,
-        GreaterThanTarget,
+        GreaterThanTarget
     }
-    
+
     public static class MathUtilities
     {
         public static Vector2 RotateVector2Rad(Vector2 v, float rad)
@@ -30,7 +30,8 @@ namespace Utility
 
         public static bool Evaluate(Comparison comparison, float a, float target)
         {
-            switch (comparison) {
+            switch (comparison)
+            {
                 case Comparison.LessThanTarget:
                     return a < target;
                 case Comparison.LessOrEqualTarget:
@@ -45,10 +46,11 @@ namespace Utility
 
             return false;
         }
-        
+
         public static bool Evaluate(Comparison comparison, int a, int target)
         {
-            switch (comparison) {
+            switch (comparison)
+            {
                 case Comparison.LessThanTarget:
                     return a < target;
                 case Comparison.LessOrEqualTarget:

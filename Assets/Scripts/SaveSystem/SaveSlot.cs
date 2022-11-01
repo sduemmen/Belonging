@@ -11,7 +11,7 @@ namespace SaveSystem
 
         public void SetProfileID()
         {
-            DataPersistenceManager.instance.profileID = gameData.profileID;
+            DataPersistenceManager.Instance.profileID = gameData.profileID;
         }
     }
 }

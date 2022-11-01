@@ -1,138 +1,166 @@
-﻿using Events.Events;
-using Flags;
+﻿using System.Collections.Generic;
 using InventorySystem.Items;
 using InventorySystem.UI;
-using SaveSystem;
 using SaveSystem.Data;
+using Sirenix.OdinInspector;
+using UI;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace InventorySystem
 {
-    public class InventoryController : MonoBehaviour, IDataPersistence
+    public class InventoryController : Controller, IDisplayContext
     {
-        [SerializeField] private Inventory _inventory;
-        [SerializeField] protected InventoryDisplay _inventoryDisplay;
-        [SerializeField] private MouseUIInventorySlot _mouseUISlot;
+        private static InventoryController _instance;
+        public static InventoryController Instance {
+            get {
+                if (_instance == null)
+                {
+                    _instance = (InventoryController)FindObjectOfType(typeof(InventoryController));
+                }
 
-        public Inventory Inventory => _inventory;
-        public InventoryDisplay InventoryDisplay => _inventoryDisplay;
-
-        private void Awake()
-        {
-            if (_inventory != null) _inventory.Awake();
-        }
-
-        protected virtual void Start()
-        {
-            if (_inventory == null) Debug.LogError("No inventory set in InventoryController");
-            if (_inventoryDisplay == null) Debug.LogError("No inventoryDisplay set in InventoryController");
-
-            for (int i = 0; i < _inventory.Size; i++) {
-                UIInventorySlot uiSlot = _inventoryDisplay.AddSlot();
-                uiSlot.Initialize(_inventory.InventorySlots[i]);
-            }
-
-            _inventory.OnSlotChanged += UpdateUISlot;
-            _inventoryDisplay.OnSlotClicked += InteractWithSlot;
-        }
-
-        public void InitializeUISlots()
-        {
-            for (int i = 0; i < _inventory.Size; i++) {
-                _inventoryDisplay.InventorySlots[i].Initialize(_inventory.InventorySlots[i]);
+                return _instance;
             }
         }
 
-        public void UpdateUISlot(InventorySlot newSlot)
+        [SerializeField, TitleGroup("General")] private Inventory _playerInventory;
+        
+        [SerializeField, TitleGroup("UI")] private GameObject _uiInventoryDisplayContext;
+        [SerializeField, TitleGroup("UI")] private Transform _uiInventoryTarget;
+        [SerializeField, TitleGroup("UI")] private UIInventorySlot _uiInventorySlotPrefab;
+        private List<UIInventorySlot> _uiInventorySlots;
+        private bool _displayContextActive;
+        
+        public UnityAction<UIInventorySlot> OnSlotClickedDelegate;
+        
+        public Inventory PlayerInventory => _playerInventory;
+        public bool DisplayContextActive => _displayContextActive;
+        
+
+        [Button("Load Manually"), TitleGroup("Debugging")]
+        protected override void OnLoadCompleted()
         {
-            UIInventorySlot uiSlot = _inventoryDisplay.GetSlotAtIndex(newSlot.Index);
-            uiSlot.Initialize(newSlot);
+            _uiInventorySlots = new List<UIInventorySlot>();
+            
+            for (int i = 0; i < _playerInventory.Size; i++)
+            {
+                UIInventorySlot slot = Instantiate(_uiInventorySlotPrefab, _uiInventoryTarget, false);
+                slot.Initialize(_playerInventory.InventorySlots[i], true, i);
+                _uiInventorySlots.Add(slot);
+            }
+
+            _playerInventory.OnSlotChangedDelegate += OnSlotChanged;
+            OnSlotClickedDelegate += OnSlotClicked;
+        }
+        
+        private void OnSlotChanged(InventorySlot slot)
+        {
+            UIInventorySlot uiSlot = _uiInventorySlots[slot.Index];
+            uiSlot.Initialize(slot);
         }
 
-        protected virtual void InteractWithSlot(UIInventorySlot clickedUISlot)
+        private void OnSlotClicked(UIInventorySlot clickedUISlot)
         {
+            InventorySlot newMouseInventorySlot = new InventorySlot();
+            InventorySlot newUIInventorySlot = new InventorySlot();
+            
             // get clicked slot index and corresponding inventory slot
             int clickedSlotIndex = clickedUISlot.Index;
-            InventorySlot clickedSlot = _inventory.GetSlotAtIndex(clickedSlotIndex);
+            InventorySlot clickedSlot = _playerInventory.GetSlotAtIndex(clickedSlotIndex);
 
             // get current state of clicked slot and mouse slot
             ItemObject clickedSlotItem = clickedSlot.Item;
             int clickedSlotStackSize = clickedSlot.StackSize;
-            ItemObject mouseSlotItem = _mouseUISlot.assignedInventorySlot?.Item;
-            int mouseSlotStackSize = _mouseUISlot.assignedInventorySlot?.StackSize ?? -1;
-            
+            ItemObject mouseSlotItem = MouseInventory.Instance.assignedInventorySlot?.Item;
+            int mouseSlotStackSize = MouseInventory.Instance.assignedInventorySlot?.StackSize ?? -1;
+
             // check if slots are empty or equal
             bool clickedSlotIsEmpty = clickedSlot.IsEmpty();
-            bool mouseSlotIsEmpty = _mouseUISlot.assignedInventorySlot?.IsEmpty() ?? true;
+            bool mouseSlotIsEmpty = MouseInventory.Instance.assignedInventorySlot?.IsEmpty() ?? true;
             bool slotContentsAreEqual = clickedSlotItem == mouseSlotItem;
 
-            // take from clicked slot
-            if (!clickedSlotIsEmpty && mouseSlotIsEmpty) {
-                _inventory.InventorySlots[clickedSlotIndex].ClearSlot();
-                _inventoryDisplay.InventorySlots[clickedSlotIndex].ClearSlot();
-                
-                _mouseUISlot.assignedInventorySlot = new InventorySlot(clickedSlotItem, clickedSlotStackSize, clickedSlotIndex);
-                _mouseUISlot.Initialize(_mouseUISlot.assignedInventorySlot);
-            }
-
-            // place on clicked slot
-            if (clickedSlotIsEmpty && !mouseSlotIsEmpty) {
-                _inventory.InventorySlots[clickedSlotIndex] = new InventorySlot(mouseSlotItem, mouseSlotStackSize, clickedSlotIndex);
-                _inventoryDisplay.InventorySlots[clickedSlotIndex].Initialize(_inventory.InventorySlots[clickedSlotIndex]);
-                
-                _mouseUISlot.assignedInventorySlot.ClearSlot();
-                _mouseUISlot.Initialize(_mouseUISlot.assignedInventorySlot);
-            }
             
-            if (!clickedSlotIsEmpty && !mouseSlotIsEmpty) {
+            if (!clickedSlotIsEmpty && mouseSlotIsEmpty)
+            {
+                // take from clicked slot
+                _playerInventory.InventorySlots[clickedSlotIndex].ClearSlot();
                 
-                // fill up slot
-                if (slotContentsAreEqual) {
-                    _inventory.InventorySlots[clickedSlotIndex].AddToStack(mouseSlotStackSize, out int remainingAmount);
-                    _inventoryDisplay.InventorySlots[clickedSlotIndex].Initialize(_inventory.InventorySlots[clickedSlotIndex]);
-                    
-                    if (remainingAmount > 0) 
-                        _mouseUISlot.assignedInventorySlot.StackSize = remainingAmount;
-                    else 
-                        _mouseUISlot.assignedInventorySlot.ClearSlot();
-                    
-                    _mouseUISlot.Initialize(_mouseUISlot.assignedInventorySlot);
-                } 
-                // swap slots
-                else {
-                    (_inventory.InventorySlots[clickedSlotIndex], _mouseUISlot.assignedInventorySlot) = (_mouseUISlot.assignedInventorySlot, _inventory.InventorySlots[clickedSlotIndex]);
+                newMouseInventorySlot = new InventorySlot(clickedSlotItem, clickedSlotStackSize, clickedSlotIndex);
+                newUIInventorySlot = null;
+            }
+            else if (clickedSlotIsEmpty && !mouseSlotIsEmpty)
+            {
+                // place on clicked slot
+                _playerInventory.InventorySlots[clickedSlotIndex] = new InventorySlot(mouseSlotItem, mouseSlotStackSize, clickedSlotIndex);
+                
+                newMouseInventorySlot = new InventorySlot();
+                newUIInventorySlot = new InventorySlot(mouseSlotItem, mouseSlotStackSize, clickedSlotIndex);
+            }
+            else if (!clickedSlotIsEmpty)   // both slots contain items
+            {
+                if (slotContentsAreEqual)
+                {
+                    // fill up slot
+                    _playerInventory.InventorySlots[clickedSlotIndex].AddToStack(mouseSlotStackSize, out int remainingAmount);
 
-                    _inventoryDisplay.InventorySlots[clickedSlotIndex].Initialize(_inventory.InventorySlots[clickedSlotIndex]);
-                    _mouseUISlot.Initialize(_mouseUISlot.assignedInventorySlot);
+                    newMouseInventorySlot = remainingAmount > 0 ? new InventorySlot(mouseSlotItem, remainingAmount) : new InventorySlot();
+                    newUIInventorySlot = _playerInventory.InventorySlots[clickedSlotIndex];
+                }
+                else
+                {
+                    // swap slots
+                    newMouseInventorySlot = _playerInventory.InventorySlots[clickedSlotIndex];
+                    newUIInventorySlot = MouseInventory.Instance.assignedInventorySlot;
                 }
             }
+            
+            MouseInventory.Instance.SetAssignedInventorySlot(newMouseInventorySlot);
+            clickedUISlot.Initialize(newUIInventorySlot);
+        }
+        
+        public void ShowDisplayContext()
+        {
+            _displayContextActive = true;
+            _uiInventoryDisplayContext.SetActive(true);
         }
 
-        public void LoadData(GameData data)
+        public void HideDisplayContext()
         {
-            if (GameFlags.MAIN_MENU_ACTIVE) return;
-            if (_inventory == null || _inventory.IsStatic) return;
-            
-            PersistentInventoryData inventoryData = data.persistentInventoryData.Find(entry => entry.identifier == this._inventory.identifier);
-            
-            if (inventoryData != null && inventoryData.inventorySlots.Count == _inventory.Size) {
-                _inventory.InventorySlots = inventoryData.inventorySlots;
-            } else {
-                _inventory.Awake();
-                _inventory.SetupSlotIndices();
+            _displayContextActive = false;
+            _uiInventoryDisplayContext.SetActive(false);
+            MouseInventory.Instance.OnCloseInventory();
+            MouseTooltip.Instance.Hide();
+        }
+        
+        public override void LoadData(GameData data)
+        {
+            PersistentInventoryData inventoryData = data.persistentInventoryData.Find(entry => entry.identifier == _playerInventory.identifier);
+
+            if (inventoryData != null)
+            {
+                // load existing inventory data
+                _playerInventory.InventorySlots = inventoryData.inventorySlots;
             }
+            else
+            {
+                // initialize new inventory if no data exists
+                _playerInventory.Initialize();
+                _playerInventory.SetupSlotIndices();
+            }
+            
+            base.LoadData(data);
         }
 
-        public void SaveData(ref GameData data)
+        public override void SaveData(ref GameData data)
         {
-            if (GameFlags.MAIN_MENU_ACTIVE) return;
-            if (_inventory == null || _inventory.IsStatic) return;
+            PersistentInventoryData existingInventoryData = data.persistentInventoryData.Find(entry => entry.identifier == _playerInventory.identifier);
             
-            PersistentInventoryData existingInventoryData = data.persistentInventoryData.Find(entry => entry.identifier == this._inventory.identifier);
-            if (existingInventoryData != null) {
+            if (existingInventoryData != null)
+            {
                 data.persistentInventoryData.Remove(existingInventoryData);
             }
-            data.persistentInventoryData.Add(new PersistentInventoryData(_inventory));
+            
+            data.persistentInventoryData.Add(new PersistentInventoryData(_playerInventory));
         }
     }
 }

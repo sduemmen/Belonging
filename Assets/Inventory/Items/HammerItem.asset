@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ec45f07f5045b8bc1c2f363bf4f418, type: 3}
   m_Name: HammerItem
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 5436e9e5aefe3e446b2c90e75ef6f73f, type: 3}
-  displayName: Hammer
-  description: 
-  maxStackSize: 1
-  category: 1
+  _displayName: Hammer
+  _description: 
+  _category: 1
+  _icon: {fileID: 21300000, guid: 5436e9e5aefe3e446b2c90e75ef6f73f, type: 3}
+  _maxStackSize: 1

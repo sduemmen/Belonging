@@ -24,7 +24,7 @@ namespace Events
             _response?.Invoke(t);
         }
     }
-    
+
     [Serializable]
     public abstract class AdvancedEventListener<S, T> : MonoBehaviour
     {

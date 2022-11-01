@@ -1,64 +1,61 @@
-﻿using System;
-using BuildSystem;
-using Environment;
+﻿using BuildSystem;
 using Flags;
 using InventorySystem;
 using InventorySystem.Items;
 using InventorySystem.UI;
 using UnityEngine;
+using Utility;
+using World;
 
 namespace Player.Input
 {
     public class PlayerWorldInteraction : MonoBehaviour
     {
-        public Inventory toolbar;
-        public ToolbarInventoryDisplay toolbarDisplay;
-        public MouseUIInventorySlot mouseInventory;
-        public Transform player;
-        public World _world;
-        private PlayerWorldBuilding _playerWorldBuilding;
-        public float maxInteractionDistance;
-        private int _selectedSlotIndex = -1;
+        [SerializeField] private Transform _player;
+        [SerializeField] private float _maxInteractionDistance;
+        [SerializeField] private LayerMask _destroyablesLayerMask;
         private Camera _camera;
-        public LayerMask destroyablesLayerMask;
-        private Destroyable currentHoverSelection;
+        private int _selectedSlotIndex = -1;
+        private Destroyable _outlinedDestroyable;
 
         private void Awake()
         {
             _camera = Camera.main;
-            _playerWorldBuilding = GetComponent<PlayerWorldBuilding>();
-            player = transform;
+            _player = transform;
         }
 
         private void Update()
         {
-            if (GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) {
-                if (GetMouseRayHit(destroyablesLayerMask, out RaycastHit hit, 40)) {
+            if (GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED)
+                if (Raycast.GetMouseRayHit(_camera, _destroyablesLayerMask, out RaycastHit hit, 40))
+                {
                     Destroyable d = hit.transform.GetComponentInParent<Destroyable>();
 
-                    if (d == null || (d.requiredTool.displayName == "Axe" && !GameFlags.AXE_EQUIPPED) || (d.requiredTool.displayName == "Pickaxe" && !GameFlags.PICKAXE_EQUIPPED)) {
-                        if (currentHoverSelection != null) {
-                            currentHoverSelection.outline.enabled = false;
-                            currentHoverSelection = null;
+                    if (d == null || (d.requiredTool.DisplayName == "Axe" && !GameFlags.AXE_EQUIPPED) || (d.requiredTool.DisplayName == "Pickaxe" && !GameFlags.PICKAXE_EQUIPPED))
+                    {
+                        if (_outlinedDestroyable != null)
+                        {
+                            _outlinedDestroyable.outline.enabled = false;
+                            _outlinedDestroyable = null;
                         }
+
                         return;
                     }
-                    
-                    if (d != currentHoverSelection) {
-                        if (currentHoverSelection != null) {
-                            currentHoverSelection.outline.enabled = false;
-                        }
+
+                    if (d != _outlinedDestroyable)
+                    {
+                        if (_outlinedDestroyable != null) _outlinedDestroyable.outline.enabled = false;
                         d.outline.enabled = true;
-                        currentHoverSelection = d;
+                        _outlinedDestroyable = d;
                     }
-                    
+
                     return;
                 }
-            }
-            
-            if (currentHoverSelection != null) {
-                currentHoverSelection.outline.enabled = false;
-                currentHoverSelection = null;
+
+            if (_outlinedDestroyable != null)
+            {
+                _outlinedDestroyable.outline.enabled = false;
+                _outlinedDestroyable = null;
             }
         }
 
@@ -69,63 +66,57 @@ namespace Player.Input
             if (index >= 0)
                 UpdateSelectedSlotHighlight();
         }
-        
+
         private void ResetGameObjects()
         {
-            toolbarDisplay.DisableHighlight();
-            mouseInventory.Initialize(null);
-            if (_playerWorldBuilding.previewGameObject != null) Destroy(_playerWorldBuilding.previewGameObject);
-            _playerWorldBuilding.previewGameObject = null;
+            ToolbarInventoryController.Instance.DisableHighlight();
+            MouseInventory.Instance.SetAssignedInventorySlot(new InventorySlot());
+            
+            if (BuildingController.Instance.BuildingPreviewEnabled)
+            {
+                BuildingController.Instance.DisableBuildingPreview();
+            }
         }
 
         private void UpdateSelectedSlotHighlight()
         {
-            toolbarDisplay.EnableHighlightAtIndex(_selectedSlotIndex);
-            if (_selectedSlotIndex != 2) mouseInventory.Initialize(toolbar.InventorySlots[_selectedSlotIndex]);
+            ToolbarInventoryController.Instance.EnableHighlightAtIndex(_selectedSlotIndex);
+            if (_selectedSlotIndex != 2)
+            {
+                InventorySlot selectedInventorySlot = ToolbarInventoryController.Instance.ToolbarInventory.InventorySlots[_selectedSlotIndex];
+                MouseInventory.Instance.SetAssignedInventorySlot(selectedInventorySlot);
+            }
         }
 
         public void OnToolUsed()
         {
-            if (GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) {
-                OnDestroyableClicked();
-            }
-            
-            if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED) {
-                _playerWorldBuilding.TryPlaceSegment();
-            }
+            if (GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) OnDestroyableClicked();
+
+            if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED) BuildingController.Instance.TryPlaceSegment();
         }
 
         private void OnDestroyableClicked()
         {
             int layerMask = 0;
 
-            layerMask |= destroyablesLayerMask;
-            
-            bool objectHit = GetMouseRayHit(layerMask, out RaycastHit hitResult, 40);
+            layerMask |= _destroyablesLayerMask;
+
+            bool objectHit = Raycast.GetMouseRayHit(_camera, layerMask, out RaycastHit hitResult, 40);
             if (!objectHit || hitResult.transform.gameObject == null) return;
-            
+
             GameObject hitGameObject = hitResult.transform.gameObject;
-            if ((player.position - hitResult.point).magnitude > maxInteractionDistance) return;
-            
-            ToolItemObject selectedTool = (ToolItemObject)toolbar.InventorySlots[_selectedSlotIndex].Item;
+            if ((_player.position - hitResult.point).magnitude > _maxInteractionDistance) return;
+
+            ToolItemObject selectedTool = (ToolItemObject)ToolbarInventoryController.Instance.ToolbarInventory.InventorySlots[_selectedSlotIndex].Item;
             if (selectedTool == null) return;
-            
+
             Destroyable destroyable = hitGameObject.GetComponent<Destroyable>();
-            if (destroyable == null && hitGameObject.transform.parent != null) destroyable = hitGameObject.transform.parent.GetComponent<Destroyable>();
+            if (destroyable == null && hitGameObject.transform.parent != null)
+            {
+                destroyable = hitGameObject.transform.parent.GetComponent<Destroyable>();
+            }
             if (destroyable == null || selectedTool != destroyable.requiredTool) return;
-            destroyable.OnClick(player, hitResult);
-        }
-        
-        private bool GetMouseRayHit(out RaycastHit raycastHit)
-        {
-            Ray ray = _camera.ViewportPointToRay(new Vector3(UnityEngine.Input.mousePosition.x / Screen.width, UnityEngine.Input.mousePosition.y / Screen.height, 0));
-            return Physics.Raycast(ray, out raycastHit);
-        }
-        
-        private bool GetMouseRayHit(LayerMask layerMask, out RaycastHit raycastHit, float distance)
-        {
-            Ray ray = _camera.ViewportPointToRay(new Vector3(UnityEngine.Input.mousePosition.x / Screen.width, UnityEngine.Input.mousePosition.y / Screen.height, 0));
-            return Physics.Raycast(ray, out raycastHit, distance, layerMask);
+            destroyable.OnClick(_player.position, hitResult);
         }
     }
 }

@@ -10,9 +10,7 @@ namespace InventorySystem
         [SerializeField] private ItemObject _item;
         [SerializeField] private int _stackSize;
         private int _index;
-
-        #region -- Getters, Setters --
-
+        
         public ItemObject Item {
             get => _item;
             set => _item = value;
@@ -27,16 +25,14 @@ namespace InventorySystem
             get => _index;
             set => _index = value;
         }
-        
-        #endregion
-        
+
         public InventorySlot(ItemObject item, int stackSize, int index)
         {
             Item = item;
             StackSize = stackSize;
             Index = index;
         }
-        
+
         public InventorySlot(ItemObject item, int stackSize)
         {
             Item = item;
@@ -51,9 +47,12 @@ namespace InventorySystem
 
         public void AssignItem(InventorySlot other)
         {
-            if (Item == other.Item) {
+            if (Item == other.Item)
+            {
                 StackSize += other.StackSize;
-            } else {
+            }
+            else
+            {
                 Item = other.Item;
                 StackSize = other.StackSize;
             }
@@ -69,16 +68,16 @@ namespace InventorySystem
         {
             return Item == null || _stackSize < 0;
         }
-        
+
         public bool HasRoomFor(int amountToAdd, out int roomLeft)
         {
-            roomLeft = Item.maxStackSize - StackSize;
-            return StackSize + amountToAdd <= Item.maxStackSize;
+            roomLeft = Item.MaxStackSize - StackSize;
+            return StackSize + amountToAdd <= Item.MaxStackSize;
         }
 
         public bool HasRoomFor(int amountToAdd)
         {
-            return StackSize + amountToAdd <= Item.maxStackSize;
+            return StackSize + amountToAdd <= Item.MaxStackSize;
         }
 
         public void AddToStack(int amount)
@@ -90,10 +89,10 @@ namespace InventorySystem
         public void AddToStack(int amountToAdd, out int remainingAmount)
         {
             bool roomLeft = HasRoomFor(amountToAdd);
-            
-            remainingAmount = roomLeft ? 0 : amountToAdd + StackSize - Item.maxStackSize;
-            amountToAdd = roomLeft ? amountToAdd : Item.maxStackSize - StackSize;
-            
+
+            remainingAmount = roomLeft ? 0 : amountToAdd + StackSize - Item.MaxStackSize;
+            amountToAdd = roomLeft ? amountToAdd : Item.MaxStackSize - StackSize;
+
             AddToStack(amountToAdd);
         }
 

@@ -1,17 +1,21 @@
-﻿using UnityEngine.SceneManagement;
+﻿using BuildSystem;
+using InventorySystem;
+using UnityEngine.SceneManagement;
 
 namespace Flags
 {
     public static class GameFlags
     {
-        public static bool GAME_PAUSED;
         public static bool MAIN_MENU_ACTIVE => SceneManager.GetActiveScene().name == "MainMenuScene";
-        public static bool INVENTORY_OPEN;
-        public static bool INVENTORY_CLOSED => !INVENTORY_OPEN;
         
-        public static bool BUILD_MENU_OPEN;
-        public static bool BUILD_MENU_CLOSED => !BUILD_MENU_OPEN;
         
+        public static bool GAME_PAUSED;
+
+        
+        public static bool INVENTORY_OPEN => InventoryController.Instance.DisplayContextActive;
+        public static bool INVENTORY_CLOSED => !InventoryController.Instance.DisplayContextActive;
+        public static bool BUILD_MENU_OPEN => BuildingController.Instance.DisplayContextActive;
+        public static bool BUILD_MENU_CLOSED => !BuildingController.Instance.DisplayContextActive;
         public static bool QUEST_DISPLAY_OPEN;
         public static bool QUEST_DISPLAY_CLOSED => !QUEST_DISPLAY_OPEN;
 

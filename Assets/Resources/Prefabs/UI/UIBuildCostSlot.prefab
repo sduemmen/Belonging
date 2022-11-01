@@ -54,9 +54,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _image: {fileID: 2623127647095692913}
   _stackSizeLabel: {fileID: 2900590157030058834}
-  parentDisplay: {fileID: 0}
   _index: 0
-  clickable: 0
+  _clickable: 0
 --- !u!222 &5710242456328544000
 CanvasRenderer:
   m_ObjectHideFlags: 0

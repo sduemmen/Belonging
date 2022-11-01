@@ -3,9 +3,8 @@ using UnityEngine;
 
 namespace Events.Events
 {
-    [CreateAssetMenu(menuName = "Events/String Event"), Serializable]
+    [CreateAssetMenu(menuName = "Events/String Event")]
+    [Serializable]
     public class StringEvent : Event<string>
-    {
-        
-    }
+    { }
 }

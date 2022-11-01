@@ -12,21 +12,63 @@ namespace QuestSystem
     [Serializable]
     public class QuestManager : MonoBehaviour, IDataPersistence
     {
-        [SerializeField, InlineEditor] private List<Quest> questDatabase = new List<Quest>();
-        [SerializeField, InlineEditor] public List<Quest> quests = new List<Quest>(); 
+        // TODO cleanup quest system
+        
+        private static QuestManager _instance;
+        [SerializeField] [InlineEditor] private List<Quest> questDatabase = new();
+        [SerializeField] [InlineEditor] public List<Quest> quests = new();
         [SerializeField] private bool _firstLoad = true;
         [SerializeField] private QuestDisplayController _questDisplayController;
 
-        private static QuestManager _instance;
-
         public static QuestManager Instance {
             get {
-                if (_instance == null) {
-                    _instance = (QuestManager)FindObjectOfType(typeof(QuestManager));
-                }
+                if (_instance == null) _instance = (QuestManager)FindObjectOfType(typeof(QuestManager));
 
                 return _instance;
             }
+        }
+
+        public void LoadData(GameData data)
+        {
+            quests.Clear();
+
+            if (data.firstLoad)
+                foreach (Quest questData in questDatabase)
+                {
+                    Quest quest = (Quest)ScriptableObject.CreateInstance(typeof(Quest));
+                    quest.title = questData.title;
+                    quest.description = questData.description;
+                    quest.completed = questData.completed;
+                    quest.questBehaviour = QuestBehaviour.Create(questData.questBehaviour.GetType());
+                    quest.questBehaviour.Initialize(questData.questBehaviour);
+                    quest.completionBehaviours = questData.completionBehaviours;
+                    quest.OnCompleteQuestCallback = questData.OnCompleteQuestCallback;
+                    quests.Add(quest);
+                }
+            else
+                foreach (PersistentQuestData questData in data.quests)
+                {
+                    Quest quest = (Quest)ScriptableObject.CreateInstance(typeof(Quest));
+                    quest.title = questData.title;
+                    quest.description = questData.description;
+                    quest.completed = questData.completed;
+                    quest.questBehaviour = questData.questBehaviour;
+                    quest.completionBehaviours = questData.questCompletionBehaviours;
+                    quest.OnCompleteQuestCallback = questData.OnCompleteQuestCallback;
+                    quests.Add(quest);
+                }
+
+            InitializeQuests();
+
+            _firstLoad = false;
+            _questDisplayController.Initialize();
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            data.quests.Clear();
+            foreach (Quest quest in quests) data.quests.Add(new PersistentQuestData(quest));
+            data.firstLoad = _firstLoad;
         }
 
 #if UNITY_EDITOR
@@ -35,10 +77,11 @@ namespace QuestSystem
         {
             questDatabase.Clear();
             quests.Clear();
-            
+
             string[] questAssets = AssetDatabase.FindAssets("t:Quest");
-            
-            foreach (var s in questAssets) {
+
+            foreach (string s in questAssets)
+            {
                 string path = AssetDatabase.GUIDToAssetPath(s);
                 Quest q = AssetDatabase.LoadAssetAtPath<Quest>(path);
                 Quest quest = (Quest)ScriptableObject.CreateInstance(typeof(Quest));
@@ -51,8 +94,9 @@ namespace QuestSystem
                 quest.OnCompleteQuestCallback = q.OnCompleteQuestCallback;
                 questDatabase.Add(quest);
             }
-            
-            foreach (var s in questAssets) {
+
+            foreach (string s in questAssets)
+            {
                 string path = AssetDatabase.GUIDToAssetPath(s);
                 Quest q = AssetDatabase.LoadAssetAtPath<Quest>(path);
                 Quest quest = (Quest)ScriptableObject.CreateInstance(typeof(Quest));
@@ -67,57 +111,11 @@ namespace QuestSystem
             }
         }
 #endif
-        
+
         [Button("Initialize Quest Events and Listeners")]
         private void InitializeQuests()
         {
-            foreach (var quest in quests) {
-                quest.Initialize();
-            }
-        }
-        
-        public void LoadData(GameData data)
-        {
-            quests.Clear();
-            
-            if (data.firstLoad) {
-                foreach (var questData in questDatabase) {
-                    Quest quest = (Quest)ScriptableObject.CreateInstance(typeof(Quest));
-                    quest.title = questData.title;
-                    quest.description = questData.description;
-                    quest.completed = questData.completed;
-                    quest.questBehaviour = QuestBehaviour.Create(questData.questBehaviour.GetType());
-                    quest.questBehaviour.Initialize(questData.questBehaviour);
-                    quest.completionBehaviours = questData.completionBehaviours;
-                    quest.OnCompleteQuestCallback = questData.OnCompleteQuestCallback;
-                    quests.Add(quest);
-                }
-            } else {
-                foreach (var questData in data.quests) {
-                    Quest quest = (Quest)ScriptableObject.CreateInstance(typeof(Quest));
-                    quest.title = questData.title;
-                    quest.description = questData.description;
-                    quest.completed = questData.completed;
-                    quest.questBehaviour = questData.questBehaviour;
-                    quest.completionBehaviours = questData.questCompletionBehaviours;
-                    quest.OnCompleteQuestCallback = questData.OnCompleteQuestCallback;
-                    quests.Add(quest);
-                }
-            }
-
-            InitializeQuests();
-            
-            _firstLoad = false;
-            _questDisplayController.Initialize();
-        }
-
-        public void SaveData(ref GameData data)
-        {
-            data.quests.Clear();
-            foreach (Quest quest in quests) {
-                data.quests.Add(new PersistentQuestData(quest));
-            }
-            data.firstLoad = _firstLoad;
+            foreach (Quest quest in quests) quest.Initialize();
         }
     }
 }

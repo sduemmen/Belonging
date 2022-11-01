@@ -1,4 +1,3 @@
-using System;
 using SaveSystem;
 using SaveSystem.Data;
 using UnityEngine;
@@ -16,23 +15,23 @@ namespace UI.MainMenu
         [SerializeField] private Button _deleteSelectedGameButton;
         [SerializeField] private Button _loadSelectedGameButton;
         [SerializeField] private NewGameData _newGameData;
-        
+
         public void OnNewGame()
         {
             DisableButtons();
 
             GameData gameData = new GameData(_newGameData);
-            
-            DataPersistenceManager.instance.profileID = gameData.profileID;
-            DataPersistenceManager.instance.NewGame(gameData);
-            
+
+            DataPersistenceManager.Instance.profileID = gameData.profileID;
+            DataPersistenceManager.Instance.NewGame(gameData);
+
             SceneManager.LoadSceneAsync("GameScene");
         }
 
         public void OnLoadGame()
         {
-            if (DataPersistenceManager.instance.noProfileSelected) return;
-            
+            if (DataPersistenceManager.Instance.NoProfileSelected) return;
+
             DisableButtons();
             SceneManager.LoadSceneAsync("GameScene");
         }

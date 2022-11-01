@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace Utility
 {
-    [CreateAssetMenu(menuName = "Debug/Collider"), Serializable]
+    [CreateAssetMenu(menuName = "Debug/Collider")]
+    [Serializable]
     public class ColliderDebugInformation : ScriptableObject
     {
         public ColliderUsage usage;

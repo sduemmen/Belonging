@@ -4,7 +4,7 @@ namespace UI.MainMenu
 {
     public class MainMenuCameraController : MonoBehaviour
     {
-        [SerializeField] private Vector3 _animationOffset = new Vector3(1, 0, 1);
+        [SerializeField] private Vector3 _animationOffset = new(1, 0, 1);
         [SerializeField] private float _animationSpeed;
         private Transform _transform;
 

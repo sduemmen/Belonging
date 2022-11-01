@@ -11,7 +11,7 @@ namespace QuestSystem.QuestCompletionBehaviours
         Item,
         Int,
         Float,
-        String,
+        String
     }
 
     [Serializable]
@@ -19,12 +19,12 @@ namespace QuestSystem.QuestCompletionBehaviours
     {
         public abstract void OnComplete();
     }
-    
+
     [Serializable]
     public class SimpleCompletionBehaviour : QuestCompletionBehaviour
     {
         public SimpleEvent completionEvent;
-        
+
         public override void OnComplete()
         {
             completionEvent.Raise();
@@ -39,14 +39,12 @@ namespace QuestSystem.QuestCompletionBehaviours
 
         public override void OnComplete()
         {
-            foreach (InventorySlot reward in callEventWithValues) {
-                for (int i = 0; i < reward.StackSize; i++) {
+            foreach (InventorySlot reward in callEventWithValues)
+                for (int i = 0; i < reward.StackSize; i++)
                     completionEvent.Raise(reward.Item);
-                }
-            }
         }
     }
-    
+
     [Serializable]
     public class IntCompletionBehaviour : QuestCompletionBehaviour
     {
@@ -55,12 +53,10 @@ namespace QuestSystem.QuestCompletionBehaviours
 
         public override void OnComplete()
         {
-            foreach (int i in callEventWithValues) {
-                completionEvent.Raise(i);
-            }
+            foreach (int i in callEventWithValues) completionEvent.Raise(i);
         }
     }
-    
+
     [Serializable]
     public class FloatCompletionBehaviour : QuestCompletionBehaviour
     {
@@ -69,9 +65,7 @@ namespace QuestSystem.QuestCompletionBehaviours
 
         public override void OnComplete()
         {
-            foreach (float f in callEventWithValues) {
-                completionEvent.Raise(f);
-            }
+            foreach (float f in callEventWithValues) completionEvent.Raise(f);
         }
     }
 
@@ -83,9 +77,7 @@ namespace QuestSystem.QuestCompletionBehaviours
 
         public override void OnComplete()
         {
-            foreach (string s in callEventWithValues) {
-                completionEvent.Raise(s);
-            }
+            foreach (string s in callEventWithValues) completionEvent.Raise(s);
         }
     }
 }

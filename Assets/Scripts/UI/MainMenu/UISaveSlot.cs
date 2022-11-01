@@ -1,7 +1,5 @@
 using System;
 using System.Linq;
-using Flags;
-using SaveSystem;
 using SaveSystem.Data;
 using TMPro;
 using UnityEngine;
@@ -18,14 +16,14 @@ namespace UI.MainMenu
         public TextMeshProUGUI unlocked;
         public Button selectSaveSlotButton;
         public Image background;
-        public Color selectColor = new Color(46, 46, 46);
-        public Color defaultColor = new Color(30, 30, 30);
+        public Color selectColor = new(46, 46, 46);
+        public Color defaultColor = new(30, 30, 30);
 
         public void SetDisplayName(string text)
         {
             displayName.text = text;
         }
-        
+
         public void SetPlaytime(float time)
         {
             time /= 3600;
@@ -36,16 +34,16 @@ namespace UI.MainMenu
         {
             lastPlayedOn.text = $"Last played {lastPlayed} ago";
         }
-        
+
         public void SetPlacedSegmentCount(int count)
         {
             string s = count == 1 ? " Segment" : " Segments";
-            this.score.text = $"{count} {s}";
+            score.text = $"{count} {s}";
         }
-        
+
         public void SetUnlockedSegments(int unlockedSegments, int total)
         {
-            this.unlocked.text = $"{unlockedSegments}/{total} Segments";
+            unlocked.text = $"{unlockedSegments}/{total} Segments";
         }
 
         public void OnMouseHoverEnter()
@@ -70,21 +68,24 @@ namespace UI.MainMenu
         private string GetTimeUntilNow(DateTime dateTime)
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds((DateTime.Now - dateTime).TotalSeconds);
-            if (timeSpan.Days > 0) {
+            if (timeSpan.Days > 0)
+            {
                 string days = timeSpan.Days > 1 ? "Days" : "Day";
                 return $"{timeSpan.Days} {days}";
             }
-                
-            if (timeSpan.Hours > 0) {
+
+            if (timeSpan.Hours > 0)
+            {
                 string hours = timeSpan.Hours > 1 ? "Hours" : "Hour";
                 return $"{timeSpan.Hours} {hours}";
             }
-            
-            if (timeSpan.Minutes > 0) {
+
+            if (timeSpan.Minutes > 0)
+            {
                 string minutes = timeSpan.Minutes > 1 ? "Minutes" : "Minute";
                 return $"{timeSpan.Minutes} {minutes}";
             }
-            
+
             return $"{timeSpan:%s} Seconds";
         }
     }

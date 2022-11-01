@@ -6,7 +6,7 @@ namespace UI
     {
         private void Awake()
         {
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 }

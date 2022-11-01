@@ -56,11 +56,10 @@ MonoBehaviour:
   - {fileID: 8958915010648245290}
   outline: {fileID: 7329329242185440714}
   itemDrops:
-  - item: {fileID: 11400000, guid: 12105098fa1a4cc48bce492e45e197b9, type: 2}
-    amount: 5
+  - _item: {fileID: 11400000, guid: 12105098fa1a4cc48bce492e45e197b9, type: 2}
+    _amount: 5
   requiredTool: {fileID: 11400000, guid: fb4697c83476b4b4c9aa9a7d2d7e5281, type: 2}
   colliders: {fileID: 0}
-  world: {fileID: 0}
   chunkPosition: {x: 0, y: 0}
   positionInChunk: {x: 0, y: 0}
   isPlaced: 1
@@ -5045,7 +5044,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 1
   outlineColor: {r: 0.85882354, g: 0.85882354, b: 0.85882354, a: 1}
-  outlineWidth: 7
+  outlineWidth: 10
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []

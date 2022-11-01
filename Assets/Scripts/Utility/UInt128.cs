@@ -127,7 +127,7 @@ namespace Utility
 
         public static void Create(out UInt128 c, decimal a)
         {
-            var bits = decimal.GetBits(decimal.Truncate(a));
+            int[] bits = decimal.GetBits(decimal.Truncate(a));
             Create(out c, (uint)bits[0], (uint)bits[1], (uint)bits[2], 0);
             if (a < 0)
                 Negate(ref c);
@@ -135,7 +135,7 @@ namespace Utility
 
         public static void Create(out UInt128 c, BigInteger a)
         {
-            var sign = a.Sign;
+            int sign = a.Sign;
             if (sign == -1)
                 a = -a;
             c.s0 = (ulong)(a & ulong.MaxValue);
@@ -146,7 +146,7 @@ namespace Utility
 
         public static void Create(out UInt128 c, double a)
         {
-            var negate = false;
+            bool negate = false;
             if (a < 0)
             {
                 negate = true;
@@ -159,7 +159,7 @@ namespace Utility
             }
             else
             {
-                var shift = Math.Max((int)Math.Ceiling(Math.Log(a, 2)) - 63, 0);
+                int shift = Math.Max((int)Math.Ceiling(Math.Log(a, 2)) - 63, 0);
                 c.s0 = (ulong)(a / Math.Pow(2, shift));
                 c.s1 = 0;
                 LeftShift(ref c, shift);
@@ -347,7 +347,7 @@ namespace Utility
         {
             if (a.s1 == 0)
                 return a.s0;
-            var shift = Math.Max(0, 32 - GetBitLength(a.s1));
+            int shift = Math.Max(0, 32 - GetBitLength(a.s1));
             UInt128 ashift;
             RightShift(out ashift, ref a, shift);
             return new decimal((int)a.r0, (int)a.r1, (int)a.r2, false, (byte)shift);
@@ -977,8 +977,8 @@ namespace Utility
             Multiply64(out c01, a.s0, b.s1);
             Multiply64(out c10, a.s1, b.s0);
             Multiply64(out c11, a.s1, b.s1);
-            var carry1 = (uint)0;
-            var carry2 = (uint)0;
+            uint carry1 = (uint)0;
+            uint carry2 = (uint)0;
             c.s0 = c00.S0;
             c.s1 = Add(Add(c00.s1, c01.s0, ref carry1), c10.s0, ref carry1);
             c.s2 = Add(Add(Add(c01.s1, c10.s1, ref carry2), c11.s0, ref carry2), carry1, ref carry2);
@@ -1099,7 +1099,7 @@ namespace Utility
 
         private static ulong Add(ulong a, ulong b, ref uint carry)
         {
-            var c = a + b;
+            ulong c = a + b;
             if (c < a && c < b)
                 ++carry;
             return c;
@@ -1107,7 +1107,7 @@ namespace Utility
 
         public static void Add(ref UInt128 a, ulong b)
         {
-            var sum = a.s0 + b;
+            ulong sum = a.s0 + b;
             if (sum < a.s0 && sum < b)
                 ++a.s1;
             a.s0 = sum;
@@ -1115,7 +1115,7 @@ namespace Utility
 
         public static void Add(ref UInt128 a, ref UInt128 b)
         {
-            var sum = a.s0 + b.s0;
+            ulong sum = a.s0 + b.s0;
             if (sum < a.s0 && sum < b.s0)
                 ++a.s1;
             a.s0 = sum;
@@ -1176,13 +1176,13 @@ namespace Utility
 
         private static void Square64(out UInt128 w, ulong u)
         {
-            var u0 = (ulong)(uint)u;
-            var u1 = u >> 32;
-            var carry = u0 * u0;
-            var r0 = (uint)carry;
-            var u0u1 = u0 * u1;
+            ulong u0 = (ulong)(uint)u;
+            ulong u1 = u >> 32;
+            ulong carry = u0 * u0;
+            uint r0 = (uint)carry;
+            ulong u0u1 = u0 * u1;
             carry = (carry >> 32) + u0u1;
-            var r2 = carry >> 32;
+            ulong r2 = carry >> 32;
             carry = (uint)carry + u0u1;
             w.s0 = carry << 32 | r0;
             w.s1 = (carry >> 32) + r2 + u1 * u1;
@@ -1198,10 +1198,10 @@ namespace Utility
 
         private static void Multiply64(out UInt128 w, ulong u, uint v)
         {
-            var u0 = (ulong)(uint)u;
-            var u1 = u >> 32;
-            var carry = u0 * v;
-            var r0 = (uint)carry;
+            ulong u0 = (ulong)(uint)u;
+            ulong u1 = u >> 32;
+            ulong carry = u0 * v;
+            uint r0 = (uint)carry;
             carry = (carry >> 32) + u1 * v;
             w.s0 = carry << 32 | r0;
             w.s1 = carry >> 32;
@@ -1210,14 +1210,14 @@ namespace Utility
 
         private static void Multiply64(out UInt128 w, ulong u, ulong v)
         {
-            var u0 = (ulong)(uint)u;
-            var u1 = u >> 32;
-            var v0 = (ulong)(uint)v;
-            var v1 = v >> 32;
-            var carry = u0 * v0;
-            var r0 = (uint)carry;
+            ulong u0 = (ulong)(uint)u;
+            ulong u1 = u >> 32;
+            ulong v0 = (ulong)(uint)v;
+            ulong v1 = v >> 32;
+            ulong carry = u0 * v0;
+            uint r0 = (uint)carry;
             carry = (carry >> 32) + u0 * v1;
-            var r2 = carry >> 32;
+            ulong r2 = carry >> 32;
             carry = (uint)carry + u1 * v0;
             w.s0 = carry << 32 | r0;
             w.s1 = (carry >> 32) + r2 + u1 * v1;
@@ -1226,14 +1226,14 @@ namespace Utility
 
         private static void Multiply64(out UInt128 w, ulong u, ulong v, ulong c)
         {
-            var u0 = (ulong)(uint)u;
-            var u1 = u >> 32;
-            var v0 = (ulong)(uint)v;
-            var v1 = v >> 32;
-            var carry = u0 * v0 + (uint)c;
-            var r0 = (uint)carry;
+            ulong u0 = (ulong)(uint)u;
+            ulong u1 = u >> 32;
+            ulong v0 = (ulong)(uint)v;
+            ulong v1 = v >> 32;
+            ulong carry = u0 * v0 + (uint)c;
+            uint r0 = (uint)carry;
             carry = (carry >> 32) + u0 * v1 + (c >> 32);
-            var r2 = carry >> 32;
+            ulong r2 = carry >> 32;
             carry = (uint)carry + u1 * v0;
             w.s0 = carry << 32 | r0;
             w.s1 = (carry >> 32) + r2 + u1 * v1;
@@ -1242,12 +1242,12 @@ namespace Utility
 
         private static ulong MultiplyHigh64(ulong u, ulong v, ulong c)
         {
-            var u0 = (ulong)(uint)u;
-            var u1 = u >> 32;
-            var v0 = (ulong)(uint)v;
-            var v1 = v >> 32;
-            var carry = ((u0 * v0 + (uint)c) >> 32) + u0 * v1 + (c >> 32);
-            var r2 = carry >> 32;
+            ulong u0 = (ulong)(uint)u;
+            ulong u1 = u >> 32;
+            ulong v0 = (ulong)(uint)v;
+            ulong v1 = v >> 32;
+            ulong carry = ((u0 * v0 + (uint)c) >> 32) + u0 * v1 + (c >> 32);
+            ulong r2 = carry >> 32;
             carry = (uint)carry + u1 * v0;
             return (carry >> 32) + r2 + u1 * v1;
         }
@@ -1289,7 +1289,7 @@ namespace Utility
                 Divide64(out w, u.s0, v);
             else
             {
-                var v0 = (uint)v;
+                uint v0 = (uint)v;
                 if (v == v0)
                 {
                     if (u.s1 <= uint.MaxValue)
@@ -1338,7 +1338,7 @@ namespace Utility
         {
             if (u.s1 == 0)
                 return u.s0 % v;
-            var v0 = (uint)v;
+            uint v0 = (uint)v;
             if (v == v0)
             {
                 if (u.s1 <= uint.MaxValue)
@@ -1385,14 +1385,14 @@ namespace Utility
 
         private static void Divide96(out UInt128 w, ref UInt128 u, uint v)
         {
-            var r2 = u.r2;
-            var w2 = r2 / v;
-            var u0 = (ulong)(r2 - w2 * v);
-            var u0u1 = u0 << 32 | u.r1;
-            var w1 = (uint)(u0u1 / v);
+            uint r2 = u.r2;
+            uint w2 = r2 / v;
+            ulong u0 = (ulong)(r2 - w2 * v);
+            ulong u0u1 = u0 << 32 | u.r1;
+            uint w1 = (uint)(u0u1 / v);
             u0 = u0u1 - w1 * v;
             u0u1 = u0 << 32 | u.r0;
-            var w0 = (uint)(u0u1 / v);
+            uint w0 = (uint)(u0u1 / v);
             w.s1 = w2;
             w.s0 = (ulong)w1 << 32 | w0;
             Debug.Assert((BigInteger)w == (BigInteger)u / v);
@@ -1400,17 +1400,17 @@ namespace Utility
 
         private static void Divide128(out UInt128 w, ref UInt128 u, uint v)
         {
-            var r3 = u.r3;
-            var w3 = r3 / v;
-            var u0 = (ulong)(r3 - w3 * v);
-            var u0u1 = u0 << 32 | u.r2;
-            var w2 = (uint)(u0u1 / v);
+            uint r3 = u.r3;
+            uint w3 = r3 / v;
+            ulong u0 = (ulong)(r3 - w3 * v);
+            ulong u0u1 = u0 << 32 | u.r2;
+            uint w2 = (uint)(u0u1 / v);
             u0 = u0u1 - w2 * v;
             u0u1 = u0 << 32 | u.r1;
-            var w1 = (uint)(u0u1 / v);
+            uint w1 = (uint)(u0u1 / v);
             u0 = u0u1 - w1 * v;
             u0u1 = u0 << 32 | u.r0;
-            var w0 = (uint)(u0u1 / v);
+            uint w0 = (uint)(u0u1 / v);
             w.s1 = (ulong)w3 << 32 | w2;
             w.s0 = (ulong)w1 << 32 | w0;
             Debug.Assert((BigInteger)w == (BigInteger)u / v);
@@ -1419,15 +1419,15 @@ namespace Utility
         private static void Divide96(out UInt128 w, ref UInt128 u, ulong v)
         {
             w.s0 = w.s1 = 0;
-            var dneg = GetBitLength((uint)(v >> 32));
-            var d = 32 - dneg;
-            var vPrime = v << d;
-            var v1 = (uint)(vPrime >> 32);
-            var v2 = (uint)vPrime;
-            var r0 = u.r0;
-            var r1 = u.r1;
-            var r2 = u.r2;
-            var r3 = (uint)0;
+            int dneg = GetBitLength((uint)(v >> 32));
+            int d = 32 - dneg;
+            ulong vPrime = v << d;
+            uint v1 = (uint)(vPrime >> 32);
+            uint v2 = (uint)vPrime;
+            uint r0 = u.r0;
+            uint r1 = u.r1;
+            uint r2 = u.r2;
+            uint r3 = (uint)0;
             if (d != 0)
             {
                 r3 = r2 >> dneg;
@@ -1435,8 +1435,8 @@ namespace Utility
                 r1 = r1 << d | r0 >> dneg;
                 r0 <<= d;
             }
-            var q1 = DivRem(r3, ref r2, ref r1, v1, v2);
-            var q0 = DivRem(r2, ref r1, ref r0, v1, v2);
+            uint q1 = DivRem(r3, ref r2, ref r1, v1, v2);
+            uint q0 = DivRem(r2, ref r1, ref r0, v1, v2);
             w.s0 = (ulong)q1 << 32 | q0;
             w.s1 = 0;
             Debug.Assert((BigInteger)w == (BigInteger)u / v);
@@ -1445,16 +1445,16 @@ namespace Utility
         private static void Divide128(out UInt128 w, ref UInt128 u, ulong v)
         {
             w.s0 = w.s1 = 0;
-            var dneg = GetBitLength((uint)(v >> 32));
-            var d = 32 - dneg;
-            var vPrime = v << d;
-            var v1 = (uint)(vPrime >> 32);
-            var v2 = (uint)vPrime;
-            var r0 = u.r0;
-            var r1 = u.r1;
-            var r2 = u.r2;
-            var r3 = u.r3;
-            var r4 = (uint)0;
+            int dneg = GetBitLength((uint)(v >> 32));
+            int d = 32 - dneg;
+            ulong vPrime = v << d;
+            uint v1 = (uint)(vPrime >> 32);
+            uint v2 = (uint)vPrime;
+            uint r0 = u.r0;
+            uint r1 = u.r1;
+            uint r2 = u.r2;
+            uint r3 = u.r3;
+            uint r4 = (uint)0;
             if (d != 0)
             {
                 r4 = r3 >> dneg;
@@ -1464,16 +1464,16 @@ namespace Utility
                 r0 <<= d;
             }
             w.s1 = DivRem(r4, ref r3, ref r2, v1, v2);
-            var q1 = DivRem(r3, ref r2, ref r1, v1, v2);
-            var q0 = DivRem(r2, ref r1, ref r0, v1, v2);
+            uint q1 = DivRem(r3, ref r2, ref r1, v1, v2);
+            uint q0 = DivRem(r2, ref r1, ref r0, v1, v2);
             w.s0 = (ulong)q1 << 32 | q0;
             Debug.Assert((BigInteger)w == (BigInteger)u / v);
         }
 
         private static uint Remainder96(ref UInt128 u, uint v)
         {
-            var u0 = (ulong)(u.r2 % v);
-            var u0u1 = u0 << 32 | u.r1;
+            ulong u0 = (ulong)(u.r2 % v);
+            ulong u0u1 = u0 << 32 | u.r1;
             u0 = u0u1 % v;
             u0u1 = u0 << 32 | u.r0;
             return (uint)(u0u1 % v);
@@ -1481,8 +1481,8 @@ namespace Utility
 
         private static uint Remainder128(ref UInt128 u, uint v)
         {
-            var u0 = (ulong)(u.r3 % v);
-            var u0u1 = u0 << 32 | u.r2;
+            ulong u0 = (ulong)(u.r3 % v);
+            ulong u0u1 = u0 << 32 | u.r2;
             u0 = u0u1 % v;
             u0u1 = u0 << 32 | u.r1;
             u0 = u0u1 % v;
@@ -1492,15 +1492,15 @@ namespace Utility
 
         private static ulong Remainder96(ref UInt128 u, ulong v)
         {
-            var dneg = GetBitLength((uint)(v >> 32));
-            var d = 32 - dneg;
-            var vPrime = v << d;
-            var v1 = (uint)(vPrime >> 32);
-            var v2 = (uint)vPrime;
-            var r0 = u.r0;
-            var r1 = u.r1;
-            var r2 = u.r2;
-            var r3 = (uint)0;
+            int dneg = GetBitLength((uint)(v >> 32));
+            int d = 32 - dneg;
+            ulong vPrime = v << d;
+            uint v1 = (uint)(vPrime >> 32);
+            uint v2 = (uint)vPrime;
+            uint r0 = u.r0;
+            uint r1 = u.r1;
+            uint r2 = u.r2;
+            uint r3 = (uint)0;
             if (d != 0)
             {
                 r3 = r2 >> dneg;
@@ -1515,16 +1515,16 @@ namespace Utility
 
         private static ulong Remainder128(ref UInt128 u, ulong v)
         {
-            var dneg = GetBitLength((uint)(v >> 32));
-            var d = 32 - dneg;
-            var vPrime = v << d;
-            var v1 = (uint)(vPrime >> 32);
-            var v2 = (uint)vPrime;
-            var r0 = u.r0;
-            var r1 = u.r1;
-            var r2 = u.r2;
-            var r3 = u.r3;
-            var r4 = (uint)0;
+            int dneg = GetBitLength((uint)(v >> 32));
+            int d = 32 - dneg;
+            ulong vPrime = v << d;
+            uint v1 = (uint)(vPrime >> 32);
+            uint v2 = (uint)vPrime;
+            uint r0 = u.r0;
+            uint r1 = u.r1;
+            uint r2 = u.r2;
+            uint r3 = u.r3;
+            uint r4 = (uint)0;
             if (d != 0)
             {
                 r4 = r3 >> dneg;
@@ -1541,21 +1541,21 @@ namespace Utility
 
         private static ulong DivRem96(out UInt128 rem, ref UInt128 a, ref UInt128 b)
         {
-            var d = 32 - GetBitLength(b.r2);
+            int d = 32 - GetBitLength(b.r2);
             UInt128 v;
             LeftShift64(out v, ref b, d);
-            var r4 = (uint)LeftShift64(out rem, ref a, d);
-            var v1 = v.r2;
-            var v2 = v.r1;
-            var v3 = v.r0;
-            var r3 = rem.r3;
-            var r2 = rem.r2;
-            var r1 = rem.r1;
-            var r0 = rem.r0;
-            var q1 = DivRem(r4, ref r3, ref r2, ref r1, v1, v2, v3);
-            var q0 = DivRem(r3, ref r2, ref r1, ref r0, v1, v2, v3);
+            uint r4 = (uint)LeftShift64(out rem, ref a, d);
+            uint v1 = v.r2;
+            uint v2 = v.r1;
+            uint v3 = v.r0;
+            uint r3 = rem.r3;
+            uint r2 = rem.r2;
+            uint r1 = rem.r1;
+            uint r0 = rem.r0;
+            uint q1 = DivRem(r4, ref r3, ref r2, ref r1, v1, v2, v3);
+            uint q0 = DivRem(r3, ref r2, ref r1, ref r0, v1, v2, v3);
             Create(out rem, r0, r1, r2, 0);
-            var div = (ulong)q1 << 32 | q0;
+            ulong div = (ulong)q1 << 32 | q0;
             RightShift64(ref rem, d);
             Debug.Assert((BigInteger)div == (BigInteger)a / (BigInteger)b);
             Debug.Assert((BigInteger)rem == (BigInteger)a % (BigInteger)b);
@@ -1564,15 +1564,15 @@ namespace Utility
 
         private static uint DivRem128(out UInt128 rem, ref UInt128 a, ref UInt128 b)
         {
-            var d = 32 - GetBitLength(b.r3);
+            int d = 32 - GetBitLength(b.r3);
             UInt128 v;
             LeftShift64(out v, ref b, d);
-            var r4 = (uint)LeftShift64(out rem, ref a, d);
-            var r3 = rem.r3;
-            var r2 = rem.r2;
-            var r1 = rem.r1;
-            var r0 = rem.r0;
-            var div = DivRem(r4, ref r3, ref r2, ref r1, ref r0, v.r3, v.r2, v.r1, v.r0);
+            uint r4 = (uint)LeftShift64(out rem, ref a, d);
+            uint r3 = rem.r3;
+            uint r2 = rem.r2;
+            uint r1 = rem.r1;
+            uint r0 = rem.r0;
+            uint div = DivRem(r4, ref r3, ref r2, ref r1, ref r0, v.r3, v.r2, v.r1, v.r0);
             Create(out rem, r0, r1, r2, r3);
             RightShift64(ref rem, d);
             Debug.Assert((BigInteger)div == (BigInteger)a / (BigInteger)b);
@@ -1582,21 +1582,21 @@ namespace Utility
 
         private static void Remainder192(out UInt128 c, ref UInt256 a, ref UInt128 b)
         {
-            var d = 32 - GetBitLength(b.r2);
+            int d = 32 - GetBitLength(b.r2);
             UInt128 v;
             LeftShift64(out v, ref b, d);
-            var v1 = v.r2;
-            var v2 = v.r1;
-            var v3 = v.r0;
+            uint v1 = v.r2;
+            uint v2 = v.r1;
+            uint v3 = v.r0;
             UInt256 rem;
             LeftShift64(out rem, ref a, d);
-            var r6 = rem.r6;
-            var r5 = rem.r5;
-            var r4 = rem.r4;
-            var r3 = rem.r3;
-            var r2 = rem.r2;
-            var r1 = rem.r1;
-            var r0 = rem.r0;
+            uint r6 = rem.r6;
+            uint r5 = rem.r5;
+            uint r4 = rem.r4;
+            uint r3 = rem.r3;
+            uint r2 = rem.r2;
+            uint r1 = rem.r1;
+            uint r0 = rem.r0;
             DivRem(r6, ref r5, ref r4, ref r3, v1, v2, v3);
             DivRem(r5, ref r4, ref r3, ref r2, v1, v2, v3);
             DivRem(r4, ref r3, ref r2, ref r1, v1, v2, v3);
@@ -1608,23 +1608,23 @@ namespace Utility
 
         private static void Remainder256(out UInt128 c, ref UInt256 a, ref UInt128 b)
         {
-            var d = 32 - GetBitLength(b.r3);
+            int d = 32 - GetBitLength(b.r3);
             UInt128 v;
             LeftShift64(out v, ref b, d);
-            var v1 = v.r3;
-            var v2 = v.r2;
-            var v3 = v.r1;
-            var v4 = v.r0;
+            uint v1 = v.r3;
+            uint v2 = v.r2;
+            uint v3 = v.r1;
+            uint v4 = v.r0;
             UInt256 rem;
-            var r8 = (uint)LeftShift64(out rem, ref a, d);
-            var r7 = rem.r7;
-            var r6 = rem.r6;
-            var r5 = rem.r5;
-            var r4 = rem.r4;
-            var r3 = rem.r3;
-            var r2 = rem.r2;
-            var r1 = rem.r1;
-            var r0 = rem.r0;
+            uint r8 = (uint)LeftShift64(out rem, ref a, d);
+            uint r7 = rem.r7;
+            uint r6 = rem.r6;
+            uint r5 = rem.r5;
+            uint r4 = rem.r4;
+            uint r3 = rem.r3;
+            uint r2 = rem.r2;
+            uint r1 = rem.r1;
+            uint r0 = rem.r0;
             DivRem(r8, ref r7, ref r6, ref r5, ref r4, v1, v2, v3, v4);
             DivRem(r7, ref r6, ref r5, ref r4, ref r3, v1, v2, v3, v4);
             DivRem(r6, ref r5, ref r4, ref r3, ref r2, v1, v2, v3, v4);
@@ -1637,9 +1637,9 @@ namespace Utility
 
         private static ulong Q(uint u0, uint u1, uint u2, uint v1, uint v2)
         {
-            var u0u1 = (ulong)u0 << 32 | u1;
-            var qhat = u0 == v1 ? uint.MaxValue : u0u1 / v1;
-            var r = u0u1 - qhat * v1;
+            ulong u0u1 = (ulong)u0 << 32 | u1;
+            ulong qhat = u0 == v1 ? uint.MaxValue : u0u1 / v1;
+            ulong r = u0u1 - qhat * v1;
             if (r == (uint)r && v2 * qhat > (r << 32 | u2))
             {
                 --qhat;
@@ -1655,9 +1655,9 @@ namespace Utility
 
         private static uint DivRem(uint u0, ref uint u1, ref uint u2, uint v1, uint v2)
         {
-            var qhat = Q(u0, u1, u2, v1, v2);
-            var carry = qhat * v2;
-            var borrow = (long)u2 - (uint)carry;
+            ulong qhat = Q(u0, u1, u2, v1, v2);
+            ulong carry = qhat * v2;
+            long borrow = (long)u2 - (uint)carry;
             carry >>= 32;
             u2 = (uint)borrow;
             borrow >>= 32;
@@ -1681,9 +1681,9 @@ namespace Utility
 
         private static uint DivRem(uint u0, ref uint u1, ref uint u2, ref uint u3, uint v1, uint v2, uint v3)
         {
-            var qhat = Q(u0, u1, u2, v1, v2);
-            var carry = qhat * v3;
-            var borrow = (long)u3 - (uint)carry;
+            ulong qhat = Q(u0, u1, u2, v1, v2);
+            ulong carry = qhat * v3;
+            long borrow = (long)u3 - (uint)carry;
             carry >>= 32;
             u3 = (uint)borrow;
             borrow >>= 32;
@@ -1715,9 +1715,9 @@ namespace Utility
 
         private static uint DivRem(uint u0, ref uint u1, ref uint u2, ref uint u3, ref uint u4, uint v1, uint v2, uint v3, uint v4)
         {
-            var qhat = Q(u0, u1, u2, v1, v2);
-            var carry = qhat * v4;
-            var borrow = (long)u4 - (uint)carry;
+            ulong qhat = Q(u0, u1, u2, v1, v2);
+            ulong carry = qhat * v4;
+            long borrow = (long)u4 - (uint)carry;
             carry >>= 32;
             u4 = (uint)borrow;
             borrow >>= 32;
@@ -1804,11 +1804,11 @@ namespace Utility
         public static void ModPow(out UInt128 result, ref UInt128 value, ref UInt128 exponent, ref UInt128 modulus)
         {
             result = one;
-            var v = value;
-            var e = exponent.s0;
+            UInt128 v = value;
+            ulong e = exponent.s0;
             if (exponent.s1 != 0)
             {
-                for (var i = 0; i < 64; i++)
+                for (int i = 0; i < 64; i++)
                 {
                     if ((e & 1) != 0)
                         ModMul(ref result, ref v, ref modulus);
@@ -1851,7 +1851,7 @@ namespace Utility
                 c = a;
                 return 0;
             }
-            var dneg = 64 - d;
+            int dneg = 64 - d;
             c.s1 = a.s1 << d | a.s0 >> dneg;
             c.s0 = a.s0 << d;
             return a.s1 >> dneg;
@@ -1864,7 +1864,7 @@ namespace Utility
                 c = a;
                 return 0;
             }
-            var dneg = 64 - d;
+            int dneg = 64 - d;
             c.s3 = a.s3 << d | a.s2 >> dneg;
             c.s2 = a.s2 << d | a.s1 >> dneg;
             c.s1 = a.s1 << d | a.s0 >> dneg;
@@ -1969,7 +1969,7 @@ namespace Utility
 
         public static void Negate(ref UInt128 a)
         {
-            var s0 = a.s0;
+            ulong s0 = a.s0;
             a.s0 = 0 - s0;
             a.s1 = 0 - a.s1;
             if (s0 > 0)
@@ -1994,12 +1994,12 @@ namespace Utility
 
                 if ((exponent & 1) != 0)
                 {
-                    var previous = result;
+                    UInt128 previous = result;
                     Multiply(out result, ref previous, ref value);
                 }
                 if (exponent != 1)
                 {
-                    var previous = value;
+                    UInt128 previous = value;
                     Square(out value, ref previous);
                 }
                 exponent >>= 1;
@@ -2021,12 +2021,12 @@ namespace Utility
         {
             if (a.s1 == 0 && a.s0 <= maxRep)
                 return (ulong)Math.Sqrt(a.s0);
-            var s = (ulong)Math.Sqrt(ConvertToDouble(ref a));
+            ulong s = (ulong)Math.Sqrt(ConvertToDouble(ref a));
             if (a.s1 < maxRepSquaredHigh)
             {
                 UInt128 s2;
                 Square(out s2, s);
-                var r = a.s0 - s2.s0;
+                ulong r = a.s0 - s2.s0;
                 if (r > long.MaxValue)
                     --s;
                 else if (r - (s << 1) <= long.MaxValue)
@@ -2043,12 +2043,12 @@ namespace Utility
         {
             if (a.s1 == 0 && a.s0 <= maxRep)
                 return (ulong)Math.Ceiling(Math.Sqrt(a.s0));
-            var s = (ulong)Math.Ceiling(Math.Sqrt(ConvertToDouble(ref a)));
+            ulong s = (ulong)Math.Ceiling(Math.Sqrt(ConvertToDouble(ref a)));
             if (a.s1 < maxRepSquaredHigh)
             {
                 UInt128 s2;
                 Square(out s2, s);
-                var r = s2.s0 - a.s0;
+                ulong r = s2.s0 - a.s0;
                 if (r > long.MaxValue)
                     ++s;
                 else if (r - (s << 1) <= long.MaxValue)
@@ -2067,7 +2067,7 @@ namespace Utility
 
         private static ulong FloorSqrt(ref UInt128 a, ulong s)
         {
-            var sprev = (ulong)0;
+            ulong sprev = (ulong)0;
             UInt128 div;
             UInt128 sum;
             while (true)
@@ -2076,7 +2076,7 @@ namespace Utility
                 // snext = (a / s + s) / 2;
                 Divide(out div, ref a, s);
                 Add(out sum, ref div, s);
-                var snext = sum.S0 >> 1;
+                ulong snext = sum.S0 >> 1;
                 if (sum.S1 != 0)
                     snext |= (ulong)1 << 63;
                 if (snext == sprev)
@@ -2093,7 +2093,7 @@ namespace Utility
 
         public static ulong FloorCbrt(UInt128 a)
         {
-            var s = (ulong)Math.Pow(ConvertToDouble(ref a), (double)1 / 3);
+            ulong s = (ulong)Math.Pow(ConvertToDouble(ref a), (double)1 / 3);
             UInt128 s3;
             Cube(out s3, s);
             if (a < s3)
@@ -2113,7 +2113,7 @@ namespace Utility
 
         public static ulong CeilingCbrt(UInt128 a)
         {
-            var s = (ulong)Math.Ceiling(Math.Pow(ConvertToDouble(ref a), (double)1 / 3));
+            ulong s = (ulong)Math.Ceiling(Math.Pow(ConvertToDouble(ref a), (double)1 / 3));
             UInt128 s3;
             Cube(out s3, s);
             if (s3 < a)
@@ -2315,8 +2315,8 @@ namespace Utility
         {
             if (d == 0)
                 return 0;
-            var dneg = 64 - d;
-            var result = c.s1 >> dneg;
+            int dneg = 64 - d;
+            ulong result = c.s1 >> dneg;
             c.s1 = c.s1 << d | c.s0 >> dneg;
             c.s0 <<= d;
             return result;
@@ -2341,8 +2341,8 @@ namespace Utility
 
         public static void Swap(ref UInt128 a, ref UInt128 b)
         {
-            var as0 = a.s0;
-            var as1 = a.s1;
+            ulong as0 = a.s0;
+            ulong as1 = a.s1;
             a.s0 = b.s0;
             a.s1 = b.s1;
             b.s0 = as0;
@@ -2394,12 +2394,12 @@ namespace Utility
             while (a1.s1 != 0 && !b.IsZero)
             {
                 // Extract the high 63 bits of a and b.
-                var norm = 63 - GetBitLength(a1.s1);
+                int norm = 63 - GetBitLength(a1.s1);
                 UInt128 ahat, bhat;
                 Shift(out ahat, ref a1, norm);
                 Shift(out bhat, ref b1, norm);
-                var uhat = (long)ahat.s1;
-                var vhat = (long)bhat.s1;
+                long uhat = (long)ahat.s1;
+                long vhat = (long)bhat.s1;
 
                 // Check whether q exceeds single-precision.
                 if (vhat == 0)
@@ -2413,18 +2413,18 @@ namespace Utility
                 }
 
                 // Perform steps using signed single-precision arithmetic.
-                var x0 = (long)1;
-                var y0 = (long)0;
-                var x1 = (long)0;
-                var y1 = (long)1;
-                var even = true;
+                long x0 = (long)1;
+                long y0 = (long)0;
+                long x1 = (long)0;
+                long y1 = (long)1;
+                bool even = true;
                 while (true)
                 {
                     // Calculate quotient, cosquence pair, and update uhat and vhat.
-                    var q = uhat / vhat;
-                    var x2 = x0 - q * x1;
-                    var y2 = y0 - q * y1;
-                    var t = uhat;
+                    long q = uhat / vhat;
+                    long x2 = x0 - q * x1;
+                    long y2 = y0 - q * y1;
+                    long t = uhat;
                     uhat = vhat;
                     vhat = t - q * vhat;
                     even = !even;
@@ -2475,13 +2475,13 @@ namespace Utility
             // Check whether we have any 64 bit work left.
             if (!b1.IsZero)
             {
-                var a2 = a1.s0;
-                var b2 = b1.s0;
+                ulong a2 = a1.s0;
+                ulong b2 = b1.s0;
 
                 // Perform 64 bit steps.
                 while (a2 > uint.MaxValue && b2 != 0)
                 {
-                    var t = a2 % b2;
+                    ulong t = a2 % b2;
                     a2 = b2;
                     b2 = t;
                 }
@@ -2489,13 +2489,13 @@ namespace Utility
                 // Check whether we have any 32 bit work left.
                 if (b2 != 0)
                 {
-                    var a3 = (uint)a2;
-                    var b3 = (uint)b2;
+                    uint a3 = (uint)a2;
+                    uint b3 = (uint)b2;
 
                     // Perform 32 bit steps.
                     while (b3 != 0)
                     {
-                        var t = a3 % b3;
+                        uint t = a3 % b3;
                         a3 = b3;
                         b3 = t;
                     }
@@ -2535,17 +2535,17 @@ namespace Utility
 
         private static int GetBitLength(uint value)
         {
-            var tt = value >> 16;
+            uint tt = value >> 16;
             if (tt != 0)
             {
-                var t = tt >> 8;
+                uint t = tt >> 8;
                 if (t != 0)
                     return bitLength[t] + 24;
                 return bitLength[tt] + 16;
             }
             else
             {
-                var t = value >> 8;
+                uint t = value >> 8;
                 if (t != 0)
                     return bitLength[t] + 8;
                 return bitLength[value];
@@ -2554,7 +2554,7 @@ namespace Utility
 
         private static int GetBitLength(ulong value)
         {
-            var r1 = value >> 32;
+            ulong r1 = value >> 32;
             if (r1 != 0)
                 return GetBitLength((uint)r1) + 32;
             return GetBitLength((uint)value);
@@ -2564,12 +2564,12 @@ namespace Utility
         {
             UInt128 carry;
             Multiply64(out carry, u.s0, v.s0);
-            var t0 = carry.s0;
+            ulong t0 = carry.s0;
             Multiply64(out carry, u.s1, v.s0, carry.s1);
-            var t1 = carry.s0;
-            var t2 = carry.s1;
+            ulong t1 = carry.s0;
+            ulong t2 = carry.s1;
 
-            var m = t0 * k0;
+            ulong m = t0 * k0;
             Multiply64(out carry, m, n.s1, MultiplyHigh64(m, n.s0, t0));
             Add(ref carry, t1);
             t0 = carry.s0;
@@ -2584,7 +2584,7 @@ namespace Utility
             t1 = carry.s0;
             Add(out carry, carry.s1, t2);
             t2 = carry.s0;
-            var t3 = carry.s1;
+            ulong t3 = carry.s1;
 
             m = t0 * k0;
             Multiply64(out carry, m, n.s1, MultiplyHigh64(m, n.s0, t0));
@@ -2602,13 +2602,13 @@ namespace Utility
         public static void Reduce(out UInt128 w, ref UInt128 t, ref UInt128 n, ulong k0)
         {
             UInt128 carry;
-            var t0 = t.s0;
-            var t1 = t.s1;
-            var t2 = (ulong)0;
+            ulong t0 = t.s0;
+            ulong t1 = t.s1;
+            ulong t2 = (ulong)0;
 
-            for (var i = 0; i < 2; i++)
+            for (int i = 0; i < 2; i++)
             {
-                var m = t0 * k0;
+                ulong m = t0 * k0;
                 Multiply64(out carry, m, n.s1, MultiplyHigh64(m, n.s0, t0));
                 Add(ref carry, t1);
                 t0 = carry.s0;

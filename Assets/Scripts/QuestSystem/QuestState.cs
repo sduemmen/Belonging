@@ -5,6 +5,6 @@
         Idle,
         Active,
         Completed,
-        Canceled,
+        Canceled
     }
 }

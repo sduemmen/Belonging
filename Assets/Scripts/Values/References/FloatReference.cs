@@ -5,7 +5,5 @@ namespace Values.References
 {
     [Serializable]
     public class FloatReference : Reference<float, FloatVariable>
-    {
-        
-    }
+    { }
 }

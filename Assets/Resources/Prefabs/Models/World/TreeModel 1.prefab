@@ -56,11 +56,10 @@ MonoBehaviour:
   - {fileID: 3206842091180616881}
   outline: {fileID: 9196659245781928531}
   itemDrops:
-  - item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
-    amount: 4
+  - _item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
+    _amount: 5
   requiredTool: {fileID: 11400000, guid: e7a26b620bfdb6e4bbf49560639a65f6, type: 2}
   colliders: {fileID: 3206842091180616881}
-  world: {fileID: 0}
   chunkPosition: {x: 0, y: 0}
   positionInChunk: {x: 0, y: 0}
   isPlaced: 1
@@ -4907,7 +4906,7 @@ GameObject:
   - component: {fileID: 3212526792996541371}
   - component: {fileID: 3239055076214024323}
   - component: {fileID: 3229620382570872561}
-  - component: {fileID: 7128265018126511369}
+  - component: {fileID: 2571016935669363412}
   - component: {fileID: 4113435557565800323}
   - component: {fileID: 9196659245781928531}
   m_Layer: 9
@@ -4982,8 +4981,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &7128265018126511369
-CapsuleCollider:
+--- !u!64 &2571016935669363412
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5000,11 +4999,10 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.24
-  m_Height: 4
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.5, z: 0}
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: ca1cac744eec60c4f8cf6c5ba545a7db, type: 3}
 --- !u!54 &4113435557565800323
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5046,7 +5044,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
-  outlineWidth: 7
+  outlineWidth: 10
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []

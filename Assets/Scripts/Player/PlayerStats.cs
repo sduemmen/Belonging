@@ -9,6 +9,11 @@ namespace Player
         [SerializeField] private float playtime;
         [SerializeField] public int unlocked;
 
+        private void Update()
+        {
+            playtime += Time.deltaTime;
+        }
+
         public void LoadData(GameData data)
         {
             playtime = data.playtime;
@@ -19,11 +24,6 @@ namespace Player
         {
             data.playtime = playtime;
             data.unlocked = unlocked;
-        }
-
-        private void Update()
-        {
-            playtime += Time.deltaTime;
         }
     }
 }

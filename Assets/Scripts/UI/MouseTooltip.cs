@@ -1,30 +1,46 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace UI
 {
+    [ExecuteInEditMode]
     public class MouseTooltip : MonoBehaviour
     {
+        private static MouseTooltip _instance;
         private bool visible;
-        
-        public void Show(GameObject tooltipContent)
+
+        public static MouseTooltip Instance {
+            get {
+                if (_instance == null)
+                {
+                    _instance = (MouseTooltip)FindObjectOfType(typeof(MouseTooltip));
+                }
+                
+                return _instance;
+            }
+        }
+
+        private void Update()
         {
-            tooltipContent.transform.SetParent(this.transform, false);
+            if (!visible) return;
+
+            transform.position = Mouse.current.position.ReadValue();
+        }
+
+        public void Show(GameObject tooltip)
+        {
+            tooltip.transform.SetParent(transform, false);
             visible = true;
         }
 
         public void Hide()
         {
-            if (transform.childCount == 0) return;
+            for (int i = transform.childCount - 1; i >= 0; i--)
+            {
+                Destroy(transform.GetChild(i).gameObject);
+            }
             
-            Destroy(transform.GetChild(0).gameObject);
             visible = false;
-        }
-
-        private void Update()
-        {
-            if (visible) transform.position = Mouse.current.position.ReadValue();
         }
     }
 }

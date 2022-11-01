@@ -5,7 +5,5 @@ namespace Events.Listeners
 {
     [Serializable]
     public class ItemEventListener : EventListener<ItemObject>
-    {
-        
-    }
+    { }
 }

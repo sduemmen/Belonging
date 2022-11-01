@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace QuestSystem.ProgressBehaviours
 {
-    [CreateAssetMenu(menuName = "Quests/Behaviours/Progress/Decrement"), Serializable]
+    [CreateAssetMenu(menuName = "Quests/Behaviours/Progress/Decrement")]
+    [Serializable]
     public class QuestDecrementBehaviour : QuestProgressBehaviour
     {
         public override int GetNewProgress(int current, int progress)

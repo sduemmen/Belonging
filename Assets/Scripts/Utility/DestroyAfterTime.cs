@@ -9,11 +9,11 @@ namespace Utility
         {
             StartCoroutine(Something());
         }
- 
-        IEnumerator Something()
+
+        private IEnumerator Something()
         {
             yield return new WaitForSeconds(3.0f);
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }

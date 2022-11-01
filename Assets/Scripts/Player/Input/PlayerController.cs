@@ -1,18 +1,18 @@
 using UnityEngine;
 using Utility;
-using static Flags.GameSettings.PlayerSettings;
 
 namespace Player.Input
 {
     [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
-        public MovementSettings movementSettings;
+        [SerializeField] private float _movementSpeed;
+        [SerializeField] private float _rotationDamping;
 
-        public Transform cameraTarget;
-        private Transform _transform;
+        [SerializeField] private Transform _cameraTarget;
         private CharacterController _characterController;
-        private float currentRotationAngle;
+        private Transform _transform;
+        private float _currentLookDirectionAngle;
 
         private void Awake()
         {
@@ -28,24 +28,28 @@ namespace Player.Input
         private void HandleMovement()
         {
             // align players rotation by taking into account current camera rotation and movement input
-            Vector2 movementInput = EventManager.MovementInput;
+            Vector2 movementInput = InputController.MovementInput;
             bool playerIsMoving = movementInput != Vector2.zero;
-            float angle;
-            
-            if (playerIsMoving) {
-                movementInput = MathUtilities.RotateVector2Deg(new Vector2(-movementInput.x, movementInput.y), cameraTarget.eulerAngles.y);
-                angle = Mathf.Acos(Vector2.Dot(Vector2.up, movementInput));
-                angle *= Mathf.Sign(movementInput.x);
-                currentRotationAngle = angle;
-            } else {
-                angle = currentRotationAngle;
+            float lookdirection;
+
+            if (playerIsMoving)
+            {
+                movementInput = MathUtilities.RotateVector2Deg(new Vector2(-movementInput.x, movementInput.y), _cameraTarget.eulerAngles.y);
+                lookdirection = Mathf.Acos(Vector2.Dot(Vector2.up, movementInput));
+                lookdirection *= Mathf.Sign(movementInput.x);
+                _currentLookDirectionAngle = lookdirection;
             }
-            
-            _transform.rotation = Quaternion.Lerp(_transform.rotation, Quaternion.Euler(0, angle * -Mathf.Rad2Deg, 0), movementSettings.rotationDamping);
-        
+            else
+            {
+                lookdirection = _currentLookDirectionAngle;
+            }
+
+            _transform.rotation = Quaternion.Lerp(_transform.rotation, Quaternion.Euler(0, lookdirection * -Mathf.Rad2Deg, 0), _rotationDamping);
+
             // update players position
-            if (playerIsMoving) {
-                _characterController.SimpleMove(_transform.forward * (movementSettings.movementSpeed * Time.fixedDeltaTime));
+            if (playerIsMoving)
+            {
+                _characterController.SimpleMove(_transform.forward * (_movementSpeed * Time.fixedDeltaTime));
             }
         }
     }

@@ -5,7 +5,5 @@ namespace Values.References
 {
     [Serializable]
     public class BoolReference : Reference<bool, BoolVariable>
-    {
-        
-    }
+    { }
 }

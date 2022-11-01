@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace QuestSystem.ProgressBehaviours
 {
-    [CreateAssetMenu(menuName = "Quests/Behaviours/Progress/Increment"), Serializable]
+    [CreateAssetMenu(menuName = "Quests/Behaviours/Progress/Increment")]
+    [Serializable]
     public class QuestIncrementBehaviour : QuestProgressBehaviour
     {
         public override int GetNewProgress(int current, int progress)

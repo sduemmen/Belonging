@@ -8,9 +8,7 @@ namespace QuestSystem.QuestBehaviours
     [Serializable]
     public abstract class QuestBehaviour
     {
-        [TitleGroup("Broadcasting")] 
-        [PropertyOrder(20)]
-        [SerializeField]
+        [TitleGroup("Broadcasting")] [PropertyOrder(20)] [SerializeField]
         public bool broadcastCurrentState;
 
         public UnityAction OnComplete;
@@ -21,10 +19,8 @@ namespace QuestSystem.QuestBehaviours
 
         public static QuestBehaviour Create(Type t)
         {
-            if (t == typeof(GatheringBehaviour)) {
-                return new GatheringBehaviour();
-            }
-            
+            if (t == typeof(GatheringBehaviour)) return new GatheringBehaviour();
+
             return null;
         }
     }

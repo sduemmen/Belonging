@@ -3,14 +3,17 @@ using UnityEngine;
 
 namespace InventorySystem.Items
 {
-    [CreateAssetMenu(menuName = "Inventory/Items/Material Item"), Serializable]
+    [CreateAssetMenu(menuName = "Inventory/Items/Material Item")]
+    [Serializable]
     public class MaterialItemObject : ItemObject
     {
-        public GameObject prefab;
-        
+        [SerializeField] private GameObject _prefab;
+
+        public GameObject Prefab => _prefab;
+
         private void Awake()
         {
-            category = ItemCategory.Material;
+            _category = ItemCategory.Material;
         }
     }
 }

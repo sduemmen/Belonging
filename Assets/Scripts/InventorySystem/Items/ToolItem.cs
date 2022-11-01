@@ -3,13 +3,14 @@ using UnityEngine;
 
 namespace InventorySystem.Items
 {
-    [CreateAssetMenu(menuName = "Inventory/Items/Tool Item"), Serializable]
+    [CreateAssetMenu(menuName = "Inventory/Items/Tool Item")]
+    [Serializable]
     public class ToolItemObject : ItemObject
     {
         private void Awake()
         {
-            maxStackSize = 1;
-            category = ItemCategory.Tool;
+            _maxStackSize = 1;
+            _category = ItemCategory.Tool;
         }
     }
 }
