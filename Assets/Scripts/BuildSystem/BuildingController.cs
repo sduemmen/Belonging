@@ -28,6 +28,7 @@ namespace BuildSystem
 
         [SerializeField, TitleGroup("General")] private List<SegmentCollection> _segmentCollections;
         [SerializeField, TitleGroup("General")] private List<SegmentUnlockData> _segmentUnlockData;
+#if UNITY_EDITOR
         [Button("Setup Unlock Data"), TitleGroup("General")]
         private void SetupUnlockData()
         {
@@ -49,7 +50,7 @@ namespace BuildSystem
                 segmentCollection.SetupItemDrops();
             }
         }
-        
+#endif
         [SerializeField, TitleGroup("UI")] private GameObject _uiBuildMenuDisplayContext;
         [SerializeField, TitleGroup("UI")] private Transform _uiBuildMenuTarget;
         [SerializeField, TitleGroup("UI")] private GameObject _uiCollectionRowPrefab;
@@ -103,23 +104,31 @@ namespace BuildSystem
 
             Destroyable segment = _buildingPreviewObject.GetComponent<Destroyable>();
             SegmentPreview preview = _buildingPreviewObject.GetComponent<SegmentPreview>();
+            
+            Debug.Log(preview.canBePlaced);
 
             bool mouseOutOfRange = (transform.position - segment.transform.position).magnitude > _maxBuildingDistance;
             bool costIsAffordable = true;
 
             foreach (ItemStack buildCost in segment.itemDrops)
+            {
                 if (!InventoryController.Instance.PlayerInventory.Contains(buildCost.Item, buildCost.Amount))
                 {
                     costIsAffordable = false;
+                    HintDisplay.Instance.AddErrorHint($"You don't have the required Materials. You need {buildCost.Amount} {buildCost.Item.DisplayName}");
                     break;
                 }
+            }
 
             if ((preview.canBePlaced && mouseOutOfRange) || !costIsAffordable)
             {
                 preview.canBePlaced = false;
                 preview.UpdateMaterial();
                 _previewOutOfRange = true;
-                if (preview.canBePlaced && mouseOutOfRange) return;
+                if (preview.canBePlaced && mouseOutOfRange)
+                {
+                    return;
+                }
             }
 
             if (!preview.canBePlaced && !mouseOutOfRange && _previewOutOfRange && costIsAffordable)
@@ -170,8 +179,9 @@ namespace BuildSystem
                 Vector3 position = _buildingPreviewObject.transform.position;
                 Quaternion rotation = _buildingPreviewObject.transform.rotation;
                 GameObject segmentObj = Instantiate(_selectedSegment, position, rotation);
-                segmentObj.GetComponent<SegmentPreview>().ResetMaterial();
-                Destroy(segmentObj.GetComponent<SegmentPreview>());
+                SegmentPreview segmentPreview = segmentObj.GetComponent<SegmentPreview>();
+                segmentPreview.isPlaced = true;
+                segmentPreview.ResetMaterial();
                 World.World.Instance.placedSegments += 1;
                 Destroyable segment = segmentObj.GetComponent<Destroyable>();
 
@@ -182,6 +192,10 @@ namespace BuildSystem
                         InventoryController.Instance.PlayerInventory.RemoveItem(buildCost.Item, buildCost.Amount);
                     }
                 }
+            }
+            else
+            {
+                HintDisplay.Instance.AddErrorHint("Unable to place Segment");
             }
         }
 
@@ -239,9 +253,10 @@ namespace BuildSystem
         
         public override void LoadData(GameData data)
         {
-            if (data.segmentUnlockData.Count <= 0) return;
-
-            _segmentUnlockData = data.segmentUnlockData;
+            if (data.segmentUnlockData.Count > 0)
+            {
+                _segmentUnlockData = data.segmentUnlockData;
+            }
             
             base.LoadData(data);
         }

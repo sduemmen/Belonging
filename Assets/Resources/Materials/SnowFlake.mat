@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SnowFlake
-  m_Shader: {fileID: 4800000, guid: e064104788d94b349ab13141a30b5660, type: 3}
+  m_Shader: {fileID: 4800000, guid: 088bbfd9222ee044cb4e4699336e9ff1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 5f28a1bbc0f7d6b47b1c20019ea2d8c9, type: 3}
+        m_Texture: {fileID: 2800000, guid: 357fbdf1541b7ac4686104368a6b8a53, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:

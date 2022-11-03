@@ -4,6 +4,7 @@ using System.Linq;
 using Events.Events;
 using InventorySystem.Items;
 using Sirenix.OdinInspector;
+using UI;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -69,6 +70,25 @@ namespace InventorySystem
             return _inventorySlots[index];
         }
 
+        private void OnItemAdded(ItemObject item, InventorySlot slot, bool wasDroppedByPlayer)
+        {
+            if (!wasDroppedByPlayer)
+            {
+                anyCollectedEvent.Raise();
+                if (item.DisplayName == "Wood")
+                {
+                    woodCollectedEvent.Raise();
+                }
+                else if (item.DisplayName == "Stone")
+                {
+                    stoneCollectedEvent.Raise();
+                }
+            }
+
+            OnSlotChangedDelegate?.Invoke(slot);
+            HintDisplay.Instance.AddHint($"Collected {item.DisplayName}", true);
+        }
+
         public bool AddItem(ItemObject itemToAdd, int amountToAdd, bool wasDroppedByPlayer)
         {
             if (this.Contains(itemToAdd, out var slots))
@@ -78,24 +98,10 @@ namespace InventorySystem
                     if (slot.HasRoomFor(amountToAdd))
                     {
                         slot.AddToStack(amountToAdd);
-
-                        if (!wasDroppedByPlayer)
-                        {
-                            anyCollectedEvent.Raise();
-                            if (itemToAdd.DisplayName == "Wood")
-                            {
-                                woodCollectedEvent.Raise();
-                            }
-                            else if (itemToAdd.DisplayName == "Stone")
-                            {
-                                stoneCollectedEvent.Raise();
-                            }
-                        }
-
-                        OnSlotChangedDelegate?.Invoke(slot);
+                        OnItemAdded(itemToAdd, slot, wasDroppedByPlayer);
                         return true;
                     }
-                } 
+                }
             }
 
             if (this.HasFreeInventorySlot(out InventorySlot freeSlot))
@@ -103,20 +109,7 @@ namespace InventorySystem
                 freeSlot.Item = itemToAdd;
                 freeSlot.StackSize = amountToAdd;
 
-                if (!wasDroppedByPlayer)
-                {
-                    anyCollectedEvent.Raise();
-                    if (itemToAdd.DisplayName == "Wood")
-                    {
-                        woodCollectedEvent.Raise();
-                    }
-                    else if (itemToAdd.DisplayName == "Stone")
-                    {
-                        stoneCollectedEvent.Raise();
-                    }
-                }
-
-                OnSlotChangedDelegate?.Invoke(freeSlot);
+                OnItemAdded(itemToAdd, freeSlot, wasDroppedByPlayer);
                 return true;
             }
 

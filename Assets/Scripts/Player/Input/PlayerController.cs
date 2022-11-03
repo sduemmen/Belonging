@@ -1,26 +1,27 @@
+using System;
 using UnityEngine;
 using Utility;
 
 namespace Player.Input
 {
-    [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private float _movementSpeed;
         [SerializeField] private float _rotationDamping;
 
         [SerializeField] private Transform _cameraTarget;
-        private CharacterController _characterController;
+        [SerializeField] private CharacterController _characterController;
+        private Animator _animator;
         private Transform _transform;
         private float _currentLookDirectionAngle;
 
         private void Awake()
         {
             _transform = GetComponent<Transform>();
-            _characterController = GetComponent<CharacterController>();
+            _animator = GetComponent<Animator>();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             HandleMovement();
         }
@@ -30,26 +31,36 @@ namespace Player.Input
             // align players rotation by taking into account current camera rotation and movement input
             Vector2 movementInput = InputController.MovementInput;
             bool playerIsMoving = movementInput != Vector2.zero;
-            float lookdirection;
+            float lookDirection;
 
             if (playerIsMoving)
             {
                 movementInput = MathUtilities.RotateVector2Deg(new Vector2(-movementInput.x, movementInput.y), _cameraTarget.eulerAngles.y);
-                lookdirection = Mathf.Acos(Vector2.Dot(Vector2.up, movementInput));
-                lookdirection *= Mathf.Sign(movementInput.x);
-                _currentLookDirectionAngle = lookdirection;
+                lookDirection = Mathf.Acos(Vector2.Dot(Vector2.up, movementInput));
+                lookDirection *= Mathf.Sign(movementInput.x);
+                _currentLookDirectionAngle = lookDirection;
             }
             else
             {
-                lookdirection = _currentLookDirectionAngle;
+                lookDirection = _currentLookDirectionAngle;
             }
 
-            _transform.rotation = Quaternion.Lerp(_transform.rotation, Quaternion.Euler(0, lookdirection * -Mathf.Rad2Deg, 0), _rotationDamping);
+            Quaternion lookDirectionRotation = Quaternion.Euler(0, lookDirection * -Mathf.Rad2Deg, 0);
+
+            _transform.rotation = Quaternion.Lerp(_transform.rotation, lookDirectionRotation, _rotationDamping);
 
             // update players position
             if (playerIsMoving)
             {
-                _characterController.SimpleMove(_transform.forward * (_movementSpeed * Time.fixedDeltaTime));
+                float speed = _movementSpeed * Time.fixedDeltaTime;
+                _characterController.SimpleMove(lookDirectionRotation * _characterController.transform.forward * speed);
+                _animator.ResetTrigger("Idle");
+                _animator.SetTrigger("Walking");
+            }
+            else
+            {
+                _animator.ResetTrigger("Walking");
+                _animator.SetTrigger("Idle");
             }
         }
     }

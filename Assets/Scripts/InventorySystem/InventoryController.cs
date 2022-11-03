@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using InventorySystem.Items;
 using InventorySystem.UI;
 using SaveSystem.Data;
@@ -52,7 +53,12 @@ namespace InventorySystem
             _playerInventory.OnSlotChangedDelegate += OnSlotChanged;
             OnSlotClickedDelegate += OnSlotClicked;
         }
-        
+
+        private void Awake()
+        {
+            Debug.Log(_playerInventory.InventorySlots[0]);
+        }
+
         private void OnSlotChanged(InventorySlot slot)
         {
             UIInventorySlot uiSlot = _uiInventorySlots[slot.Index];

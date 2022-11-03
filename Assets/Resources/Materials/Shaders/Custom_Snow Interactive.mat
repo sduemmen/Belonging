@@ -38,8 +38,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _MaxTessDistance: 50
-    - _NoiseScale: 0.025
-    - _NoiseWeight: 2.55
+    - _NoiseScale: 0.0217
+    - _NoiseWeight: 2.68
     - _PathBlending: 0
     - _RimPower: 17.9
     - _SnowDepth: 0.3
@@ -52,8 +52,8 @@ Material:
     - _Tess: 64
     m_Colors:
     - _Color: {r: 0.4022784, g: 0.6842292, b: 0.754717, a: 1}
-    - _PathColorIn: {r: 0.2710039, g: 0.48382902, b: 0.5471698, a: 1}
-    - _PathColorOut: {r: 0.30949628, g: 0.5465015, b: 0.6132076, a: 1}
+    - _PathColorIn: {r: 0.29254177, g: 0.48650122, b: 0.5377358, a: 1}
+    - _PathColorOut: {r: 0.2874688, g: 0.48690033, b: 0.5377358, a: 1}
     - _RimColor: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
-    - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ShadowColor: {r: 0.066037714, g: 0.066037714, b: 0.066037714, a: 1}
   m_BuildTextureStacks: []

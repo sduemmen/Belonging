@@ -2,6 +2,7 @@
 using Flags;
 using TMPro;
 using UnityEngine;
+using World;
 
 namespace Utility
 {
@@ -28,12 +29,19 @@ namespace Utility
         public bool drawCollisionColliders;
         public bool drawItemPickupCollider;
         public bool drawTransformPositions;
-
+        
+        public bool showPlayerWorldPosition;
+        public bool showPlayerChunkPosition;
         public bool showFps;
         public bool showGameFlags;
 
         public TextMeshProUGUI fpsLabel;
         public TextMeshProUGUI gameFlagsLabel;
+        public TextMeshProUGUI playerWorldPositionLabel;
+        public TextMeshProUGUI playerChunkPositionLabel;
+
+        public Transform player;
+        
         private float deltaTime;
 
         public static DebugInformation Instance {
@@ -82,6 +90,10 @@ namespace Utility
             {
                 gameFlagsLabel.text = "";
             }
+
+            playerChunkPositionLabel.text = showPlayerChunkPosition ? Coordinates.GetChunkCoordinates(player.position.x, player.position.z).ToString() : "";
+            
+            playerWorldPositionLabel.text = showPlayerWorldPosition ? player.position.ToString() : "";
         }
 
         private static string GetColorString(bool b)

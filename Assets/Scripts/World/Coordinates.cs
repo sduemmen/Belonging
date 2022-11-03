@@ -7,8 +7,8 @@ namespace World
     {
         public static Vector2Int GetChunkCoordinates(float worldX, float worldY)
         {
-            int chunkX = (int)Math.Floor(worldX / World.CHUNK_SIZE);
-            int chunkY = (int)Math.Floor(worldY / World.CHUNK_SIZE);
+            int chunkX = (int)Math.Floor((worldX + World.CHUNK_SIZE / 2) / World.CHUNK_SIZE);
+            int chunkY = (int)Math.Floor((worldY + World.CHUNK_SIZE / 2) / World.CHUNK_SIZE);
             return new Vector2Int(chunkX, chunkY);
         }
 

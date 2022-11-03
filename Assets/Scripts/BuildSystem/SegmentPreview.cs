@@ -14,6 +14,8 @@ namespace BuildSystem
         [SerializeField] private Material _placementBlockedMaterial;
         [SerializeField] private Material _placementOkMaterial;
         public bool canBePlaced = true;
+        public bool canBeDestroyed = false;
+        public bool isPlaced = false;
         public Quaternion targetRotation = Quaternion.identity;
 
         private float rotationDampen = .3f;
@@ -32,17 +34,13 @@ namespace BuildSystem
 
         private void Update()
         {
+            if (isPlaced) return;
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationDampen);
-        }
-
-        private void OnDestroy()
-        {
-            transform.GetComponent<Destroyable>().colliders.SetActive(true);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (!other.CompareTag("Environment")) return;
+            if (isPlaced || !other.CompareTag("Environment")) return;
 
             canBePlaced = true;
             UpdateMaterial();
@@ -50,7 +48,7 @@ namespace BuildSystem
 
         private void OnTriggerStay(Collider other)
         {
-            if (!other.CompareTag("Environment")) return;
+            if (isPlaced || !other.CompareTag("Environment")) return;
 
             canBePlaced = false;
             UpdateMaterial();
@@ -58,19 +56,28 @@ namespace BuildSystem
 
         public void RotatePreview(int deg)
         {
+            if (isPlaced) return;
             targetRotation *= Quaternion.Euler(0, deg, 0);
         }
 
         public void UpdateMaterial()
         {
-            Material previewMaterial = canBePlaced ? _placementOkMaterial : _placementBlockedMaterial;
-            foreach (MeshRenderer meshRenderer in _renderers) meshRenderer.material = previewMaterial;
+            Material previewMaterial = !canBePlaced || canBeDestroyed ? _placementBlockedMaterial : _placementOkMaterial;
+            
+            foreach (MeshRenderer meshRenderer in _renderers)
+            {
+                meshRenderer.material = previewMaterial;
+            }
         }
 
         public void ResetMaterial()
         {
-            for (int i = 0; i < _renderers.Count; i++) _renderers[i].material = _defaultMaterials[i];
+            for (int i = 0; i < _renderers.Count; i++)
+            {
+                _renderers[i].material = _defaultMaterials[i];
+            }
             _collider.enabled = true;
+            transform.GetComponent<Destroyable>().colliders.SetActive(true);
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BuildSystem;
-using Environment;
 using Flags;
 using SaveSystem.Data;
 using UnityEngine;
@@ -15,16 +14,7 @@ namespace SaveSystem
     public class DataPersistenceManager : MonoBehaviour
     {
         private static DataPersistenceManager _instance;
-        public static DataPersistenceManager Instance {
-            get {
-                if (_instance == null)
-                {
-                    _instance = (DataPersistenceManager)FindObjectOfType(typeof(DataPersistenceManager));
-                }
-
-                return _instance;
-            }
-        }
+        public static DataPersistenceManager Instance { get; private set; }
 
         public string profileID = "default";
         [SerializeField] private GameData _gameData;
@@ -41,7 +31,8 @@ namespace SaveSystem
                 Destroy(this.gameObject);
                 return;
             }
-            
+
+            Instance = this;
             DontDestroyOnLoad(this.gameObject);
 
             _saveLoadIO = new SaveLoadIO(Path.Combine(Application.persistentDataPath));
@@ -106,8 +97,8 @@ namespace SaveSystem
                 SegmentPreview preview = obj.GetComponent<SegmentPreview>();
                 if (preview != null)
                 {
+                    preview.isPlaced = true;
                     preview.ResetMaterial();
-                    Destroy(preview);
                 }
             }
 

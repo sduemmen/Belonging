@@ -2,7 +2,7 @@ Shader "Custom/InteractiveSnow" {
 	Properties{
 		[Header(Main)]	
 		_Noise("Snow Noise", 2D) = "gray" {}	
-		_NoiseScale("Noise Scale", Range(0,2)) = 0.1
+		_NoiseScale("Noise Scale", Range(0,0.1)) = 0.01
 		_NoiseWeight("Noise Weight", Range(0,4)) = 0.1
 		[HDR]_ShadowColor("Shadow Color", Color) = (0.5,0.5,0.5,1)
 		[Space]

@@ -83,10 +83,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
-  m_Height: 2
+  m_Radius: 1.5
+  m_Height: 7
   m_Direction: 1
-  m_Center: {x: 0, y: 0.57, z: 0}
+  m_Center: {x: 0, y: 3.2, z: 0}
 --- !u!199 &5861869843191113996
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -4906,7 +4906,7 @@ GameObject:
   - component: {fileID: 3212526792996541371}
   - component: {fileID: 3239055076214024323}
   - component: {fileID: 3229620382570872561}
-  - component: {fileID: 2571016935669363412}
+  - component: {fileID: 4984391424198751797}
   - component: {fileID: 4113435557565800323}
   - component: {fileID: 9196659245781928531}
   m_Layer: 9
@@ -4981,8 +4981,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2571016935669363412
-MeshCollider:
+--- !u!136 &4984391424198751797
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4999,10 +4999,11 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: ca1cac744eec60c4f8cf6c5ba545a7db, type: 3}
+  serializedVersion: 2
+  m_Radius: 0.49
+  m_Height: 3.03
+  m_Direction: 1
+  m_Center: {x: -0.00000008940697, y: 1.28, z: -0.00000011920929}
 --- !u!54 &4113435557565800323
 Rigidbody:
   m_ObjectHideFlags: 0

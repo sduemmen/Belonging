@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabName: Wooden Wall 2
-  health: 3
+  health: 1
   wasBuiltByPlayer: 1
   objectsToBeDeactivatedOnDestroy:
   - {fileID: 7023659197661168251}
@@ -88,6 +88,7 @@ MonoBehaviour:
   _placementBlockedMaterial: {fileID: 2100000, guid: 42f2a639d12dea1438fb2373233b0865, type: 2}
   _placementOkMaterial: {fileID: 2100000, guid: 6b35b81389887214b90d04736facfad2, type: 2}
   canBePlaced: 1
+  canBeDestroyed: 0
   targetRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!199 &1381661097004315373
 ParticleSystemRenderer:

@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 
 namespace UI
 {
-    [ExecuteInEditMode]
     public class MouseTooltip : MonoBehaviour
     {
         private static MouseTooltip _instance;

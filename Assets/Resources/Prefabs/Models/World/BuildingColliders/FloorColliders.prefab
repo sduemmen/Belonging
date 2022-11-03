@@ -10,14 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 3992129521326307877}
   - component: {fileID: 2023144116721367653}
-  - component: {fileID: 615686466089408004}
   - component: {fileID: 967858728921271768}
+  - component: {fileID: 7441718220729962259}
   m_Layer: 15
   m_Name: Pole - NW (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3992129521326307877
 Transform:
@@ -55,7 +55,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7, y: 0.7, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &615686466089408004
+--- !u!114 &967858728921271768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148064534533598239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
+--- !u!54 &7441718220729962259
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -78,23 +91,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &967858728921271768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 148064534533598239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
 --- !u!1 &185234078898490669
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,14 +105,14 @@ GameObject:
   m_Component:
   - component: {fileID: 264184659944235908}
   - component: {fileID: 1688815234835134993}
-  - component: {fileID: 1920108270131351401}
   - component: {fileID: 7525578385549834625}
+  - component: {fileID: 6621841669169732711}
   m_Layer: 15
   m_Name: Pole - SE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &264184659944235908
 Transform:
@@ -150,7 +150,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7, y: 0.7, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &1920108270131351401
+--- !u!114 &7525578385549834625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185234078898490669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
+--- !u!54 &6621841669169732711
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,23 +186,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7525578385549834625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 185234078898490669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
 --- !u!1 &395906317394284999
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,7 +204,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7712622133492296093
 Transform:
@@ -235,14 +235,14 @@ GameObject:
   m_Component:
   - component: {fileID: 7007095177746477086}
   - component: {fileID: 2896529416897969267}
-  - component: {fileID: 8729986772933909967}
   - component: {fileID: 6724575038210701097}
+  - component: {fileID: 3961756613083501616}
   m_Layer: 12
   m_Name: Floor - West
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7007095177746477086
 Transform:
@@ -280,7 +280,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.3, z: 2.5}
   m_Center: {x: 1, y: 0, z: 0}
---- !u!54 &8729986772933909967
+--- !u!114 &6724575038210701097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582609002230403562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
+--- !u!54 &3961756613083501616
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -303,23 +316,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6724575038210701097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 582609002230403562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &822330028053173997
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,7 +334,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4770105430616104458
 Transform:
@@ -369,14 +369,14 @@ GameObject:
   m_Component:
   - component: {fileID: 7247413874527124968}
   - component: {fileID: 549357876985289489}
-  - component: {fileID: 8288331518769177824}
   - component: {fileID: 8407741983618150821}
+  - component: {fileID: 6237170064198292020}
   m_Layer: 12
   m_Name: Floor - East
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7247413874527124968
 Transform:
@@ -414,7 +414,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.3, z: 2.5}
   m_Center: {x: -1, y: 0, z: 0}
---- !u!54 &8288331518769177824
+--- !u!114 &8407741983618150821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974557606995372417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
+--- !u!54 &6237170064198292020
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -437,23 +450,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8407741983618150821
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 974557606995372417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &977446639359590112
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,14 +464,14 @@ GameObject:
   m_Component:
   - component: {fileID: 7250263820877010384}
   - component: {fileID: 8413181135752346395}
-  - component: {fileID: 4144555010400145565}
   - component: {fileID: 2681165064381655278}
+  - component: {fileID: 6995374312925288083}
   m_Layer: 13
   m_Name: Wall - North
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7250263820877010384
 Transform:
@@ -509,7 +509,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 0.5, z: 0.3}
   m_Center: {x: 0, y: 0.3, z: 0}
---- !u!54 &4144555010400145565
+--- !u!114 &2681165064381655278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977446639359590112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
+--- !u!54 &6995374312925288083
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -532,23 +545,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2681165064381655278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 977446639359590112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &1054831652246319966
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,14 +559,14 @@ GameObject:
   m_Component:
   - component: {fileID: 413918643128611889}
   - component: {fileID: 7307375703815860794}
-  - component: {fileID: 4744934216388852768}
   - component: {fileID: 1669608309787633306}
+  - component: {fileID: 3736704756707145586}
   m_Layer: 12
   m_Name: Floor - South
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &413918643128611889
 Transform:
@@ -604,7 +604,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 0.3, z: 0.5}
   m_Center: {x: 0, y: 0, z: 1}
---- !u!54 &4744934216388852768
+--- !u!114 &1669608309787633306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054831652246319966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
+--- !u!54 &3736704756707145586
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -627,23 +640,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1669608309787633306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1054831652246319966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &1703705990565542509
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,14 +654,14 @@ GameObject:
   m_Component:
   - component: {fileID: 8531628789077825383}
   - component: {fileID: 4576500534052191108}
-  - component: {fileID: 8502048852109561024}
   - component: {fileID: 7479460583653904883}
+  - component: {fileID: 814478933808459056}
   m_Layer: 13
   m_Name: Wall - West
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8531628789077825383
 Transform:
@@ -699,7 +699,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3, y: 0.5, z: 2.5}
   m_Center: {x: 0, y: 0.3, z: 0}
---- !u!54 &8502048852109561024
+--- !u!114 &7479460583653904883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703705990565542509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
+--- !u!54 &814478933808459056
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -722,23 +735,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7479460583653904883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1703705990565542509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &1900303384212830908
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,7 +753,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2060691831396677304
 Transform:
@@ -784,14 +784,14 @@ GameObject:
   m_Component:
   - component: {fileID: 404447089494389684}
   - component: {fileID: 7027980612872096301}
-  - component: {fileID: 5548243981567940089}
   - component: {fileID: 7278752839608102922}
+  - component: {fileID: 3250961985766592205}
   m_Layer: 14
   m_Name: Roof - East
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &404447089494389684
 Transform:
@@ -829,7 +829,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3, y: 0.5, z: 2.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &5548243981567940089
+--- !u!114 &7278752839608102922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2710573234401783001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: f87d8ef29bf2d094db56d2ce180f2687, type: 2}
+--- !u!54 &3250961985766592205
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -852,23 +865,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7278752839608102922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2710573234401783001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: f87d8ef29bf2d094db56d2ce180f2687, type: 2}
 --- !u!1 &2769641318100034534
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,14 +879,14 @@ GameObject:
   m_Component:
   - component: {fileID: 7970876941100130251}
   - component: {fileID: 1996520957680392398}
-  - component: {fileID: 6056203082498255142}
   - component: {fileID: 6749577313091694129}
+  - component: {fileID: 6783814197726241049}
   m_Layer: 15
   m_Name: Pole - SE (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7970876941100130251
 Transform:
@@ -924,7 +924,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7, y: 0.7, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &6056203082498255142
+--- !u!114 &6749577313091694129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2769641318100034534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
+--- !u!54 &6783814197726241049
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -947,23 +960,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6749577313091694129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2769641318100034534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
 --- !u!1 &2950593525847669254
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,14 +974,14 @@ GameObject:
   m_Component:
   - component: {fileID: 5761288150273936293}
   - component: {fileID: 2290298778932934233}
-  - component: {fileID: 6569923002025237436}
   - component: {fileID: 1299104331750279401}
+  - component: {fileID: 4638557019470100432}
   m_Layer: 15
   m_Name: Pole - NE (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5761288150273936293
 Transform:
@@ -1019,7 +1019,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7, y: 0.7, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &6569923002025237436
+--- !u!114 &1299104331750279401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2950593525847669254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
+--- !u!54 &4638557019470100432
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1042,23 +1055,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1299104331750279401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2950593525847669254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
 --- !u!1 &3122864513223151705
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,14 +1069,14 @@ GameObject:
   m_Component:
   - component: {fileID: 6437339439954217250}
   - component: {fileID: 5307953536552118364}
-  - component: {fileID: 7001345010619781593}
   - component: {fileID: 1888762770401565396}
+  - component: {fileID: 3343275734247643130}
   m_Layer: 15
   m_Name: Pole - SW (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6437339439954217250
 Transform:
@@ -1114,7 +1114,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7, y: 0.7, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &7001345010619781593
+--- !u!114 &1888762770401565396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3122864513223151705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
+--- !u!54 &3343275734247643130
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1137,23 +1150,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1888762770401565396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3122864513223151705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
 --- !u!1 &3250210486858871978
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,14 +1164,14 @@ GameObject:
   m_Component:
   - component: {fileID: 7851014804896295977}
   - component: {fileID: 5123959902296820025}
-  - component: {fileID: 2064293383810560987}
   - component: {fileID: 4426899021335708057}
+  - component: {fileID: 3909197144267080330}
   m_Layer: 13
   m_Name: Wall - West
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7851014804896295977
 Transform:
@@ -1209,7 +1209,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3, y: 0.5, z: 2.5}
   m_Center: {x: 0, y: 2.25, z: 0}
---- !u!54 &2064293383810560987
+--- !u!114 &4426899021335708057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3250210486858871978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
+--- !u!54 &3909197144267080330
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1232,23 +1245,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4426899021335708057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3250210486858871978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &3315519966757681258
 GameObject:
   m_ObjectHideFlags: 0
@@ -1259,14 +1259,14 @@ GameObject:
   m_Component:
   - component: {fileID: 6122269941570855815}
   - component: {fileID: 2912406410769482364}
-  - component: {fileID: 5912072050144926249}
   - component: {fileID: 9053533525115082715}
+  - component: {fileID: 3970706966416831546}
   m_Layer: 14
   m_Name: Roof - North
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6122269941570855815
 Transform:
@@ -1304,7 +1304,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 0.5, z: 0.3}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &5912072050144926249
+--- !u!114 &9053533525115082715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3315519966757681258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: f87d8ef29bf2d094db56d2ce180f2687, type: 2}
+--- !u!54 &3970706966416831546
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1327,23 +1340,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &9053533525115082715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3315519966757681258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: f87d8ef29bf2d094db56d2ce180f2687, type: 2}
 --- !u!1 &3613155215223462522
 GameObject:
   m_ObjectHideFlags: 0
@@ -1354,14 +1354,14 @@ GameObject:
   m_Component:
   - component: {fileID: 5281870307521026465}
   - component: {fileID: 2095904909973707853}
-  - component: {fileID: 9042328259588705805}
   - component: {fileID: 1352108526429740482}
+  - component: {fileID: 6366206122107126190}
   m_Layer: 13
   m_Name: Wall - South
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5281870307521026465
 Transform:
@@ -1399,7 +1399,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 0.5, z: 0.3}
   m_Center: {x: 0, y: 2.25, z: 0}
---- !u!54 &9042328259588705805
+--- !u!114 &1352108526429740482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3613155215223462522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
+--- !u!54 &6366206122107126190
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1422,23 +1435,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1352108526429740482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3613155215223462522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &3827061645116993858
 GameObject:
   m_ObjectHideFlags: 0
@@ -1449,14 +1449,14 @@ GameObject:
   m_Component:
   - component: {fileID: 5235732432774134533}
   - component: {fileID: 7658091292223639977}
-  - component: {fileID: 8505686340904653694}
   - component: {fileID: 3779822756076360759}
+  - component: {fileID: 2405154695623086828}
   m_Layer: 13
   m_Name: Wall - East
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5235732432774134533
 Transform:
@@ -1494,7 +1494,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3, y: 0.5, z: 2.5}
   m_Center: {x: 0, y: 2.25, z: 0}
---- !u!54 &8505686340904653694
+--- !u!114 &3779822756076360759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3827061645116993858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
+--- !u!54 &2405154695623086828
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1517,23 +1530,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3779822756076360759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3827061645116993858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &4405674783721501435
 GameObject:
   m_ObjectHideFlags: 0
@@ -1544,14 +1544,14 @@ GameObject:
   m_Component:
   - component: {fileID: 5577504125872593300}
   - component: {fileID: 440862209302999429}
-  - component: {fileID: 235776680687397281}
   - component: {fileID: 8886598903126910426}
+  - component: {fileID: 724407849922464385}
   m_Layer: 14
   m_Name: Roof - West
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5577504125872593300
 Transform:
@@ -1589,7 +1589,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3, y: 0.5, z: 2.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &235776680687397281
+--- !u!114 &8886598903126910426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4405674783721501435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: f87d8ef29bf2d094db56d2ce180f2687, type: 2}
+--- !u!54 &724407849922464385
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1612,23 +1625,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8886598903126910426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4405674783721501435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: f87d8ef29bf2d094db56d2ce180f2687, type: 2}
 --- !u!1 &4911213047739325183
 GameObject:
   m_ObjectHideFlags: 0
@@ -1639,14 +1639,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1802368474832849391}
   - component: {fileID: 8334829489960411804}
-  - component: {fileID: 4867600744683543829}
   - component: {fileID: 8380976413697477905}
+  - component: {fileID: 1784540208283625475}
   m_Layer: 12
   m_Name: Floor - North
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1802368474832849391
 Transform:
@@ -1684,7 +1684,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 0.3, z: 0.5}
   m_Center: {x: 0, y: 0, z: -1}
---- !u!54 &4867600744683543829
+--- !u!114 &8380976413697477905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4911213047739325183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
+--- !u!54 &1784540208283625475
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1707,23 +1720,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8380976413697477905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4911213047739325183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: a248476c37a80ea478d7f8eb2e79e18a, type: 2}
 --- !u!1 &5769816478793241945
 GameObject:
   m_ObjectHideFlags: 0
@@ -1734,14 +1734,14 @@ GameObject:
   m_Component:
   - component: {fileID: 8089923730650837651}
   - component: {fileID: 8897263245073375509}
-  - component: {fileID: 3208601366393367278}
   - component: {fileID: 7277072625720648922}
+  - component: {fileID: 2332708078736294390}
   m_Layer: 15
   m_Name: Pole - NE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8089923730650837651
 Transform:
@@ -1779,7 +1779,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7, y: 0.7, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &3208601366393367278
+--- !u!114 &7277072625720648922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5769816478793241945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
+--- !u!54 &2332708078736294390
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1802,23 +1815,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7277072625720648922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5769816478793241945}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
 --- !u!1 &6295976618269237888
 GameObject:
   m_ObjectHideFlags: 0
@@ -1829,14 +1829,14 @@ GameObject:
   m_Component:
   - component: {fileID: 7663368616973945268}
   - component: {fileID: 7086360113822855396}
-  - component: {fileID: 4345197073666427733}
   - component: {fileID: 7938366051455069814}
+  - component: {fileID: 6535962873045368907}
   m_Layer: 15
   m_Name: Pole - SW
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7663368616973945268
 Transform:
@@ -1874,7 +1874,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7, y: 0.7, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &4345197073666427733
+--- !u!114 &7938366051455069814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6295976618269237888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
+--- !u!54 &6535962873045368907
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1897,23 +1910,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7938366051455069814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6295976618269237888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
 --- !u!1 &6345669767845258676
 GameObject:
   m_ObjectHideFlags: 0
@@ -1924,14 +1924,14 @@ GameObject:
   m_Component:
   - component: {fileID: 5587285737615475410}
   - component: {fileID: 2737761648109044622}
-  - component: {fileID: 4471654828856462975}
   - component: {fileID: 2088304845860398271}
+  - component: {fileID: 1910551214910805347}
   m_Layer: 13
   m_Name: Wall - East
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5587285737615475410
 Transform:
@@ -1969,7 +1969,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3, y: 0.5, z: 2.5}
   m_Center: {x: 0, y: 0.3, z: 0}
---- !u!54 &4471654828856462975
+--- !u!114 &2088304845860398271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6345669767845258676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
+--- !u!54 &1910551214910805347
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1992,23 +2005,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2088304845860398271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6345669767845258676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &7873594252745016391
 GameObject:
   m_ObjectHideFlags: 0
@@ -2019,14 +2019,14 @@ GameObject:
   m_Component:
   - component: {fileID: 3114139580529346797}
   - component: {fileID: 5814308305722586306}
-  - component: {fileID: 4749451475218824821}
   - component: {fileID: 4047390826118564918}
+  - component: {fileID: 6205941941531467536}
   m_Layer: 15
   m_Name: Pole - NW
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3114139580529346797
 Transform:
@@ -2064,7 +2064,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7, y: 0.7, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &4749451475218824821
+--- !u!114 &4047390826118564918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7873594252745016391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
+--- !u!54 &6205941941531467536
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2087,23 +2100,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4047390826118564918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7873594252745016391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c76aeaf6ce845d549925c9d5ca927caf, type: 2}
 --- !u!1 &7900424804484388519
 GameObject:
   m_ObjectHideFlags: 0
@@ -2118,7 +2118,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8324404037336469972
 Transform:
@@ -2153,14 +2153,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4780421057739077425}
   - component: {fileID: 6188633023272389482}
-  - component: {fileID: 5406531467309900963}
   - component: {fileID: 3053852548988690304}
+  - component: {fileID: 542060748226083853}
   m_Layer: 13
   m_Name: Wall - South
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4780421057739077425
 Transform:
@@ -2198,7 +2198,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 0.5, z: 0.3}
   m_Center: {x: 0, y: 0.3, z: 0}
---- !u!54 &5406531467309900963
+--- !u!114 &3053852548988690304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8277860617359693677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
+--- !u!54 &542060748226083853
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2221,23 +2234,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3053852548988690304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8277860617359693677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
 --- !u!1 &8452455092024666609
 GameObject:
   m_ObjectHideFlags: 0
@@ -2248,14 +2248,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4130550976539224878}
   - component: {fileID: 2281866534755004003}
-  - component: {fileID: 2901188690585912195}
   - component: {fileID: 1833939136463350956}
+  - component: {fileID: 2770308025760836661}
   m_Layer: 14
   m_Name: Roof - South
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4130550976539224878
 Transform:
@@ -2293,7 +2293,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 0.5, z: 0.3}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &2901188690585912195
+--- !u!114 &1833939136463350956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8452455092024666609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: f87d8ef29bf2d094db56d2ce180f2687, type: 2}
+--- !u!54 &2770308025760836661
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2316,23 +2329,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1833939136463350956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8452455092024666609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: f87d8ef29bf2d094db56d2ce180f2687, type: 2}
 --- !u!1 &8593807064420845883
 GameObject:
   m_ObjectHideFlags: 0
@@ -2347,7 +2347,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8933331074644448191
 Transform:
@@ -2378,14 +2378,14 @@ GameObject:
   m_Component:
   - component: {fileID: 2439745309896924955}
   - component: {fileID: 8845809055522837189}
-  - component: {fileID: 8389500118948501198}
   - component: {fileID: 1611913953584409315}
+  - component: {fileID: 7088237085227612615}
   m_Layer: 13
   m_Name: Wall - North
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2439745309896924955
 Transform:
@@ -2423,7 +2423,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 0.5, z: 0.3}
   m_Center: {x: 0, y: 2.25, z: 0}
---- !u!54 &8389500118948501198
+--- !u!114 &1611913953584409315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8770469926861185195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}
+--- !u!54 &7088237085227612615
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2446,20 +2459,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1611913953584409315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8770469926861185195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2aad338e9010b864c97725ba15355040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliderInformation: {fileID: 11400000, guid: c20c1f078649ee646ae1bfb2ffc424ce, type: 2}

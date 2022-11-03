@@ -60,7 +60,7 @@ MonoBehaviour:
   - {fileID: 4802661907344370776}
   - {fileID: 9091596920777129026}
   - {fileID: 8216974074100482650}
-  outline: {fileID: 7339624123977809179}
+  outline: {fileID: 0}
   itemDrops:
   - _item: {fileID: 11400000, guid: 12105098fa1a4cc48bce492e45e197b9, type: 2}
     _amount: 12
@@ -89,6 +89,7 @@ MonoBehaviour:
   _placementBlockedMaterial: {fileID: 2100000, guid: 42f2a639d12dea1438fb2373233b0865, type: 2}
   _placementOkMaterial: {fileID: 2100000, guid: 6b35b81389887214b90d04736facfad2, type: 2}
   canBePlaced: 1
+  canBeDestroyed: 0
   targetRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!199 &1884655239294090762
 ParticleSystemRenderer:
@@ -4973,7 +4974,6 @@ GameObject:
   - component: {fileID: 4814523810390839634}
   - component: {fileID: 4825336629804482798}
   - component: {fileID: 4775542791219561398}
-  - component: {fileID: 7339624123977809179}
   m_Layer: 0
   m_Name: SM_Bld_House_Floor_Stone_01
   m_TagString: Untagged
@@ -5068,24 +5068,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43498862941011482, guid: 71c3b8236c71ea746bf5627d26618203, type: 2}
---- !u!114 &7339624123977809179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4802661907344370776}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 1
-  outlineColor: {r: 0.85882354, g: 0.85882354, b: 0.85882354, a: 1}
-  outlineWidth: 4.93
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!1 &9091596920777129026
 GameObject:
   m_ObjectHideFlags: 0

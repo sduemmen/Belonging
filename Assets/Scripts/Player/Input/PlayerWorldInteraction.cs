@@ -17,6 +17,7 @@ namespace Player.Input
         private Camera _camera;
         private int _selectedSlotIndex = -1;
         private Destroyable _outlinedDestroyable;
+        private SegmentPreview _outlinedSegment;
 
         private void Awake()
         {
@@ -26,36 +27,68 @@ namespace Player.Input
 
         private void Update()
         {
-            if (GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED)
-                if (Raycast.GetMouseRayHit(_camera, _destroyablesLayerMask, out RaycastHit hit, 40))
-                {
-                    Destroyable d = hit.transform.GetComponentInParent<Destroyable>();
+            if ((GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) && Raycast.GetMouseRayHit(_camera, _destroyablesLayerMask, out RaycastHit hit, 40))
+            {
+                Destroyable destroyableHoveredOver = hit.transform.GetComponentInParent<Destroyable>();
+                if (destroyableHoveredOver == null) return;
 
-                    if (d == null || (d.requiredTool.DisplayName == "Axe" && !GameFlags.AXE_EQUIPPED) || (d.requiredTool.DisplayName == "Pickaxe" && !GameFlags.PICKAXE_EQUIPPED))
+                bool equippedToolMatchingRequiredTool = (destroyableHoveredOver.requiredTool.DisplayName == "Axe" && GameFlags.AXE_EQUIPPED) ||
+                                                        (destroyableHoveredOver.requiredTool.DisplayName == "Pickaxe" && GameFlags.PICKAXE_EQUIPPED);
+                
+                if (equippedToolMatchingRequiredTool && destroyableHoveredOver != _outlinedDestroyable)
+                {
+                    if (destroyableHoveredOver.TryGetComponent(out SegmentPreview segmentPreview))
+                    {
+                        if (_outlinedSegment != null)
+                        {
+                            _outlinedSegment.canBeDestroyed = false;
+                            _outlinedSegment.ResetMaterial();
+                        }
+
+                        segmentPreview.canBeDestroyed = true;
+                        segmentPreview.UpdateMaterial();
+                        _outlinedDestroyable = destroyableHoveredOver;
+                        _outlinedSegment = segmentPreview;
+                    }
+                    else
                     {
                         if (_outlinedDestroyable != null)
                         {
                             _outlinedDestroyable.outline.enabled = false;
-                            _outlinedDestroyable = null;
                         }
-
-                        return;
+                        
+                        destroyableHoveredOver.outline.enabled = true;
+                        _outlinedDestroyable = destroyableHoveredOver;
                     }
-
-                    if (d != _outlinedDestroyable)
-                    {
-                        if (_outlinedDestroyable != null) _outlinedDestroyable.outline.enabled = false;
-                        d.outline.enabled = true;
-                        _outlinedDestroyable = d;
-                    }
-
-                    return;
+                } 
+                else if (!equippedToolMatchingRequiredTool)
+                {
+                    ResetOutlineOrPreviewMaterial();
                 }
+                    
+                return;
+            }
+            
+            // reset outline/segment preview if no tool is equipped or no object is hit
+            ResetOutlineOrPreviewMaterial();
+        }
 
+        private void ResetOutlineOrPreviewMaterial()
+        {
             if (_outlinedDestroyable != null)
             {
-                _outlinedDestroyable.outline.enabled = false;
-                _outlinedDestroyable = null;
+                if (_outlinedSegment != null)
+                {
+                    _outlinedSegment.canBeDestroyed = false;
+                    _outlinedSegment.ResetMaterial();
+                    _outlinedSegment = null;
+                    _outlinedDestroyable = null;
+                }
+                else
+                {
+                    _outlinedDestroyable.outline.enabled = false;
+                    _outlinedDestroyable = null;
+                }
             }
         }
 
@@ -90,18 +123,20 @@ namespace Player.Input
 
         public void OnToolUsed()
         {
-            if (GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) OnDestroyableClicked();
+            if (GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED)
+            {
+                OnDestroyableClicked();
+            }
 
-            if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED) BuildingController.Instance.TryPlaceSegment();
+            if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED)
+            {
+                BuildingController.Instance.TryPlaceSegment();
+            }
         }
 
         private void OnDestroyableClicked()
         {
-            int layerMask = 0;
-
-            layerMask |= _destroyablesLayerMask;
-
-            bool objectHit = Raycast.GetMouseRayHit(_camera, layerMask, out RaycastHit hitResult, 40);
+            bool objectHit = Raycast.GetMouseRayHit(_camera, _destroyablesLayerMask, out RaycastHit hitResult, 40);
             if (!objectHit || hitResult.transform.gameObject == null) return;
 
             GameObject hitGameObject = hitResult.transform.gameObject;
@@ -110,12 +145,9 @@ namespace Player.Input
             ToolItemObject selectedTool = (ToolItemObject)ToolbarInventoryController.Instance.ToolbarInventory.InventorySlots[_selectedSlotIndex].Item;
             if (selectedTool == null) return;
 
-            Destroyable destroyable = hitGameObject.GetComponent<Destroyable>();
-            if (destroyable == null && hitGameObject.transform.parent != null)
-            {
-                destroyable = hitGameObject.transform.parent.GetComponent<Destroyable>();
-            }
+            Destroyable destroyable = hitGameObject.GetComponentInParent<Destroyable>();
             if (destroyable == null || selectedTool != destroyable.requiredTool) return;
+            
             destroyable.OnClick(_player.position, hitResult);
         }
     }

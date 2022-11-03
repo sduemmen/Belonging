@@ -14,7 +14,7 @@ namespace Utility
 
         private void OnDrawGizmos()
         {
-            if (DebugInformation.Instance == null) return;
+            if (DebugInformation.Instance == null || colliderInformation == null) return;
             if (!DebugInformation.Instance.drawSnapPoints && colliderInformation.usage == ColliderUsage.SnappingPoint) return;
             if (!DebugInformation.Instance.drawCollisionColliders && colliderInformation.usage == ColliderUsage.Collision) return;
             if (!DebugInformation.Instance.drawItemPickupCollider && colliderInformation.usage == ColliderUsage.ItemPickup) return;
@@ -22,7 +22,10 @@ namespace Utility
             if (c == null)
             {
                 c = (Collider)GetComponent(DebugInformation.GetColliderType(colliderInformation.type));
-                if (c == null) Debug.LogError($"Couldn't find {colliderInformation.type.ToString()} component on GameObject {gameObject.name}");
+                if (c == null)
+                {
+                    Debug.LogError($"Couldn't find {colliderInformation.type.ToString()} component on GameObject {gameObject.name}");
+                }
             }
 
             Gizmos.color = colliderInformation.color;

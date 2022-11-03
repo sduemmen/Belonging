@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: AnyCollectedEvent
   m_EditorClassIdentifier: 
   _listeners: []
-  logging: 1
+  logging: 0

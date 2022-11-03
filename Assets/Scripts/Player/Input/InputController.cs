@@ -160,12 +160,12 @@ namespace Player.Input
 
         private void OnEnable()
         {
-            _playerControls.Enable();
+            _playerControls?.Enable();
         }
 
         private void OnDisable()
         {
-            _playerControls.Disable();
+            _playerControls?.Disable();
         }
 
         private void OpenInventory()
