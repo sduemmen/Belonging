@@ -48,9 +48,14 @@ namespace UI
             }
         }
 
-        public void AddHint(string message, bool stack = false)
+        public void AddHint(string message, bool stack)
         {
             AddHint(message, _defaultTextColor, stack);
+        }
+        
+        public void AddHint(string message)
+        {
+            AddHint(message, _defaultTextColor);
         }
         
         public void AddErrorHint(string message, bool stack = false)

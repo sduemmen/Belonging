@@ -56,7 +56,7 @@ namespace UI.MainMenu
             background.color = defaultColor;
         }
 
-        public void SetValues(GameData gameData)
+        public void Initialize(GameData gameData)
         {
             SetDisplayName(gameData.name);
             SetPlaytime(gameData.playtime);

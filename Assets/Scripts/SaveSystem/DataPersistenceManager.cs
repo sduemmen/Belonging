@@ -105,9 +105,13 @@ namespace SaveSystem
             Debug.Log($"Loading complete (profile={profileID})");
         }
 
-        private void SaveGame(bool forceSave = false)
+        public void SaveGame(bool forceSave = false)
         {
-            if ((NoProfileSelected || GameFlags.MAIN_MENU_ACTIVE) && !forceSave) return;
+            if ((NoProfileSelected || GameFlags.MAIN_MENU_ACTIVE) && !forceSave)
+            {
+                Debug.LogWarning("Couldn't save game. Either main menu is active or no profile is selected");
+                return;
+            }
 
             GameData storedData = _saveLoadIO.Load(profileID);
 

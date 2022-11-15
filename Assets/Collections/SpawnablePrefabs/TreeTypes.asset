@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558a26f7282d4d9ca60deb356792690b, type: 3}
+  m_Name: TreeTypes
+  m_EditorClassIdentifier: 
+  _prefabs:
+  - _prefab: {fileID: 376045377974415474, guid: 5ef02265c2cf008438ef3232987a704c, type: 3}
+    spawnChance: 0.8525363
+  - _prefab: {fileID: 376045377974415474, guid: c34dc6a4a5f0d78469f5b778081cfa81, type: 3}
+    spawnChance: 0.06
+  - _prefab: {fileID: 376045377974415474, guid: 0ede44c771667c54cb8f03fa8df43277, type: 3}
+    spawnChance: 0.046407405
+  - _prefab: {fileID: 376045377974415474, guid: c35addbeba31a5e4f8fdf6a2a28bd7b2, type: 3}
+    spawnChance: 0.04105624
+  _spawnChanceCheck:
+  - 0.8525363
+  - 0.06
+  - 0.046407405
+  - 0.04105624
+  _sortedCumulativeSums:
+  - 0.8525363
+  - 0.9125363
+  - 0.9589437
+  - 0.99999994

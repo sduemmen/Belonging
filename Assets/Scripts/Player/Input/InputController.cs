@@ -1,87 +1,94 @@
+using System;
 using BuildSystem;
 using Events.Events;
 using Flags;
 using InventorySystem;
+using QuestSystem;
 using UnityEngine;
 
 namespace Player.Input
 {
     public class InputController : MonoBehaviour
     {
-        [SerializeField] private SimpleEvent movementInputEvent;
         [SerializeField] private SimpleEvent mouseMoveEvent;
         [SerializeField] private SimpleEvent mouseScrollEvent;
-
-        [SerializeField] private SimpleEvent openQuestDisplayEvent;
-        [SerializeField] private SimpleEvent closeQuestDisplayEvent;
 
         [SerializeField] private IntEvent equipSlotEvent;
         [SerializeField] private SimpleEvent toolUsedEvent;
         [SerializeField] private IntEvent rotateSegmentEvent;
 
+        [SerializeField] private InventoryController _inventoryDisplayContext;
+        [SerializeField] private BuildingController _buildMenuDisplayContext;
+        [SerializeField] private QuestController _questMenuDisplayContext;
+        [SerializeField] private GameStateController _pauseMenuDisplayContext;
+
         private PlayerControls _playerControls;
 
         public static Vector2 MovementInput { get; private set; }
+        public static bool SprintKeyHeldDown { get; private set; }
+        public static bool MiddleMouseButtonHeldDown { get; private set; }
+        public static bool LeftMouseButtonHeldDown { get; private set; }
 
         private void Awake()
         {
             _playerControls = new PlayerControls();
 
             // Mouse Move
-            _playerControls.Camera.MouseDelta.performed += inputEvent => {
-                bool middleMouseButtonHeldDown = _playerControls.Character.MiddleMouseButton.inProgress;
-
-                if ((GameFlags.GAME_PAUSED || GameFlags.INVENTORY_OPEN || GameFlags.SLOT_EQUIPPED) && !middleMouseButtonHeldDown) return;
+            _playerControls.Camera.MouseDelta.performed += _ => {
+                if ((GameFlags.GAME_PAUSED || GameFlags.UI_ELEMENT_OPEN || GameFlags.SLOT_EQUIPPED) && !MiddleMouseButtonHeldDown) return;
 
                 mouseMoveEvent.Raise();
             };
             // Mouse Scroll
-            _playerControls.Camera.MouseScrollDelta.performed += inputEvent => {
+            _playerControls.Camera.MouseScrollDelta.performed += _ => {
                 if (GameFlags.GAME_PAUSED || GameFlags.BUILD_MENU_OPEN) return;
 
                 mouseScrollEvent.Raise();
             };
-            
+
+            // EscapeKey pressed
+            _playerControls.Character.PauseGame.performed += _ => {
+                if (GameFlags.UI_ELEMENT_OPEN)
+                {
+                    DisplayContextController.Instance.HideCurrent();
+                    return;
+                }
+
+                DisplayContextController.Instance.HideCurrentAndToggle(_pauseMenuDisplayContext, GameFlags.GAME_RUNNING);
+            };
             // Movement Input
             _playerControls.Character.Movement.performed += inputEvent => {
                 if (GameFlags.GAME_PAUSED) return;
 
                 MovementInput = inputEvent.ReadValue<Vector2>();
-                movementInputEvent.Raise();
             };
             // Open/Close Inventory
-            _playerControls.Character.InventoryDisplayContext.performed += inputEvent => {
+            _playerControls.Character.InventoryDisplayContext.performed += _ => {
                 if (GameFlags.GAME_PAUSED) return;
 
-                BuildingController.Instance.HideDisplayContext();
-                HideBuildMenu();
-                HideQuestDisplay();
-
-                if (GameFlags.INVENTORY_CLOSED)
-                    OpenInventory();
-                else
-                    HideInventory();
+                if (GameFlags.SLOT_EQUIPPED)
+                {
+                    SetEquippedSlot(-1);
+                }
+                
+                DisplayContextController.Instance.HideCurrentAndToggle(_inventoryDisplayContext, GameFlags.INVENTORY_CLOSED);
             };
             // Open/Close Quest Menu
-            _playerControls.Character.QuestDisplayContext.performed += inputEvent => {
+            _playerControls.Character.QuestDisplayContext.performed += _ => {
                 if (GameFlags.GAME_PAUSED) return;
+                
+                if (GameFlags.HAMMER_EQUIPPED)
+                {
+                    SetEquippedSlot(-1);
+                }
 
-                HideInventory();
-                HideBuildMenu();
-
-                if (GameFlags.HAMMER_EQUIPPED) SetEquippedSlot(-1);
-
-                if (GameFlags.QUEST_DISPLAY_CLOSED)
-                    OpenQuestDisplay();
-                else
-                    HideQuestDisplay();
+                DisplayContextController.Instance.HideCurrentAndToggle(_questMenuDisplayContext, GameFlags.QUEST_DISPLAY_CLOSED);
             };
             // Equip Slot 1
-            _playerControls.Character.EquipSlot1.performed += inputEvent => {
+            _playerControls.Character.EquipSlot1.performed += _ => {
                 if (GameFlags.GAME_PAUSED) return;
 
-                HideInventory();
-                HideBuildMenu();
+                DisplayContextController.Instance.HideCurrent();
 
                 if (GameFlags.AXE_EQUIPPED)
                     SetEquippedSlot(-1);
@@ -89,13 +96,10 @@ namespace Player.Input
                     SetEquippedSlot(0);
             };
             // Equip Slot 2
-            _playerControls.Character.EquipSlot2.performed += inputEvent => {
+            _playerControls.Character.EquipSlot2.performed += _ => {
                 if (GameFlags.GAME_PAUSED) return;
 
-                HideInventory();
-                HideBuildMenu();
-
-                SetCursorState(false, CursorLockMode.None);
+                DisplayContextController.Instance.HideCurrent();
 
                 if (GameFlags.PICKAXE_EQUIPPED)
                     SetEquippedSlot(-1);
@@ -103,15 +107,12 @@ namespace Player.Input
                     SetEquippedSlot(1);
             };
             // Equip Slot 3
-            _playerControls.Character.EquipSlot3.performed += inputEvent => {
+            _playerControls.Character.EquipSlot3.performed += _ => {
                 if (GameFlags.GAME_PAUSED) return;
-
-                HideInventory();
-                HideQuestDisplay();
 
                 if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED)
                 {
-                    OpenBuildMenu();
+                    DisplayContextController.Instance.HideCurrentAndDisplay(_buildMenuDisplayContext);
                     SetEquippedSlot(2);
                     return;
                 }
@@ -121,13 +122,10 @@ namespace Player.Input
                 else
                     SetEquippedSlot(2);
 
-                if (GameFlags.BUILD_MENU_CLOSED)
-                    OpenBuildMenu();
-                else
-                    HideBuildMenu();
+                DisplayContextController.Instance.HideCurrentAndToggle(_buildMenuDisplayContext, GameFlags.BUILD_MENU_CLOSED);
             };
             // rotate segment
-            _playerControls.Character.RotateSegment.performed += inputEvent => {
+            _playerControls.Character.RotateSegment.performed += _ => {
                 if (GameFlags.GAME_PAUSED || GameFlags.UI_ELEMENT_OPEN || !GameFlags.HAMMER_EQUIPPED) return;
 
                 if (_playerControls.Character.Modifier1.inProgress)
@@ -136,26 +134,25 @@ namespace Player.Input
                     rotateSegmentEvent.Raise(90);
             };
             // Action (left click)
-            _playerControls.Character.Action.performed += inputEvent => {
+            _playerControls.Character.Action.performed += _ => {
                 if (GameFlags.GAME_PAUSED || GameFlags.INVENTORY_OPEN || GameFlags.BUILD_MENU_OPEN || !GameFlags.SLOT_EQUIPPED) return;
 
                 toolUsedEvent.Raise(); // use equipped tool
             };
             // Cancel Action (right click)
-            _playerControls.Character.CancelAction.performed += inputEvent => {
+            _playerControls.Character.CancelAction.performed += _ => {
                 if (GameFlags.GAME_PAUSED) return;
 
                 if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED)
                 {
+                    DisplayContextController.Instance.HideCurrentAndDisplay(_buildMenuDisplayContext);
                     SetEquippedSlot(2);
-                    OpenBuildMenu();
                 }
             };
 
-            DisableCursor();
-            InventoryController.Instance.HideDisplayContext();
-            BuildingController.Instance.HideDisplayContext();
-            closeQuestDisplayEvent.Raise();
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            DisplayContextController.Instance.HideAll();
         }
 
         private void OnEnable()
@@ -168,53 +165,16 @@ namespace Player.Input
             _playerControls?.Disable();
         }
 
-        private void OpenInventory()
+        private void Update()
         {
-            if (GameFlags.INVENTORY_OPEN) return;
+            SprintKeyHeldDown = _playerControls.Character.Sprint.inProgress;
+            MiddleMouseButtonHeldDown = _playerControls.Character.MiddleMouseButton.inProgress;
+            LeftMouseButtonHeldDown = _playerControls.Character.HoldAction.inProgress;
 
-            SetEquippedSlot(-1);
-            InventoryController.Instance.ShowDisplayContext();
-            SetCursorState(true, CursorLockMode.None);
-        }
-
-        private void HideInventory()
-        {
-            if (GameFlags.INVENTORY_CLOSED) return;
-
-            InventoryController.Instance.HideDisplayContext();
-            SetCursorState(false, CursorLockMode.Locked);
-        }
-
-        private void OpenBuildMenu()
-        {
-            if (GameFlags.BUILD_MENU_OPEN) return;
-
-            BuildingController.Instance.ShowDisplayContext();
-            SetCursorState(true, CursorLockMode.None);
-        }
-
-        private void HideBuildMenu()
-        {
-            if (GameFlags.BUILD_MENU_CLOSED) return;
-
-            BuildingController.Instance.HideDisplayContext();
-            SetCursorState(false, CursorLockMode.Locked);
-        }
-
-        public void OpenQuestDisplay()
-        {
-            if (GameFlags.QUEST_DISPLAY_OPEN) return;
-
-            GameFlags.QUEST_DISPLAY_OPEN = true;
-            openQuestDisplayEvent.Raise();
-        }
-
-        public void HideQuestDisplay()
-        {
-            if (GameFlags.QUEST_DISPLAY_CLOSED) return;
-
-            GameFlags.QUEST_DISPLAY_OPEN = false;
-            closeQuestDisplayEvent.Raise();
+            if (LeftMouseButtonHeldDown)
+            {
+                toolUsedEvent.Raise();
+            }
         }
 
         private void SetEquippedSlot(int index)
@@ -253,18 +213,6 @@ namespace Player.Input
         {
             Cursor.visible = visible;
             Cursor.lockState = lockMode;
-        }
-
-        public static void EnableCursor()
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
-
-        public static void DisableCursor()
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 }

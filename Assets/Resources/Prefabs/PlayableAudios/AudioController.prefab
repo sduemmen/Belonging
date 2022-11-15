@@ -1,0 +1,205 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &980317698687749864
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 980317698687749862}
+  - component: {fileID: 980317698687749863}
+  m_Layer: 0
+  m_Name: AudioController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &980317698687749862
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 980317698687749864}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 980317698374186071}
+  - {fileID: 980317699543689019}
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &980317698687749863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 980317698687749864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7a8911ffdaa471f84f9cd628be8dd6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playableAudios:
+  - {fileID: 980317698374186073}
+  - {fileID: 980317699543689018}
+--- !u!1001 &3018755968571718960
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 980317698687749862}
+    m_Modifications:
+    - target: {fileID: 2629556067798538763, guid: c480c8e036623ea4dacf9729b86c34f4, type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629556067798538763, guid: c480c8e036623ea4dacf9729b86c34f4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629556067798538763, guid: c480c8e036623ea4dacf9729b86c34f4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629556067798538763, guid: c480c8e036623ea4dacf9729b86c34f4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629556067798538763, guid: c480c8e036623ea4dacf9729b86c34f4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629556067798538763, guid: c480c8e036623ea4dacf9729b86c34f4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629556067798538763, guid: c480c8e036623ea4dacf9729b86c34f4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629556067798538763, guid: c480c8e036623ea4dacf9729b86c34f4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629556067798538763, guid: c480c8e036623ea4dacf9729b86c34f4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629556067798538763, guid: c480c8e036623ea4dacf9729b86c34f4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629556067798538763, guid: c480c8e036623ea4dacf9729b86c34f4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629556067798538764, guid: c480c8e036623ea4dacf9729b86c34f4, type: 3}
+      propertyPath: m_Name
+      value: UIClickSound
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c480c8e036623ea4dacf9729b86c34f4, type: 3}
+--- !u!114 &980317699543689018 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2629556067798538762, guid: c480c8e036623ea4dacf9729b86c34f4, type: 3}
+  m_PrefabInstance: {fileID: 3018755968571718960}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a629f31ab101424a90ee47da91405f21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &980317699543689019 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2629556067798538763, guid: c480c8e036623ea4dacf9729b86c34f4, type: 3}
+  m_PrefabInstance: {fileID: 3018755968571718960}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7577201222997305532
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 980317698687749862}
+    m_Modifications:
+    - target: {fileID: 7259074299216518374, guid: 4cddf2efaffbad24f8d2caf53c422e7a, type: 3}
+      propertyPath: m_Name
+      value: UIHoverSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 7259074299216518379, guid: 4cddf2efaffbad24f8d2caf53c422e7a, type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7259074299216518379, guid: 4cddf2efaffbad24f8d2caf53c422e7a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7259074299216518379, guid: 4cddf2efaffbad24f8d2caf53c422e7a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7259074299216518379, guid: 4cddf2efaffbad24f8d2caf53c422e7a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7259074299216518379, guid: 4cddf2efaffbad24f8d2caf53c422e7a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7259074299216518379, guid: 4cddf2efaffbad24f8d2caf53c422e7a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7259074299216518379, guid: 4cddf2efaffbad24f8d2caf53c422e7a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7259074299216518379, guid: 4cddf2efaffbad24f8d2caf53c422e7a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7259074299216518379, guid: 4cddf2efaffbad24f8d2caf53c422e7a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7259074299216518379, guid: 4cddf2efaffbad24f8d2caf53c422e7a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7259074299216518379, guid: 4cddf2efaffbad24f8d2caf53c422e7a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4cddf2efaffbad24f8d2caf53c422e7a, type: 3}
+--- !u!4 &980317698374186071 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7259074299216518379, guid: 4cddf2efaffbad24f8d2caf53c422e7a, type: 3}
+  m_PrefabInstance: {fileID: 7577201222997305532}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &980317698374186073 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7259074299216518373, guid: 4cddf2efaffbad24f8d2caf53c422e7a, type: 3}
+  m_PrefabInstance: {fileID: 7577201222997305532}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a629f31ab101424a90ee47da91405f21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

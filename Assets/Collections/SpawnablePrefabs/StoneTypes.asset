@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558a26f7282d4d9ca60deb356792690b, type: 3}
+  m_Name: StoneTypes
+  m_EditorClassIdentifier: 
+  _prefabs:
+  - _prefab: {fileID: 8112421562090100922, guid: c6c8066434172a94e86ff54237e156ff, type: 3}
+    spawnChance: 0.31713977
+  - _prefab: {fileID: 8112421562090100922, guid: 77a8e6edbd6d2094d98a43c4a4ec968d, type: 3}
+    spawnChance: 0.35256025
+  - _prefab: {fileID: 8112421562090100922, guid: 4f8e067b7fc3b654b99a57d3a08a2133, type: 3}
+    spawnChance: 0.30529997
+  - _prefab: {fileID: 8112421562090100922, guid: 5841cd8c7ec4927498f13e5e526121b4, type: 3}
+    spawnChance: 0.025
+  _spawnChanceCheck:
+  - 0.31713977
+  - 0.35256025
+  - 0.30529997
+  - 0.025
+  _sortedCumulativeSums:
+  - 0.31713977
+  - 0.6697
+  - 0.975
+  - 1

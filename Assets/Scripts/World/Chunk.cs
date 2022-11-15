@@ -8,8 +8,8 @@ namespace World
     {
         public Vector2Int chunkPosition;
 
-        public GameObject treePrefab;
-        public GameObject stonePrefab;
+        [SerializeField] private SpawnablePrefabCollection _treePrefabs;
+        [SerializeField] private SpawnablePrefabCollection _stonePrefabs;
 
         public void SpawnObjects()
         {
@@ -35,14 +35,19 @@ namespace World
                 if (treeSample < World.Instance.treeDensityThreshold && stoneSample < World.Instance.stoneDensityThreshold)
                 {
                     bool decider = Convert.ToBoolean(random.Next(0, 2));
-                    GameObject obj = decider ? stonePrefab : treePrefab;
+                    GameObject obj = decider ? _stonePrefabs.GetRandom(randomPositioner) : _treePrefabs.GetRandom(randomPositioner);
                     InstantiatePrefabRandomized(obj, new Vector3(x, 0, y), randomPositioner);
                     continue;
                 }
 
                 if (treeSample < World.Instance.treeDensityThreshold)
-                    InstantiatePrefabRandomized(treePrefab, new Vector3(x, 0, y), randomPositioner);
-                else if (stoneSample < World.Instance.stoneDensityThreshold) InstantiatePrefabRandomized(stonePrefab, new Vector3(x, 0, y), randomPositioner);
+                {
+                    InstantiatePrefabRandomized(_treePrefabs.GetRandom(randomPositioner), new Vector3(x, 0, y), randomPositioner);
+                }
+                else if (stoneSample < World.Instance.stoneDensityThreshold)
+                {
+                    InstantiatePrefabRandomized(_stonePrefabs.GetRandom(randomPositioner), new Vector3(x, 0, y), randomPositioner);
+                }
             }
         }
 
@@ -60,8 +65,8 @@ namespace World
             GameObject obj = Instantiate(prefab, parentPos + localPosition + randomOffset, randomRotation);
             obj.transform.SetParent(transform);
             Destroyable destroyable = obj.GetComponentInChildren<Destroyable>();
-            destroyable.chunkPosition = chunkPosition;
-            destroyable.positionInChunk = new Vector2Int((int)localPosition.x, (int)localPosition.z);
+            destroyable.ChunkPosition = chunkPosition;
+            destroyable.PositionInChunk = new Vector2Int((int)localPosition.x, (int)localPosition.z);
         }
     }
 }

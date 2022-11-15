@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Environment;
@@ -14,8 +13,16 @@ namespace World
     {
         public const int CHUNK_SIZE = 30;
         private static World _instance;
-
+        public static World Instance {
+            get {
+                if (_instance == null) _instance = (World)FindObjectOfType(typeof(World));
+                return _instance;
+            }
+        }
+        
         [SerializeField] private Transform _player;
+        [SerializeField] private int _chunkLoadingRadius = 3;
+        [SerializeField] private int _chunkHalfLoadingRadius = 5;
         [SerializeField] private GameObject _chunkPrefab;
 
         public int seed;
@@ -26,13 +33,6 @@ namespace World
         public int placedSegments;
         private List<GameObject> _halfLoadedChunks;
         private List<GameObject> _loadedChunks;
-
-        public static World Instance {
-            get {
-                if (_instance == null) _instance = (World)FindObjectOfType(typeof(World));
-                return _instance;
-            }
-        }
 
         private void OnDrawGizmos()
         {
@@ -55,6 +55,7 @@ namespace World
 
         private void Awake()
         {
+            seed = Random.Range(1, 1000000);
             _loadedChunks = new List<GameObject>();
             _halfLoadedChunks = new List<GameObject>();
             InvokeRepeating(nameof(UpdateChunks), 0f, 0.2f); // update chunks every .2 seconds
@@ -68,9 +69,9 @@ namespace World
             var chunksToBeHalfLoaded = new List<Vector2Int>();
 
             // get chunks around player
-            for (int y = -3; y <= 3; y++)
+            for (int y = -_chunkLoadingRadius; y <= _chunkLoadingRadius; y++)
             { 
-                for (int x = -3; x <= 3; x++)
+                for (int x = -_chunkLoadingRadius; x <= _chunkLoadingRadius; x++)
                 { 
                     chunksToBeLoaded.Add(new Vector2Int(playerChunkPosition.x + x, playerChunkPosition.y + y));
                 }
@@ -107,9 +108,9 @@ namespace World
             }
 
             // load bigger radius of chunks without instantiating objects
-            for (int y = -5; y <= 5; y++)
+            for (int y = -_chunkHalfLoadingRadius; y <= _chunkHalfLoadingRadius; y++)
             {
-                for (int x = -5; x <= 5; x++)
+                for (int x = -_chunkHalfLoadingRadius; x <= _chunkHalfLoadingRadius; x++)
                 {
                     chunksToBeHalfLoaded.Add(new Vector2Int(playerChunkPosition.x + x, playerChunkPosition.y + y));
                 }
@@ -172,9 +173,9 @@ namespace World
 
         public void SaveData(ref GameData data)
         {
-            data.seed = seed;
-            data.treeDensityThreshold = treeDensityThreshold;
-            data.stoneDensityThreshold = stoneDensityThreshold;
+            data.seed = data.seed != 0 ? data.seed : seed;
+            data.treeDensityThreshold = data.treeDensityThreshold != 0 ? data.treeDensityThreshold : treeDensityThreshold;
+            data.stoneDensityThreshold = data.stoneDensityThreshold != 0 ? data.stoneDensityThreshold : stoneDensityThreshold;
             data.placedSegments = placedSegments;
             data.worldAlterations.Clear();
             

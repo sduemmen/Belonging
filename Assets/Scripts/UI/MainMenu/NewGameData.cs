@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Audio;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,8 @@ namespace UI.MainMenu
         public TextMeshProUGUI stoneDensityLabel;
         public Toggle unlockAllToggle;
         public RawImage previewImage;
+        private int _previewImageWidth;
+        private int _previewImageHeight;
 
         public string gameName = "New World";
         public Vector3 playerSpawnPosition = Vector3.zero;
@@ -26,6 +29,11 @@ namespace UI.MainMenu
         public float treeDensityThreshold = .4f;
         public float stoneDensityThreshold = .4f;
         public bool unlockAll;
+        
+        [SerializeField] private Color _stoneColor = Color.gray;
+        [SerializeField] private Color _treeColor = new Color(.23f, .45f, .28f, 1);
+        [SerializeField] private Color _backgroundColor = new Color(.1f, .1f, .1f, .5f);
+        [SerializeField] private Color _playerSpawnPointColor = new Color(.8f, .4f, .4f);
 
         private void Awake()
         {
@@ -42,6 +50,12 @@ namespace UI.MainMenu
             treeDensitySlider.minValue = .2f;
             treeDensitySlider.maxValue = .8f;
             treeDensitySlider.onValueChanged.AddListener(value => {
+                if ((treeDensityThreshold < .4f && value >= .4f) || (treeDensityThreshold > .4f && value <= .4f) ||
+                    (treeDensityThreshold < .6f && value >= .6f) || (treeDensityThreshold > .6f && value <= .6f))
+                {
+                    AudioController.Instance.PlayAudio("UIHoverSound");
+                }
+                
                 treeDensityThreshold = value;
                 string text = "";
                 if (value < .4f)
@@ -58,6 +72,12 @@ namespace UI.MainMenu
             stoneDensitySlider.minValue = .2f;
             stoneDensitySlider.maxValue = .8f;
             stoneDensitySlider.onValueChanged.AddListener(value => {
+                if ((stoneDensityThreshold < .4f && value >= .4f) || (stoneDensityThreshold > .4f && value <= .4f) ||
+                    (stoneDensityThreshold < .6f && value >= .6f) || (stoneDensityThreshold > .6f && value <= .6f))
+                {
+                    AudioController.Instance.PlayAudio("UIHoverSound");
+                }
+                
                 stoneDensityThreshold = value;
                 string text = "";
                 if (value < .4f)
@@ -72,6 +92,21 @@ namespace UI.MainMenu
             stoneDensitySlider.value = stoneDensityThreshold;
 
             unlockAllToggle.onValueChanged.AddListener(value => unlockAll = value);
+
+            Rect rect = previewImage.rectTransform.rect;
+
+            _previewImageWidth = (int)rect.width;
+            _previewImageHeight = (int)rect.height;
+            
+            if (previewImage.texture == null)
+            {
+                Texture2D texture2D = new Texture2D(_previewImageWidth, _previewImageHeight) {
+                    wrapMode = TextureWrapMode.Clamp,
+                    filterMode = FilterMode.Point,
+                };
+
+                previewImage.texture = texture2D;
+            }
         }
 
         private void OnDestroy()
@@ -99,17 +134,15 @@ namespace UI.MainMenu
 
         public void GeneratePreviewImage()
         {
-            if (seed == 0) GenerateNewSeed();
-            Rect rect = previewImage.rectTransform.rect;
-            int width = (int)rect.width / 2;
-            int height = (int)rect.height / 2;
+            if (seed == 0)
+            {
+                GenerateNewSeed();
+            }
+            
+            int width = _previewImageWidth / 2;
+            int height = _previewImageHeight / 2;
 
-            Texture2D texture2D = new Texture2D(width, height) {
-                wrapMode = TextureWrapMode.Clamp,
-                filterMode = FilterMode.Point
-            };
-
-            previewImage.texture = texture2D;
+            Texture2D previewTexture = (Texture2D)previewImage.texture;
 
             Random random = new Random(seed);
             float xOffset = random.Next(-10000, 10000);
@@ -119,27 +152,35 @@ namespace UI.MainMenu
 
             // draw stones and trees to preview image
             for (int py = 0; py < height; py++)
-            for (int px = 0; px < width; px++)
             {
-                float treeSample = WorldGenerator.SamplePerlin2d(px, py, xOffset, yOffset);
-                float stoneSample = WorldGenerator.SamplePerlin2d(px + 1000, py + 1000, xOffset, yOffset);
-                treeSamples[px, py] = treeSample;
-                stoneSamples[px, py] = stoneSample;
-
-                if (treeSample < treeDensityThreshold && stoneSample < stoneDensityThreshold)
+                for (int px = 0; px < width; px++)
                 {
-                    bool decider = Convert.ToBoolean(random.Next(0, 2));
-                    Color color = decider ? Color.grey : new Color(.23f, .45f, .28f, 1);
-                    texture2D.SetPixel(px, py, color);
-                    continue;
-                }
+                    float treeSample = WorldGenerator.SamplePerlin2d(px, py, xOffset, yOffset);
+                    float stoneSample = WorldGenerator.SamplePerlin2d(px + 1000, py + 1000, xOffset, yOffset);
+                    treeSamples[px, py] = treeSample;
+                    stoneSamples[px, py] = stoneSample;
 
-                if (treeSample < treeDensityThreshold)
-                    texture2D.SetPixel(px, py, new Color(.23f, .45f, .28f, 1));
-                else if (stoneSample < stoneDensityThreshold)
-                    texture2D.SetPixel(px, py, Color.gray);
-                else
-                    texture2D.SetPixel(px, py, Color.white);
+                    if (treeSample < treeDensityThreshold && stoneSample < stoneDensityThreshold)
+                    {
+                        bool decider = Convert.ToBoolean(random.Next(0, 2));
+                        Color color = decider ? _stoneColor : _treeColor;
+                        previewTexture.SetPixel(px, py, color);
+                        continue;
+                    }
+
+                    if (treeSample < treeDensityThreshold)
+                    {
+                        previewTexture.SetPixel(px, py, _treeColor);
+                    }
+                    else if (stoneSample < stoneDensityThreshold)
+                    {
+                        previewTexture.SetPixel(px, py, _stoneColor);
+                    }
+                    else
+                    {
+                        previewTexture.SetPixel(px, py, _backgroundColor);
+                    }
+                }
             }
 
             // find spawn position for player
@@ -194,10 +235,14 @@ namespace UI.MainMenu
             }
 
             for (int i = -1; i <= 1; i++)
-            for (int j = -1; j <= 1; j++)
-                texture2D.SetPixel((int)(playerSpawnPosition.x + i), (int)(playerSpawnPosition.z + j), Color.red);
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+                    previewTexture.SetPixel((int)(playerSpawnPosition.x + i), (int)(playerSpawnPosition.z + j), _playerSpawnPointColor);
+                }
+            }
 
-            texture2D.Apply();
+            previewTexture.Apply();
         }
     }
 }

@@ -24,6 +24,14 @@ namespace Utility
     public class DebugInformation : MonoBehaviour
     {
         private static DebugInformation _instance;
+        public static DebugInformation Instance {
+            get {
+                if (_instance == null)
+                    _instance = (DebugInformation)FindObjectOfType(typeof(DebugInformation));
+                return _instance;
+            }
+        }
+        
         public bool drawSnapPoints;
         public bool drawCurrentSnapPoint;
         public bool drawCollisionColliders;
@@ -44,14 +52,6 @@ namespace Utility
         
         private float deltaTime;
 
-        public static DebugInformation Instance {
-            get {
-                if (_instance == null)
-                    _instance = (DebugInformation)FindObjectOfType(typeof(DebugInformation));
-                return _instance;
-            }
-        }
-
         private void Update()
         {
             if (showFps)
@@ -62,7 +62,7 @@ namespace Utility
             }
             else
             {
-                fpsLabel.text = "";
+                if (fpsLabel != null) fpsLabel.text = "";
             }
 
 
@@ -88,12 +88,12 @@ namespace Utility
             }
             else
             {
-                gameFlagsLabel.text = "";
+                if (gameFlagsLabel != null) gameFlagsLabel.text = "";
             }
 
-            playerChunkPositionLabel.text = showPlayerChunkPosition ? Coordinates.GetChunkCoordinates(player.position.x, player.position.z).ToString() : "";
+            if (playerChunkPositionLabel != null) playerChunkPositionLabel.text = showPlayerChunkPosition ? Coordinates.GetChunkCoordinates(player.position.x, player.position.z).ToString() : "";
             
-            playerWorldPositionLabel.text = showPlayerWorldPosition ? player.position.ToString() : "";
+            if (playerWorldPositionLabel != null) playerWorldPositionLabel.text = showPlayerWorldPosition ? player.position.ToString() : "";
         }
 
         private static string GetColorString(bool b)

@@ -6,7 +6,7 @@ namespace World
     {
         [SerializeField] private RenderTexture rt;
         [SerializeField] private Transform target;
-
+        
         private void Awake()
         {
             Shader.SetGlobalTexture("_GlobalEffectRT", rt);

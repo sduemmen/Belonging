@@ -54,6 +54,11 @@ namespace BuildSystem.UI
                 ? FontStyles.Normal
                 : FontStyles.Strikethrough;
 
+            for (int i = _uiCostHolder.transform.childCount - 1; i >= 0; i--)
+            {
+                Destroy(_uiCostHolder.transform.GetChild(i).gameObject);
+            }
+            
             foreach (ItemStack buildCost in _buildCosts)
             {
                 UIInventorySlot slot = Instantiate(_slotPrefab, _uiCostHolder.transform);

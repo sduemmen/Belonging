@@ -54,11 +54,6 @@ namespace InventorySystem
             OnSlotClickedDelegate += OnSlotClicked;
         }
 
-        private void Awake()
-        {
-            Debug.Log(_playerInventory.InventorySlots[0]);
-        }
-
         private void OnSlotChanged(InventorySlot slot)
         {
             UIInventorySlot uiSlot = _uiInventorySlots[slot.Index];
@@ -80,14 +75,17 @@ namespace InventorySystem
             ItemObject mouseSlotItem = MouseInventory.Instance.assignedInventorySlot?.Item;
             int mouseSlotStackSize = MouseInventory.Instance.assignedInventorySlot?.StackSize ?? -1;
 
+            // Debug.Log(clickedSlotItem + " " + clickedSlotStackSize);
+            // Debug.Log(mouseSlotItem + " " + mouseSlotStackSize);
+            
             // check if slots are empty or equal
             bool clickedSlotIsEmpty = clickedSlot.IsEmpty();
             bool mouseSlotIsEmpty = MouseInventory.Instance.assignedInventorySlot?.IsEmpty() ?? true;
             bool slotContentsAreEqual = clickedSlotItem == mouseSlotItem;
 
-            
             if (!clickedSlotIsEmpty && mouseSlotIsEmpty)
             {
+                Debug.Log("Taking from slot");
                 // take from clicked slot
                 _playerInventory.InventorySlots[clickedSlotIndex].ClearSlot();
                 
@@ -96,6 +94,7 @@ namespace InventorySystem
             }
             else if (clickedSlotIsEmpty && !mouseSlotIsEmpty)
             {
+                Debug.Log("Placing on slot");
                 // place on clicked slot
                 _playerInventory.InventorySlots[clickedSlotIndex] = new InventorySlot(mouseSlotItem, mouseSlotStackSize, clickedSlotIndex);
                 
@@ -106,6 +105,7 @@ namespace InventorySystem
             {
                 if (slotContentsAreEqual)
                 {
+                    Debug.Log("Filling slot");
                     // fill up slot
                     _playerInventory.InventorySlots[clickedSlotIndex].AddToStack(mouseSlotStackSize, out int remainingAmount);
 
@@ -114,9 +114,12 @@ namespace InventorySystem
                 }
                 else
                 {
+                    Debug.Log("Swapping slots");
                     // swap slots
-                    newMouseInventorySlot = _playerInventory.InventorySlots[clickedSlotIndex];
-                    newUIInventorySlot = MouseInventory.Instance.assignedInventorySlot;
+                    _playerInventory.InventorySlots[clickedSlotIndex] = new InventorySlot(mouseSlotItem, mouseSlotStackSize, clickedSlotIndex);
+
+                    newMouseInventorySlot = new InventorySlot(clickedSlotItem, clickedSlotStackSize);
+                    newUIInventorySlot = new InventorySlot(mouseSlotItem, mouseSlotStackSize, clickedSlotIndex);
                 }
             }
             
@@ -128,6 +131,9 @@ namespace InventorySystem
         {
             _displayContextActive = true;
             _uiInventoryDisplayContext.SetActive(true);
+            
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
 
         public void HideDisplayContext()
@@ -136,6 +142,9 @@ namespace InventorySystem
             _uiInventoryDisplayContext.SetActive(false);
             MouseInventory.Instance.OnCloseInventory();
             MouseTooltip.Instance.Hide();
+
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
         
         public override void LoadData(GameData data)

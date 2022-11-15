@@ -15,6 +15,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Sprint",
+                    "type": "Button",
+                    "id": "6d9b3273-a8b5-4b8d-853d-5a15b8553b43",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=0.01,pressPoint=0.02)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "InventoryDisplayContext",
                     "type": "Button",
                     "id": "0cb7e908-d3df-474d-b44b-ebfae14d0de1",
@@ -52,12 +61,12 @@
                 },
                 {
                     "name": "Action",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "efc313ed-af05-4ecc-8800-f1a12dfcccef",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "CancelAction",
@@ -102,6 +111,24 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PauseGame",
+                    "type": "Button",
+                    "id": "21ad3c05-73d1-413d-b730-b326482e75ac",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HoldAction",
+                    "type": "Button",
+                    "id": "4e8822c4-05e2-4718-9bec-b1a8a3d44a3a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
                     "initialStateCheck": false
                 }
             ],
@@ -268,6 +295,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "QuestDisplayContext",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "35beec9b-0d63-4934-b91e-cab5ba962cd6",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "43616d91-f294-4f80-be12-880aff922ba2",
+                    "path": "<Keyboard>/capsLock",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e72224b7-b438-419e-8b7c-38c01b791cfd",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HoldAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

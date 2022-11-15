@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Audio;
 using Events.Events;
 using InventorySystem.Items;
 using Sirenix.OdinInspector;
@@ -87,6 +88,7 @@ namespace InventorySystem
 
             OnSlotChangedDelegate?.Invoke(slot);
             HintDisplay.Instance.AddHint($"Collected {item.DisplayName}", true);
+            AudioController.Instance.PlayAudio("ItemCollected");
         }
 
         public bool AddItem(ItemObject itemToAdd, int amountToAdd, bool wasDroppedByPlayer)

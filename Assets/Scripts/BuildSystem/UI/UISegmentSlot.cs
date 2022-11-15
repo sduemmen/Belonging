@@ -42,11 +42,10 @@ namespace BuildSystem.UI
         {
             if (tooltip.GetType() != typeof(BuildCostTooltip))
             {
-                throw new ArgumentException($"Tooltip is of type \"{tooltip.GetType()}\". Expected \"BuildCostTooltip\"");
+                throw new ArgumentException($"Tooltip is of type \"{tooltip.GetType()}\". Expected \"{typeof(BuildCostTooltip)}\"");
             }
 
-            BuildCostTooltip buildCostTooltip = (BuildCostTooltip)tooltip;
-            buildCostTooltip.Initialize(_segmentName, _buildCosts);
+            ((BuildCostTooltip)tooltip).Initialize(_segmentName, _buildCosts);
         }
     }
 }

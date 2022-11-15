@@ -58,6 +58,7 @@ namespace BuildSystem
         private List<UISegmentSlot> _uiSegmentSlots;
         private bool _displayContextActive;
 
+        [SerializeField, TitleGroup("Internal")] private Transform _player;
         [SerializeField, TitleGroup("Internal")] private float _maxBuildingDistance;
         [SerializeField, TitleGroup("Internal")] private LayerMask _buildModeLayerMask;
         private GameObject _buildingPreviewObject;
@@ -92,7 +93,6 @@ namespace BuildSystem
             }
             
             OnSegmentSlotClickedDelegate += OnSegmentSlotClicked;
-            OnSegmentUnlockedDelegate += OnSegmentUnlocked;
 
             _camera = Camera.main;
             _selectedSegment = null;
@@ -102,15 +102,16 @@ namespace BuildSystem
         {
             if (!GameFlags.HAMMER_EQUIPPED || _buildingPreviewObject == null) return;
 
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            
             Destroyable segment = _buildingPreviewObject.GetComponent<Destroyable>();
             SegmentPreview preview = _buildingPreviewObject.GetComponent<SegmentPreview>();
-            
-            Debug.Log(preview.canBePlaced);
 
-            bool mouseOutOfRange = (transform.position - segment.transform.position).magnitude > _maxBuildingDistance;
+            bool mouseOutOfRange = (_player.position - segment.transform.position).magnitude > _maxBuildingDistance;
             bool costIsAffordable = true;
 
-            foreach (ItemStack buildCost in segment.itemDrops)
+            foreach (ItemStack buildCost in segment.ItemDrops)
             {
                 if (!InventoryController.Instance.PlayerInventory.Contains(buildCost.Item, buildCost.Amount))
                 {
@@ -147,17 +148,17 @@ namespace BuildSystem
             if (Raycast.GetMouseRayHit(_camera, layerMask, out RaycastHit raycastHit, 60))
             {
                 bool snapTypeEqualToSegmentType = raycastHit.transform.gameObject.layer.Equals(previewSegmentLayer);
-                bool snappingPointChanged = segment.isSnapped && _currentSnappingPoint != raycastHit.collider.bounds.center && snapTypeEqualToSegmentType;
+                bool snappingPointChanged = segment.IsSnapped && _currentSnappingPoint != raycastHit.collider.bounds.center && snapTypeEqualToSegmentType;
 
-                if ((!segment.isSnapped || snappingPointChanged) && snapTypeEqualToSegmentType)
+                if ((!segment.IsSnapped || snappingPointChanged) && snapTypeEqualToSegmentType)
                 {
-                    segment.isSnapped = true;
+                    segment.IsSnapped = true;
                     _currentSnappingPoint = raycastHit.collider.bounds.center;
                     _buildingPreviewObject.transform.position = raycastHit.transform.position;
                 }
                 else if (!snapTypeEqualToSegmentType)
                 {
-                    segment.isSnapped = false;
+                    segment.IsSnapped = false;
                     _buildingPreviewObject.transform.position = raycastHit.point;
                 }
             }
@@ -185,7 +186,7 @@ namespace BuildSystem
                 World.World.Instance.placedSegments += 1;
                 Destroyable segment = segmentObj.GetComponent<Destroyable>();
 
-                foreach (ItemStack buildCost in segment.itemDrops)
+                foreach (ItemStack buildCost in segment.ItemDrops)
                 {
                     if (InventoryController.Instance.PlayerInventory.Contains(buildCost.Item, buildCost.Amount))
                     {
@@ -209,12 +210,12 @@ namespace BuildSystem
             GameObject newSelectedSegment = Resources.Load<GameObject>($"Prefabs/Models/World/{clickedSlot.SegmentName}");
             _selectedSegment = newSelectedSegment;
             _buildingPreviewObject = Instantiate(newSelectedSegment);
-            _buildingPreviewObject.GetComponent<Destroyable>().isPlaced = false;
+            _buildingPreviewObject.GetComponent<Destroyable>().IsPlaced = false;
 
             HideDisplayContext();
         }
 
-        private void OnSegmentUnlocked(string segmentName)
+        public void OnSegmentUnlocked(string segmentName)
         {
             foreach (SegmentUnlockData unlockData in _segmentUnlockData)
             {
@@ -224,7 +225,9 @@ namespace BuildSystem
                     _uiSegmentSlots.Find(slot => slot.SegmentName == segmentName).OnSegmentUnlocked();
                     Debug.Log("Unlocked " + segmentName);
                 }
-            }  
+            }
+            
+            OnSegmentUnlockedDelegate?.Invoke(segmentName);
         }
 
         public bool IsSegmentUnlocked(string segmentName)
@@ -242,6 +245,9 @@ namespace BuildSystem
         {
             _displayContextActive = true;
             _uiBuildMenuDisplayContext.SetActive(true);
+
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
 
         public void HideDisplayContext()
@@ -249,6 +255,9 @@ namespace BuildSystem
             _displayContextActive = false;
             _uiBuildMenuDisplayContext.SetActive(false);
             MouseTooltip.Instance.Hide();
+            
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
         
         public override void LoadData(GameData data)

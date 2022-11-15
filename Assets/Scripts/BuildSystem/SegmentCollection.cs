@@ -32,9 +32,9 @@ namespace BuildSystem
         {
             foreach (Segment segment in _segments)
             {
-                if (segment.Prefab.GetComponent<Destroyable>().itemDrops != segment.BuildCosts) 
+                if (segment.Prefab.GetComponent<Destroyable>().ItemDrops != segment.BuildCosts) 
                 {
-                    segment.Prefab.GetComponent<Destroyable>().itemDrops = segment.BuildCosts;
+                    segment.Prefab.GetComponent<Destroyable>().ItemDrops = segment.BuildCosts;
                     EditorUtility.SetDirty(segment.Prefab);
                     Debug.Log($"set up item drops on {segment.Name}");
                 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using QuestSystem.QuestBehaviours;
 using QuestSystem.QuestCompletionBehaviours;
 using Sirenix.OdinInspector;
+using UI;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -34,11 +35,18 @@ namespace QuestSystem
         [Button("Complete Quest")]
         public void OnComplete()
         {
+            if (completed) return;
+            
             completed = true;
 
             OnCompleteQuestCallback?.Invoke();
 
-            foreach (QuestCompletionBehaviour completionBehaviour in completionBehaviours) completionBehaviour.OnComplete();
+            foreach (QuestCompletionBehaviour completionBehaviour in completionBehaviours)
+            {
+                completionBehaviour.OnComplete();
+            }
+            
+            HintDisplay.Instance.AddHint($"You have unlocked a new Segment", new Color(.9f, .8f, .4f));
         }
 
         [PropertyOrder(5)]
@@ -48,7 +56,9 @@ namespace QuestSystem
             completed = false;
 
             if (questBehaviour != null)
+            {
                 questBehaviour.Reset();
+            }
         }
 
         public void Initialize()
@@ -57,16 +67,23 @@ namespace QuestSystem
 
             questBehaviour.OnComplete += OnComplete;
 
-            foreach (QuestCompletionBehaviour completionBehaviour in completionBehaviours) questBehaviour.OnComplete += completionBehaviour.OnComplete;
+            foreach (QuestCompletionBehaviour completionBehaviour in completionBehaviours)
+            {
+                questBehaviour.OnComplete += completionBehaviour.OnComplete;
+            }
 
             if (questBehaviour.GetType() == typeof(GatheringBehaviour))
             {
                 GatheringBehaviour gatheringBehaviour = (GatheringBehaviour)questBehaviour;
 
                 if (gatheringBehaviour.useDynamicIncrement)
+                {
                     gatheringBehaviour.dynamicProgressEvent.callback += gatheringBehaviour.Progress;
+                }
                 else
+                {
                     gatheringBehaviour.staticProgressEvent.callback += gatheringBehaviour.Progress;
+                }
             }
 
             questBehaviour.OnUpdate();

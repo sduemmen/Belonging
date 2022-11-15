@@ -85,6 +85,11 @@ namespace InventorySystem
         {
             for (int i = 0; i < assignedInventorySlot.StackSize; i++)
             {
+                if (assignedInventorySlot.Item.GetType() != typeof(MaterialItemObject))
+                {
+                    break;
+                }
+                
                 MaterialItemObject materialItem = (MaterialItemObject)assignedInventorySlot.Item;
                 GameObject item = Instantiate(materialItem.Prefab, player.position + new Vector3(Random.Range(-.5f, .5f), Random.Range(.2f, .5f), Random.Range(-.5f, .5f)), Quaternion.identity);
                 item.GetComponent<Pickupable>().Initialize(pickupDelay, true);

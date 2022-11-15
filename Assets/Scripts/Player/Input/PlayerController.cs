@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Utility;
 
@@ -7,6 +6,7 @@ namespace Player.Input
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private float _movementSpeed;
+        [SerializeField] private float _sprintSpeedFactor;
         [SerializeField] private float _rotationDamping;
 
         [SerializeField] private Transform _cameraTarget;
@@ -53,13 +53,28 @@ namespace Player.Input
             if (playerIsMoving)
             {
                 float speed = _movementSpeed * Time.fixedDeltaTime;
-                _characterController.SimpleMove(lookDirectionRotation * _characterController.transform.forward * speed);
-                _animator.ResetTrigger("Idle");
-                _animator.SetTrigger("Walking");
+                
+                if (InputController.SprintKeyHeldDown)
+                {
+                    speed *= _sprintSpeedFactor;
+                    _animator.ResetTrigger("Idle");
+                    _animator.ResetTrigger("Walking");
+                    _animator.SetTrigger("Running");
+                }
+                else
+                {
+                    _animator.ResetTrigger("Idle");
+                    _animator.ResetTrigger("Running");
+                    _animator.SetTrigger("Walking");
+                }
+                
+                Vector3 moveDirection = lookDirectionRotation * _characterController.transform.forward;
+                _characterController.SimpleMove(moveDirection * speed);
             }
             else
             {
                 _animator.ResetTrigger("Walking");
+                _animator.ResetTrigger("Running");
                 _animator.SetTrigger("Idle");
             }
         }

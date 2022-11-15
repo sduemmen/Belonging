@@ -47,10 +47,9 @@ namespace SaveSystem.Data
             playerRotation = Quaternion.identity;
             cameraRotation = Quaternion.Euler(40, 0, 0);
 
-            Random random = new Random();
-            seed = random.Next(100000, 100000000);
-            treeDensityThreshold = 0.8f;
-            stoneDensityThreshold = 0.2f;
+            seed = 0;
+            treeDensityThreshold = 0;
+            stoneDensityThreshold = 0;
             worldAlterations = new List<string>();
             persistentItems = new List<PersistentItemData>();
             persistentDestroyables = new List<PersistentDestroyableData>();

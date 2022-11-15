@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52563cd68f904339966f255dbd93a5c4, type: 3}
+  m_Name: StepAudioClips
+  m_EditorClassIdentifier: 
+  _name: Step
+  _audioClips:
+  - {fileID: 8300000, guid: c9383cfdb4134444eae32f16d36708fa, type: 3}
+  - {fileID: 8300000, guid: 4667d457d6c5ea34c866b41b249cc1ae, type: 3}
+  - {fileID: 8300000, guid: 467b08a87950bc847ac4bf32d422d723, type: 3}
+  - {fileID: 8300000, guid: 4a0b957d48c1b0c4bbb7ba407397ce69, type: 3}
+  - {fileID: 8300000, guid: 74e10bec5858ff94095b1e1297d6796f, type: 3}
+  - {fileID: 8300000, guid: ea3d63257d1395246babd3ba2be1728c, type: 3}
+  - {fileID: 8300000, guid: 3195c3aae26bf154ab0b6bf75319e6ff, type: 3}
+  - {fileID: 8300000, guid: 8164a47768be15d40980e06ed52c2034, type: 3}
+  - {fileID: 8300000, guid: 8a6a977a10ce7a44799a23c2882acbe9, type: 3}
+  - {fileID: 8300000, guid: 51acc727efce1a44480e4743a6585961, type: 3}
+  - {fileID: 8300000, guid: 58cbf9c0f73789644b9787c0cdd77cd5, type: 3}
+  - {fileID: 8300000, guid: 1ed4d8074a0d36746b626330138908cb, type: 3}
+  - {fileID: 8300000, guid: a27f4fcdfd5d5b140b9d943c1846e7dd, type: 3}

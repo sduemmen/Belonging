@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace UI.MouseHover
 {
@@ -18,6 +20,7 @@ namespace UI.MouseHover
         private static int _spaceBetweenCursor = 5;
         
         [SerializeField] private Tooltip _tooltipPrefab;
+        [SerializeField, Tooltip("The time until the tooltip is displayed in seconds")] private float _timeUntilDisplayed;
         [SerializeField] private bool _useCustomOffset;
         [SerializeField, ShowIf("_useCustomOffset")] private Vector3 _tooltipOffset;
         [SerializeField, ShowIf("_useCustomOffset")] private Vector3 _tooltipRotation;
@@ -25,17 +28,29 @@ namespace UI.MouseHover
         
         public void OnHoverEnter(Hoverable hoverable)
         {
-            Vector3 offset = _useCustomOffset ? _tooltipOffset : GetOffsetFromAlignment(_alignment, _tooltipPrefab.gameObject);
-            Vector3 rotation = _useCustomOffset ? _tooltipRotation : Vector3.zero;
-
-            Tooltip tooltipInstance = Instantiate(_tooltipPrefab, offset, Quaternion.Euler(rotation));
-            MouseTooltip.Instance.Show(tooltipInstance.gameObject);
-            hoverable.OnTooltipVisible(tooltipInstance);
+            hoverable.ActiveTooltip = hoverable.StartCoroutine(OnHoverEnterDelayed(hoverable));
         }
 
         public void OnHoverLeave(Hoverable hoverable)
         {
+            hoverable.StopCoroutine(hoverable.ActiveTooltip);
             MouseTooltip.Instance.Hide();
+        }
+
+        private IEnumerator OnHoverEnterDelayed(Hoverable hoverable)
+        {
+            yield return new WaitForSecondsRealtime(_timeUntilDisplayed);
+            
+            Tooltip tooltipInstance = Instantiate(_tooltipPrefab, Vector3.up * 10000, Quaternion.identity);
+            hoverable.OnTooltipVisible(tooltipInstance);
+            
+            Vector3 offset = _useCustomOffset ? _tooltipOffset : GetOffsetFromAlignment(_alignment, tooltipInstance.gameObject);
+            Vector3 rotation = _useCustomOffset ? _tooltipRotation : Vector3.zero;
+            
+            tooltipInstance.transform.position = offset;
+            tooltipInstance.transform.rotation = Quaternion.Euler(rotation);
+
+            MouseTooltip.Instance.Show(tooltipInstance.gameObject);
         }
 
         private static Vector3 GetOffsetFromAlignment(TooltipAlignment alignment, GameObject tooltip)
@@ -43,7 +58,7 @@ namespace UI.MouseHover
             Rect rect = ((RectTransform)tooltip.transform).rect;
             float widthOffset = rect.width / 2;
             float heightOffset = rect.height / 2;
-            
+
             switch (alignment)
             {
                 case TooltipAlignment.TopLeft:

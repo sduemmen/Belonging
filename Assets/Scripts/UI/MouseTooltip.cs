@@ -28,7 +28,9 @@ namespace UI
 
         public void Show(GameObject tooltip)
         {
-            tooltip.transform.SetParent(transform, false);
+            Transform t = transform;
+            t.position = Mouse.current.position.ReadValue();
+            tooltip.transform.SetParent(t, false);
             visible = true;
         }
 

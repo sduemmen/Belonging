@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Audio;
 using BuildSystem;
 using InventorySystem.Items;
 using SaveSystem;
@@ -14,45 +15,99 @@ namespace World
     [Serializable]
     public class Destroyable : MonoBehaviour, IDataPersistence
     {
-        [SerializeField] private string prefabName;
-        [SerializeField] private int health;
-        [SerializeField] private bool wasBuiltByPlayer;
-        [SerializeField] public List<GameObject> objectsToBeDeactivatedOnDestroy;
-        public Outline outline;
+        [SerializeField, TitleGroup("General Settings")] private string _prefabName;
+        [SerializeField, TitleGroup("General Settings")] private bool _builtByPlayer;
+        [SerializeField, TitleGroup("General Settings")] private List<Collider> _collisionCollider;
+        private Vector2Int _chunkPosition;
+        private Vector2Int _positionInChunk;
+        private bool _isPlaced = true;
+        private bool _isSnapped;
 
-        public List<ItemStack> itemDrops;
-        public ToolItemObject requiredTool;
-        public GameObject colliders;
-        public Vector2Int chunkPosition;
-        public Vector2Int positionInChunk;
-        public bool isPlaced = true;
-        public bool isSnapped;
+        [SerializeField, TitleGroup("Interaction")] private ToolItemObject _requiredTool;
+        [SerializeField, TitleGroup("Interaction")] private int _health;
+        [SerializeField, TitleGroup("Interaction")] private List<ItemStack> _itemDrops;
+        [SerializeField, TitleGroup("Interaction")] private List<GameObject> _objectsToBeDeactivatedOnDestroy;
+        [SerializeField, TitleGroup("Interaction")] private ParticleSystem _hitParticles;
+        [Space(20)]
+        [SerializeField, TitleGroup("Interaction")] private AudioClipCollection _audioClipCollection;
+        [SerializeField, TitleGroup("Interaction")] private AudioClip _destructionAudioClip;
+        [SerializeField, TitleGroup("Interaction")] private AudioSource _audioSource;
+        [Space(20)]
+        [SerializeField, TitleGroup("Interaction")] private Outline _outline;
+        [Space(20)]
+        [SerializeField, TitleGroup("Interaction")] private GameObject _segmentColliders;
 
-        private ParticleSystem hitParticles;
+        public Vector2Int ChunkPosition {
+            get => _chunkPosition;
+            set => _chunkPosition = value;
+        }
+
+        public Vector2Int PositionInChunk {
+            get => _positionInChunk;
+            set => _positionInChunk = value;
+        }
+
+        public bool IsPlaced {
+            get => _isPlaced;
+            set => _isPlaced = value;
+        }
+
+        public bool IsSnapped {
+            get => _isSnapped;
+            set => _isSnapped = value;
+        }
+
+        public ToolItemObject RequiredTool => _requiredTool;
+
+        public List<ItemStack> ItemDrops {
+            get => _itemDrops;
+            set => _itemDrops = value;
+        }
+
+        public Outline Outline => _outline;
+        public GameObject SegmentColliders => _segmentColliders;
 
         private void Awake()
         {
-            hitParticles = GetComponentInChildren<ParticleSystem>();
-            hitParticles.Pause();
+            _hitParticles.Pause();
         }
 
-        public void LoadData(GameData data)
+        [Button("Initialize References"), PropertyOrder(-1)]
+        private void InitializeReferences()
         {
-            if (wasBuiltByPlayer) Destroy(gameObject);
-        }
+            _objectsToBeDeactivatedOnDestroy.Clear();
+            _collisionCollider.Clear();
+            
+            _prefabName = gameObject.name;
+            _hitParticles = GetComponentInChildren<ParticleSystem>();
+            _audioSource = GetComponent<AudioSource>();
 
-        public void SaveData(ref GameData data)
-        {
-            if (!wasBuiltByPlayer || GetComponent<SegmentPreview>() != null) return;
-            Transform t = GetComponent<Transform>();
-            PersistentDestroyableData persistentData = new PersistentDestroyableData(t.position, t.rotation, prefabName);
-            data.persistentDestroyables.Add(persistentData);
-        }
+            if (_audioSource == null)
+            {
+                _audioSource = this.gameObject.AddComponent<AudioSource>();
+            }
 
-        [Button("Set Prefab Name")]
-        private void SetPrefabName()
-        {
-            prefabName = gameObject.name;
+            _audioSource.playOnAwake = false;
+            _audioSource.spatialBlend = 1f;
+            
+            _outline = GetComponentInChildren<Outline>();
+
+            foreach (Transform child in transform)
+            {
+                if (child.name.Contains("Colliders"))
+                {
+                    _segmentColliders = child.gameObject;
+                }
+                else
+                {
+                    if (child.TryGetComponent(out Collider c))
+                    {
+                        _collisionCollider.Add(c);
+                    }
+                }
+            }
+            
+            _objectsToBeDeactivatedOnDestroy.Add(transform.GetChild(0).gameObject);
         }
 
         public void OnClick(Vector3 playerPosition, RaycastHit hitResult)
@@ -63,21 +118,27 @@ namespace World
             float randomOffset1 = Random.Range(1f, 2f);
             float randomOffset2 = Random.Range(1f, 2f);
 
-            ParticleSystem.VelocityOverLifetimeModule hitParticlesVelocityOverLifetime = hitParticles.velocityOverLifetime;
+            ParticleSystem.VelocityOverLifetimeModule hitParticlesVelocityOverLifetime = _hitParticles.velocityOverLifetime;
             hitParticlesVelocityOverLifetime.x = new ParticleSystem.MinMaxCurve(diff.x - randomOffset1, diff.x + randomOffset2);
             hitParticlesVelocityOverLifetime.z = new ParticleSystem.MinMaxCurve(diff.z - randomOffset2, diff.z + randomOffset1);
 
-            if (wasBuiltByPlayer)
+            _hitParticles.transform.position = hitResult.point;
+            int particleCount = Random.Range(10, 20);
+            _hitParticles.Emit(particleCount);
+            
+            _health--;
+            
+            if (_audioClipCollection != null)
             {
-                Vector3 hitPosition = hitResult.point - position;
-                ParticleSystem.ShapeModule shape = hitParticles.shape;
-                // shape.position = transform.rotation * hitPosition;
-                shape.position = hitPosition;
+                _audioSource.PlayOneShot(_audioClipCollection.GetRandom());
+                
+                if (_health <= 0)
+                {
+                    _audioSource.PlayOneShot(_destructionAudioClip);
+                }
             }
-
-            hitParticles.Emit(20);
-            health--;
-            if (health <= 0)
+            
+            if (_health <= 0)
             {
                 OnHealthDepleted();
             }
@@ -85,7 +146,9 @@ namespace World
 
         private void OnHealthDepleted()
         {
-            foreach (ItemStack itemDrop in itemDrops)
+            
+            
+            foreach (ItemStack itemDrop in _itemDrops)
             {
                 for (int i = 0; i < itemDrop.Amount; i++)
                 {
@@ -94,13 +157,13 @@ namespace World
                 }
             }
 
-            if (wasBuiltByPlayer)
+            if (_builtByPlayer)
             {
                 World.Instance.placedSegments -= 1;
             }
             else
             {
-                World.Instance.worldAlterations.AddAlteration(chunkPosition.x, chunkPosition.y, positionInChunk.x, positionInChunk.y);
+                World.Instance.worldAlterations.AddAlteration(_chunkPosition.x, _chunkPosition.y, _positionInChunk.x, _positionInChunk.y);
             }
 
             StartCoroutine(DestroyAfterTime());
@@ -108,12 +171,36 @@ namespace World
 
         private IEnumerator DestroyAfterTime()
         {
-            foreach (GameObject obj in objectsToBeDeactivatedOnDestroy) obj.SetActive(false);
+            foreach (GameObject obj in _objectsToBeDeactivatedOnDestroy)
+            {
+                obj.SetActive(false);
+            }
 
-            transform.GetComponent<Collider>().enabled = false;
+            foreach (Collider c in _collisionCollider)
+            {
+                c.enabled = false;
+            }
+
+            if (_segmentColliders != null)
+            {
+                _segmentColliders.SetActive(false);
+            }
 
             yield return new WaitForSeconds(2);
             Destroy(gameObject);
+        }
+        
+        public void LoadData(GameData data)
+        {
+            if (_builtByPlayer) Destroy(gameObject);
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            if (!_builtByPlayer || GetComponent<SegmentPreview>() != null) return;
+            Transform t = GetComponent<Transform>();
+            PersistentDestroyableData persistentData = new PersistentDestroyableData(t.position, t.rotation, _prefabName);
+            data.persistentDestroyables.Add(persistentData);
         }
     }
 }

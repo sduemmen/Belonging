@@ -152,5 +152,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chunkPosition: {x: 0, y: 0}
-  treePrefab: {fileID: 376045377974415474, guid: 5ef02265c2cf008438ef3232987a704c, type: 3}
-  stonePrefab: {fileID: 8112421562090100922, guid: c6c8066434172a94e86ff54237e156ff, type: 3}
+  _treePrefabs: {fileID: 11400000, guid: c6fe702cb1169bc4aac00df2223f289d, type: 2}
+  _stonePrefabs: {fileID: 11400000, guid: f1ed45652ecca2d4b94c30b1eb9b6aae, type: 2}

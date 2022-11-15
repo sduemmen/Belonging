@@ -69,7 +69,6 @@ namespace QuestSystem.QuestBehaviours
 
         public void Progress()
         {
-            Debug.Log("static");
             current = progressBehaviour.GetNewProgress(current, progressAmount);
             OnUpdate();
             if (MathUtilities.Evaluate(completeCondition, current, target)) OnComplete?.Invoke();

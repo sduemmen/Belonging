@@ -37,6 +37,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""6d9b3273-a8b5-4b8d-853d-5a15b8553b43"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=0.01,pressPoint=0.02)"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""InventoryDisplayContext"",
                     ""type"": ""Button"",
                     ""id"": ""0cb7e908-d3df-474d-b44b-ebfae14d0de1"",
@@ -74,12 +83,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Action"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""efc313ed-af05-4ecc-8800-f1a12dfcccef"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""CancelAction"",
@@ -124,6 +133,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PauseGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""21ad3c05-73d1-413d-b730-b326482e75ac"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HoldAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""4e8822c4-05e2-4718-9bec-b1a8a3d44a3a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
                 }
             ],
@@ -292,6 +319,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""QuestDisplayContext"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""35beec9b-0d63-4934-b91e-cab5ba962cd6"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""43616d91-f294-4f80-be12-880aff922ba2"",
+                    ""path"": ""<Keyboard>/capsLock"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e72224b7-b438-419e-8b7c-38c01b791cfd"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HoldAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -349,6 +409,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         // Character
         m_Character = asset.FindActionMap("Character", throwIfNotFound: true);
         m_Character_Movement = m_Character.FindAction("Movement", throwIfNotFound: true);
+        m_Character_Sprint = m_Character.FindAction("Sprint", throwIfNotFound: true);
         m_Character_InventoryDisplayContext = m_Character.FindAction("InventoryDisplayContext", throwIfNotFound: true);
         m_Character_EquipSlot1 = m_Character.FindAction("EquipSlot1", throwIfNotFound: true);
         m_Character_EquipSlot2 = m_Character.FindAction("EquipSlot2", throwIfNotFound: true);
@@ -359,6 +420,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Character_RotateSegment = m_Character.FindAction("RotateSegment", throwIfNotFound: true);
         m_Character_MiddleMouseButton = m_Character.FindAction("MiddleMouseButton", throwIfNotFound: true);
         m_Character_QuestDisplayContext = m_Character.FindAction("QuestDisplayContext", throwIfNotFound: true);
+        m_Character_PauseGame = m_Character.FindAction("PauseGame", throwIfNotFound: true);
+        m_Character_HoldAction = m_Character.FindAction("HoldAction", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_MouseDelta = m_Camera.FindAction("MouseDelta", throwIfNotFound: true);
@@ -423,6 +486,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Character;
     private ICharacterActions m_CharacterActionsCallbackInterface;
     private readonly InputAction m_Character_Movement;
+    private readonly InputAction m_Character_Sprint;
     private readonly InputAction m_Character_InventoryDisplayContext;
     private readonly InputAction m_Character_EquipSlot1;
     private readonly InputAction m_Character_EquipSlot2;
@@ -433,11 +497,14 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Character_RotateSegment;
     private readonly InputAction m_Character_MiddleMouseButton;
     private readonly InputAction m_Character_QuestDisplayContext;
+    private readonly InputAction m_Character_PauseGame;
+    private readonly InputAction m_Character_HoldAction;
     public struct CharacterActions
     {
         private @PlayerControls m_Wrapper;
         public CharacterActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Character_Movement;
+        public InputAction @Sprint => m_Wrapper.m_Character_Sprint;
         public InputAction @InventoryDisplayContext => m_Wrapper.m_Character_InventoryDisplayContext;
         public InputAction @EquipSlot1 => m_Wrapper.m_Character_EquipSlot1;
         public InputAction @EquipSlot2 => m_Wrapper.m_Character_EquipSlot2;
@@ -448,6 +515,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @RotateSegment => m_Wrapper.m_Character_RotateSegment;
         public InputAction @MiddleMouseButton => m_Wrapper.m_Character_MiddleMouseButton;
         public InputAction @QuestDisplayContext => m_Wrapper.m_Character_QuestDisplayContext;
+        public InputAction @PauseGame => m_Wrapper.m_Character_PauseGame;
+        public InputAction @HoldAction => m_Wrapper.m_Character_HoldAction;
         public InputActionMap Get() { return m_Wrapper.m_Character; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -460,6 +529,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Movement.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnMovement;
+                @Sprint.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnSprint;
+                @Sprint.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnSprint;
+                @Sprint.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnSprint;
                 @InventoryDisplayContext.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnInventoryDisplayContext;
                 @InventoryDisplayContext.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnInventoryDisplayContext;
                 @InventoryDisplayContext.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnInventoryDisplayContext;
@@ -490,6 +562,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @QuestDisplayContext.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnQuestDisplayContext;
                 @QuestDisplayContext.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnQuestDisplayContext;
                 @QuestDisplayContext.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnQuestDisplayContext;
+                @PauseGame.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnPauseGame;
+                @PauseGame.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnPauseGame;
+                @PauseGame.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnPauseGame;
+                @HoldAction.started -= m_Wrapper.m_CharacterActionsCallbackInterface.OnHoldAction;
+                @HoldAction.performed -= m_Wrapper.m_CharacterActionsCallbackInterface.OnHoldAction;
+                @HoldAction.canceled -= m_Wrapper.m_CharacterActionsCallbackInterface.OnHoldAction;
             }
             m_Wrapper.m_CharacterActionsCallbackInterface = instance;
             if (instance != null)
@@ -497,6 +575,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Sprint.started += instance.OnSprint;
+                @Sprint.performed += instance.OnSprint;
+                @Sprint.canceled += instance.OnSprint;
                 @InventoryDisplayContext.started += instance.OnInventoryDisplayContext;
                 @InventoryDisplayContext.performed += instance.OnInventoryDisplayContext;
                 @InventoryDisplayContext.canceled += instance.OnInventoryDisplayContext;
@@ -527,6 +608,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @QuestDisplayContext.started += instance.OnQuestDisplayContext;
                 @QuestDisplayContext.performed += instance.OnQuestDisplayContext;
                 @QuestDisplayContext.canceled += instance.OnQuestDisplayContext;
+                @PauseGame.started += instance.OnPauseGame;
+                @PauseGame.performed += instance.OnPauseGame;
+                @PauseGame.canceled += instance.OnPauseGame;
+                @HoldAction.started += instance.OnHoldAction;
+                @HoldAction.performed += instance.OnHoldAction;
+                @HoldAction.canceled += instance.OnHoldAction;
             }
         }
     }
@@ -575,6 +662,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     public interface ICharacterActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
         void OnInventoryDisplayContext(InputAction.CallbackContext context);
         void OnEquipSlot1(InputAction.CallbackContext context);
         void OnEquipSlot2(InputAction.CallbackContext context);
@@ -585,6 +673,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnRotateSegment(InputAction.CallbackContext context);
         void OnMiddleMouseButton(InputAction.CallbackContext context);
         void OnQuestDisplayContext(InputAction.CallbackContext context);
+        void OnPauseGame(InputAction.CallbackContext context);
+        void OnHoldAction(InputAction.CallbackContext context);
     }
     public interface ICameraActions
     {

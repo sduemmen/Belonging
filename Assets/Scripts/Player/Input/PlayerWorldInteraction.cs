@@ -2,8 +2,8 @@
 using Flags;
 using InventorySystem;
 using InventorySystem.Items;
-using InventorySystem.UI;
 using UnityEngine;
+using UnityEngine.UI;
 using Utility;
 using World;
 
@@ -14,26 +14,33 @@ namespace Player.Input
         [SerializeField] private Transform _player;
         [SerializeField] private float _maxInteractionDistance;
         [SerializeField] private LayerMask _destroyablesLayerMask;
+        [SerializeField] private Slider _cooldownIndicator;
         private Camera _camera;
         private int _selectedSlotIndex = -1;
         private Destroyable _outlinedDestroyable;
         private SegmentPreview _outlinedSegment;
+        private float _cooldown;
 
         private void Awake()
         {
             _camera = Camera.main;
             _player = transform;
+            _cooldownIndicator.value = 0;
         }
 
         private void Update()
         {
+            _cooldown = Mathf.Max(_cooldown - 1 * Time.deltaTime, 0);
+            _cooldownIndicator.value = _cooldown;
+            _cooldownIndicator.gameObject.SetActive((GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED));
+            
             if ((GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) && Raycast.GetMouseRayHit(_camera, _destroyablesLayerMask, out RaycastHit hit, 40))
             {
                 Destroyable destroyableHoveredOver = hit.transform.GetComponentInParent<Destroyable>();
                 if (destroyableHoveredOver == null) return;
 
-                bool equippedToolMatchingRequiredTool = (destroyableHoveredOver.requiredTool.DisplayName == "Axe" && GameFlags.AXE_EQUIPPED) ||
-                                                        (destroyableHoveredOver.requiredTool.DisplayName == "Pickaxe" && GameFlags.PICKAXE_EQUIPPED);
+                bool equippedToolMatchingRequiredTool = (destroyableHoveredOver.RequiredTool.DisplayName == "Axe" && GameFlags.AXE_EQUIPPED) ||
+                                                        (destroyableHoveredOver.RequiredTool.DisplayName == "Pickaxe" && GameFlags.PICKAXE_EQUIPPED);
                 
                 if (equippedToolMatchingRequiredTool && destroyableHoveredOver != _outlinedDestroyable)
                 {
@@ -52,12 +59,12 @@ namespace Player.Input
                     }
                     else
                     {
-                        if (_outlinedDestroyable != null)
+                        if (_outlinedDestroyable != null && _outlinedDestroyable.Outline != null)
                         {
-                            _outlinedDestroyable.outline.enabled = false;
+                            _outlinedDestroyable.Outline.enabled = false;
                         }
                         
-                        destroyableHoveredOver.outline.enabled = true;
+                        destroyableHoveredOver.Outline.enabled = true;
                         _outlinedDestroyable = destroyableHoveredOver;
                     }
                 } 
@@ -86,7 +93,7 @@ namespace Player.Input
                 }
                 else
                 {
-                    _outlinedDestroyable.outline.enabled = false;
+                    _outlinedDestroyable.Outline.enabled = false;
                     _outlinedDestroyable = null;
                 }
             }
@@ -123,12 +130,13 @@ namespace Player.Input
 
         public void OnToolUsed()
         {
-            if (GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED)
+            if ((GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) && _cooldown <= 0)
             {
                 OnDestroyableClicked();
+                _cooldown = 1;
             }
 
-            if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED)
+            if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED && !InputController.LeftMouseButtonHeldDown)
             {
                 BuildingController.Instance.TryPlaceSegment();
             }
@@ -146,7 +154,7 @@ namespace Player.Input
             if (selectedTool == null) return;
 
             Destroyable destroyable = hitGameObject.GetComponentInParent<Destroyable>();
-            if (destroyable == null || selectedTool != destroyable.requiredTool) return;
+            if (destroyable == null || selectedTool != destroyable.RequiredTool) return;
             
             destroyable.OnClick(_player.position, hitResult);
         }

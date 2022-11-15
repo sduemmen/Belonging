@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52563cd68f904339966f255dbd93a5c4, type: 3}
+  m_Name: AxeAudioClips
+  m_EditorClassIdentifier: 
+  _name: Axe
+  _audioClips:
+  - {fileID: 8300000, guid: ed3b9bf6c562ea84bbd6624dc220c185, type: 3}
+  - {fileID: 8300000, guid: 2e6b672873be3d14f95e7ee9c59e4dbd, type: 3}
+  - {fileID: 8300000, guid: b13b57d137af2994696ecc6a6996705b, type: 3}
+  - {fileID: 8300000, guid: 63d7d929a4480b44abae9e7ebc793e5f, type: 3}
+  - {fileID: 8300000, guid: 5091d20bb5770764b80e88f9bb50c951, type: 3}
+  - {fileID: 8300000, guid: 1e957d52728152b4bab4fe32ee6d645e, type: 3}
+  - {fileID: 8300000, guid: e81e611f57de1234fb7ad70fe19e4563, type: 3}
+  - {fileID: 8300000, guid: a9bc6a65c4975df40b3955ee3fd804e2, type: 3}
+  - {fileID: 8300000, guid: ab09cf3d82a739745b5e51e17abc1978, type: 3}
+  - {fileID: 8300000, guid: 23e1733ffb34cb346aee9d79b8b8d691, type: 3}
+  - {fileID: 8300000, guid: f844809313413044eb7a403ff01703af, type: 3}
+  - {fileID: 8300000, guid: ccf9bb1ee6eccc54f838c6e75ad79691, type: 3}
+  - {fileID: 8300000, guid: c985541e5c2ead340ac17a42825c9143, type: 3}
+  - {fileID: 8300000, guid: 85f5e0b83e70cb14dbca21e89dd0d6fd, type: 3}

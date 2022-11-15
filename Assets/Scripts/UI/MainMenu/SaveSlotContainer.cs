@@ -19,9 +19,18 @@ namespace UI.MainMenu
 
         public void LoadSaveSlots()
         {
+            _saveSlots.Clear();
+            
+            for (int i = transform.childCount - 1; i >= 0; i--)
+            {
+                SaveSlot saveSlot = transform.GetChild(i).GetComponent<SaveSlot>();
+                Destroy(saveSlot.gameObject);
+            }
+            
             var profileGameData = DataPersistenceManager.Instance.GetAllProfiles();
 
             foreach (var entry in profileGameData.OrderByDescending(profile => profile.Value.lastPlayed))
+            {
                 if (entry.Value != null)
                 {
                     GameObject saveSlotObject = Instantiate(saveSlotPrefab, Vector3.zero, Quaternion.identity);
@@ -30,10 +39,11 @@ namespace UI.MainMenu
 
                     SaveSlot saveSlot = saveSlotObject.GetComponent<SaveSlot>();
                     saveSlot.gameData = entry.Value;
-                    saveSlot.uiSaveSlot.SetValues(entry.Value);
+                    saveSlot.uiSaveSlot.Initialize(entry.Value);
 
                     _saveSlots.Add(saveSlot);
                 }
+            }
 
             CheckSaveSlotCount();
         }
@@ -42,11 +52,12 @@ namespace UI.MainMenu
         {
             if (_saveSlots == null) return;
 
-            foreach (SaveSlot saveSlot in _saveSlots.ToArray())
+            foreach (SaveSlot saveSlot in _saveSlots)
             {
-                _saveSlots.Remove(saveSlot);
                 Destroy(saveSlot.uiSaveSlot.gameObject);
             }
+            
+            _saveSlots.Clear();
         }
 
         public void DeleteSelectedSaveSlot()
@@ -64,9 +75,13 @@ namespace UI.MainMenu
         private void CheckSaveSlotCount()
         {
             if (_saveSlots == null || _saveSlots.Count == 0)
+            {
                 noSaveSlotsHint.text = "No saved games found";
+            }
             else
+            {
                 noSaveSlotsHint.text = "";
+            }
         }
     }
 }
