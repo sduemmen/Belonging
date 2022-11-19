@@ -14,21 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collectionTitle: Walls
   _segments:
-  - _name: Wooden Wall 1
-    _prefab: {fileID: 6867802503061899945, guid: 292439ade48b76c4c85f5f5974c74a1f, type: 3}
-    _previewImage: {fileID: 21300000, guid: bdb9fe00190af024284d7fe3b7fafbb2, type: 3}
-    _buildCosts:
-    - _item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
-      _amount: 10
-  - _name: Wooden Wall 2
-    _prefab: {fileID: 1381661097004315369, guid: c75e37c928f097047a713adba35c8259, type: 3}
-    _previewImage: {fileID: 21300000, guid: 7c2ac047167484c44ac1fb565d9405e2, type: 3}
-    _buildCosts:
-    - _item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
-      _amount: 10
-  - _name: Stone Wall 1
-    _prefab: {fileID: 5169362283801362072, guid: 261054539f09bab47adce7c87d39e049, type: 3}
-    _previewImage: {fileID: 21300000, guid: c5f519d5ea43fc742b9db1f4de49cc99, type: 3}
-    _buildCosts:
-    - _item: {fileID: 11400000, guid: 12105098fa1a4cc48bce492e45e197b9, type: 2}
-      _amount: 10
+  - {fileID: 2665236333565899202, guid: 292439ade48b76c4c85f5f5974c74a1f, type: 3}
+  - {fileID: 3397061305651132603, guid: c75e37c928f097047a713adba35c8259, type: 3}
+  - {fileID: 7447549578010489229, guid: 261054539f09bab47adce7c87d39e049, type: 3}

@@ -44,6 +44,7 @@ namespace World
             
             if (itemHasBeenAddedToInventory)
             {
+                this._collider.enabled = false;
                 Destroy(this.gameObject);
             }
         }

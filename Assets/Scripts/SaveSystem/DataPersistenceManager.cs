@@ -94,12 +94,20 @@ namespace SaveSystem
             {
                 GameObject gameObjectToInstantiate = PersistentDestroyableData.GetGameObjectFromType(persistentDestroyableData.prefabName);
                 GameObject obj = Instantiate(gameObjectToInstantiate, persistentDestroyableData.worldPosition, persistentDestroyableData.worldRotation);
-                SegmentPreview preview = obj.GetComponent<SegmentPreview>();
-                if (preview != null)
+                Ghost ghost = obj.GetComponent<Ghost>();
+                if (ghost != null)
                 {
-                    preview.isPlaced = true;
-                    preview.ResetMaterial();
+                    ghost.ResetMaterial();
                 }
+
+                obj.GetComponent<Destroyable>().Health = persistentDestroyableData.health;
+            }
+
+            foreach (PersistentDestructibleData persistentDestructibleData in _gameData.persistentDestructibleData)
+            {
+                Destructible obj = Destructible.Load(persistentDestructibleData.m_prefabName, persistentDestructibleData.m_category);
+                Destructible instance = Instantiate(obj, persistentDestructibleData.m_position, persistentDestructibleData.m_rotation);
+                instance.Initialize(persistentDestructibleData);
             }
 
             Debug.Log($"Loading complete (profile={profileID})");
@@ -131,6 +139,8 @@ namespace SaveSystem
 
             _gameData.persistentDestroyables.Clear();
             _gameData.persistentItems.Clear();
+            _gameData.persistentDestructibleData.Clear();
+            _gameData.persistentInventoryData.Clear();
 
             _persistentObjects = FindAllPersistentObjects();
 

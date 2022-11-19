@@ -20,8 +20,6 @@ namespace World
         [SerializeField, TitleGroup("General Settings")] private List<Collider> _collisionCollider;
         private Vector2Int _chunkPosition;
         private Vector2Int _positionInChunk;
-        private bool _isPlaced = true;
-        private bool _isSnapped;
 
         [SerializeField, TitleGroup("Interaction")] private ToolItemObject _requiredTool;
         [SerializeField, TitleGroup("Interaction")] private int _health;
@@ -34,8 +32,6 @@ namespace World
         [SerializeField, TitleGroup("Interaction")] private AudioSource _audioSource;
         [Space(20)]
         [SerializeField, TitleGroup("Interaction")] private Outline _outline;
-        [Space(20)]
-        [SerializeField, TitleGroup("Interaction")] private GameObject _segmentColliders;
 
         public Vector2Int ChunkPosition {
             get => _chunkPosition;
@@ -47,14 +43,9 @@ namespace World
             set => _positionInChunk = value;
         }
 
-        public bool IsPlaced {
-            get => _isPlaced;
-            set => _isPlaced = value;
-        }
-
-        public bool IsSnapped {
-            get => _isSnapped;
-            set => _isSnapped = value;
+        public int Health {
+            get => _health;
+            set => _health = value;
         }
 
         public ToolItemObject RequiredTool => _requiredTool;
@@ -65,7 +56,6 @@ namespace World
         }
 
         public Outline Outline => _outline;
-        public GameObject SegmentColliders => _segmentColliders;
 
         private void Awake()
         {
@@ -94,16 +84,9 @@ namespace World
 
             foreach (Transform child in transform)
             {
-                if (child.name.Contains("Colliders"))
+                if (child.TryGetComponent(out Collider c))
                 {
-                    _segmentColliders = child.gameObject;
-                }
-                else
-                {
-                    if (child.TryGetComponent(out Collider c))
-                    {
-                        _collisionCollider.Add(c);
-                    }
+                    _collisionCollider.Add(c);
                 }
             }
             
@@ -128,15 +111,15 @@ namespace World
             
             _health--;
             
-            if (_audioClipCollection != null)
-            {
-                _audioSource.PlayOneShot(_audioClipCollection.GetRandom());
-                
-                if (_health <= 0)
-                {
-                    _audioSource.PlayOneShot(_destructionAudioClip);
-                }
-            }
+            // if (_audioClipCollection != null)
+            // {
+            //     _audioSource.PlayOneShot(_audioClipCollection.GetRandom());
+            //     
+            //     if (_health <= 0)
+            //     {
+            //         _audioSource.PlayOneShot(_destructionAudioClip);
+            //     }
+            // }
             
             if (_health <= 0)
             {
@@ -146,8 +129,6 @@ namespace World
 
         private void OnHealthDepleted()
         {
-            
-            
             foreach (ItemStack itemDrop in _itemDrops)
             {
                 for (int i = 0; i < itemDrop.Amount; i++)
@@ -181,11 +162,6 @@ namespace World
                 c.enabled = false;
             }
 
-            if (_segmentColliders != null)
-            {
-                _segmentColliders.SetActive(false);
-            }
-
             yield return new WaitForSeconds(2);
             Destroy(gameObject);
         }
@@ -197,9 +173,9 @@ namespace World
 
         public void SaveData(ref GameData data)
         {
-            if (!_builtByPlayer || GetComponent<SegmentPreview>() != null) return;
+            if (!_builtByPlayer || GetComponent<Ghost>() != null) return;
             Transform t = GetComponent<Transform>();
-            PersistentDestroyableData persistentData = new PersistentDestroyableData(t.position, t.rotation, _prefabName);
+            PersistentDestroyableData persistentData = new PersistentDestroyableData(t.position, t.rotation, _prefabName, _health);
             data.persistentDestroyables.Add(persistentData);
         }
     }

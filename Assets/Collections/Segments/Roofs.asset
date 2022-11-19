@@ -14,9 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collectionTitle: Roofs
   _segments:
-  - _name: Wooden Roof 1
-    _prefab: {fileID: 2538738716655177059, guid: 466867a4301f45341b905ef457216a36, type: 3}
-    _previewImage: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
-    _buildCosts:
-    - _item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
-      _amount: 6
+  - {fileID: 8489430829563674166, guid: 466867a4301f45341b905ef457216a36, type: 3}

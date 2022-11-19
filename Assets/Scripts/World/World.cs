@@ -34,25 +34,6 @@ namespace World
         private List<GameObject> _halfLoadedChunks;
         private List<GameObject> _loadedChunks;
 
-        private void OnDrawGizmos()
-        {
-            Handles.color = Color.red;
-            Handles.DrawLine(new Vector3(100, 0, 15), new Vector3(-100, 0, 15));
-            Handles.DrawLine(new Vector3(100, 0, -15), new Vector3(-100, 0, -15));
-            Handles.DrawLine(new Vector3(100, 0, 45), new Vector3(-100, 0, 45));
-            Handles.DrawLine(new Vector3(100, 0, -45), new Vector3(-100, 0, -45));
-            Handles.DrawLine(new Vector3(100, 0, 75), new Vector3(-100, 0, 75));
-            Handles.DrawLine(new Vector3(100, 0, -75), new Vector3(-100, 0, -75));
-            
-            Handles.DrawLine(new Vector3(15, 0, 100), new Vector3(15, 0, -100));
-            Handles.DrawLine(new Vector3(-15, 0, 100), new Vector3(-15, 0, -100));
-            Handles.DrawLine(new Vector3(45, 0, 100), new Vector3(45, 0, -100));
-            Handles.DrawLine(new Vector3(-45, 0, 100), new Vector3(-45, 0, -100));
-            Handles.DrawLine(new Vector3(75, 0, 100), new Vector3(75, 0, -100));
-            Handles.DrawLine(new Vector3(-75, 0, 100), new Vector3(-75, 0, -100));
-            
-        }
-
         private void Awake()
         {
             seed = Random.Range(1, 1000000);

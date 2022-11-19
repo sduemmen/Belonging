@@ -26,10 +26,10 @@ namespace BuildSystem.UI
 
         public void Initialize(Segment segment)
         {
-            _segmentName = segment.Name;
-            _buildCosts = segment.BuildCosts;
+            _segmentName = segment.m_name;
+            _buildCosts = segment.m_requirements;
 
-            _previewImage.sprite = segment.PreviewImage;
+            _previewImage.sprite = segment.m_icon;
             _previewImage.color = BuildingController.Instance.IsSegmentUnlocked(_segmentName) ? Color.white : Color.gray;
         }
 

@@ -163,14 +163,12 @@ Shader "Custom/InteractiveSnow" {
 			// float viewDistance = length(_WorldSpaceCameraPos - IN.worldPos);
 			// float3 viewDirection = normalize(float3(viewDistance, 0, viewDistance));
 			// viewDirection = abs(viewDirection);
-
-			float3 viewDirection = normalize(_WorldSpaceCameraPos - IN.worldPos);
 			
 			fixed3 sparkleNoiseSample = tex2D(_SparkleNoise, IN.worldPos.xz * _SparkleScale).rgb;
 			fixed3 sparkleNoise = normalize(sparkleNoiseSample - float3(0.5, 0.5, 0.5));
 			
 			half3 sparkleNormal = normalize(sparkleNoise + IN.worldNormal);
-			half sparkle = saturate(dot(_InverseSunDirection, sparkleNormal));
+			half sparkle = saturate(dot(abs(IN.viewDir), sparkleNormal));
 			sparkle = pow(sparkle, _SparkleIntensity);
 
 			o.Emission = sparkle;

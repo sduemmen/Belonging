@@ -41,7 +41,7 @@ namespace Player.Input
             };
             // Mouse Scroll
             _playerControls.Camera.MouseScrollDelta.performed += _ => {
-                if (GameFlags.GAME_PAUSED || GameFlags.BUILD_MENU_OPEN) return;
+                if (GameFlags.GAME_PAUSED || GameFlags.HAMMER_EQUIPPED) return;
 
                 mouseScrollEvent.Raise();
             };

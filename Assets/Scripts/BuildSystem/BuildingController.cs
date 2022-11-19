@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BuildSystem.UI;
 using Collections;
 using Flags;
@@ -15,6 +17,14 @@ namespace BuildSystem
 {
     public class BuildingController : Controller, IDisplayContext
     {
+        public enum GhostPlacementStatus
+        {
+            Valid,
+            Blocked,
+            Invalid,
+            TooExpensive,
+        }
+
         private static BuildingController _instance;
         public static BuildingController Instance {
             get {
@@ -28,29 +38,6 @@ namespace BuildSystem
 
         [SerializeField, TitleGroup("General")] private List<SegmentCollection> _segmentCollections;
         [SerializeField, TitleGroup("General")] private List<SegmentUnlockData> _segmentUnlockData;
-#if UNITY_EDITOR
-        [Button("Setup Unlock Data"), TitleGroup("General")]
-        private void SetupUnlockData()
-        {
-            _segmentUnlockData = new List<SegmentUnlockData>();
-            
-            foreach (SegmentCollection segmentCollection in _segmentCollections)
-            {
-                foreach (Segment segment in segmentCollection.Segments)
-                {
-                    _segmentUnlockData.Add(new SegmentUnlockData(segment.Name, false));
-                }
-            }
-        }
-        [Button("Setup item drops in prefabs"), TitleGroup("General")]
-        private void SetupItemDrops()
-        {
-            foreach (SegmentCollection segmentCollection in _segmentCollections)
-            {
-                segmentCollection.SetupItemDrops();
-            }
-        }
-#endif
         [SerializeField, TitleGroup("UI")] private GameObject _uiBuildMenuDisplayContext;
         [SerializeField, TitleGroup("UI")] private Transform _uiBuildMenuTarget;
         [SerializeField, TitleGroup("UI")] private GameObject _uiCollectionRowPrefab;
@@ -60,18 +47,43 @@ namespace BuildSystem
 
         [SerializeField, TitleGroup("Internal")] private Transform _player;
         [SerializeField, TitleGroup("Internal")] private float _maxBuildingDistance;
-        [SerializeField, TitleGroup("Internal")] private LayerMask _buildModeLayerMask;
-        private GameObject _buildingPreviewObject;
-        private Camera _camera;
-        private Vector3 _currentSnappingPoint = Vector3.positiveInfinity;
-        private bool _previewOutOfRange;
-        private GameObject _selectedSegment;
-        
+        private Material _validPlacementMaterial;
+        private Material _invalidPlacementMaterial;
+        private GameObject _ghostSegment;
+        private LayerMask m_placementMask;
+        private GhostPlacementStatus m_ghostPlacementStatus;
+        private int m_segmentRotationQuadrant;
+        private List<Transform> m_snapPointsAroundGhost = new List<Transform>();
+        private List<Transform> m_snapPointsInGhost = new List<Transform>();
+        private List<Segment> m_segmentsAroundGhost = new List<Segment>();
+        private Vector3 extrudedNormal;
+        private Vector3 closestPointOnGhostToHitPoint;
+        private Vector3 closestPointOnGhostToGhostCenter;
+        private Vector3 finalPosition;
+
         public static UnityAction<UISegmentSlot> OnSegmentSlotClickedDelegate;
         public static UnityAction<string> OnSegmentUnlockedDelegate;
 
-        public bool BuildingPreviewEnabled => _buildingPreviewObject != null;
+        public bool GhostSegmentVisible => _ghostSegment != null;
         public bool DisplayContextActive => _displayContextActive;
+        
+        
+#if UNITY_EDITOR
+        [Button("Setup Unlock Data"), TitleGroup("General")]
+        private void SetupUnlockData()
+        {
+            foreach (SegmentCollection segmentCollection in _segmentCollections)
+            {
+                foreach (Segment segment in segmentCollection.Segments)
+                {
+                    if (!_segmentUnlockData.Exists(entry => entry.segmentName.Equals(segment.m_name)))
+                    {
+                        _segmentUnlockData.Add(new SegmentUnlockData(segment.m_name, false));
+                    }
+                }
+            }
+        }
+#endif
 
         [Button("Load Manually"), TitleGroup("Debugging")]
         protected override void OnLoadCompleted()
@@ -94,123 +106,288 @@ namespace BuildSystem
             
             OnSegmentSlotClickedDelegate += OnSegmentSlotClicked;
 
-            _camera = Camera.main;
-            _selectedSegment = null;
-        }
-
-        private void Update()
-        {
-            if (!GameFlags.HAMMER_EQUIPPED || _buildingPreviewObject == null) return;
-
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            _ghostSegment = null;
             
-            Destroyable segment = _buildingPreviewObject.GetComponent<Destroyable>();
-            SegmentPreview preview = _buildingPreviewObject.GetComponent<SegmentPreview>();
-
-            bool mouseOutOfRange = (_player.position - segment.transform.position).magnitude > _maxBuildingDistance;
-            bool costIsAffordable = true;
-
-            foreach (ItemStack buildCost in segment.ItemDrops)
-            {
-                if (!InventoryController.Instance.PlayerInventory.Contains(buildCost.Item, buildCost.Amount))
-                {
-                    costIsAffordable = false;
-                    HintDisplay.Instance.AddErrorHint($"You don't have the required Materials. You need {buildCost.Amount} {buildCost.Item.DisplayName}");
-                    break;
-                }
-            }
-
-            if ((preview.canBePlaced && mouseOutOfRange) || !costIsAffordable)
-            {
-                preview.canBePlaced = false;
-                preview.UpdateMaterial();
-                _previewOutOfRange = true;
-                if (preview.canBePlaced && mouseOutOfRange)
-                {
-                    return;
-                }
-            }
-
-            if (!preview.canBePlaced && !mouseOutOfRange && _previewOutOfRange && costIsAffordable)
-            {
-                preview.canBePlaced = true;
-                preview.UpdateMaterial();
-                _previewOutOfRange = false;
-                return;
-            }
-
-            int previewSegmentLayer = LayerMask.NameToLayer(_buildingPreviewObject.tag);
-            int layerMask = 0;
-            layerMask |= _buildModeLayerMask;
-            layerMask |= 1 << previewSegmentLayer; // we can neglect all layers except the current segment layer/type
-
-            if (Raycast.GetMouseRayHit(_camera, layerMask, out RaycastHit raycastHit, 60))
-            {
-                bool snapTypeEqualToSegmentType = raycastHit.transform.gameObject.layer.Equals(previewSegmentLayer);
-                bool snappingPointChanged = segment.IsSnapped && _currentSnappingPoint != raycastHit.collider.bounds.center && snapTypeEqualToSegmentType;
-
-                if ((!segment.IsSnapped || snappingPointChanged) && snapTypeEqualToSegmentType)
-                {
-                    segment.IsSnapped = true;
-                    _currentSnappingPoint = raycastHit.collider.bounds.center;
-                    _buildingPreviewObject.transform.position = raycastHit.transform.position;
-                }
-                else if (!snapTypeEqualToSegmentType)
-                {
-                    segment.IsSnapped = false;
-                    _buildingPreviewObject.transform.position = raycastHit.point;
-                }
-            }
+            m_placementMask = LayerMask.GetMask("Default", "Destructible", "Segment", "Ground");
+            
+            m_ghostPlacementStatus = GhostPlacementStatus.Valid;
+            m_segmentRotationQuadrant = 0;
         }
 
         private void OnDrawGizmos()
         {
-            if (DebugInformation.Instance == null || !DebugInformation.Instance.drawCurrentSnapPoint) return;
-
-            DebugExtension.DebugWireSphere(_currentSnappingPoint, Color.red, .1f, depthTest: false);
+            // Gizmos.color = Color.yellow;
+            // Gizmos.DrawLine(Vector3.zero, extrudedNormal);
+            // Gizmos.color = Color.blue;
+            // Gizmos.DrawLine(Vector3.zero, closestPointOnGhostToHitPoint);
+            // Gizmos.color = Color.red;
+            // Gizmos.DrawLine(Vector3.zero, closestPointOnGhostToGhostCenter);
+            // Gizmos.color = Color.magenta;
+            // Gizmos.DrawLine(Vector3.zero, finalPosition);
         }
 
-        public void TryPlaceSegment()
+        private void Awake()
         {
-            SegmentPreview previewSegment = _buildingPreviewObject.GetComponent<SegmentPreview>();
+            _validPlacementMaterial = Resources.Load<Material>("Materials/Shaders/GreenFresnel");
+            _invalidPlacementMaterial = Resources.Load<Material>("Materials/Shaders/RedFresnel");
+        }
 
-            if (previewSegment.canBePlaced)
+        private void Update()
+        {
+            if (!GameFlags.HAMMER_EQUIPPED) return;
+
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
+            UpdateGhostSegment();
+        }
+        
+        private void UpdateGhostSegment()
+        {
+            if (_ghostSegment == null)
             {
-                Vector3 position = _buildingPreviewObject.transform.position;
-                Quaternion rotation = _buildingPreviewObject.transform.rotation;
-                GameObject segmentObj = Instantiate(_selectedSegment, position, rotation);
-                SegmentPreview segmentPreview = segmentObj.GetComponent<SegmentPreview>();
-                segmentPreview.isPlaced = true;
-                segmentPreview.ResetMaterial();
-                World.World.Instance.placedSegments += 1;
-                Destroyable segment = segmentObj.GetComponent<Destroyable>();
+                return;
+            }
 
-                foreach (ItemStack buildCost in segment.ItemDrops)
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.mouseScrollDelta.y > 0)
+            {
+                m_segmentRotationQuadrant++;
+
+                if (m_segmentRotationQuadrant < 0)
                 {
-                    if (InventoryController.Instance.PlayerInventory.Contains(buildCost.Item, buildCost.Amount))
+                    m_segmentRotationQuadrant = 16 - m_segmentRotationQuadrant;
+                }
+
+                m_segmentRotationQuadrant %= 16;
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.mouseScrollDelta.y < 0)
+            {
+                m_segmentRotationQuadrant--;
+
+                if (m_segmentRotationQuadrant < 0)
+                {
+                    m_segmentRotationQuadrant = 16 + m_segmentRotationQuadrant;
+                }
+
+                m_segmentRotationQuadrant %= 16;
+            }
+            
+
+            if (Raycast.SegmentRayCast(m_placementMask, 30f, out RaycastHit hit, out Vector3 point, out Vector3 normal, out Segment hitSegment))
+            {
+                if (_ghostSegment.TryGetComponent(out Segment ghostSegment))
+                {
+                    _ghostSegment.SetActive(true);
+                    m_ghostPlacementStatus = GhostPlacementStatus.Valid;
+                    
+                    if (ghostSegment.m_needsGroundContact && hit.transform.gameObject.layer != LayerMask.NameToLayer("Ground"))
                     {
-                        InventoryController.Instance.PlayerInventory.RemoveItem(buildCost.Item, buildCost.Amount);
+                        m_ghostPlacementStatus = GhostPlacementStatus.Invalid;
                     }
+                    if (ghostSegment.m_needsCeilingContact && normal.y > -0.5f)
+                    {
+                        m_ghostPlacementStatus = GhostPlacementStatus.Invalid;
+                    }
+                    if (ghostSegment.m_needsWallContact && Mathf.Abs(normal.y) > 0.05f)
+                    {
+                        m_ghostPlacementStatus = GhostPlacementStatus.Invalid;
+                    }
+                    foreach (ItemStack buildCost in ghostSegment.m_requirements)
+                    {
+                        if (InventoryController.Instance.PlayerInventory.Contains(buildCost.Item, buildCost.Amount)) continue; 
+                        
+                        m_ghostPlacementStatus = GhostPlacementStatus.TooExpensive;
+                    }
+                    
+                    extrudedNormal = point + normal * 20;
+                    Quaternion rotation = Quaternion.Euler(0, 22.5f * m_segmentRotationQuadrant, 0);
+                    _ghostSegment.transform.position = extrudedNormal;
+                    _ghostSegment.transform.rotation = rotation;
+                    List<Collider> ghostColliders = _ghostSegment.GetComponentsInChildren<Collider>().ToList();
+                    
+                    closestPointOnGhostToHitPoint = Vector3.zero;
+                    float closestDistance = float.PositiveInfinity;
+
+                    foreach (Collider ghostCollider in ghostColliders)
+                    {
+                        MeshCollider meshCollider = ghostCollider as MeshCollider;
+                        if (!meshCollider || !meshCollider.convex)
+                        {
+                            continue;
+                        }
+
+                        if (!meshCollider.enabled)
+                        {
+                            meshCollider.enabled = true;
+                        }
+
+                        Vector3 p = ghostCollider.ClosestPoint(point);
+                        float d = Vector3.Distance(p, point);
+                        
+                        if (d < closestDistance)
+                        {
+                            closestPointOnGhostToHitPoint = p;
+                            closestDistance = d;
+                        }
+
+                        meshCollider.enabled = false;
+                    }
+                    
+                    closestPointOnGhostToGhostCenter = extrudedNormal - closestPointOnGhostToHitPoint;
+                    finalPosition = point + closestPointOnGhostToGhostCenter;
+                    
+                    _ghostSegment.transform.position = point + closestPointOnGhostToGhostCenter;
+                    _ghostSegment.transform.rotation = rotation;
+                    // Debug.Log($"{ extrudedNormal } { closestPointOnGhostToHitPoint } { closestPointOnGhostToGhostCenter } { point + closestPointOnGhostToGhostCenter}");
+                    
+                    if (ghostSegment.m_enableSnapping && FindClosestSnapPoints(_ghostSegment.transform, 0.5f, out Transform snapPointInGhost, out Transform closestSnapPoint))
+                    {
+                        Vector3 position = closestSnapPoint.position - (snapPointInGhost.position - _ghostSegment.transform.position);
+                        if (!CheckGhostOverlap(position))
+                        {
+                            _ghostSegment.transform.position = position;
+                        }
+                    }
+
+                    foreach (Collider ghostCollider in ghostColliders)
+                    {
+                        LayerMask playerLayerMask = LayerMask.GetMask("Player");
+                        Collider[] results = new Collider[1];
+                        int overlappingObjects = Physics.OverlapBoxNonAlloc(_ghostSegment.transform.position, ghostCollider.bounds.extents, results, _ghostSegment.transform.rotation, playerLayerMask);
+                        if (overlappingObjects > 0)
+                        {
+                            m_ghostPlacementStatus = GhostPlacementStatus.Blocked;
+                        }
+                    }
+                    
+                    ghostSegment.GetComponent<Ghost>().SetMaterial(m_ghostPlacementStatus == GhostPlacementStatus.Valid ? _validPlacementMaterial : _invalidPlacementMaterial);
                 }
             }
-            else
+        }
+        
+        private bool FindClosestSnapPoints(Transform ghost, float radius, out Transform a, out Transform b)
+        {
+            a = null;
+            b = null;
+            
+            m_snapPointsAroundGhost.Clear();
+            m_snapPointsInGhost.Clear();
+            m_segmentsAroundGhost.Clear();
+            
+            Segment.GetSnapPointsInRadius(_ghostSegment.transform.position, 5f, m_snapPointsAroundGhost, m_segmentsAroundGhost);
+            ghost.GetComponent<Segment>().GetOwnSnapPoints(m_snapPointsInGhost);
+            
+            float closestDistance = float.PositiveInfinity;
+            foreach (Transform snapPointInGhost in m_snapPointsInGhost)
             {
-                HintDisplay.Instance.AddErrorHint("Unable to place Segment");
+                if (GetClosestSnapPoint(snapPointInGhost.position, radius, m_snapPointsAroundGhost, out Transform closest, out float distance) && distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    a = snapPointInGhost;
+                    b = closest;
+                }
             }
+            
+            return a != null;
+        }
+        
+        private bool GetClosestSnapPoint(Vector3 center, float radius, List<Transform> snapPoints, out Transform closest, out float closestDistance)
+        {
+            closest = null;
+            closestDistance = float.PositiveInfinity;
+            foreach (Transform snapPoint in snapPoints)
+            {
+                float distance = Vector3.Distance(snapPoint.position, center);
+                if (distance <= radius && distance < closestDistance)
+                {
+                    closest = snapPoint;
+                    closestDistance = distance;
+                }
+            }
+            return closest != null;
+        }
+
+        public bool CheckGhostOverlap(Vector3 checkPosition)
+        {
+            foreach (Segment segment in m_segmentsAroundGhost)
+            {
+                bool identicalPosition = Vector3.Distance(checkPosition, segment.transform.position) < .01f;
+                if (!identicalPosition)
+                {
+                    continue;
+                }
+                
+                bool identicalRotation = Quaternion.Angle(_ghostSegment.transform.rotation, segment.transform.rotation) < 5;
+                if (!identicalRotation)
+                {
+                    continue;
+                }
+                
+                bool identicalName = segment.name.StartsWith(_ghostSegment.name);
+                if (identicalName)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool PlaceSegment(Segment segment)
+        {
+            switch (m_ghostPlacementStatus)
+            {
+                case GhostPlacementStatus.Blocked:
+                    HintDisplay.Instance.AddErrorHint("Area blocked");
+                    return false;
+                case GhostPlacementStatus.Invalid:
+                    HintDisplay.Instance.AddErrorHint("Invalid Position");
+                    return false;
+                case GhostPlacementStatus.TooExpensive:
+                    HintDisplay.Instance.AddErrorHint("Too expensive");
+                    return false;
+                default:
+                    GameObject segmentObject = segment.gameObject;
+                    Vector3 objectPosition = _ghostSegment.transform.position;
+                    Quaternion objectRotation = _ghostSegment.transform.rotation;
+
+                    GameObject instance = Instantiate(segmentObject, objectPosition, objectRotation);
+                    Ghost ghost = instance.GetComponent<Ghost>();
+                    ghost.ResetMaterial();
+                    
+                    foreach (ItemStack buildCost in segment.m_requirements)
+                    {
+                        if (InventoryController.Instance.PlayerInventory.Contains(buildCost.Item, buildCost.Amount))
+                        {
+                            InventoryController.Instance.PlayerInventory.RemoveItem(buildCost.Item, buildCost.Amount);
+                        }
+                    }
+                    
+                    World.World.Instance.placedSegments += 1;
+
+                    if (segment.m_placementFX)
+                    {
+                        segment.m_placementFX.PlayFX(objectPosition);
+                    }
+                    
+                    return true;
+            }
+        }
+        
+        public void TryPlaceSegment()
+        {
+            PlaceSegment(_ghostSegment.GetComponent<Segment>());
         }
 
         private void OnSegmentSlotClicked(UISegmentSlot clickedSlot)
         {
-            if (_buildingPreviewObject != null)
+            if (_ghostSegment != null)
             {
-                Destroy(_buildingPreviewObject);
+                Destroy(_ghostSegment);
             }
 
-            GameObject newSelectedSegment = Resources.Load<GameObject>($"Prefabs/Models/World/{clickedSlot.SegmentName}");
-            _selectedSegment = newSelectedSegment;
-            _buildingPreviewObject = Instantiate(newSelectedSegment);
-            _buildingPreviewObject.GetComponent<Destroyable>().IsPlaced = false;
+            GameObject newSelectedSegment = Resources.Load<GameObject>($"Prefabs/Models/Segment/{clickedSlot.SegmentName}");
+            _ghostSegment = Instantiate(newSelectedSegment);
 
             HideDisplayContext();
         }
@@ -235,10 +412,10 @@ namespace BuildSystem
             return _segmentUnlockData.Find(data => data.segmentName == segmentName).unlocked;
         }
 
-        public void DisableBuildingPreview()
+        public void DestroyGhostSegment()
         {
-            Destroy(_buildingPreviewObject);
-            _buildingPreviewObject = null;
+            Destroy(_ghostSegment);
+            _ghostSegment = null;
         }
         
         public void ShowDisplayContext()

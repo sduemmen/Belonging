@@ -4,98 +4,105 @@ using InventorySystem;
 using InventorySystem.Items;
 using UnityEngine;
 using UnityEngine.UI;
-using Utility;
-using World;
 
 namespace Player.Input
 {
     public class PlayerWorldInteraction : MonoBehaviour
     {
         [SerializeField] private Transform _player;
-        [SerializeField] private float _maxInteractionDistance;
-        [SerializeField] private LayerMask _destroyablesLayerMask;
+        [SerializeField] private LayerMask _destructibleLayerMask;
         [SerializeField] private Slider _cooldownIndicator;
-        private Camera _camera;
         private int _selectedSlotIndex = -1;
-        private Destroyable _outlinedDestroyable;
-        private SegmentPreview _outlinedSegment;
+        private Destructible _currentDestructibleHoveredOver;
+        private Ghost _outlinedSegment;
         private float _cooldown;
 
         private void Awake()
         {
-            _camera = Camera.main;
+            _destructibleLayerMask = LayerMask.GetMask("Segment", "Destructible");
             _player = transform;
             _cooldownIndicator.value = 0;
         }
 
         private void Update()
         {
+            UpdateAttackCooldown();
+            UpdateDestructibleHoveredOver();
+        }
+
+        private void UpdateAttackCooldown()
+        {
             _cooldown = Mathf.Max(_cooldown - 1 * Time.deltaTime, 0);
             _cooldownIndicator.value = _cooldown;
             _cooldownIndicator.gameObject.SetActive((GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED));
-            
-            if ((GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) && Raycast.GetMouseRayHit(_camera, _destroyablesLayerMask, out RaycastHit hit, 40))
-            {
-                Destroyable destroyableHoveredOver = hit.transform.GetComponentInParent<Destroyable>();
-                if (destroyableHoveredOver == null) return;
-
-                bool equippedToolMatchingRequiredTool = (destroyableHoveredOver.RequiredTool.DisplayName == "Axe" && GameFlags.AXE_EQUIPPED) ||
-                                                        (destroyableHoveredOver.RequiredTool.DisplayName == "Pickaxe" && GameFlags.PICKAXE_EQUIPPED);
-                
-                if (equippedToolMatchingRequiredTool && destroyableHoveredOver != _outlinedDestroyable)
-                {
-                    if (destroyableHoveredOver.TryGetComponent(out SegmentPreview segmentPreview))
-                    {
-                        if (_outlinedSegment != null)
-                        {
-                            _outlinedSegment.canBeDestroyed = false;
-                            _outlinedSegment.ResetMaterial();
-                        }
-
-                        segmentPreview.canBeDestroyed = true;
-                        segmentPreview.UpdateMaterial();
-                        _outlinedDestroyable = destroyableHoveredOver;
-                        _outlinedSegment = segmentPreview;
-                    }
-                    else
-                    {
-                        if (_outlinedDestroyable != null && _outlinedDestroyable.Outline != null)
-                        {
-                            _outlinedDestroyable.Outline.enabled = false;
-                        }
-                        
-                        destroyableHoveredOver.Outline.enabled = true;
-                        _outlinedDestroyable = destroyableHoveredOver;
-                    }
-                } 
-                else if (!equippedToolMatchingRequiredTool)
-                {
-                    ResetOutlineOrPreviewMaterial();
-                }
-                    
-                return;
-            }
-            
-            // reset outline/segment preview if no tool is equipped or no object is hit
-            ResetOutlineOrPreviewMaterial();
         }
 
-        private void ResetOutlineOrPreviewMaterial()
+        private void UpdateDestructibleHoveredOver()
         {
-            if (_outlinedDestroyable != null)
+            if ((GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) && Destructible.GetDestructibleHoveredOver(_destructibleLayerMask, 40, out RaycastHit hit, out Destructible destructibleHoveredOver))
             {
-                if (_outlinedSegment != null)
+                if (destructibleHoveredOver != _currentDestructibleHoveredOver)
                 {
-                    _outlinedSegment.canBeDestroyed = false;
-                    _outlinedSegment.ResetMaterial();
-                    _outlinedSegment = null;
-                    _outlinedDestroyable = null;
+                    ResetCurrentDestructibleHoveredOver();
                 }
-                else
+                
+                bool usingCorrectTool = (destructibleHoveredOver.m_requiredTool.DisplayName == "Axe" && GameFlags.AXE_EQUIPPED) || (destructibleHoveredOver.m_requiredTool.DisplayName == "Pickaxe" && GameFlags.PICKAXE_EQUIPPED);
+
+                if (usingCorrectTool && destructibleHoveredOver.m_hasHoverEffect && destructibleHoveredOver != _currentDestructibleHoveredOver)
                 {
-                    _outlinedDestroyable.Outline.enabled = false;
-                    _outlinedDestroyable = null;
+                    _currentDestructibleHoveredOver = destructibleHoveredOver;
+
+                    MeshRenderer[] meshRenderers = destructibleHoveredOver.GetComponentsInChildren<MeshRenderer>();
+
+                    foreach (MeshRenderer meshRenderer in meshRenderers)
+                    {
+                        if (meshRenderer.transform.name.StartsWith("Quad"))
+                        {
+                            continue;
+                        }
+                        
+                        Material[] materials = meshRenderer.materials;
+                        Material[] newMaterials = new Material[materials.Length + 1];
+                        for (int i = 0; i < materials.Length; i++)
+                        {
+                            newMaterials[i] = materials[i];
+                        }
+
+                        newMaterials[^1] = destructibleHoveredOver.m_hoverMaterial;
+                        meshRenderer.materials = newMaterials;
+                    }
                 }
+            }
+            else
+            {
+                ResetCurrentDestructibleHoveredOver();
+            }
+        }
+
+        private void ResetCurrentDestructibleHoveredOver()
+        {
+            if (_currentDestructibleHoveredOver)
+            {
+                MeshRenderer[] meshRenderers = _currentDestructibleHoveredOver.GetComponentsInChildren<MeshRenderer>();
+
+                foreach (MeshRenderer meshRenderer in meshRenderers)
+                {
+                    if (meshRenderer.transform.name.StartsWith("Quad"))
+                    {
+                        continue;
+                    }
+                    
+                    Material[] materials = meshRenderer.materials;
+                    Material[] newMaterials = new Material[materials.Length - 1];
+                    for (int i = 0; i < newMaterials.Length; i++)
+                    {
+                        newMaterials[i] = materials[i];
+                    }
+
+                    meshRenderer.materials = newMaterials;
+                }
+                
+                _currentDestructibleHoveredOver = null;
             }
         }
 
@@ -112,9 +119,9 @@ namespace Player.Input
             ToolbarInventoryController.Instance.DisableHighlight();
             MouseInventory.Instance.SetAssignedInventorySlot(new InventorySlot());
             
-            if (BuildingController.Instance.BuildingPreviewEnabled)
+            if (BuildingController.Instance.GhostSegmentVisible)
             {
-                BuildingController.Instance.DisableBuildingPreview();
+                BuildingController.Instance.DestroyGhostSegment();
             }
         }
 
@@ -132,7 +139,7 @@ namespace Player.Input
         {
             if ((GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) && _cooldown <= 0)
             {
-                OnDestroyableClicked();
+                CheckDestructibleHit();
                 _cooldown = 1;
             }
 
@@ -142,21 +149,14 @@ namespace Player.Input
             }
         }
 
-        private void OnDestroyableClicked()
+        private void CheckDestructibleHit()
         {
-            bool objectHit = Raycast.GetMouseRayHit(_camera, _destroyablesLayerMask, out RaycastHit hitResult, 40);
-            if (!objectHit || hitResult.transform.gameObject == null) return;
-
-            GameObject hitGameObject = hitResult.transform.gameObject;
-            if ((_player.position - hitResult.point).magnitude > _maxInteractionDistance) return;
-
-            ToolItemObject selectedTool = (ToolItemObject)ToolbarInventoryController.Instance.ToolbarInventory.InventorySlots[_selectedSlotIndex].Item;
-            if (selectedTool == null) return;
-
-            Destroyable destroyable = hitGameObject.GetComponentInParent<Destroyable>();
-            if (destroyable == null || selectedTool != destroyable.RequiredTool) return;
-            
-            destroyable.OnClick(_player.position, hitResult);
+            if (Destructible.GetDestructibleHoveredOver(_destructibleLayerMask, 30, out RaycastHit hit, out Destructible hitDestructible))
+            {
+                ToolItemObject equippedTool = (ToolItemObject)ToolbarInventoryController.Instance.ToolbarInventory.InventorySlots[_selectedSlotIndex].Item;
+                if (equippedTool == null) return;
+                hitDestructible.OnDamaged(new DamageData(hit.point, (hit.point - _player.position).normalized, equippedTool, 1));
+            }
         }
     }
 }

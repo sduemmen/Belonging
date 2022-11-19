@@ -5,23 +5,53 @@ using UnityEngine;
 namespace BuildSystem
 {
     [Serializable]
-    public class Segment
+    public class Segment : MonoBehaviour
     {
-        [SerializeField] private string _name;
-        [SerializeField] private GameObject _prefab;
-        [SerializeField] private Sprite _previewImage;
-        [SerializeField] private List<ItemStack> _buildCosts;
+        public string m_name;
 
-        public string Name => _name;
-        public GameObject Prefab => _prefab;
-        public Sprite PreviewImage => _previewImage;
-        public List<ItemStack> BuildCosts => _buildCosts;
+        public Sprite m_icon;
 
-        public void ApplyPrefabName()
+        public string m_description;
+        
+        public List<ItemStack> m_requirements = new List<ItemStack>();
+
+        public FXList m_placementFX;
+
+        public bool m_enableSnapping = true;
+
+        public bool m_needsGroundContact;
+
+        public bool m_needsCeilingContact;
+
+        public bool m_needsWallContact;
+
+        private static Collider[] segmentColliders = new Collider[500];
+        
+
+        public static void GetSnapPointsInRadius(Vector3 center, float radius, List<Transform> snapPointsOut, List<Segment> segmentsOut)
         {
-            if (_prefab == null) return;
-            
-            _name = _prefab.name;
+            int colliderCount = Physics.OverlapSphereNonAlloc(center, radius, segmentColliders, LayerMask.GetMask("Segment"));
+            for (int i = 0; i < colliderCount; i++)
+            {
+                Segment segment = segmentColliders[i].GetComponentInParent<Segment>();
+                if (segment != null)
+                {
+                    segment.GetOwnSnapPoints(snapPointsOut);
+                    segmentsOut.Add(segment);
+                }
+            }
+        }
+        
+        public void GetOwnSnapPoints(List<Transform> snapPointsOut)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                Transform child = transform.GetChild(i);
+                if (child.CompareTag("Snappoint"))
+                {
+                    snapPointsOut.Add(child);
+                }
+            }
         }
     }
 }

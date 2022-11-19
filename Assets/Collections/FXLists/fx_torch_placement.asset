@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee3da9e1d44b47f8b3b1b5aab6830241, type: 3}
+  m_Name: fx_torch_placement
+  m_EditorClassIdentifier: 
+  m_audioClipCollections:
+  - m_audioClipCollection: {fileID: 11400000, guid: 4de1d2d63355f844e85ed2eaed2255ad, type: 2}
+    m_clipSelectionMode: 1
+    m_volume: 0.3
+  m_particles: []

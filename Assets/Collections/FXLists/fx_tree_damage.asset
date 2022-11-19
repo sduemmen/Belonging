@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee3da9e1d44b47f8b3b1b5aab6830241, type: 3}
+  m_Name: fx_tree_damage
+  m_EditorClassIdentifier: 
+  m_audioClipCollections:
+  - m_audioClipCollection: {fileID: 11400000, guid: 99f158d6df94fbe49bb80fdaff8d7160, type: 2}
+    m_clipSelectionMode: 1
+    m_volume: 0.2
+  m_particles:
+  - {fileID: -563527440466800009, guid: 042652ce4e592bc43941997956e29606, type: 3}

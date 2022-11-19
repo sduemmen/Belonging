@@ -64,9 +64,9 @@ namespace World
 
             GameObject obj = Instantiate(prefab, parentPos + localPosition + randomOffset, randomRotation);
             obj.transform.SetParent(transform);
-            Destroyable destroyable = obj.GetComponentInChildren<Destroyable>();
-            destroyable.ChunkPosition = chunkPosition;
-            destroyable.PositionInChunk = new Vector2Int((int)localPosition.x, (int)localPosition.z);
+            Destructible destructible = obj.GetComponentInChildren<Destructible>();
+            destructible.m_chunkPosition = chunkPosition;
+            destructible.m_positionInChunk = new Vector2Int((int)localPosition.x, (int)localPosition.z);
         }
     }
 }

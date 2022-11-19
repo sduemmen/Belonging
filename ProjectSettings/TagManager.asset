@@ -4,12 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Floor
-  - Ground
-  - Environment
-  - Wall
-  - Roof
-  - Pole
+  - Snappoint
   layers:
   - Default
   - TransparentFX
@@ -20,13 +15,8 @@ TagManager:
   - MouseInventory
   - PixelatedRenderTexture
   - Player
-  - Destroyable
+  - 
   - InteractiveSnow
-  - Building
-  - Floor
-  - Wall
-  - Roof
-  - Pole
   - 
   - 
   - 
@@ -42,6 +32,11 @@ TagManager:
   - 
   - 
   - 
+  - 
+  - 
+  - 
+  - Destructible
+  - Segment
   - Skydome
   m_SortingLayers:
   - name: Default

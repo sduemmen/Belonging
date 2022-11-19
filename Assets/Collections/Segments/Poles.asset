@@ -14,9 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collectionTitle: Poles
   _segments:
-  - _name: Wooden Pole 1
-    _prefab: {fileID: 5276083791298934496, guid: 27f49ecaee27d0a448a4744115dc1250, type: 3}
-    _previewImage: {fileID: 21300000, guid: 402252ab6e9eea44b97aa93ae457c396, type: 3}
-    _buildCosts:
-    - _item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
-      _amount: 3
+  - {fileID: 6253267354164848221, guid: bbd707c8ad220d443b74bb61a62deecc, type: 3}
+  - {fileID: 3994417116393771764, guid: 27f49ecaee27d0a448a4744115dc1250, type: 3}

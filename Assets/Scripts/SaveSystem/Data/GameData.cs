@@ -25,6 +25,7 @@ namespace SaveSystem.Data
         public List<string> worldAlterations;
         public List<PersistentItemData> persistentItems;
         public List<PersistentDestroyableData> persistentDestroyables;
+        public List<PersistentDestructibleData> persistentDestructibleData;
         public List<PersistentInventoryData> persistentInventoryData;
         public List<SegmentUnlockData> segmentUnlockData;
         public List<PersistentQuestData> quests;
@@ -53,6 +54,7 @@ namespace SaveSystem.Data
             worldAlterations = new List<string>();
             persistentItems = new List<PersistentItemData>();
             persistentDestroyables = new List<PersistentDestroyableData>();
+            persistentDestructibleData = new List<PersistentDestructibleData>();
             persistentInventoryData = new List<PersistentInventoryData>();
             segmentUnlockData = new List<SegmentUnlockData>();
             quests = new List<PersistentQuestData>();
@@ -82,6 +84,7 @@ namespace SaveSystem.Data
             worldAlterations = new List<string>();
             persistentItems = new List<PersistentItemData>();
             persistentDestroyables = new List<PersistentDestroyableData>();
+            persistentDestructibleData = new List<PersistentDestructibleData>();
             persistentInventoryData = new List<PersistentInventoryData>();
             segmentUnlockData = new List<SegmentUnlockData>();
             quests = new List<PersistentQuestData>();
