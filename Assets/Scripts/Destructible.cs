@@ -35,6 +35,8 @@ public class Destructible : MonoBehaviour, IDataPersistence
     public bool m_hasHoverEffect;
 
     public Material m_hoverMaterial;
+
+    public bool m_useOutlineInsteadOfMaterial;
     
     public Vector2Int m_chunkPosition;
     

@@ -25,6 +25,8 @@ namespace BuildSystem
 
         public bool m_needsWallContact;
 
+        public bool m_isLightSource;
+
         private static Collider[] segmentColliders = new Collider[500];
         
 

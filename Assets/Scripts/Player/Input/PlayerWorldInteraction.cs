@@ -1,4 +1,6 @@
-﻿using BuildSystem;
+﻿using System.Collections.Generic;
+using System.Linq;
+using BuildSystem;
 using Flags;
 using InventorySystem;
 using InventorySystem.Items;
@@ -10,18 +12,19 @@ namespace Player.Input
     public class PlayerWorldInteraction : MonoBehaviour
     {
         [SerializeField] private Transform _player;
-        [SerializeField] private LayerMask _destructibleLayerMask;
         [SerializeField] private Slider _cooldownIndicator;
-        private int _selectedSlotIndex = -1;
-        private Destructible _currentDestructibleHoveredOver;
-        private Ghost _outlinedSegment;
         private float _cooldown;
+        private int _selectedSlotIndex = -1;
+        private LayerMask _destructibleLayerMask;
+        private Destructible _currentDestructibleHoveredOver;
+        private JumpFloodOutlineRenderer _outlineRenderer;
 
         private void Awake()
         {
             _destructibleLayerMask = LayerMask.GetMask("Segment", "Destructible");
             _player = transform;
             _cooldownIndicator.value = 0;
+            _outlineRenderer = GetComponent<JumpFloodOutlineRenderer>();
         }
 
         private void Update()
@@ -48,28 +51,35 @@ namespace Player.Input
                 
                 bool usingCorrectTool = (destructibleHoveredOver.m_requiredTool.DisplayName == "Axe" && GameFlags.AXE_EQUIPPED) || (destructibleHoveredOver.m_requiredTool.DisplayName == "Pickaxe" && GameFlags.PICKAXE_EQUIPPED);
 
-                if (usingCorrectTool && destructibleHoveredOver.m_hasHoverEffect && destructibleHoveredOver != _currentDestructibleHoveredOver)
+                if (usingCorrectTool && destructibleHoveredOver != _currentDestructibleHoveredOver)
                 {
                     _currentDestructibleHoveredOver = destructibleHoveredOver;
 
-                    MeshRenderer[] meshRenderers = destructibleHoveredOver.GetComponentsInChildren<MeshRenderer>();
-
-                    foreach (MeshRenderer meshRenderer in meshRenderers)
+                    if (destructibleHoveredOver.m_hasHoverEffect)
                     {
-                        if (meshRenderer.transform.name.StartsWith("Quad"))
-                        {
-                            continue;
-                        }
-                        
-                        Material[] materials = meshRenderer.materials;
-                        Material[] newMaterials = new Material[materials.Length + 1];
-                        for (int i = 0; i < materials.Length; i++)
-                        {
-                            newMaterials[i] = materials[i];
-                        }
+                        MeshRenderer[] meshRenderers = destructibleHoveredOver.GetComponentsInChildren<MeshRenderer>();
 
-                        newMaterials[^1] = destructibleHoveredOver.m_hoverMaterial;
-                        meshRenderer.materials = newMaterials;
+                        foreach (MeshRenderer meshRenderer in meshRenderers)
+                        {
+                            if (meshRenderer.transform.name.StartsWith("Quad"))
+                            {
+                                continue;
+                            }
+                        
+                            Material[] materials = meshRenderer.materials;
+                            Material[] newMaterials = new Material[materials.Length + 1];
+                            for (int i = 0; i < materials.Length; i++)
+                            {
+                                newMaterials[i] = materials[i];
+                            }
+
+                            newMaterials[^1] = destructibleHoveredOver.m_hoverMaterial;
+                            meshRenderer.materials = newMaterials;
+                        }
+                    }
+                    else if (destructibleHoveredOver.m_useOutlineInsteadOfMaterial)
+                    {
+                        _outlineRenderer.renderers = destructibleHoveredOver.GetComponentsInChildren<Renderer>().ToList();
                     }
                 }
             }
@@ -83,23 +93,30 @@ namespace Player.Input
         {
             if (_currentDestructibleHoveredOver)
             {
-                MeshRenderer[] meshRenderers = _currentDestructibleHoveredOver.GetComponentsInChildren<MeshRenderer>();
-
-                foreach (MeshRenderer meshRenderer in meshRenderers)
+                if (_currentDestructibleHoveredOver.m_hasHoverEffect)
                 {
-                    if (meshRenderer.transform.name.StartsWith("Quad"))
-                    {
-                        continue;
-                    }
-                    
-                    Material[] materials = meshRenderer.materials;
-                    Material[] newMaterials = new Material[materials.Length - 1];
-                    for (int i = 0; i < newMaterials.Length; i++)
-                    {
-                        newMaterials[i] = materials[i];
-                    }
+                    MeshRenderer[] meshRenderers = _currentDestructibleHoveredOver.GetComponentsInChildren<MeshRenderer>();
 
-                    meshRenderer.materials = newMaterials;
+                    foreach (MeshRenderer meshRenderer in meshRenderers)
+                    {
+                        if (meshRenderer.transform.name.StartsWith("Quad"))
+                        {
+                            continue;
+                        }
+                    
+                        Material[] materials = meshRenderer.materials;
+                        Material[] newMaterials = new Material[materials.Length - 1];
+                        for (int i = 0; i < newMaterials.Length; i++)
+                        {
+                            newMaterials[i] = materials[i];
+                        }
+
+                        meshRenderer.materials = newMaterials;
+                    }
+                }
+                else if (_currentDestructibleHoveredOver.m_useOutlineInsteadOfMaterial)
+                {
+                    _outlineRenderer.renderers = new List<Renderer>();
                 }
                 
                 _currentDestructibleHoveredOver = null;

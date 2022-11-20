@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BuildSystem;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -34,7 +35,7 @@ namespace Utility
             {
                 point = hit.point;
                 normal = hit.normal;
-                segment = hit.transform.GetComponent<Segment>();
+                segment = hit.transform.GetComponentInParent<Segment>();
             }
             else
             {

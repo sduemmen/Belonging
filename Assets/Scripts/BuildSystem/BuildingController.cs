@@ -184,11 +184,11 @@ namespace BuildSystem
                     {
                         m_ghostPlacementStatus = GhostPlacementStatus.Invalid;
                     }
-                    if (ghostSegment.m_needsCeilingContact && normal.y > -0.5f)
+                    if (ghostSegment.m_needsCeilingContact && (normal.y > -0.5f || !hitSegment))
                     {
                         m_ghostPlacementStatus = GhostPlacementStatus.Invalid;
                     }
-                    if (ghostSegment.m_needsWallContact && Mathf.Abs(normal.y) > 0.05f)
+                    if (ghostSegment.m_needsWallContact && (Mathf.Abs(normal.y) > 0.05f || !hitSegment))
                     {
                         m_ghostPlacementStatus = GhostPlacementStatus.Invalid;
                     }
@@ -354,6 +354,18 @@ namespace BuildSystem
                     GameObject instance = Instantiate(segmentObject, objectPosition, objectRotation);
                     Ghost ghost = instance.GetComponent<Ghost>();
                     ghost.ResetMaterial();
+
+                    if (segment.m_isLightSource)
+                    {
+                        Light lightSource = instance.GetComponentInChildren<Light>();
+                        lightSource.enabled = true;
+                        FlickeringLight flickeringLight = instance.GetComponentInChildren<FlickeringLight>();
+                        if (flickeringLight)
+                        {
+                            flickeringLight.m_originalPosition = flickeringLight.transform.position;
+                            flickeringLight.m_enabled = true;
+                        }
+                    }
                     
                     foreach (ItemStack buildCost in segment.m_requirements)
                     {
@@ -388,6 +400,19 @@ namespace BuildSystem
 
             GameObject newSelectedSegment = Resources.Load<GameObject>($"Prefabs/Models/Segment/{clickedSlot.SegmentName}");
             _ghostSegment = Instantiate(newSelectedSegment);
+            Segment ghostSegment = _ghostSegment.GetComponent<Segment>();
+
+            if (ghostSegment)
+            {
+                if (ghostSegment.m_isLightSource)
+                {
+                    ghostSegment.GetComponentInChildren<Light>().enabled = false;
+                }
+            }
+            else
+            {
+                Debug.Log($"No Segment script attached to GameObject {_ghostSegment.name}");
+            }
 
             HideDisplayContext();
         }

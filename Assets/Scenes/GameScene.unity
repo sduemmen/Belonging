@@ -11580,11 +11580,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   NoiseModule:
-    enabled: 0
+    enabled: 1
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -11637,7 +11637,7 @@ ParticleSystem:
     strengthY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -11690,7 +11690,7 @@ ParticleSystem:
     strengthZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -11740,7 +11740,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    separateAxes: 0
+    separateAxes: 1
     frequency: 0.5
     damping: 1
     octaves: 1
@@ -12514,7 +12514,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 4
     type: 1
     collisionMode: 0
@@ -12632,7 +12632,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -12687,7 +12687,7 @@ ParticleSystem:
     radiusScale: 1
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 1073741824
     maxCollisionShapes: 256
     quality: 1
     voxelSize: 0.5
@@ -22618,6 +22618,7 @@ GameObject:
   - component: {fileID: 998940089710642168}
   - component: {fileID: 998940089710642176}
   - component: {fileID: 998940089710642175}
+  - component: {fileID: 998940089710642179}
   - component: {fileID: 998940089710642174}
   - component: {fileID: 998940089710642178}
   - component: {fileID: 998940089710642177}
@@ -23332,9 +23333,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 901356520529662142}
-  _destructibleLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
   _cooldownIndicator: {fileID: 1320616460}
 --- !u!114 &998940089710642175
 MonoBehaviour:
@@ -23479,6 +23477,22 @@ MonoBehaviour:
   _audioClipSelectionMode: 1
   _audioClip: {fileID: 0}
   _audioClipCollection: {fileID: 11400000, guid: 47aca2ef4e6d7fd429370dd0b3ea781b, type: 2}
+--- !u!114 &998940089710642179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904080049840736586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bda952adf6d583348ba1abc64b3fae12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlinePixelWidth: 4
+  renderers: []
+  outlineShader: {fileID: 4800000, guid: fd90e519ed213894799b4fe4eabf40fd, type: 3}
 --- !u!1001 &2774633032909210785
 PrefabInstance:
   m_ObjectHideFlags: 0

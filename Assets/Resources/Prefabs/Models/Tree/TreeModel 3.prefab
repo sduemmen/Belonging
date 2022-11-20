@@ -70,6 +70,7 @@ MonoBehaviour:
     _amount: 4
   m_hasHoverEffect: 0
   m_hoverMaterial: {fileID: 0}
+  m_useOutlineInsteadOfMaterial: 1
   m_chunkPosition: {x: 0, y: 0}
   m_positionInChunk: {x: 0, y: 0}
   m_recordWorldAlterations: 1
