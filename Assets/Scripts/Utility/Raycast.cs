@@ -46,5 +46,14 @@ namespace Utility
 
             return objectHit;
         }
+        
+        public static bool SegmentRayCast(LayerMask layerMask, float distance, out RaycastHit hit, out Segment segment)
+        {
+            bool objectHit = GetMouseRayHit(layerMask, distance, out hit);
+
+            segment = objectHit ? hit.transform.GetComponentInParent<Segment>() : null;
+
+            return objectHit;
+        }
     }
 }

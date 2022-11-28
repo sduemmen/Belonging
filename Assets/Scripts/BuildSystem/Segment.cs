@@ -20,6 +20,8 @@ namespace BuildSystem
         public bool m_enableSnapping = true;
 
         public bool m_needsGroundContact;
+        
+        public bool m_needsFloorContact;
 
         public bool m_needsCeilingContact;
 

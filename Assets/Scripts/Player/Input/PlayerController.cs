@@ -35,7 +35,7 @@ namespace Player.Input
 
             if (playerIsMoving)
             {
-                movementInput = MathUtilities.RotateVector2Deg(new Vector2(-movementInput.x, movementInput.y), _cameraTarget.eulerAngles.y);
+                movementInput = Utils.Math.RotateVector2Deg(new Vector2(-movementInput.x, movementInput.y), _cameraTarget.eulerAngles.y);
                 lookDirection = Mathf.Acos(Vector2.Dot(Vector2.up, movementInput));
                 lookDirection *= Mathf.Sign(movementInput.x);
                 _currentLookDirectionAngle = lookDirection;

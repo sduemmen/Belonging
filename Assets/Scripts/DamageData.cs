@@ -9,10 +9,10 @@ public class DamageData
 
     public ToolItemObject m_usedTool;
 
-    public int m_damageAmount;
+    public float m_damageAmount;
     
 
-    public DamageData(Vector3 hitPoint, Vector3 hitDirection, ToolItemObject usedTool, int damageAmount)
+    public DamageData(Vector3 hitPoint, Vector3 hitDirection, ToolItemObject usedTool, float damageAmount)
     {
         m_hitPoint = hitPoint;
         m_hitDirection = hitDirection;

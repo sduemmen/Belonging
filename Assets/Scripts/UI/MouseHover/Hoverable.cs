@@ -11,8 +11,6 @@ namespace UI
     [RequireComponent(typeof(EventTrigger))]
     public abstract class Hoverable : MonoBehaviour
     {
-        // TODO make behaviours only editable when "editMode" is true
-        [SerializeField, PropertyOrder(100), TitleGroup("Hover Settings")] private bool editMode;
         [InlineEditor, SerializeField, PropertyOrder(1001), TitleGroup("Hover Settings")] private List<ScriptableObject> _hoverBehaviours;
 
         // scale internals
@@ -57,6 +55,17 @@ namespace UI
             onHoverLeave.eventID = EventTriggerType.PointerExit;
             onHoverLeave.callback.AddListener(e => OnHoverLeave());
             eventTrigger.triggers.Add(onHoverLeave);
+        }
+
+        private void OnDisable()
+        {
+            foreach (ScriptableObject hoverBehaviour in _hoverBehaviours)
+            {
+                if (hoverBehaviour is ScaleHoverBehaviour scaleHoverBehaviour)
+                {
+                    this.transform.localScale = _originalScale;
+                }
+            }
         }
 
         public abstract void OnTooltipVisible(Tooltip tooltip);

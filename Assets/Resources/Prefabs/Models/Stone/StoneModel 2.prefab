@@ -87,7 +87,6 @@ GameObject:
   - component: {fileID: 4661364726207729973}
   - component: {fileID: 7445727594964919807}
   - component: {fileID: 5310562494077970523}
-  - component: {fileID: 7329329242185440714}
   m_Layer: 29
   m_Name: stone_model_1
   m_TagString: Untagged
@@ -182,21 +181,3 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: c56ac809372f2bb4fb993bc6790f7c61, type: 3}
---- !u!114 &7329329242185440714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8958915010648245290}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 1
-  outlineColor: {r: 0.85882354, g: 0.85882354, b: 0.85882354, a: 1}
-  outlineWidth: 10
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []

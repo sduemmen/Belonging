@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BuildSystem;
 using Flags;
 using SaveSystem.Data;
 using UnityEngine;
@@ -27,7 +26,6 @@ namespace SaveSystem
         {
             if (Instance != null)
             {
-                // Destroy latest instance
                 Destroy(this.gameObject);
                 return;
             }
@@ -90,19 +88,6 @@ namespace SaveSystem
                 item.GetComponent<Pickupable>().Initialize(persistentItemData);
             }
 
-            foreach (PersistentDestroyableData persistentDestroyableData in _gameData.persistentDestroyables)
-            {
-                GameObject gameObjectToInstantiate = PersistentDestroyableData.GetGameObjectFromType(persistentDestroyableData.prefabName);
-                GameObject obj = Instantiate(gameObjectToInstantiate, persistentDestroyableData.worldPosition, persistentDestroyableData.worldRotation);
-                Ghost ghost = obj.GetComponent<Ghost>();
-                if (ghost != null)
-                {
-                    ghost.ResetMaterial();
-                }
-
-                obj.GetComponent<Destroyable>().Health = persistentDestroyableData.health;
-            }
-
             foreach (PersistentDestructibleData persistentDestructibleData in _gameData.persistentDestructibleData)
             {
                 Destructible obj = Destructible.Load(persistentDestructibleData.m_prefabName, persistentDestructibleData.m_category);
@@ -137,7 +122,6 @@ namespace SaveSystem
                 _gameData = new GameData();
             }
 
-            _gameData.persistentDestroyables.Clear();
             _gameData.persistentItems.Clear();
             _gameData.persistentDestructibleData.Clear();
             _gameData.persistentInventoryData.Clear();

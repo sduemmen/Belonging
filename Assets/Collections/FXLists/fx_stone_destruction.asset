@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_audioClipCollections:
   - m_audioClipCollection: {fileID: 11400000, guid: 9524510cf3554e14f99cda2315047b2f, type: 2}
-    m_clipSelectionMode: 2
-    m_volume: 0.5
+    m_clipSelectionMode: 1
+    m_volume: 0.4
   m_particles: []

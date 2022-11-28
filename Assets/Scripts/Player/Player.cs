@@ -1,11 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using BuildSystem;
-using SaveSystem;
+﻿using SaveSystem;
 using SaveSystem.Data;
-using UI;
 using UnityEngine;
-using Utility;
 
 namespace Player
 {
@@ -15,28 +10,19 @@ namespace Player
 
         public Vector3 m_spawnPoint;
 
-        private LayerMask m_placementMask;
-        
-        private GameObject m_ghostSegment;
+        public PlayerSkills m_playerSkills = new PlayerSkills();
 
-        // private GhostPlacementStatus m_ghostPlacementStatus;
-        
-        private int m_segmentRotationQuadrant;
+        public FXList m_levelUpFX;
 
-        private List<Transform> m_snapPointsAroundGhost = new List<Transform>();
-        
-        private List<Transform> m_snapPointsInGhost = new List<Transform>();
-        
-        private List<Segment> m_segmentsAroundGhost;
-        
 
         private void Awake()
         {
-            m_placementMask = LayerMask.GetMask("Default", "Destructible", "Segment", "Ground");
-            
-            m_ghostSegment = null;
-            // m_ghostPlacementStatus = GhostPlacementStatus.Valid;
-            m_segmentRotationQuadrant = 0;
+            m_playerSkills.skillLevelUpDelegate += OnLevelUp;
+        }
+
+        private void OnLevelUp()
+        {
+            m_levelUpFX.PlayFX(transform.position + Vector3.up);
         }
 
         public void LoadData(GameData data)
@@ -44,6 +30,7 @@ namespace Player
             m_spawnPoint = data.playerSpawnPosition;
             m_player.position = data.firstLoad ? m_spawnPoint : data.playerPosition;
             m_player.rotation = data.playerRotation;
+            m_playerSkills.m_skills = data.firstLoad ? m_playerSkills.m_skills : data.playerSkills;
         }
 
         public void SaveData(ref GameData data)
@@ -51,6 +38,7 @@ namespace Player
             data.playerSpawnPosition = m_spawnPoint;
             data.playerPosition = m_player.position;
             data.playerRotation = m_player.rotation;
+            data.playerSkills = m_playerSkills.m_skills;
         }
     }
 }

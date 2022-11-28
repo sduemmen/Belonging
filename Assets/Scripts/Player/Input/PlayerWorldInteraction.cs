@@ -13,7 +13,8 @@ namespace Player.Input
     {
         [SerializeField] private Transform _player;
         [SerializeField] private Slider _cooldownIndicator;
-        private float _cooldown;
+        private float _destructibleAttackCooldown;
+        private float _segmentAttackCooldown;
         private int _selectedSlotIndex = -1;
         private LayerMask _destructibleLayerMask;
         private Destructible _currentDestructibleHoveredOver;
@@ -35,21 +36,24 @@ namespace Player.Input
 
         private void UpdateAttackCooldown()
         {
-            _cooldown = Mathf.Max(_cooldown - 1 * Time.deltaTime, 0);
-            _cooldownIndicator.value = _cooldown;
+            _segmentAttackCooldown = Mathf.Max(_segmentAttackCooldown - 1 * Time.deltaTime, 0);
+            _destructibleAttackCooldown = Mathf.Max(_destructibleAttackCooldown - 1 * Time.deltaTime, 0);
+            _cooldownIndicator.value = _destructibleAttackCooldown;
             _cooldownIndicator.gameObject.SetActive((GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED));
         }
 
         private void UpdateDestructibleHoveredOver()
         {
-            if ((GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) && Destructible.GetDestructibleHoveredOver(_destructibleLayerMask, 40, out RaycastHit hit, out Destructible destructibleHoveredOver))
+            if (GameFlags.SLOT_EQUIPPED && Destructible.GetDestructibleHoveredOver(_destructibleLayerMask, 40, out RaycastHit hit, out Destructible destructibleHoveredOver))
             {
                 if (destructibleHoveredOver != _currentDestructibleHoveredOver)
                 {
                     ResetCurrentDestructibleHoveredOver();
                 }
                 
-                bool usingCorrectTool = (destructibleHoveredOver.m_requiredTool.DisplayName == "Axe" && GameFlags.AXE_EQUIPPED) || (destructibleHoveredOver.m_requiredTool.DisplayName == "Pickaxe" && GameFlags.PICKAXE_EQUIPPED);
+                bool usingCorrectTool = (destructibleHoveredOver.m_requiredTool.DisplayName == "Axe" && GameFlags.AXE_EQUIPPED) || 
+                                        (destructibleHoveredOver.m_requiredTool.DisplayName == "Pickaxe" && GameFlags.PICKAXE_EQUIPPED) ||
+                                        (destructibleHoveredOver.m_requiredTool.DisplayName == "Hammer" && GameFlags.HAMMER_EQUIPPED && BuildingController.Instance.m_inDeleteMode);
 
                 if (usingCorrectTool && destructibleHoveredOver != _currentDestructibleHoveredOver)
                 {
@@ -136,10 +140,7 @@ namespace Player.Input
             ToolbarInventoryController.Instance.DisableHighlight();
             MouseInventory.Instance.SetAssignedInventorySlot(new InventorySlot());
             
-            if (BuildingController.Instance.GhostSegmentVisible)
-            {
-                BuildingController.Instance.DestroyGhostSegment();
-            }
+            BuildingController.Instance.DestroyGhostSegment();
         }
 
         private void UpdateSelectedSlotHighlight()
@@ -154,13 +155,19 @@ namespace Player.Input
 
         public void OnToolUsed()
         {
-            if ((GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) && _cooldown <= 0)
+            if ((GameFlags.AXE_EQUIPPED || GameFlags.PICKAXE_EQUIPPED) && _destructibleAttackCooldown <= 0)
             {
                 CheckDestructibleHit();
-                _cooldown = 1;
+                _destructibleAttackCooldown = 1;
             }
 
-            if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED && !InputController.LeftMouseButtonHeldDown)
+            if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED && BuildingController.Instance.m_inDeleteMode && _segmentAttackCooldown <= 0)
+            {
+                BuildingController.Instance.TryDeleteSegment();
+                _segmentAttackCooldown = .2f;
+            }
+            
+            if (GameFlags.HAMMER_EQUIPPED && GameFlags.BUILD_MENU_CLOSED && !BuildingController.Instance.m_inDeleteMode && !InputController.LeftMouseButtonHeldDown)
             {
                 BuildingController.Instance.TryPlaceSegment();
             }
@@ -171,8 +178,15 @@ namespace Player.Input
             if (Destructible.GetDestructibleHoveredOver(_destructibleLayerMask, 30, out RaycastHit hit, out Destructible hitDestructible))
             {
                 ToolItemObject equippedTool = (ToolItemObject)ToolbarInventoryController.Instance.ToolbarInventory.InventorySlots[_selectedSlotIndex].Item;
-                if (equippedTool == null) return;
-                hitDestructible.OnDamaged(new DamageData(hit.point, (hit.point - _player.position).normalized, equippedTool, 1));
+                if (equippedTool == null || equippedTool.DisplayName.Equals("Hammer")) return;
+
+                PlayerSkills playerSkills = GetComponent<Player>().m_playerSkills;
+                float damageAmount = Mathf.Pow(1.1f, playerSkills.GetLevel(equippedTool.DisplayName));
+                
+                if (hitDestructible.OnDamaged(new DamageData(hit.point, (hit.point - _player.position).normalized, equippedTool, damageAmount)));
+                {
+                    playerSkills.AddToSkill(equippedTool.DisplayName, 0.05f);
+                }
             }
         }
     }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 namespace UI
@@ -19,9 +17,11 @@ namespace UI
             }
         }
 
+        public static Color achievementColor = new Color(.9f, .8f, .4f);
+        public static Color errorColor = new Color(.8f, .4f, .4f);
+        public static Color defaultColor = new Color(.2f, .2f, .2f);
+        
         [SerializeField] private Hint _hintPrefab;
-        [SerializeField] private Color _defaultTextColor = new Color(.2f, .2f, .2f);
-        [SerializeField] private Color _errorColor = new Color(.8f, .4f, .4f);
         private List<Hint> _activeHints;
 
         private void Awake()
@@ -50,17 +50,17 @@ namespace UI
 
         public void AddHint(string message, bool stack)
         {
-            AddHint(message, _defaultTextColor, stack);
+            AddHint(message, defaultColor, stack);
         }
         
         public void AddHint(string message)
         {
-            AddHint(message, _defaultTextColor);
+            AddHint(message, defaultColor);
         }
         
         public void AddErrorHint(string message, bool stack = false)
         {
-            AddHint(message, _errorColor, stack);
+            AddHint(message, errorColor, stack);
         }
 
         private void OnHintLifecycleComplete(Hint hint)

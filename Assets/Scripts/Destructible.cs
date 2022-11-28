@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BuildSystem;
+using Flags;
 using InventorySystem.Items;
 using SaveSystem;
 using SaveSystem.Data;
@@ -28,7 +29,7 @@ public class Destructible : MonoBehaviour, IDataPersistence
 
     public FXList m_destructionFX;
     
-    public int m_health;
+    public float m_health;
 
     public List<ItemStack> m_itemDrops;
 
@@ -45,6 +46,8 @@ public class Destructible : MonoBehaviour, IDataPersistence
     public bool m_recordWorldAlterations = true;
 
     public bool m_countsTowardsPlacedSegments;
+
+    public bool m_isPersistent;
 
 
     public static Destructible Load(string name, DestructibleCategory category)
@@ -68,9 +71,9 @@ public class Destructible : MonoBehaviour, IDataPersistence
         m_health = data.m_health;
     }
 
-    public void OnDamaged(DamageData damageData)
+    public bool OnDamaged(DamageData damageData)
     {
-        if (damageData.m_usedTool != m_requiredTool) return;
+        if (damageData.m_usedTool != m_requiredTool) return false;
 
         if (m_damageFX)
         {
@@ -82,6 +85,8 @@ public class Destructible : MonoBehaviour, IDataPersistence
         {
             OnDestroyed(damageData);
         }
+
+        return true;
     }
 
     public void OnDestroyed(DamageData damageData)
@@ -120,6 +125,10 @@ public class Destructible : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
+        if (GameFlags.MAIN_MENU_ACTIVE || !m_isPersistent)
+        {
+            return;
+        }
         data.persistentDestructibleData.Add(new PersistentDestructibleData(this));
     }
 }

@@ -15,3 +15,6 @@ MonoBehaviour:
   _name: Stone Destruction
   _audioClips:
   - {fileID: 8300000, guid: 92267e7a4c0b3df40b132b484f9006d1, type: 3}
+  - {fileID: 8300000, guid: 1452b1b92e836fc42931bb663f445e17, type: 3}
+  - {fileID: 8300000, guid: 919ec1d301a211d4cac96488a19fe9ce, type: 3}
+  - {fileID: 8300000, guid: 116216e56e364f646a18602bdcf2de21, type: 3}

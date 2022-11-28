@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Tooltip-Buildcost
   m_EditorClassIdentifier: 
   _tooltipPrefab: {fileID: 1556651541655952, guid: 42208f52636579f428206150555d8634, type: 3}
+  _timeUntilDisplayed: 0
   _useCustomOffset: 0
   _tooltipOffset: {x: 0, y: 0, z: 0}
   _tooltipRotation: {x: 0, y: 0, z: 0}

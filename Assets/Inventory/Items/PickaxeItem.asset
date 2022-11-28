@@ -15,5 +15,5 @@ MonoBehaviour:
   _displayName: Pickaxe
   _description: 
   _category: 1
-  _icon: {fileID: 21300000, guid: c13c772f7467fb849a54e0ef3716f9f9, type: 3}
+  _icon: {fileID: 21300000, guid: a78852b220776aa40b7a60c686c5960e, type: 3}
   _maxStackSize: 1

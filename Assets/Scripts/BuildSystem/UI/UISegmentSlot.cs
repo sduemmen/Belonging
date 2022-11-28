@@ -18,7 +18,10 @@ namespace BuildSystem.UI
 
         public void OnSlotClicked()
         {
-            if (!BuildingController.Instance.IsSegmentUnlocked(_segmentName)) return;
+            if (!BuildingController.Instance.IsSegmentUnlocked(_segmentName) && !BuildingController.Instance.m_unlockEverything)
+            {
+                return;
+            }
 
             BuildingController.OnSegmentSlotClickedDelegate?.Invoke(this);
             MouseTooltip.Instance.Hide();

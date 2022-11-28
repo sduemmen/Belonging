@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: xSensitivity
   m_EditorClassIdentifier: 
   defaultValue: 40
-  value: 40
+  value: 15
   resetOnRestarts: 1

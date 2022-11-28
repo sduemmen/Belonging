@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Environment;
@@ -6,6 +7,7 @@ using SaveSystem.Data;
 using UnityEditor;
 using UnityEngine;
 using Utility;
+using Random = UnityEngine.Random;
 
 namespace World
 {
@@ -31,6 +33,7 @@ namespace World
         public int objectDistance;
         public WorldAlterations worldAlterations;
         public int placedSegments;
+        public float playtime;
         private List<GameObject> _halfLoadedChunks;
         private List<GameObject> _loadedChunks;
 
@@ -39,7 +42,12 @@ namespace World
             seed = Random.Range(1, 1000000);
             _loadedChunks = new List<GameObject>();
             _halfLoadedChunks = new List<GameObject>();
-            InvokeRepeating(nameof(UpdateChunks), 0f, 0.2f); // update chunks every .2 seconds
+            InvokeRepeating(nameof(UpdateChunks), 0f, 0.2f);
+        }
+
+        private void Update()
+        {
+            playtime += Time.deltaTime;
         }
 
         private void UpdateChunks()
@@ -83,8 +91,6 @@ namespace World
                     chunk.SpawnObjects();
 
                     _loadedChunks.Add(chunkObj);
-                    
-                    // StartCoroutine(LoadChunkAfterTime(chunkPos, worldSpacePosition, i * .01f));
                 }
             }
 
@@ -124,20 +130,6 @@ namespace World
                 }
             }
         }
-
-        private IEnumerator LoadChunkAfterTime(Vector2Int chunkPos, Vector2 worldSpacePosition, float delay)
-        {
-            yield return new WaitForSecondsRealtime(delay);
-            
-            GameObject chunkObj = Instantiate(_chunkPrefab, new Vector3(worldSpacePosition.x, 0, worldSpacePosition.y), Quaternion.identity);
-            chunkObj.transform.SetParent(transform);
-
-            Chunk chunk = chunkObj.GetComponent<Chunk>();
-            chunk.chunkPosition = chunkPos;
-            chunk.SpawnObjects();
-
-            _loadedChunks.Add(chunkObj);
-        }
         
         public void LoadData(GameData data)
         {
@@ -145,6 +137,7 @@ namespace World
             treeDensityThreshold = data.treeDensityThreshold;
             stoneDensityThreshold = data.stoneDensityThreshold;
             placedSegments = data.placedSegments;
+            playtime = data.playtime;
             
             foreach (string worldAlteration in data.worldAlterations)
             {
@@ -158,8 +151,9 @@ namespace World
             data.treeDensityThreshold = data.treeDensityThreshold != 0 ? data.treeDensityThreshold : treeDensityThreshold;
             data.stoneDensityThreshold = data.stoneDensityThreshold != 0 ? data.stoneDensityThreshold : stoneDensityThreshold;
             data.placedSegments = placedSegments;
-            data.worldAlterations.Clear();
+            data.playtime = playtime;
             
+            data.worldAlterations.Clear();
             foreach (UInt128 worldAlteration in worldAlterations.GetAlterations())
             {
                 data.worldAlterations.Add(worldAlteration.ToString());

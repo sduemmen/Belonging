@@ -2392,7 +2392,7 @@ MonoBehaviour:
   _player: {fileID: 822832890}
   _chunkLoadingRadius: 2
   _chunkHalfLoadingRadius: 0
-  _chunkPrefab: {fileID: 742958772297745622, guid: 9a6f3448cea6a1243a032b174acb0610, type: 3}
+  _chunkPrefab: {fileID: 742958772297745622, guid: 519b1ba778010fa42b5259213db762c8, type: 3}
   seed: 2222
   treeDensityThreshold: 0.4
   stoneDensityThreshold: 0.1
@@ -2400,6 +2400,7 @@ MonoBehaviour:
   worldAlterations:
     alterations: []
   placedSegments: 0
+  playtime: 0
 --- !u!1001 &462064818
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9976,7 +9977,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
-  m_AllowMSAA: 0
+  m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -10032,7 +10033,7 @@ MonoBehaviour:
     m_Bits: 2684354569
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
-  antialiasingMode: 0
+  antialiasingMode: 1
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.25

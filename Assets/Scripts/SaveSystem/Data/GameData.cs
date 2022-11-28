@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using BuildSystem;
 using Flags;
+using Player;
 using UI.MainMenu;
 using UnityEngine;
-using Random = System.Random;
 
 namespace SaveSystem.Data
 {
@@ -24,11 +24,11 @@ namespace SaveSystem.Data
         public float stoneDensityThreshold;
         public List<string> worldAlterations;
         public List<PersistentItemData> persistentItems;
-        public List<PersistentDestroyableData> persistentDestroyables;
         public List<PersistentDestructibleData> persistentDestructibleData;
         public List<PersistentInventoryData> persistentInventoryData;
         public List<SegmentUnlockData> segmentUnlockData;
         public List<PersistentQuestData> quests;
+        public List<PlayerSkills.Skill> playerSkills;
 
         public string name;
         public float playtime;
@@ -53,12 +53,12 @@ namespace SaveSystem.Data
             stoneDensityThreshold = 0;
             worldAlterations = new List<string>();
             persistentItems = new List<PersistentItemData>();
-            persistentDestroyables = new List<PersistentDestroyableData>();
             persistentDestructibleData = new List<PersistentDestructibleData>();
             persistentInventoryData = new List<PersistentInventoryData>();
             segmentUnlockData = new List<SegmentUnlockData>();
             quests = new List<PersistentQuestData>();
-
+            playerSkills = new List<PlayerSkills.Skill>();
+            
             name = "New World";
             playtime = 0f;
             placedSegments = 0;
@@ -83,11 +83,11 @@ namespace SaveSystem.Data
             stoneDensityThreshold = newGameData.stoneDensityThreshold;
             worldAlterations = new List<string>();
             persistentItems = new List<PersistentItemData>();
-            persistentDestroyables = new List<PersistentDestroyableData>();
             persistentDestructibleData = new List<PersistentDestructibleData>();
             persistentInventoryData = new List<PersistentInventoryData>();
             segmentUnlockData = new List<SegmentUnlockData>();
             quests = new List<PersistentQuestData>();
+            playerSkills = new List<PlayerSkills.Skill>();
 
             name = newGameData.gameName;
             playtime = 0f;

@@ -13,7 +13,7 @@ public class PersistentDestructibleData
     
     public Quaternion m_rotation;
 
-    public int m_health;
+    public float m_health;
 
     public PersistentDestructibleData(string prefabName, Destructible.DestructibleCategory category, Vector3 position, Quaternion rotation, int health)
     {
@@ -32,7 +32,7 @@ public class PersistentDestructibleData
         m_rotation = transform.rotation;
         m_health = health;
     }
-    
+    // todo fix save in main menu
     public PersistentDestructibleData(Destructible d)
     {
         m_prefabName = d.m_prefabName;

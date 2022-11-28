@@ -41,7 +41,7 @@ namespace QuestSystem.QuestBehaviours
         public float progressAmount;
 
         [PropertyOrder(15)] [TitleGroup("Progress")] [SerializeField]
-        public Comparison completeCondition;
+        public ComparisonType completeCondition;
 
         [PropertyOrder(16)] [TitleGroup("Progress")] [SerializeReference]
         public QuestProgressBehaviour progressBehaviour;
@@ -64,14 +64,14 @@ namespace QuestSystem.QuestBehaviours
         {
             Debug.Log("dynamic");
             current = progressBehaviour.GetNewProgress(current, f);
-            if (MathUtilities.Evaluate(completeCondition, current, target)) OnComplete?.Invoke();
+            if (Utils.Evaluate(completeCondition, current, target)) OnComplete?.Invoke();
         }
 
         public void Progress()
         {
             current = progressBehaviour.GetNewProgress(current, progressAmount);
             OnUpdate();
-            if (MathUtilities.Evaluate(completeCondition, current, target)) OnComplete?.Invoke();
+            if (Utils.Evaluate(completeCondition, current, target)) OnComplete?.Invoke();
         }
 
         public override void Initialize(QuestBehaviour questBehaviour)
