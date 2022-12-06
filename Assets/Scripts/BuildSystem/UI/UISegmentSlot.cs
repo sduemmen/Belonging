@@ -18,7 +18,7 @@ namespace BuildSystem.UI
 
         public void OnSlotClicked()
         {
-            if (!BuildingController.Instance.IsSegmentUnlocked(_segmentName) && !BuildingController.Instance.m_unlockEverything)
+            if (!BuildingController.Instance.IsSegmentUnlocked(_segmentName) && !BuildingController.Instance.m_unlockAll)
             {
                 return;
             }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using BuildSystem.UI;
 using Collections;
-using Flags;
 using InventorySystem;
 using InventorySystem.Items;
 using SaveSystem.Data;
@@ -37,35 +37,67 @@ namespace BuildSystem
         }
 
         [SerializeField, TitleGroup("General")] private List<SegmentCollection> _segmentCollections;
+        
         [SerializeField, TitleGroup("General")] private List<SegmentUnlockData> _segmentUnlockData;
+        
         [SerializeField, TitleGroup("UI")] private GameObject _uiBuildMenuDisplayContext;
+        
         [SerializeField, TitleGroup("UI")] private Transform _uiBuildMenuTarget;
+        
         [SerializeField, TitleGroup("UI")] private GameObject _uiCollectionRowPrefab;
+        
         [SerializeField, TitleGroup("UI")] private UISegmentSlot _uiSegmentSlotPrefab;
+        
         private List<UISegmentSlot> m_uiSegmentSlots;
+        
         private bool m_displayContextActive;
 
         public bool m_inDeleteMode;
+        
         private Material m_validPlacementMaterial;
+        
         private Material m_invalidPlacementMaterial;
-        private GameObject m_ghostSegment;
+        
+        public GameObject m_ghostSegment;
+        
         private LayerMask m_placementMask;
+        
         private GhostPlacementStatus m_ghostPlacementStatus;
+        
         private int m_segmentRotationQuadrant;
+        
         private List<Transform> m_snapPointsAroundGhost = new List<Transform>();
+        
         private List<Transform> m_snapPointsInGhost = new List<Transform>();
+        
         private List<Segment> m_segmentsAroundGhost = new List<Segment>();
 
+        private float m_buildCooldown;
+        
         public bool m_noBuildCost;
-        public bool m_unlockEverything;
+        
+        public bool m_unlockAll;
 
         public static UnityAction<UISegmentSlot> OnSegmentSlotClickedDelegate;
+        
         public static UnityAction<string> OnSegmentUnlockedDelegate;
 
         public bool DisplayContextActive => m_displayContextActive;
         
         
 #if UNITY_EDITOR
+        [Button("Setup Quest Folders"), TitleGroup("General")]
+        private void SetupQuestFolders()
+        {
+            foreach (SegmentUnlockData segmentUnlockData in _segmentUnlockData)
+            {
+                if (!Directory.Exists(Application.dataPath + $"/Collections/Quests/Unlock {segmentUnlockData.segmentName}"))
+                {
+                    Directory.CreateDirectory(Application.dataPath + $"/Collections/Quests/Unlock {segmentUnlockData.segmentName}");
+                }
+            }
+        }
+
         [Button("Setup Unlock Data"), TitleGroup("General")]
         private void SetupUnlockData()
         {
@@ -143,16 +175,53 @@ namespace BuildSystem
 
         private void Update()
         {
-            if (!GameFlags.HAMMER_EQUIPPED) return;
-
-            Cursor.visible = !m_inDeleteMode;
-            Cursor.lockState = CursorLockMode.None;
+            m_buildCooldown -= Time.deltaTime;
+            CheckInput();
             
-            UpdateGhostSegment();
+            if (Flags.HAMMER_EQUIPPED)
+            {
+                UpdateGhostSegment();
+            }
+        }
 
-            if (Input.GetKeyDown(KeyCode.O))
+        private void CheckInput()
+        {
+            if (Flags.GAME_PAUSED)
+            {
+                return;
+            }
+            
+            if (InputSystem.GetKeyDown(InputSystem.KeyBinds.dev_no_build_cost))
             {
                 m_noBuildCost = !m_noBuildCost;
+            }
+            if (InputSystem.GetKeyDown(InputSystem.KeyBinds.dev_unlock_all))
+            {
+                UnlockAll();
+            }
+
+            if (InputSystem.GetKeyDown(InputSystem.KeyBinds.Open_Build_Menu))
+            {
+                if (m_displayContextActive)
+                {
+                    HideDisplayContext();
+                }
+                else
+                {
+                    ShowDisplayContext();
+                }
+            }
+            else if (InputSystem.GetKeysDown(InputSystem.KeyBinds.Toggle_Inventory, InputSystem.KeyBinds.Toggle_Quest_Display, InputSystem.KeyBinds.EquipUnequip_Axe, InputSystem.KeyBinds.EquipUnequip_Pickaxe))
+            {
+                HideDisplayContext();
+            }
+            else if (InputSystem.GetKeyDown(InputSystem.KeyBinds.Pause_Game) && m_displayContextActive)
+            {
+                HideDisplayContext();
+            }
+            else if (InputSystem.GetKeyDown(InputSystem.KeyBinds.Cancel) && Flags.HAMMER_EQUIPPED && !m_displayContextActive)
+            {
+                ShowDisplayContext();
             }
         }
         
@@ -162,8 +231,8 @@ namespace BuildSystem
             {
                 return;
             }
-
-            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.mouseScrollDelta.y > 0)
+            
+            if (Input.mouseScrollDelta.y > 0)
             {
                 m_segmentRotationQuadrant++;
 
@@ -174,7 +243,7 @@ namespace BuildSystem
 
                 m_segmentRotationQuadrant %= 16;
             }
-            else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.mouseScrollDelta.y < 0)
+            else if (Input.mouseScrollDelta.y < 0)
             {
                 m_segmentRotationQuadrant--;
 
@@ -186,7 +255,6 @@ namespace BuildSystem
                 m_segmentRotationQuadrant %= 16;
             }
             
-
             if (Raycast.SegmentRayCast(m_placementMask, 30f, out RaycastHit hit, out Vector3 point, out Vector3 normal, out Segment hitSegment))
             {
                 if (m_ghostSegment.TryGetComponent(out Segment ghostSegment))
@@ -198,7 +266,6 @@ namespace BuildSystem
                     {
                         m_ghostPlacementStatus = GhostPlacementStatus.Invalid;
                     }
-
                     if (ghostSegment.m_needsFloorContact && hit.normal.y < .9f)
                     {
                         m_ghostPlacementStatus = GhostPlacementStatus.Invalid;
@@ -211,13 +278,19 @@ namespace BuildSystem
                     {
                         m_ghostPlacementStatus = GhostPlacementStatus.Invalid;
                     }
-                    foreach (ItemStack buildCost in ghostSegment.m_requirements)
+                    if (!m_noBuildCost)
                     {
-                        if (InventoryController.Instance.PlayerInventory.Contains(buildCost.Item, buildCost.Amount)) continue; 
+                        foreach (ItemStack buildCost in ghostSegment.m_requirements)
+                        {
+                            if (InventoryController.Instance.PlayerInventory.Contains(buildCost.Item, buildCost.Amount))
+                            {
+                                continue;
+                            }
                         
-                        m_ghostPlacementStatus = GhostPlacementStatus.TooExpensive;
+                            m_ghostPlacementStatus = GhostPlacementStatus.TooExpensive;
+                        }
                     }
-                    
+
                     Vector3 extrudedNormal = point + normal * 20;
                     Quaternion rotation = Quaternion.Euler(0, 22.5f * m_segmentRotationQuadrant, 0);
                     m_ghostSegment.transform.position = extrudedNormal;
@@ -356,13 +429,13 @@ namespace BuildSystem
             switch (m_ghostPlacementStatus)
             {
                 case GhostPlacementStatus.Blocked:
-                    HintDisplay.Instance.AddErrorHint("Area blocked");
+                    MessageHUD.Instance.AddMessage(new MessageHUD.MsgData(MessageHUD.MsgType.Error, MessageHUD.MsgPosition.BottomLeft, 3, "Area blocked", false, false));
                     return false;
                 case GhostPlacementStatus.Invalid:
-                    HintDisplay.Instance.AddErrorHint("Invalid Position");
+                    MessageHUD.Instance.AddMessage(new MessageHUD.MsgData(MessageHUD.MsgType.Error, MessageHUD.MsgPosition.BottomLeft, 3, "Invalid Position", false, false));
                     return false;
                 case GhostPlacementStatus.TooExpensive:
-                    HintDisplay.Instance.AddErrorHint("Too expensive");
+                    MessageHUD.Instance.AddMessage(new MessageHUD.MsgData(MessageHUD.MsgType.Error, MessageHUD.MsgPosition.BottomLeft, 3, "Too expensive", false, false));
                     return false;
                 default:
                     GameObject segmentObject = segment.gameObject;
@@ -409,7 +482,16 @@ namespace BuildSystem
         
         public void TryPlaceSegment()
         {
-            PlaceSegment(m_ghostSegment.GetComponent<Segment>());
+            if (m_buildCooldown > 0)
+            {
+                return;
+            }
+
+            Debug.Log("Placing Segment");
+            if (PlaceSegment(m_ghostSegment.GetComponent<Segment>()))
+            {
+                m_buildCooldown = .75f;
+            }
         }
 
         public void TryDeleteSegment()
@@ -439,19 +521,8 @@ namespace BuildSystem
 
         public void EnterDeleteMode()
         {
-            m_inDeleteMode = true;
-                
-            ToolItemObject hammer = (ToolItemObject)ToolbarInventoryController.Instance.ToolbarInventory.GetSlotAtIndex(2).Item;
-            MouseInventory.Instance.SetAssignedInventorySlot(new InventorySlot(hammer, 1));
-            
             HideDisplayContext();
-        }
-
-        public void LeaveDeleteMode()
-        {
-            m_inDeleteMode = false;
-                
-            MouseInventory.Instance.SetAssignedInventorySlot(new InventorySlot(null, -1));
+            m_inDeleteMode = true;
         }
 
         private void OnSegmentSlotClicked(UISegmentSlot clickedSlot)
@@ -477,7 +548,10 @@ namespace BuildSystem
                 Debug.Log($"No Segment script attached to GameObject {m_ghostSegment.name}");
             }
             
-            HideDisplayContext();
+            m_displayContextActive = false;
+            _uiBuildMenuDisplayContext.SetActive(false);
+            MouseTooltip.Instance.Hide();
+            m_buildCooldown = .5f;
         }
 
         public void OnSegmentUnlocked(string segmentName)
@@ -488,40 +562,23 @@ namespace BuildSystem
                 {
                     unlockData.unlocked = true;
                     m_uiSegmentSlots.Find(slot => slot.SegmentName == segmentName).OnSegmentUnlocked();
-                    Debug.Log("Unlocked " + segmentName);
                 }
             }
             
+            MessageHUD.Instance.AddMessage(new MessageHUD.MsgData(MessageHUD.MsgType.Unlock, MessageHUD.MsgPosition.Center, 5, $"Unlocked new Segment {segmentName}", false, false));
+
             OnSegmentUnlockedDelegate?.Invoke(segmentName);
         }
 
         public bool IsSegmentUnlocked(string segmentName)
         {
-            Debug.Log(segmentName);
             return _segmentUnlockData.Find(data => data.segmentName.Equals(segmentName)).unlocked;
-        }
-
-        public void DestroyGhostSegment()
-        {
-            if (m_ghostSegment != null)
-            {
-                Destroy(m_ghostSegment);
-                m_ghostSegment = null;
-            }
         }
         
         public void ShowDisplayContext()
         {
             m_displayContextActive = true;
             _uiBuildMenuDisplayContext.SetActive(true);
-
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-            
-            if (m_inDeleteMode)
-            {
-                LeaveDeleteMode();
-            }
         }
 
         public void HideDisplayContext()
@@ -530,13 +587,26 @@ namespace BuildSystem
             _uiBuildMenuDisplayContext.SetActive(false);
             MouseTooltip.Instance.Hide();
             
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            if (m_ghostSegment != null)
+            {
+                Destroy(m_ghostSegment);
+                m_ghostSegment = null;
+            }
+            
+            m_inDeleteMode = false;
+            MouseInventory.Instance.SetAssignedInventorySlot(new InventorySlot(null, -1));
         }
         
         public override void LoadData(GameData data)
         {
-            if (data.segmentUnlockData.Count > 0)
+            m_unlockAll = data.unlockAll;
+            m_noBuildCost = data.noBuildCost;
+            
+            if (data.unlockAll)
+            {
+                UnlockAll();
+            }
+            else if (data.segmentUnlockData.Count > 0)
             {
                 _segmentUnlockData = data.segmentUnlockData;
             }
@@ -546,7 +616,21 @@ namespace BuildSystem
 
         public override void SaveData(ref GameData data)
         {
+            data.unlockAll = m_unlockAll;
+            data.noBuildCost = m_noBuildCost;
             data.segmentUnlockData = _segmentUnlockData;
+
+            int unlockedSegments = 0;
+
+            foreach (SegmentUnlockData unlockData in _segmentUnlockData)
+            {
+                if (unlockData.unlocked)
+                {
+                    unlockedSegments++;
+                }
+            }
+
+            data.unlockedSegments = unlockedSegments;
         }
     }
 }

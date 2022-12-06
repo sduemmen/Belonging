@@ -336,7 +336,7 @@ Transform:
   - {fileID: 292724418790034197}
   - {fileID: 292724417444176637}
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &292724419154634669
 MonoBehaviour:
@@ -373,7 +373,9 @@ MonoBehaviour:
   m_damageFX: {fileID: 0}
   m_destructionFX: {fileID: 0}
   m_health: 1
-  m_itemDrops: []
+  m_itemDrops:
+  - _item: {fileID: 11400000, guid: 12105098fa1a4cc48bce492e45e197b9, type: 2}
+    _amount: 8
   m_hasHoverEffect: 1
   m_hoverMaterial: {fileID: 2100000, guid: 42f2a639d12dea1438fb2373233b0865, type: 2}
   m_useOutlineInsteadOfMaterial: 0
@@ -397,7 +399,9 @@ MonoBehaviour:
   m_name: Stone Arch
   m_icon: {fileID: 21300000, guid: c246ac07e568f02488bf871f3134091b, type: 3}
   m_description: 
-  m_requirements: []
+  m_requirements:
+  - _item: {fileID: 11400000, guid: 12105098fa1a4cc48bce492e45e197b9, type: 2}
+    _amount: 8
   m_placementFX: {fileID: 0}
   m_enableSnapping: 1
   m_needsGroundContact: 0

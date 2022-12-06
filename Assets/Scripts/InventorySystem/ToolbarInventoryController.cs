@@ -31,6 +31,7 @@ namespace InventorySystem
             {
                 UIInventorySlot uiInventorySlot = Instantiate(_uiInventorySlotPrefab, _uiToolbarInventoryDisplayTarget, false);
                 uiInventorySlot.Initialize(inventorySlot);
+                uiInventorySlot.StackSizeLabel.text = "";
             }
             
             DisableHighlight();

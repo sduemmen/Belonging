@@ -25,6 +25,12 @@ namespace InventorySystem
 
         [ShowIf("@_isStatic == false")] [SerializeField]
         private SimpleEvent stoneCollectedEvent;
+        
+        [ShowIf("@_isStatic == false")] [SerializeField]
+        private SimpleEvent ironCollectedEvent;
+        
+        [ShowIf("@_isStatic == false")] [SerializeField]
+        private SimpleEvent goldCollectedEvent;
 
         [ShowIf("@_isStatic == false")] [SerializeField]
         private SimpleEvent anyCollectedEvent;
@@ -76,18 +82,25 @@ namespace InventorySystem
             if (!wasDroppedByPlayer)
             {
                 anyCollectedEvent.Raise();
-                if (item.DisplayName == "Wood")
+                switch (item.DisplayName)
                 {
-                    woodCollectedEvent.Raise();
-                }
-                else if (item.DisplayName == "Stone")
-                {
-                    stoneCollectedEvent.Raise();
+                    case "Wood":
+                        woodCollectedEvent.Raise();
+                        break;
+                    case "Stone":
+                        stoneCollectedEvent.Raise();
+                        break;
+                    case "Iron":
+                        ironCollectedEvent.Raise();
+                        break;
+                    case "Gold":
+                        goldCollectedEvent.Raise();
+                        break;
                 }
             }
 
             OnSlotChangedDelegate?.Invoke(slot);
-            HintDisplay.Instance.AddHint($"Collected {item.DisplayName}", true);
+            MessageHUD.Instance.AddMessage(new MessageHUD.MsgData(MessageHUD.MsgType.Info, MessageHUD.MsgPosition.TopLeft, 3, $"Collected {item.DisplayName}", true, true));
             AudioController.Instance.PlayAudio("ItemCollected");
         }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using Flags;
 using UnityEngine;
 using UnityEngine.UI;
 using World;
@@ -40,7 +39,10 @@ namespace UI
 
         private void Draw()
         {
-            if (GameFlags.GAME_PAUSED) return;
+            if (Flags.GAME_PAUSED)
+            {
+                return;
+            }
             
             Texture2D _minimapTexture = (Texture2D)_minimap.texture;
             

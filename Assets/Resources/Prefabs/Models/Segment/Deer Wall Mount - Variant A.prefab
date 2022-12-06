@@ -179,7 +179,9 @@ MonoBehaviour:
   m_damageFX: {fileID: 0}
   m_destructionFX: {fileID: 0}
   m_health: 1
-  m_itemDrops: []
+  m_itemDrops:
+  - _item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
+    _amount: 1
   m_hasHoverEffect: 1
   m_hoverMaterial: {fileID: 2100000, guid: 42f2a639d12dea1438fb2373233b0865, type: 2}
   m_useOutlineInsteadOfMaterial: 0
@@ -203,7 +205,9 @@ MonoBehaviour:
   m_name: Deer Wall Mount - Variant A
   m_icon: {fileID: 21300000, guid: d5bc4cf63a5c23248b01c013a3b5a62a, type: 3}
   m_description: 
-  m_requirements: []
+  m_requirements:
+  - _item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
+    _amount: 1
   m_placementFX: {fileID: 0}
   m_enableSnapping: 0
   m_needsGroundContact: 0

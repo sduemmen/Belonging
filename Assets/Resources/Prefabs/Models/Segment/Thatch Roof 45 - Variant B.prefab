@@ -200,7 +200,9 @@ MonoBehaviour:
   m_damageFX: {fileID: 0}
   m_destructionFX: {fileID: 11400000, guid: b8c30a0e5e821214d8a0c50dcccea760, type: 2}
   m_health: 1
-  m_itemDrops: []
+  m_itemDrops:
+  - _item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
+    _amount: 2
   m_hasHoverEffect: 1
   m_hoverMaterial: {fileID: 2100000, guid: 42f2a639d12dea1438fb2373233b0865, type: 2}
   m_useOutlineInsteadOfMaterial: 0
@@ -224,7 +226,9 @@ MonoBehaviour:
   m_name: Thatch Roof 45 - Variant B
   m_icon: {fileID: 21300000, guid: 68b7a6090eb399043a0996955b691dfb, type: 3}
   m_description: 
-  m_requirements: []
+  m_requirements:
+  - _item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
+    _amount: 2
   m_placementFX: {fileID: 11400000, guid: e4f4b9cbe0d93484f91fccd1f710a27b, type: 2}
   m_enableSnapping: 1
   m_needsGroundContact: 0

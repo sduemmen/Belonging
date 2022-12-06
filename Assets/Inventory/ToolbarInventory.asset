@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   identifier: 44ff7a69-9e4b-43a5-8ffb-fb6a4244f3df
   _inventorySize: 3
-  _isStatic: 1
   _inventorySlots:
   - _item: {fileID: 11400000, guid: e7a26b620bfdb6e4bbf49560639a65f6, type: 2}
     _stackSize: 1
-    _index: 0
   - _item: {fileID: 11400000, guid: fb4697c83476b4b4c9aa9a7d2d7e5281, type: 2}
     _stackSize: 1
-    _index: 1
   - _item: {fileID: 11400000, guid: e2d2f9cf8b4071849b85b7841933ae7f, type: 2}
     _stackSize: 1
-    _index: 2
+  _isStatic: 1
+  woodCollectedEvent: {fileID: 0}
+  stoneCollectedEvent: {fileID: 0}
+  anyCollectedEvent: {fileID: 0}

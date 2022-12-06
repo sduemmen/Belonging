@@ -1,21 +1,41 @@
-﻿using SaveSystem;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameStateController : MonoBehaviour, IDisplayContext
 {
-    private static GameStateController _instance;
+    private static GameStateController instance;
     public static GameStateController Instance {
         get {
-            if (_instance == null) _instance = (GameStateController) FindObjectOfType(typeof(GameStateController));
-            return _instance;
+            if (instance == null)
+            {
+                instance = (GameStateController) FindObjectOfType(typeof(GameStateController));
+            }
+            
+            return instance;
         }
     }
 
     [SerializeField] private GameObject _uiPauseMenuTarget;
-    private bool _displayContextActive;
-    private bool _gamePaused;
-    public bool DisplayContextActive => _displayContextActive;
-    public bool GamePaused => _gamePaused;
+    private bool m_displayContextActive;
+    private bool m_gamePaused;
+    public bool DisplayContextActive => m_displayContextActive;
+    public bool GamePaused => m_gamePaused;
+
+    private void Update()
+    {
+        CheckInput();
+    }
+
+    private void CheckInput()
+    {
+        if (InputSystem.GetKeyDown(InputSystem.KeyBinds.Pause_Game) && !Flags.UI_ELEMENT_OPEN && !m_displayContextActive)
+        {
+            PauseGame();
+        }
+        else if (InputSystem.GetKeyDown(InputSystem.KeyBinds.Pause_Game) && m_displayContextActive)
+        {
+            ResumeGame();
+        }
+    }
 
     public void PauseGame()
     {
@@ -38,21 +58,15 @@ public class GameStateController : MonoBehaviour, IDisplayContext
     
     public void ShowDisplayContext()
     {
-        _gamePaused = true;
-        _displayContextActive = true;
+        m_gamePaused = true;
+        m_displayContextActive = true;
         _uiPauseMenuTarget.SetActive(true);
-
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
     }
 
     public void HideDisplayContext()
     {
-        _gamePaused = false;
-        _displayContextActive = false;
+        m_gamePaused = false;
+        m_displayContextActive = false;
         _uiPauseMenuTarget.SetActive(false);
-        
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 }

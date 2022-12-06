@@ -72,4 +72,6 @@ MonoBehaviour:
   _isStatic: 0
   woodCollectedEvent: {fileID: 11400000, guid: 9d7cd9d5dda480b449b8367b7c5b179e, type: 2}
   stoneCollectedEvent: {fileID: 11400000, guid: 38a671d353363b04a989f1187add4185, type: 2}
+  ironCollectedEvent: {fileID: 11400000, guid: 475a3518aea0ebc4e9d2de0d8a3f1854, type: 2}
+  goldCollectedEvent: {fileID: 11400000, guid: a882f89d22bc128469f06efa18f26962, type: 2}
   anyCollectedEvent: {fileID: 11400000, guid: 6550404284bd7b34d93f208ce85c85c3, type: 2}

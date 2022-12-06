@@ -32,7 +32,7 @@ public class PersistentDestructibleData
         m_rotation = transform.rotation;
         m_health = health;
     }
-    // todo fix save in main menu
+    
     public PersistentDestructibleData(Destructible d)
     {
         m_prefabName = d.m_prefabName;

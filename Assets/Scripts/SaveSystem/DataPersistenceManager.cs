@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Flags;
 using SaveSystem.Data;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,7 +11,6 @@ namespace SaveSystem
 {
     public class DataPersistenceManager : MonoBehaviour
     {
-        private static DataPersistenceManager _instance;
         public static DataPersistenceManager Instance { get; private set; }
 
         public string profileID = "default";
@@ -38,14 +36,14 @@ namespace SaveSystem
 
         private void OnEnable()
         {
-            SceneManager.sceneLoaded += OnSceneLoaded;
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+            UnityEngine.SceneManagement.SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
         private void OnDisable()
         {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+            UnityEngine.SceneManagement.SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
 
         private void OnApplicationQuit()
@@ -57,7 +55,10 @@ namespace SaveSystem
         {
             // Debug.Log("Scene loaded");
             bool loadedSceneIsGameScene = scene.name == "GameScene";
-            if (loadedSceneIsGameScene) LoadGame();
+            if (loadedSceneIsGameScene)
+            {
+                LoadGame();
+            }
         }
 
         private void OnSceneUnloaded(Scene scene)
@@ -100,7 +101,7 @@ namespace SaveSystem
 
         public void SaveGame(bool forceSave = false)
         {
-            if ((NoProfileSelected || GameFlags.MAIN_MENU_ACTIVE) && !forceSave)
+            if ((NoProfileSelected || Flags.MAIN_MENU_ACTIVE) && !forceSave)
             {
                 Debug.LogWarning("Couldn't save game. Either main menu is active or no profile is selected");
                 return;

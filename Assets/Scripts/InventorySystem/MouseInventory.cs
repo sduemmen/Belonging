@@ -1,4 +1,3 @@
-using Flags;
 using InventorySystem.Items;
 using TMPro;
 using UnityEngine;
@@ -26,12 +25,11 @@ namespace InventorySystem
 
         [SerializeField] private Image _image;
         [SerializeField] private TextMeshProUGUI _stackSizeLabel;
-        [SerializeField] private Transform player;
 
         [SerializeField] public InventorySlot assignedInventorySlot;
 
         private bool AssignedInventorySlotIsEmpty => assignedInventorySlot == null || assignedInventorySlot.IsEmpty();
-        private bool MouseClickedOutsideInventory => UserInputFlags.LEFT_MOUSE_BUTTON_WAS_PRESSED && !Raycast.MouseOverUI();
+        private bool MouseClickedOutsideInventory => InputSystem.GetKeyDown(InputSystem.KeyBinds.Attack) && !Raycast.MouseOverUI();
 
         private void Awake()
         {
@@ -41,14 +39,17 @@ namespace InventorySystem
         private void Update()
         {
             // Update Position in UI
-            if ((!AssignedInventorySlotIsEmpty && !GameFlags.SLOT_EQUIPPED) || GameFlags.SLOT_EQUIPPED)
+            if (!AssignedInventorySlotIsEmpty)
             {
                 Vector2 mousePosition = Mouse.current.position.ReadValue();
                 transform.position = mousePosition;
             }
 
             // Drop Inventory contents when clicking outside of UI
-            if (!AssignedInventorySlotIsEmpty && !GameFlags.SLOT_EQUIPPED && MouseClickedOutsideInventory) DropContents(4);
+            if (!AssignedInventorySlotIsEmpty && MouseClickedOutsideInventory)
+            {
+                DropContents(4);
+            }
         }
 
         public void OnCloseInventory()
@@ -91,7 +92,7 @@ namespace InventorySystem
                 }
                 
                 MaterialItemObject materialItem = (MaterialItemObject)assignedInventorySlot.Item;
-                GameObject item = Instantiate(materialItem.Prefab, player.position + new Vector3(Random.Range(-.5f, .5f), Random.Range(.2f, .5f), Random.Range(-.5f, .5f)), Quaternion.identity);
+                GameObject item = Instantiate(materialItem.Prefab, Player.Instance.m_player.position + new Vector3(Random.Range(-.5f, .5f), Random.Range(.2f, .5f), Random.Range(-.5f, .5f)), Quaternion.identity);
                 item.GetComponent<Pickupable>().Initialize(pickupDelay, true);
             }
 

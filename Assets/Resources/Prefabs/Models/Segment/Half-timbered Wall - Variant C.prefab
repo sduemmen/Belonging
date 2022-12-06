@@ -76,6 +76,8 @@ MonoBehaviour:
   m_health: 1
   m_itemDrops:
   - _item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
+    _amount: 5
+  - _item: {fileID: 11400000, guid: 12105098fa1a4cc48bce492e45e197b9, type: 2}
     _amount: 3
   m_hasHoverEffect: 1
   m_hoverMaterial: {fileID: 2100000, guid: 42f2a639d12dea1438fb2373233b0865, type: 2}
@@ -102,6 +104,8 @@ MonoBehaviour:
   m_description: 
   m_requirements:
   - _item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
+    _amount: 5
+  - _item: {fileID: 11400000, guid: 12105098fa1a4cc48bce492e45e197b9, type: 2}
     _amount: 3
   m_placementFX: {fileID: 11400000, guid: e4f4b9cbe0d93484f91fccd1f710a27b, type: 2}
   m_enableSnapping: 1

@@ -84,7 +84,7 @@ namespace QuestSystem
 
                 GameObject questObj = Instantiate(_uiQuestPrefab, _uiQuestTarget.transform, false);
                 UIQuest uiQuest = questObj.GetComponent<UIQuest>();
-                uiQuest.questTitleLabel.text = quest.title;
+                uiQuest.questTitleLabel.text = quest.title.Substring("Unlock ".Length);
                 uiQuest.questDescriptionLabel.text = quest.description;
 
                 if (quest.questBehaviour.broadcastCurrentState)
@@ -104,15 +104,45 @@ namespace QuestSystem
                 quest.OnCompleteQuestCallback.AddListener(uiQuest.OnComplete);
             }
         }
-        
+
+        private void Update()
+        {
+            CheckInput();
+        }
+
+        private void CheckInput()
+        {
+            if (Flags.GAME_PAUSED)
+            {
+                return;
+            }
+            
+            if (InputSystem.GetKeyDown(InputSystem.KeyBinds.Toggle_Quest_Display))
+            {
+                if (_displayContextActive)
+                {
+                    HideDisplayContext();
+                }
+                else
+                {
+                    ShowDisplayContext();
+                }
+            }
+            else if (InputSystem.GetKeysDown(InputSystem.KeyBinds.Toggle_Inventory, InputSystem.KeyBinds.Open_Build_Menu, InputSystem.KeyBinds.EquipUnequip_Axe, InputSystem.KeyBinds.EquipUnequip_Pickaxe))
+            {
+                HideDisplayContext();
+            }
+            else if (InputSystem.GetKeyDown(InputSystem.KeyBinds.Pause_Game) && _displayContextActive)
+            {
+                HideDisplayContext();
+            }
+        }
+
         public void ShowDisplayContext()
         {
             _displayContextActive = true;
             
             _uiQuestDisplayContext.SetActive(true);
-            
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
         }
 
         public void HideDisplayContext()
@@ -120,9 +150,6 @@ namespace QuestSystem
             _displayContextActive = false;
             
             _uiQuestDisplayContext.SetActive(false);
-            
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
         }
 
         public override void LoadData(GameData data)

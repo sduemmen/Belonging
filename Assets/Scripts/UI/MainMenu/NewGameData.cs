@@ -29,6 +29,7 @@ namespace UI.MainMenu
         public float treeDensityThreshold = .4f;
         public float stoneDensityThreshold = .4f;
         public bool unlockAll;
+        public bool noBuildCost;
         
         [SerializeField] private Color _stoneColor = Color.gray;
         [SerializeField] private Color _treeColor = new Color(.23f, .45f, .28f, 1);

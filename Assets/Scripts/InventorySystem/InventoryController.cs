@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using InventorySystem.Items;
 using InventorySystem.UI;
 using SaveSystem.Data;
@@ -12,15 +11,15 @@ namespace InventorySystem
 {
     public class InventoryController : Controller, IDisplayContext
     {
-        private static InventoryController _instance;
+        private static InventoryController instance;
         public static InventoryController Instance {
             get {
-                if (_instance == null)
+                if (instance == null)
                 {
-                    _instance = (InventoryController)FindObjectOfType(typeof(InventoryController));
+                    instance = (InventoryController)FindObjectOfType(typeof(InventoryController));
                 }
 
-                return _instance;
+                return instance;
             }
         }
 
@@ -29,34 +28,67 @@ namespace InventorySystem
         [SerializeField, TitleGroup("UI")] private GameObject _uiInventoryDisplayContext;
         [SerializeField, TitleGroup("UI")] private Transform _uiInventoryTarget;
         [SerializeField, TitleGroup("UI")] private UIInventorySlot _uiInventorySlotPrefab;
-        private List<UIInventorySlot> _uiInventorySlots;
-        private bool _displayContextActive;
+        private List<UIInventorySlot> m_uiInventorySlots;
+        private bool m_displayContextActive;
         
         public UnityAction<UIInventorySlot> OnSlotClickedDelegate;
         
         public Inventory PlayerInventory => _playerInventory;
-        public bool DisplayContextActive => _displayContextActive;
+        public bool DisplayContextActive => m_displayContextActive;
         
 
         [Button("Load Manually"), TitleGroup("Debugging")]
         protected override void OnLoadCompleted()
         {
-            _uiInventorySlots = new List<UIInventorySlot>();
+            m_uiInventorySlots = new List<UIInventorySlot>();
             
             for (int i = 0; i < _playerInventory.Size; i++)
             {
                 UIInventorySlot slot = Instantiate(_uiInventorySlotPrefab, _uiInventoryTarget, false);
                 slot.Initialize(_playerInventory.InventorySlots[i], true, i);
-                _uiInventorySlots.Add(slot);
+                m_uiInventorySlots.Add(slot);
             }
 
             _playerInventory.OnSlotChangedDelegate += OnSlotChanged;
             OnSlotClickedDelegate += OnSlotClicked;
         }
 
+        private void Update()
+        {
+            CheckInput();
+        }
+
+        private void CheckInput()
+        {
+            if (Flags.GAME_PAUSED)
+            {
+                return;
+            }
+            
+            if (InputSystem.GetKeyDown(InputSystem.KeyBinds.Toggle_Inventory))
+            {
+                if (m_displayContextActive)
+                {
+                    HideDisplayContext();
+                }
+                else
+                {
+                    ShowDisplayContext();
+                }
+            }
+            else if (InputSystem.GetKeysDown(InputSystem.KeyBinds.Toggle_Quest_Display, InputSystem.KeyBinds.EquipUnequip_Axe, InputSystem.KeyBinds.EquipUnequip_Pickaxe, InputSystem.KeyBinds.Open_Build_Menu))
+            {
+                HideDisplayContext();
+            }
+            else if (InputSystem.GetKeyDown(InputSystem.KeyBinds.Pause_Game) && m_displayContextActive)
+            {
+                HideDisplayContext();
+            }
+        }
+
         private void OnSlotChanged(InventorySlot slot)
         {
-            UIInventorySlot uiSlot = _uiInventorySlots[slot.Index];
+            UIInventorySlot uiSlot = m_uiInventorySlots[slot.Index];
             uiSlot.Initialize(slot);
         }
 
@@ -75,9 +107,6 @@ namespace InventorySystem
             ItemObject mouseSlotItem = MouseInventory.Instance.assignedInventorySlot?.Item;
             int mouseSlotStackSize = MouseInventory.Instance.assignedInventorySlot?.StackSize ?? -1;
 
-            // Debug.Log(clickedSlotItem + " " + clickedSlotStackSize);
-            // Debug.Log(mouseSlotItem + " " + mouseSlotStackSize);
-            
             // check if slots are empty or equal
             bool clickedSlotIsEmpty = clickedSlot.IsEmpty();
             bool mouseSlotIsEmpty = MouseInventory.Instance.assignedInventorySlot?.IsEmpty() ?? true;
@@ -85,7 +114,6 @@ namespace InventorySystem
 
             if (!clickedSlotIsEmpty && mouseSlotIsEmpty)
             {
-                Debug.Log("Taking from slot");
                 // take from clicked slot
                 _playerInventory.InventorySlots[clickedSlotIndex].ClearSlot();
                 
@@ -94,7 +122,6 @@ namespace InventorySystem
             }
             else if (clickedSlotIsEmpty && !mouseSlotIsEmpty)
             {
-                Debug.Log("Placing on slot");
                 // place on clicked slot
                 _playerInventory.InventorySlots[clickedSlotIndex] = new InventorySlot(mouseSlotItem, mouseSlotStackSize, clickedSlotIndex);
                 
@@ -105,7 +132,6 @@ namespace InventorySystem
             {
                 if (slotContentsAreEqual)
                 {
-                    Debug.Log("Filling slot");
                     // fill up slot
                     _playerInventory.InventorySlots[clickedSlotIndex].AddToStack(mouseSlotStackSize, out int remainingAmount);
 
@@ -114,7 +140,6 @@ namespace InventorySystem
                 }
                 else
                 {
-                    Debug.Log("Swapping slots");
                     // swap slots
                     _playerInventory.InventorySlots[clickedSlotIndex] = new InventorySlot(mouseSlotItem, mouseSlotStackSize, clickedSlotIndex);
 
@@ -129,22 +154,16 @@ namespace InventorySystem
         
         public void ShowDisplayContext()
         {
-            _displayContextActive = true;
+            m_displayContextActive = true;
             _uiInventoryDisplayContext.SetActive(true);
-            
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
         }
 
         public void HideDisplayContext()
         {
-            _displayContextActive = false;
+            m_displayContextActive = false;
             _uiInventoryDisplayContext.SetActive(false);
             MouseInventory.Instance.OnCloseInventory();
             MouseTooltip.Instance.Hide();
-
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
         }
         
         public override void LoadData(GameData data)

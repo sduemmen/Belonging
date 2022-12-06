@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -19,6 +20,7 @@ public class DisplayContextController : MonoBehaviour
     private void Awake()
     {
         _displayContexts = FindObjectsOfType<MonoBehaviour>().OfType<IDisplayContext>().ToList();
+        HideAll();
     }
 
     public void HideAllAndDisplay(IDisplayContext newContext)

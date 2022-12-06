@@ -1,7 +1,6 @@
 using SaveSystem;
 using SaveSystem.Data;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UI.MainMenu
@@ -25,7 +24,7 @@ namespace UI.MainMenu
             DataPersistenceManager.Instance.profileID = gameData.profileID;
             DataPersistenceManager.Instance.NewGame(gameData);
 
-            SceneManager.LoadSceneAsync("GameScene");
+            SceneManager.Instance.LoadSceneAsync(SceneManager.Scenes.GameScene);
         }
 
         public void OnLoadGame()
@@ -33,7 +32,7 @@ namespace UI.MainMenu
             if (DataPersistenceManager.Instance.NoProfileSelected) return;
 
             DisableButtons();
-            SceneManager.LoadSceneAsync("GameScene");
+            SceneManager.Instance.LoadSceneAsync(SceneManager.Scenes.GameScene);
         }
 
         private void DisableButtons()

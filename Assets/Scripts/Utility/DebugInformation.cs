@@ -1,5 +1,4 @@
 ﻿using System;
-using Flags;
 using TMPro;
 using UnityEngine;
 using World;
@@ -69,21 +68,21 @@ namespace Utility
             if (showGameFlags)
             {
                 string t = "";
-                t += nameof(GameFlags.GAME_PAUSED) + "=" + GetColorString(GameFlags.GAME_PAUSED) + "\n";
-                t += nameof(GameFlags.MAIN_MENU_ACTIVE) + "=" + GetColorString(GameFlags.MAIN_MENU_ACTIVE) + "\n";
+                t += nameof(Flags.GAME_PAUSED) + "=" + GetColorString(Flags.GAME_PAUSED) + "\n";
+                t += nameof(Flags.MAIN_MENU_ACTIVE) + "=" + GetColorString(Flags.MAIN_MENU_ACTIVE) + "\n";
 
-                t += nameof(GameFlags.INVENTORY_OPEN) + "=" + GetColorString(GameFlags.INVENTORY_OPEN) + "\n";
-                t += nameof(GameFlags.INVENTORY_CLOSED) + "=" + GetColorString(GameFlags.INVENTORY_CLOSED) + "\n";
-                t += nameof(GameFlags.BUILD_MENU_OPEN) + "=" + GetColorString(GameFlags.BUILD_MENU_OPEN) + "\n";
-                t += nameof(GameFlags.BUILD_MENU_CLOSED) + "=" + GetColorString(GameFlags.BUILD_MENU_CLOSED) + "\n";
-                t += nameof(GameFlags.QUEST_DISPLAY_OPEN) + "=" + GetColorString(GameFlags.QUEST_DISPLAY_OPEN) + "\n";
-                t += nameof(GameFlags.QUEST_DISPLAY_CLOSED) + "=" + GetColorString(GameFlags.QUEST_DISPLAY_CLOSED) + "\n";
-                t += nameof(GameFlags.UI_ELEMENT_OPEN) + "=" + GetColorString(GameFlags.UI_ELEMENT_OPEN) + "\n";
+                t += nameof(Flags.INVENTORY_OPEN) + "=" + GetColorString(Flags.INVENTORY_OPEN) + "\n";
+                t += nameof(Flags.INVENTORY_CLOSED) + "=" + GetColorString(Flags.INVENTORY_CLOSED) + "\n";
+                t += nameof(Flags.BUILD_MENU_OPEN) + "=" + GetColorString(Flags.BUILD_MENU_OPEN) + "\n";
+                t += nameof(Flags.BUILD_MENU_CLOSED) + "=" + GetColorString(Flags.BUILD_MENU_CLOSED) + "\n";
+                t += nameof(Flags.QUEST_DISPLAY_OPEN) + "=" + GetColorString(Flags.QUEST_DISPLAY_OPEN) + "\n";
+                t += nameof(Flags.QUEST_DISPLAY_CLOSED) + "=" + GetColorString(Flags.QUEST_DISPLAY_CLOSED) + "\n";
+                t += nameof(Flags.UI_ELEMENT_OPEN) + "=" + GetColorString(Flags.UI_ELEMENT_OPEN) + "\n";
 
-                t += nameof(GameFlags.AXE_EQUIPPED) + "=" + GetColorString(GameFlags.AXE_EQUIPPED) + "\n";
-                t += nameof(GameFlags.PICKAXE_EQUIPPED) + "=" + GetColorString(GameFlags.PICKAXE_EQUIPPED) + "\n";
-                t += nameof(GameFlags.HAMMER_EQUIPPED) + "=" + GetColorString(GameFlags.HAMMER_EQUIPPED) + "\n";
-                t += nameof(GameFlags.SLOT_EQUIPPED) + "=" + GetColorString(GameFlags.SLOT_EQUIPPED) + "\n";
+                t += nameof(Flags.AXE_EQUIPPED) + "=" + GetColorString(Flags.AXE_EQUIPPED) + "\n";
+                t += nameof(Flags.PICKAXE_EQUIPPED) + "=" + GetColorString(Flags.PICKAXE_EQUIPPED) + "\n";
+                t += nameof(Flags.HAMMER_EQUIPPED) + "=" + GetColorString(Flags.HAMMER_EQUIPPED) + "\n";
+                t += nameof(Flags.SLOT_EQUIPPED) + "=" + GetColorString(Flags.SLOT_EQUIPPED) + "\n";
                 gameFlagsLabel.text = t;
             }
             else

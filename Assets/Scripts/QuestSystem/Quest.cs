@@ -45,8 +45,6 @@ namespace QuestSystem
             {
                 completionBehaviour.OnComplete();
             }
-            
-            HintDisplay.Instance.AddHint($"You have unlocked a new Segment", new Color(.9f, .8f, .4f));
         }
 
         [PropertyOrder(5)]

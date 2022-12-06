@@ -32,7 +32,7 @@ namespace InventorySystem.UI
             {
                 _image.sprite = inventorySlot.Item.Icon;
                 _image.color = Color.white;
-                _stackSizeLabel.text = inventorySlot.StackSize > 1 ? inventorySlot.StackSize.ToString() : "";
+                _stackSizeLabel.text = inventorySlot.StackSize > 0 ? inventorySlot.StackSize.ToString() : "";
             }
         }
 

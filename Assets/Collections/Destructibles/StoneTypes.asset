@@ -14,20 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefabs:
   - _prefab: {fileID: 8112421562090100922, guid: c6c8066434172a94e86ff54237e156ff, type: 3}
-    spawnChance: 0.31713977
+    spawnChance: 0.30795512
   - _prefab: {fileID: 8112421562090100922, guid: 77a8e6edbd6d2094d98a43c4a4ec968d, type: 3}
-    spawnChance: 0.35256025
+    spawnChance: 0.3433756
   - _prefab: {fileID: 8112421562090100922, guid: 4f8e067b7fc3b654b99a57d3a08a2133, type: 3}
-    spawnChance: 0.30529997
+    spawnChance: 0.2961153
   - _prefab: {fileID: 8112421562090100922, guid: 5841cd8c7ec4927498f13e5e526121b4, type: 3}
-    spawnChance: 0.025
+    spawnChance: 0.01581539
+  - _prefab: {fileID: 8112421562090100922, guid: b6d15d20d12f5dc4ab4e4939c7700e84, type: 3}
+    spawnChance: 0.017
+  - _prefab: {fileID: 8112421562090100922, guid: bd6f6c254dee4204699f22189efcad34, type: 3}
+    spawnChance: 0.019738585
   _spawnChanceCheck:
-  - 0.31713977
-  - 0.35256025
-  - 0.30529997
-  - 0.025
+  - 0.30795512
+  - 0.3433756
+  - 0.2961153
+  - 0.01581539
+  - 0.017
+  - 0.019738585
   _sortedCumulativeSums:
-  - 0.31713977
-  - 0.6697
-  - 0.975
+  - 0.30795512
+  - 0.6513307
+  - 0.947446
+  - 0.96326137
+  - 0.9802614
   - 1

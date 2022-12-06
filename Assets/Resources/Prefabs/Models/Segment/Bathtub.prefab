@@ -223,7 +223,7 @@ Transform:
   m_Children:
   - {fileID: 272510602668003977}
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &272156309658987352
 MonoBehaviour:
@@ -262,7 +262,11 @@ MonoBehaviour:
   m_damageFX: {fileID: 0}
   m_destructionFX: {fileID: 0}
   m_health: 1
-  m_itemDrops: []
+  m_itemDrops:
+  - _item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
+    _amount: 2
+  - _item: {fileID: 11400000, guid: 57c17f7c92947394f949c33c90a4dbd1, type: 2}
+    _amount: 1
   m_hasHoverEffect: 1
   m_hoverMaterial: {fileID: 2100000, guid: 42f2a639d12dea1438fb2373233b0865, type: 2}
   m_useOutlineInsteadOfMaterial: 0
@@ -286,7 +290,11 @@ MonoBehaviour:
   m_name: Bathtub
   m_icon: {fileID: 21300000, guid: b8f419eaa20305b46b90c60dad2e0602, type: 3}
   m_description: 
-  m_requirements: []
+  m_requirements:
+  - _item: {fileID: 11400000, guid: e1a3600dbe2b92f41bd4d7b2a04bc3e6, type: 2}
+    _amount: 2
+  - _item: {fileID: 11400000, guid: 57c17f7c92947394f949c33c90a4dbd1, type: 2}
+    _amount: 1
   m_placementFX: {fileID: 0}
   m_enableSnapping: 0
   m_needsGroundContact: 0

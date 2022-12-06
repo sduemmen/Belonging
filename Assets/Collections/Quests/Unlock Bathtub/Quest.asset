@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aaaa580527d4f2fa42fe41e3445783e, type: 3}
+  m_Name: Quest
+  m_EditorClassIdentifier: 
+  title: Unlock Bathtub
+  description: Collect 50x Wood
+  completed: 0
+  questBehaviour:
+    rid: 1652054197535244297
+  completionBehaviours:
+  - rid: 1652054191290712140
+  OnCompleteQuestCallback:
+    m_PersistentCalls:
+      m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 1652054191290712140
+      type: {class: StringCompletionBehaviour, ns: QuestSystem.QuestCompletionBehaviours, asm: Assembly-CSharp}
+      data:
+        completionEvent: {fileID: 11400000, guid: 5d85d66df8f962a46bd74d6cb3c1f8b3, type: 2}
+        callEventWithValues:
+        - Bathtub
+    - rid: 1652054197535244297
+      type: {class: GatheringBehaviour, ns: QuestSystem.QuestBehaviours, asm: Assembly-CSharp}
+      data:
+        broadcastCurrentState: 1
+        target: 50
+        current: 0
+        defaultTarget: 50
+        defaultCurrent: 0
+        useDynamicIncrement: 0
+        dynamicProgressEvent: {fileID: 0}
+        staticProgressEvent: {fileID: 11400000, guid: 9d7cd9d5dda480b449b8367b7c5b179e, type: 2}
+        progressAmount: 1
+        completeCondition: 3
+        progressBehaviour: {fileID: 11400000, guid: 3f433f02b5ec5fc41aae8815bfd33367, type: 2}
+        broadcastEvent: {fileID: 11400000, guid: ef0d3c6e744e90f48aa70162bd594839, type: 2}
+        broadcastEventCallback:
+          m_PersistentCalls:
+            m_Calls: []

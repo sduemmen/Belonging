@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using BuildSystem;
-using Flags;
 using InventorySystem.Items;
 using SaveSystem;
 using SaveSystem.Data;
@@ -125,7 +124,7 @@ public class Destructible : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
-        if (GameFlags.MAIN_MENU_ACTIVE || !m_isPersistent)
+        if (Flags.MAIN_MENU_ACTIVE || !m_isPersistent)
         {
             return;
         }
