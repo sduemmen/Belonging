@@ -23,3 +23,11 @@ Clone the repository and open it with Unity. Some dependencies must be installed
 - Simple Sky (https://syntystore.com/products/simple-sky-cartoon-assets) - used for the skybox
 
 Start with [`Assets/Scenes/MainMenuScene.unity`](Assets/Scenes/MainMenuScene.unity); the playable scene is [`Assets/Scenes/GameScene.unity`](Assets/Scenes/GameScene.unity).
+
+<p><img src="docs/zoom.gif" alt="Zoom demonstration" width="720"></p>
+
+<p><img src="docs/running.gif" alt="Running demonstration" width="720"></p>
+
+<p><img src="docs/building.gif" alt="Building system" width="720"></p>
+
+<p><img src="docs/levelup.gif" alt="Level-up system" width="720"></p>
