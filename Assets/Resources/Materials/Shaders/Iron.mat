@@ -44,11 +44,19 @@ Material:
         m_Texture: {fileID: 2800000, guid: 62bde2340ba19b449a53d65634b89514, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_a510693c2d6345588377183eb1e108d3_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 62bde2340ba19b449a53d65634b89514, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_bff6d0870d93442584da92eae1835877_Texture_1:
         m_Texture: {fileID: 2800000, guid: 86ccfac320c807148bc307198551e019, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_f4bd01a260a4439585db4aea82b1ca76_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 845e6bafb56d0de4db73bd8136139897, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_f4bd01a260a4439585db4aea82b1ca76_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 845e6bafb56d0de4db73bd8136139897, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -58,3 +66,4 @@ Material:
     - _BUILTIN_QueueOffset: 0
     m_Colors: []
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
