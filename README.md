@@ -24,6 +24,8 @@ Clone the repository and open it with Unity. Some dependencies must be installed
 
 Start with [`Assets/Scenes/MainMenuScene.unity`](Assets/Scenes/MainMenuScene.unity); the playable scene is [`Assets/Scenes/GameScene.unity`](Assets/Scenes/GameScene.unity).
 
+## Gameplay showcase
+
 <p><img src="docs/zoom.gif" alt="Zoom demonstration" width="720"></p>
 
 <p><img src="docs/running.gif" alt="Running demonstration" width="720"></p>
